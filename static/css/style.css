@@ -98,8 +98,9 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
 
 .grade-btns {
     display: flex;
-    gap: 0.6rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .grade-btn {
@@ -160,6 +161,69 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
 }
 .grade-btn[data-grade="8"].active .grade-btn-num { color: var(--purple); }
 .grade-btn[data-grade="8"].active .grade-btn-label { color: var(--purple); }
+
+/* KG gets orange-red */
+.grade-btn[data-grade="0"].active,
+.grade-btn[data-grade="0"]:hover {
+    border-color: #ee5a24;
+    background: #FFF0F0;
+}
+.grade-btn[data-grade="0"].active .grade-btn-num { color: #ee5a24; }
+.grade-btn[data-grade="0"].active .grade-btn-label { color: #ee5a24; }
+
+/* Grade 1 gets pink */
+.grade-btn[data-grade="1"].active,
+.grade-btn[data-grade="1"]:hover {
+    border-color: #e84393;
+    background: #FFF0F8;
+}
+.grade-btn[data-grade="1"].active .grade-btn-num { color: #e84393; }
+.grade-btn[data-grade="1"].active .grade-btn-label { color: #e84393; }
+
+/* Grade 2 gets teal */
+.grade-btn[data-grade="2"].active,
+.grade-btn[data-grade="2"]:hover {
+    border-color: #00b894;
+    background: #EDFFF8;
+}
+.grade-btn[data-grade="2"].active .grade-btn-num { color: #00b894; }
+.grade-btn[data-grade="2"].active .grade-btn-label { color: #00b894; }
+
+/* Grade 3 gets blue */
+.grade-btn[data-grade="3"].active,
+.grade-btn[data-grade="3"]:hover {
+    border-color: #0984e3;
+    background: #EEF5FF;
+}
+.grade-btn[data-grade="3"].active .grade-btn-num { color: #0984e3; }
+.grade-btn[data-grade="3"].active .grade-btn-label { color: #0984e3; }
+
+/* Grade 4 gets amber */
+.grade-btn[data-grade="4"].active,
+.grade-btn[data-grade="4"]:hover {
+    border-color: #e17055;
+    background: #FFF5EE;
+}
+.grade-btn[data-grade="4"].active .grade-btn-num { color: #e17055; }
+.grade-btn[data-grade="4"].active .grade-btn-label { color: #e17055; }
+
+/* Grade 5 gets mint green */
+.grade-btn[data-grade="5"].active,
+.grade-btn[data-grade="5"]:hover {
+    border-color: #00b894;
+    background: #EDFFF4;
+}
+.grade-btn[data-grade="5"].active .grade-btn-num { color: #00b894; }
+.grade-btn[data-grade="5"].active .grade-btn-label { color: #00b894; }
+
+/* Grade 9 gets dark purple */
+.grade-btn[data-grade="9"].active,
+.grade-btn[data-grade="9"]:hover {
+    border-color: #6c5ce7;
+    background: #F5F2FF;
+}
+.grade-btn[data-grade="9"].active .grade-btn-num { color: #6c5ce7; }
+.grade-btn[data-grade="9"].active .grade-btn-label { color: #6c5ce7; }
 
 /* ===== LOGIN MODAL ===== */
 .modal-overlay {

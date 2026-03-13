@@ -91,6 +91,30 @@
         <div class="grade-selector no-print">
             <div class="grade-selector-label">Select Grade:</div>
             <div class="grade-btns">
+                <button class="grade-btn" data-grade="0" onclick="selectGrade(0)">
+                    <span class="grade-btn-num">K</span>
+                    <span class="grade-btn-label">Kinder</span>
+                </button>
+                <button class="grade-btn" data-grade="1" onclick="selectGrade(1)">
+                    <span class="grade-btn-num">1</span>
+                    <span class="grade-btn-label">Grade 1</span>
+                </button>
+                <button class="grade-btn" data-grade="2" onclick="selectGrade(2)">
+                    <span class="grade-btn-num">2</span>
+                    <span class="grade-btn-label">Grade 2</span>
+                </button>
+                <button class="grade-btn" data-grade="3" onclick="selectGrade(3)">
+                    <span class="grade-btn-num">3</span>
+                    <span class="grade-btn-label">Grade 3</span>
+                </button>
+                <button class="grade-btn" data-grade="4" onclick="selectGrade(4)">
+                    <span class="grade-btn-num">4</span>
+                    <span class="grade-btn-label">Grade 4</span>
+                </button>
+                <button class="grade-btn" data-grade="5" onclick="selectGrade(5)">
+                    <span class="grade-btn-num">5</span>
+                    <span class="grade-btn-label">Grade 5</span>
+                </button>
                 <button class="grade-btn" data-grade="6" onclick="selectGrade(6)">
                     <span class="grade-btn-num">6</span>
                     <span class="grade-btn-label">Grade 6</span>
@@ -102,6 +126,10 @@
                 <button class="grade-btn active" data-grade="8" onclick="selectGrade(8)">
                     <span class="grade-btn-num">8</span>
                     <span class="grade-btn-label">Grade 8</span>
+                </button>
+                <button class="grade-btn" data-grade="9" onclick="selectGrade(9)">
+                    <span class="grade-btn-num">9</span>
+                    <span class="grade-btn-label">Grade 9</span>
                 </button>
             </div>
         </div>
@@ -268,7 +296,7 @@
                 <div class="orb-core">🧮</div>
             </div>
             <h2 id="loading-msg">Creating your worksheet...</h2>
-            <p id="loading-sub">Our AI is crafting personalized BC Grade 8 math problems just for you!</p>
+            <p id="loading-sub">Our AI is crafting personalized BC math problems just for you!</p>
             <div class="loading-dots">
                 <div class="dot"></div>
                 <div class="dot"></div>

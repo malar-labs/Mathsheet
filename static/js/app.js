@@ -183,7 +183,7 @@ function selectGrade(grade) {
     });
     // Update subtitle
     const label = document.getElementById('grade-label');
-    if (label) label.textContent = 'Grade ' + grade;
+    if (label) label.textContent = grade === 0 ? 'Kindergarten' : `Grade ${grade}`;
     // Rebuild topic cards for this grade
     buildTopicCards();
     updateSelCount();
@@ -368,7 +368,7 @@ function generateWorksheet() {
 
 function setLoadingMessages() {
     const msgs = ['Generating your questions...', 'Applying BC curriculum standards...', 'Verifying math accuracy...', 'Adding BC cultural contexts...', 'Formatting your worksheet...'];
-    const subs  = ['Our AI is crafting personalized BC Grade 8 math problems just for you!', 'Ensuring alignment with British Columbia mathematics outcomes...', 'Double-checking every answer for accuracy...', 'Incorporating First Peoples and BC contexts...', 'Almost ready — putting the finishing touches on your worksheet!'];
+    const subs  = ['Our AI is crafting personalized BC math problems just for you!', 'Ensuring alignment with British Columbia mathematics outcomes...', 'Double-checking every answer for accuracy...', 'Incorporating First Peoples and BC contexts...', 'Almost ready — putting the finishing touches on your worksheet!'];
     let i = 0;
     const msgEl = document.getElementById('loading-msg');
     const subEl = document.getElementById('loading-sub');
