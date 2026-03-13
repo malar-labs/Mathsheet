@@ -327,13 +327,18 @@ function generateWorksheet() {
     startFunFacts();
     setLoadingMessages();
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 min timeout
+
     fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values)
+        body: JSON.stringify(values),
+        signal: controller.signal
     })
     .then(r => r.json())
     .then(data => {
+        clearTimeout(timeoutId);
         stopFunFacts();
         if (data.success) {
             state.worksheetData = data.worksheet;
@@ -348,10 +353,15 @@ function generateWorksheet() {
         }
     })
     .catch(err => {
+        clearTimeout(timeoutId);
         stopFunFacts();
         showSection('options');
         updateProgress(2);
-        showToast('Network error. Please check your connection.', 'error');
+        if (err.name === 'AbortError') {
+            showToast('Request timed out — the AI is busy. Please try again in a moment.', 'error');
+        } else {
+            showToast('Connection error. Please check your internet and try again.', 'error');
+        }
         console.error(err);
     });
 }

@@ -963,6 +963,7 @@ TOPIC-SPECIFIC NOTES:
             ],
             temperature=0.65,
             max_tokens=8192,
+            timeout=90,
         )
 
         worksheet_data = extract_json(response.choices[0].message.content)
@@ -978,6 +979,8 @@ TOPIC-SPECIFIC NOTES:
             msg = "Invalid API key. Please check your GROQ_API_KEY in the .env file."
         elif any(k in msg.upper() for k in ("QUOTA", "LIMIT", "429")):
             msg = "API rate limit reached. Please wait a moment and try again."
+        elif any(k in msg.lower() for k in ("timeout", "timed out", "read timeout")):
+            msg = "The AI took too long to respond. Please try again — it usually works on the second attempt."
         elif "JSON" in msg.upper() or "parse" in msg.lower():
             msg = "AI returned an unexpected format. Please try again."
         return JSONResponse({"success": False, "error": f"Generation error: {msg}"})
