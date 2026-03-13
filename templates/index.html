@@ -26,7 +26,7 @@
         </div>
         <div class="header-right">
             <!-- Shown when NOT logged in -->
-            <button id="login-btn" class="btn-header-login" onclick="openLoginModal()">
+            <button id="login-btn" class="btn-header-login" onclick="openLoginModal()" style="display:none">
                 👤 Login
             </button>
             <!-- Shown when logged in -->
@@ -91,7 +91,7 @@
         <div class="grade-selector no-print">
             <div class="grade-selector-label">Select Grade:</div>
             <div class="grade-btns">
-                <button class="grade-btn" data-grade="0" onclick="selectGrade(0)">
+                <button class="grade-btn" data-grade="0" onclick="selectGrade(0)" style="display:none">
                     <span class="grade-btn-num">K</span>
                     <span class="grade-btn-label">Kinder</span>
                 </button>
@@ -150,7 +150,7 @@
 
         <div class="section-actions">
             <span></span><!-- spacer -->
-            <button class="btn btn-purple btn-lg" onclick="goToOptions()">
+            <button class="btn btn-purple btn-lg" onclick="goToOptions()" style="display:none">
                 Next: Options →
             </button>
         </div>
