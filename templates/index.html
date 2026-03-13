@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathSheet Pro — BC Grade 8 Math</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+
+<!-- Floating math background -->
+<div class="math-bg" id="math-bg" aria-hidden="true"></div>
+
+<!-- ===== HEADER ===== -->
+<header class="app-header no-print">
+    <div class="header-inner">
+        <div class="logo">
+            <div class="logo-icon-wrap">📐</div>
+            <div>
+                <div class="logo-title">MathSheet <span>Pro</span></div>
+                <div class="logo-sub">BC Grade 8 · Math Worksheet Generator</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <!-- Shown when NOT logged in -->
+            <button id="login-btn" class="btn-header-login" onclick="openLoginModal()">
+                👤 Login
+            </button>
+            <!-- Shown when logged in -->
+            <div id="user-badge" class="user-badge hidden">
+                <div class="user-avatar" id="user-avatar">G</div>
+                <span id="username-display">Guest</span>
+                <button class="btn-logout" onclick="logout()">Sign Out</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ===== LOGIN MODAL ===== -->
+<div id="login-modal-overlay" class="modal-overlay hidden" onclick="closeLoginModal(event)">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-label="Login">
+        <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+        <div class="modal-icon">👤</div>
+        <h2 class="modal-title">Login</h2>
+        <p class="modal-sub">Enter your name to personalise your worksheets</p>
+        <div class="form-group" style="margin-top:1.2rem">
+            <label class="form-label">Your Name</label>
+            <input type="text" id="login-name" class="form-input"
+                   placeholder="e.g. Sarah, Mr. Smith, Mom..."
+                   onkeydown="if(event.key==='Enter') login()">
+        </div>
+        <button class="btn btn-purple btn-full" style="margin-top:0.9rem" onclick="login()">
+            Login →
+        </button>
+        <div class="modal-divider"><span>or</span></div>
+        <button class="btn btn-ghost btn-full" onclick="closeLoginModal()">
+            Continue as Guest
+        </button>
+    </div>
+</div>
+
+<!-- ===== PROGRESS BAR ===== -->
+<div class="progress-bar no-print" id="progress-bar">
+    <div class="progress-track">
+        <div class="prog-step active" id="prog-1">
+            <div class="prog-circle">1</div>
+            <span>Topics</span>
+        </div>
+        <div class="prog-line" id="pline-1"></div>
+        <div class="prog-step" id="prog-2">
+            <div class="prog-circle">2</div>
+            <span>Options</span>
+        </div>
+        <div class="prog-line" id="pline-2"></div>
+        <div class="prog-step" id="prog-3">
+            <div class="prog-circle">3</div>
+            <span>Worksheet</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<main class="main">
+
+    <!-- ===== TOPICS SECTION ===== -->
+    <section id="topics-section" class="section active">
+        <!-- Grade Selector -->
+        <div class="grade-selector no-print">
+            <div class="grade-selector-label">Select Grade:</div>
+            <div class="grade-btns">
+                <button class="grade-btn" data-grade="6" onclick="selectGrade(6)">
+                    <span class="grade-btn-num">6</span>
+                    <span class="grade-btn-label">Grade 6</span>
+                </button>
+                <button class="grade-btn" data-grade="7" onclick="selectGrade(7)">
+                    <span class="grade-btn-num">7</span>
+                    <span class="grade-btn-label">Grade 7</span>
+                </button>
+                <button class="grade-btn active" data-grade="8" onclick="selectGrade(8)">
+                    <span class="grade-btn-num">8</span>
+                    <span class="grade-btn-label">Grade 8</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2>📚 Choose Your Topic</h2>
+            <p id="topics-subtitle">Select a BC <span id="grade-label">Grade 8</span> Math topic for your worksheet</p>
+            <div class="topic-toolbar">
+                <button class="btn btn-sm btn-outline" onclick="selectAllTopics()">Select All</button>
+                <button class="btn btn-sm btn-outline" onclick="clearTopics()">Clear All</button>
+                <span class="sel-count" id="sel-count">0 topics selected</span>
+            </div>
+        </div>
+
+        <div class="topics-grid" id="topics-grid">
+            <!-- Populated by JS -->
+        </div>
+
+        <div class="section-actions">
+            <span></span><!-- spacer -->
+            <button class="btn btn-purple btn-lg" onclick="goToOptions()">
+                Next: Options →
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== OPTIONS SECTION ===== -->
+    <section id="options-section" class="section">
+        <div class="section-header">
+            <h2>⚙️ Worksheet Options</h2>
+            <p>Customise your worksheet to fit your needs</p>
+        </div>
+
+        <div class="options-grid">
+
+            <!-- Student Info -->
+            <div class="opt-card">
+                <div class="opt-card-title">👤 Student Name <span class="opt-tag">optional</span></div>
+                <input type="text" id="student-name" class="form-input"
+                       placeholder="Leave blank to print a blank name line...">
+            </div>
+
+            <!-- Problem Type -->
+            <div class="opt-card">
+                <div class="opt-card-title">📝 Problem Type</div>
+                <div class="radio-grid" id="problem-type-group">
+                    <label class="radio-card selected" data-group="problem-type" data-val="mixed">
+                        <input type="radio" name="problem_type" value="mixed" checked>
+                        <div class="rc-icon">🔀</div>
+                        <div class="rc-name">Mixed</div>
+                        <div class="rc-desc">Word &amp; number problems</div>
+                    </label>
+                    <label class="radio-card" data-group="problem-type" data-val="word">
+                        <input type="radio" name="problem_type" value="word">
+                        <div class="rc-icon">📖</div>
+                        <div class="rc-name">Word Problems</div>
+                        <div class="rc-desc">Real-life story problems</div>
+                    </label>
+                    <label class="radio-card" data-group="problem-type" data-val="number">
+                        <input type="radio" name="problem_type" value="number">
+                        <div class="rc-icon">🔢</div>
+                        <div class="rc-name">Number Problems</div>
+                        <div class="rc-desc">Direct computation</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Difficulty -->
+            <div class="opt-card">
+                <div class="opt-card-title">⭐ Difficulty Level</div>
+                <div class="radio-grid cols-4" id="difficulty-group">
+                    <label class="radio-card selected" data-group="difficulty" data-val="mixed">
+                        <input type="radio" name="difficulty" value="mixed" checked>
+                        <div class="rc-icon">🌈</div>
+                        <div class="rc-name">Mixed</div>
+                        <div class="rc-desc">Easy → Hard</div>
+                    </label>
+                    <label class="radio-card" data-group="difficulty" data-val="easy">
+                        <input type="radio" name="difficulty" value="easy">
+                        <div class="rc-icon">😊</div>
+                        <div class="rc-name">Easy</div>
+                        <div class="rc-desc">Basic concepts</div>
+                    </label>
+                    <label class="radio-card" data-group="difficulty" data-val="medium">
+                        <input type="radio" name="difficulty" value="medium">
+                        <div class="rc-icon">🤔</div>
+                        <div class="rc-name">Medium</div>
+                        <div class="rc-desc">Applied thinking</div>
+                    </label>
+                    <label class="radio-card" data-group="difficulty" data-val="hard">
+                        <input type="radio" name="difficulty" value="hard">
+                        <div class="rc-icon">🧠</div>
+                        <div class="rc-name">Hard</div>
+                        <div class="rc-desc">Deep challenge</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Number of Questions -->
+            <div class="opt-card">
+                <div class="opt-card-title">🔢 Number of Questions</div>
+                <div class="radio-grid cols-4" id="num-q-group">
+                    <label class="radio-card" data-group="num-q" data-val="5">
+                        <input type="radio" name="num_questions" value="5">
+                        <div class="rc-name big-num">5</div>
+                        <div class="rc-desc">Quick practice</div>
+                    </label>
+                    <label class="radio-card selected" data-group="num-q" data-val="10">
+                        <input type="radio" name="num_questions" value="10" checked>
+                        <div class="rc-name big-num">10</div>
+                        <div class="rc-desc">Standard</div>
+                    </label>
+                    <label class="radio-card" data-group="num-q" data-val="15">
+                        <input type="radio" name="num_questions" value="15">
+                        <div class="rc-name big-num">15</div>
+                        <div class="rc-desc">Extended</div>
+                    </label>
+                    <label class="radio-card" data-group="num-q" data-val="20">
+                        <input type="radio" name="num_questions" value="20">
+                        <div class="rc-name big-num">20</div>
+                        <div class="rc-desc">Full test</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Answer Key -->
+            <div class="opt-card">
+                <div class="opt-card-title">🔑 Answer Key</div>
+                <label class="toggle-row">
+                    <div class="toggle-wrap">
+                        <input type="checkbox" id="include-answers" class="toggle-input">
+                        <div class="toggle-track"></div>
+                    </div>
+                    <div>
+                        <div class="toggle-label">Include answer key with step-by-step solutions</div>
+                        <div class="toggle-sub">Prints on a separate page after the questions</div>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Custom Instructions -->
+            <div class="opt-card opt-card-wide">
+                <div class="opt-card-title">💬 Custom Instructions <span class="opt-tag">optional</span></div>
+                <textarea id="custom-prompt" class="form-textarea" rows="3"
+                    placeholder="Add specific instructions... e.g. 'Focus on problems with whole number answers', 'Include a challenge problem about canoe journeys and the Pythagorean theorem', 'Use hockey statistics for the central tendency problems'..."></textarea>
+            </div>
+
+        </div>
+
+        <div class="section-actions">
+            <button class="btn btn-ghost" onclick="showSection('topics'); updateProgress(1)">← Back to Topics</button>
+            <button class="btn btn-generate btn-lg" onclick="generateWorksheet()">
+                🚀 Generate My Worksheet!
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== LOADING SECTION ===== -->
+    <section id="loading-section" class="section">
+        <div class="loading-wrap">
+            <div class="loading-orb">
+                <div class="orb-ring"></div>
+                <div class="orb-ring r2"></div>
+                <div class="orb-core">🧮</div>
+            </div>
+            <h2 id="loading-msg">Creating your worksheet...</h2>
+            <p id="loading-sub">Our AI is crafting personalized BC Grade 8 math problems just for you!</p>
+            <div class="loading-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="fun-fact-box" id="fun-fact-box">
+                <div class="fun-fact-label">💡 Math Fact</div>
+                <div id="fun-fact-text"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WORKSHEET SECTION ===== -->
+    <section id="worksheet-section" class="section">
+        <div class="ws-actions no-print">
+            <button class="btn btn-check" id="submit-btn" onclick="submitAnswers()">
+                ✅ Check My Answers
+            </button>
+            <button class="btn btn-reset hidden" id="reset-btn" onclick="resetAnswers()">
+                🔄 Try Again
+            </button>
+            <div class="ws-actions-sep"></div>
+            <button class="btn btn-purple" onclick="window.print()">
+                🖨️ Print / Save as PDF
+            </button>
+            <button class="btn btn-teal" onclick="generateAnother()">
+                ✏️ New Worksheet
+            </button>
+            <button class="btn btn-outline" onclick="downloadHTML()">
+                📄 Download HTML
+            </button>
+        </div>
+
+        <div id="worksheet-content" class="worksheet-render">
+            <!-- Worksheet rendered here by JS -->
+        </div>
+    </section>
+
+</main>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- Pass topics data from Flask to JS -->
+<script>
+    const CURRICULUM_DATA = {{ curriculum | tojson }};
+</script>
+<script src="{{ url_for('static', path='js/app.js') }}"></script>
+</body>
+</html>
