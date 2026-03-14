@@ -214,7 +214,11 @@ REQUIREMENTS:
                 **common_params,
             )
 
-        worksheet_data = extract_json(response.choices[0].message.content)
+        msg = response.choices[0].message
+        raw = msg.content or getattr(msg, 'reasoning', None)
+        if not raw:
+            raise ValueError("Model returned empty response.")
+        worksheet_data = extract_json(raw)
         worksheet_data["student_name"]    = student_name
         worksheet_data["date"]            = datetime.now().strftime("%B %d, %Y")
         worksheet_data["include_answers"] = include_answers
