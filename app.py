@@ -33,7 +33,7 @@ templates.env.filters['tojson'] = lambda v: Markup(json.dumps(v, ensure_ascii=Fa
 GROQ_API_KEY       = os.environ.get('GROQ_API_KEY', '')
 OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY', '')
 
-OPENROUTER_MODEL   = "qwen/qwen3-4b:free"
+OPENROUTER_MODEL   = "meta-llama/llama-3.1-8b-instruct:free"
 
 # ===== REQUEST MODELS =====
 class LoginBody(BaseModel):
