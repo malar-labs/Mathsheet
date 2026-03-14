@@ -7,6 +7,7 @@ from markupsafe import Markup
 from pydantic import BaseModel
 from typing import List
 from groq import Groq
+from openai import OpenAI
 import os
 import json
 import re
@@ -29,7 +30,10 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 templates.env.filters['tojson'] = lambda v: Markup(json.dumps(v, ensure_ascii=False))
 
-GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')
+GROQ_API_KEY       = os.environ.get('GROQ_API_KEY', '')
+OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY', '')
+
+OPENROUTER_MODEL   = "meta-llama/llama-3.3-70b-instruct:free"
 
 # ===== REQUEST MODELS =====
 class LoginBody(BaseModel):
@@ -110,15 +114,13 @@ async def get_topics(grade: int):
 
 @app.post("/api/generate")
 async def generate(body: GenerateBody, request: Request):
-    if not GROQ_API_KEY:
+    if not GROQ_API_KEY and not OPENROUTER_API_KEY:
         return JSONResponse({
             "success": False,
-            "error": "Groq API key not configured. Add GROQ_API_KEY to your .env file. Get a free key at https://console.groq.com/keys"
+            "error": "No API key configured. Add GROQ_API_KEY or OPENROUTER_API_KEY to your .env file."
         })
 
     try:
-        client = Groq(api_key=GROQ_API_KEY)
-
         topics = body.topics
         grade = body.grade
         grade_topics = CURRICULUM.get(grade, CURRICULUM[8])
@@ -172,30 +174,45 @@ REQUIREMENTS:
 
         prompt += "\nReturn ONLY the raw JSON object. No markdown. No extra text."
 
-        # Retry up to 2 times on rate limit (429)
-        last_exc = None
+        messages = [
+            {"role": "system", "content": build_system_prompt(grade)},
+            {"role": "user",   "content": prompt}
+        ]
+        common_params = dict(
+            messages=messages,
+            temperature=0.65,
+            max_tokens=max_tokens,
+        )
+
         response = None
-        for attempt in range(3):
+
+        # --- Primary: Groq ---
+        if GROQ_API_KEY:
             try:
-                response = client.chat.completions.create(
+                groq_client = Groq(api_key=GROQ_API_KEY)
+                response = groq_client.chat.completions.create(
                     model="llama-3.3-70b-versatile",
-                    messages=[
-                        {"role": "system", "content": build_system_prompt(grade)},
-                        {"role": "user",   "content": prompt}
-                    ],
-                    temperature=0.65,
-                    max_tokens=max_tokens,
                     timeout=90,
+                    **common_params,
                 )
-                break
             except Exception as e:
-                last_exc = e
-                if "429" in str(e) and attempt < 2:
-                    await asyncio.sleep(62)  # wait for TPM window to reset
-                    continue
-                raise
+                if "429" not in str(e):
+                    raise  # non-rate-limit error — don't fall back, surface it
+                # 429 → fall through to OpenRouter
+
+        # --- Fallback: OpenRouter ---
         if response is None:
-            raise last_exc
+            if not OPENROUTER_API_KEY:
+                raise Exception("Groq rate limit reached and no OpenRouter API key configured.")
+            or_client = OpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=OPENROUTER_API_KEY,
+            )
+            response = or_client.chat.completions.create(
+                model=OPENROUTER_MODEL,
+                timeout=90,
+                **common_params,
+            )
 
         worksheet_data = extract_json(response.choices[0].message.content)
         worksheet_data["student_name"]    = student_name
