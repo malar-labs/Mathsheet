@@ -33,7 +33,7 @@ templates.env.filters['tojson'] = lambda v: Markup(json.dumps(v, ensure_ascii=Fa
 GROQ_API_KEY       = os.environ.get('GROQ_API_KEY', '')
 OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY', '')
 
-OPENROUTER_MODEL   = "meta-llama/llama-3.3-70b-instruct:free"
+OPENROUTER_MODEL   = "qwen/qwen3-4b:free"
 
 # ===== REQUEST MODELS =====
 class LoginBody(BaseModel):
@@ -207,10 +207,10 @@ REQUIREMENTS:
             or_client = OpenAI(
                 base_url="https://openrouter.ai/api/v1",
                 api_key=OPENROUTER_API_KEY,
+                timeout=90.0,
             )
             response = or_client.chat.completions.create(
                 model=OPENROUTER_MODEL,
-                timeout=90,
                 **common_params,
             )
 
