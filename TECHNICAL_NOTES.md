@@ -16,7 +16,7 @@
 **Caveat:** OpenRouter free tier has daily limits (~200 req/day). Exhausted during testing. Resets daily. Not suitable as primary — fallback only.
 
 ### Network Timeout
-**Problem:** India user got "Network error" — browser silently killed slow connections.
+**Problem:** User got "Network error" — browser silently killed slow connections.
 **Fix:** `AbortController` (2 min) on fetch + 90s timeout on Groq API call.
 **Result:** Clear timeout message instead of silent failure.
 
