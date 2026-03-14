@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
     <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
 </head>
 <body>
@@ -95,7 +96,7 @@
                     <span class="grade-btn-num">K</span>
                     <span class="grade-btn-label">Kinder</span>
                 </button>
-                <button class="grade-btn" data-grade="1" onclick="selectGrade(1)">
+                <button class="grade-btn active" data-grade="1" onclick="selectGrade(1)">
                     <span class="grade-btn-num">1</span>
                     <span class="grade-btn-label">Grade 1</span>
                 </button>
@@ -123,7 +124,7 @@
                     <span class="grade-btn-num">7</span>
                     <span class="grade-btn-label">Grade 7</span>
                 </button>
-                <button class="grade-btn active" data-grade="8" onclick="selectGrade(8)">
+                <button class="grade-btn" data-grade="8" onclick="selectGrade(8)">
                     <span class="grade-btn-num">8</span>
                     <span class="grade-btn-label">Grade 8</span>
                 </button>
@@ -136,7 +137,7 @@
 
         <div class="section-header">
             <h2>📚 Choose Your Topic</h2>
-            <p id="topics-subtitle">Select a BC <span id="grade-label">Grade 8</span> Math topic for your worksheet</p>
+            <p id="topics-subtitle">Select a BC <span id="grade-label">Grade 1</span> Math topic for your worksheet</p>
             <div class="topic-toolbar">
                 <button class="btn btn-sm btn-outline" onclick="selectAllTopics()">Select All</button>
                 <button class="btn btn-sm btn-outline" onclick="clearTopics()">Clear All</button>

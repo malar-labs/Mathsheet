@@ -9,7 +9,7 @@
 let state = {
     user: null,
     isGuest: true,
-    selectedGrade: 8,
+    selectedGrade: 1,
     selectedTopics: new Set(),
     worksheetData: null,
     funFactInterval: null,
