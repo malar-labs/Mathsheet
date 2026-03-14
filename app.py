@@ -10,6 +10,7 @@ from groq import Groq
 import os
 import json
 import re
+import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
 from curriculum import CURRICULUM, build_system_prompt
@@ -150,47 +151,51 @@ async def generate(body: GenerateBody, request: Request):
 
         per_topic = max(1, num_questions // len(topic_names))
 
+        # Dynamic max_tokens: ~220 tokens per question + 400 overhead, capped at 4000
+        max_tokens = min(4000, max(1200, num_questions * 220 + 400))
+
         prompt = f"""Create a BC Grade {grade} Mathematics worksheet with EXACTLY {num_questions} questions.
 
-TOPICS TO COVER: {", ".join(topic_names)}
+TOPICS: {", ".join(topic_names)}
 PROBLEM TYPES: {problem_type_desc}
 DIFFICULTY: {difficulty_desc}
-TOTAL QUESTIONS: Exactly {num_questions}
+DISTRIBUTION: ~{per_topic} question(s) per topic across {len(topic_names)} topic(s).
 
-DISTRIBUTION: Spread questions across all {len(topic_names)} topic(s), approximately {per_topic} question(s) per topic. If uneven, add extras to the first topic.
-
-QUESTION REQUIREMENTS:
-- Every answer must be mathematically verified and correct
-- Word problems: use BC contexts — Vancouver, Victoria, Fraser River, Pacific coast, First Peoples traditions (beading, drumming, cedar boxes, paddle making, canoe journeys, harvest sharing), Canadian dollars (CAD), BC wildlife, hockey
-- Number problems: show clear numerical setup
-- space_needed: "small" for one-line answers, "medium" for 3–5 lines of work, "large" for multi-step word problems or diagrams
-- solution_steps: provide full step-by-step working, showing every intermediate calculation clearly
-
-TOPIC-SPECIFIC NOTES:
-- Perfect Squares/Cubes: include at least one estimation problem and one using prime factorization
-- Percents: include both <1% and >100% problems where possible
-- Fractions: ensure BEDMAS/order of operations is tested; use brackets; NO exponents
-- Equations: use integer coefficients and constants; include verification step in solution
-- Surface Area/Volume: state exact dimensions in the problem; specify the shape clearly
-- Pythagorean Theorem: state which side is unknown; use realistic measurements
-- Probability: show the sample space or ask students to construct it
-- Linear Relations: specify whether a table, graph, or expression is required
+REQUIREMENTS:
+- Mathematically verified correct answers
+- Word problems: BC contexts (Vancouver, Fraser River, First Peoples traditions, CAD, hockey)
+- space_needed: "small" (one line), "medium" (3–5 lines), "large" (multi-step/diagrams)
+- solution_steps: full step-by-step working
 """
         if custom_prompt:
-            prompt += f"\nSPECIAL INSTRUCTIONS FROM TEACHER/PARENT:\n{custom_prompt}\n"
+            prompt += f"\nTEACHER INSTRUCTIONS: {custom_prompt}\n"
 
         prompt += "\nReturn ONLY the raw JSON object. No markdown. No extra text."
 
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": build_system_prompt(grade)},
-                {"role": "user",   "content": prompt}
-            ],
-            temperature=0.65,
-            max_tokens=8192,
-            timeout=90,
-        )
+        # Retry up to 2 times on rate limit (429)
+        last_exc = None
+        response = None
+        for attempt in range(3):
+            try:
+                response = client.chat.completions.create(
+                    model="llama-3.3-70b-versatile",
+                    messages=[
+                        {"role": "system", "content": build_system_prompt(grade)},
+                        {"role": "user",   "content": prompt}
+                    ],
+                    temperature=0.65,
+                    max_tokens=max_tokens,
+                    timeout=90,
+                )
+                break
+            except Exception as e:
+                last_exc = e
+                if "429" in str(e) and attempt < 2:
+                    await asyncio.sleep(62)  # wait for TPM window to reset
+                    continue
+                raise
+        if response is None:
+            raise last_exc
 
         worksheet_data = extract_json(response.choices[0].message.content)
         worksheet_data["student_name"]    = student_name
