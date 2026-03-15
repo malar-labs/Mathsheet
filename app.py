@@ -153,8 +153,8 @@ async def generate(body: GenerateBody, request: Request):
 
         per_topic = max(1, num_questions // len(topic_names))
 
-        # Dynamic max_tokens: ~220 tokens per question + 400 overhead, capped at 4000
-        max_tokens = min(4000, max(1200, num_questions * 220 + 400))
+        # Dynamic max_tokens: ~200 tokens per question + 300 overhead, capped at 4000
+        max_tokens = min(4000, max(800, num_questions * 200 + 300))
 
         prompt = f"""Create a BC Grade {grade} Mathematics worksheet with EXACTLY {num_questions} questions.
 
@@ -163,14 +163,12 @@ PROBLEM TYPES: {problem_type_desc}
 DIFFICULTY: {difficulty_desc}
 DISTRIBUTION: ~{per_topic} question(s) per topic across {len(topic_names)} topic(s).
 
-REQUIREMENTS:
-- Mathematically verified correct answers
-- Word problems: BC contexts (Vancouver, Fraser River, First Peoples traditions, CAD, hockey)
-- space_needed: "small" (one line), "medium" (3–5 lines), "large" (multi-step/diagrams)
+- space_needed: small/medium/large
 - solution_steps: full step-by-step working
 """
         if custom_prompt:
             prompt += f"\nTEACHER INSTRUCTIONS: {custom_prompt}\n"
+            prompt += "NOTE: Teacher instructions modify topic/type selection only. Curriculum difficulty and number ranges for this grade still apply.\n"
 
         prompt += "\nReturn ONLY the raw JSON object. No markdown. No extra text."
 
