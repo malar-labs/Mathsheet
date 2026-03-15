@@ -515,6 +515,38 @@ function buildQuestionHTML(q) {
     `;
 }
 
+// ===== BUILD ANSWER KEY =====
+function buildAnswerKeyHTML(ws) {
+    const rows = (ws.questions || []).map(q => `
+        <div class="ws-ak-item">
+            <div class="ws-ak-q-row">
+                <div class="ws-ak-num">${q.number}</div>
+                <div class="ws-ak-q-text">${escHTML(q.question || '')}</div>
+            </div>
+            <div class="ws-ak-answer-row">
+                <span class="ws-ak-answer-label">Answer:</span>
+                <span class="ws-ak-answer-text">${escHTML(q.answer || '')}</span>
+            </div>
+            ${q.solution_steps ? `
+            <div class="ws-ak-steps">
+                <div class="ws-ak-steps-label">Solution</div>
+                <div class="ws-ak-steps-text">${escHTML(q.solution_steps)}</div>
+            </div>` : ''}
+        </div>
+    `).join('');
+
+    return `
+        <hr class="ws-answer-key-divider">
+        <div class="ws-answer-key-section">
+            <div class="ws-ak-header">
+                <h3>Answer Key</h3>
+                <span>Step-by-step solutions — Teacher copy</span>
+            </div>
+            <div class="ws-ak-items">${rows}</div>
+        </div>
+    `;
+}
+
 // ===== ANSWER CHECKING =====
 function checkAnswer(userRaw, correctRaw) {
     if (!userRaw || !userRaw.trim()) return false;
