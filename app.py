@@ -12,11 +12,19 @@ import os
 import json
 import re
 import asyncio
+import logging
 from datetime import datetime
 from dotenv import load_dotenv
 from curriculum import CURRICULUM, build_system_prompt
 
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%H:%M:%S",
+)
+logger = logging.getLogger("mathsheet")
 
 # ===== APP SETUP =====
 app = FastAPI(title="MathSheet Pro — BC Math Worksheet Generator")
@@ -194,14 +202,16 @@ DISTRIBUTION: ~{per_topic} question(s) per topic across {len(topic_names)} topic
                     **common_params,
                 )
             except Exception as e:
+                logger.warning("Groq error (%s): %s", type(e).__name__, str(e))
                 if "429" not in str(e):
                     raise  # non-rate-limit error — don't fall back, surface it
-                # 429 → fall through to OpenRouter
+                logger.warning("Groq rate limit hit — falling back to OpenRouter")
 
         # --- Fallback: OpenRouter ---
         if response is None:
             if not OPENROUTER_API_KEY:
                 raise Exception("Groq rate limit reached and no OpenRouter API key configured.")
+            logger.info("Sending request to OpenRouter (%s)", OPENROUTER_MODEL)
             or_client = OpenAI(
                 base_url="https://openrouter.ai/api/v1",
                 api_key=OPENROUTER_API_KEY,
@@ -239,15 +249,15 @@ DISTRIBUTION: ~{per_topic} question(s) per topic across {len(topic_names)} topic
 # ===== ENTRY POINT =====
 if __name__ == "__main__":
     import uvicorn
-    print("=" * 60)
-    print("  MathSheet Pro — BC Math Worksheet Generator (KG–9)")
-    print("  Framework: FastAPI + Uvicorn")
-    print("=" * 60)
+    logger.info("MathSheet Pro — BC Math Worksheet Generator (Grade 1–9)")
+    logger.info("Framework: FastAPI + Uvicorn")
     if not GROQ_API_KEY:
-        print("  ⚠  WARNING: GROQ_API_KEY not set in .env file!")
-        print("  Get a free key at: https://console.groq.com/keys")
+        logger.warning("GROQ_API_KEY not set in .env — get a free key at https://console.groq.com/keys")
     else:
-        print("  ✓  Groq API key loaded")
-    print("  Open browser at: http://localhost:5000")
-    print("=" * 60)
+        logger.info("Groq API key loaded")
+    if not OPENROUTER_API_KEY:
+        logger.warning("OPENROUTER_API_KEY not set — no fallback available if Groq rate limits")
+    else:
+        logger.info("OpenRouter API key loaded (fallback ready)")
+    logger.info("Open browser at: http://localhost:5000")
     uvicorn.run("app:app", host="0.0.0.0", port=5000, reload=True)
