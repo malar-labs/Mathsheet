@@ -4,10 +4,27 @@
 
 ## ✅ Implemented
 
-### Token Optimisation
+### Token Optimisation (Round 1)
 **Problem:** Groq free tier = 6,000 TPM. Hardcoded `max_tokens=8192` burned the entire quota per request.
 **Fix:** Dynamic `max_tokens = min(4000, num_questions × 220 + 400)`. Also trimmed user prompt by ~150 tokens.
 **Result:** 10 questions now uses ~2,600 tokens instead of 8,192.
+
+### Token Optimisation (Round 2)
+**Problem:** ~2,600 tokens per 10-question request still only allowed ~2.3 requests/minute within 6,000 TPM.
+**Fix:**
+- Trimmed system prompt in `curriculum.py` (~140 tokens): removed verbose role padding, preserved scope restriction and accuracy rules
+- Trimmed user prompt in `app.py` (~50 tokens): removed requirements already enforced by system prompt
+- Lowered `max_tokens` formula: `min(4000, max(1200, n×220+400))` → `min(4000, max(800, n×200+300))`
+**Result:** 10-question request drops from ~2,600 to ~2,150 tokens. ~2.7 requests/minute instead of ~2.3.
+
+### Custom Prompt Difficulty Drift
+**Problem:** When a teacher adds a custom instruction (e.g. "skip division"), the LLM compensated by escalating number complexity beyond the curriculum spec (e.g. 3-digit × 3-digit multiplication for Grade 4 instead of 2-3 digit × 1 digit). This happened because the custom instruction repositioned the LLM's attention, causing earlier curriculum difficulty constraints to fade.
+**Fix:** Added a guardrail *after* the custom instruction block in the user prompt:
+```
+NOTE: Teacher instructions modify topic/type selection only. Curriculum difficulty and number ranges for this grade still apply.
+```
+**Key principle:** In LLMs, later instructions tend to override earlier ones. Guardrails must come *after* the instruction that might break them, not before.
+**Result:** Custom prompts now correctly modify problem type selection without affecting difficulty or number ranges.
 
 ### OpenRouter Fallback
 **Problem:** Single LLM provider = single point of failure on 429 rate limit.

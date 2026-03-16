@@ -12,11 +12,19 @@ import os
 import json
 import re
 import asyncio
+import logging
 from datetime import datetime
 from dotenv import load_dotenv
 from curriculum import CURRICULUM, build_system_prompt
 
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%H:%M:%S",
+)
+logger = logging.getLogger("mathsheet")
 
 # ===== APP SETUP =====
 app = FastAPI(title="MathSheet Pro — BC Math Worksheet Generator")
@@ -81,6 +89,18 @@ async def index(request: Request):
     )
 
 
+def get_client_ip(request: Request) -> str:
+    forwarded = request.headers.get("x-forwarded-for")
+    return forwarded.split(",")[0].strip() if forwarded else request.client.host
+
+def get_browser(request: Request) -> str:
+    ua = request.headers.get("user-agent", "unknown")
+    for name in ("Chrome", "Firefox", "Safari", "Edge", "Opera"):
+        if name in ua:
+            return name
+    return "unknown"
+
+
 @app.post("/api/login")
 async def login(body: LoginBody, request: Request):
     username = body.username.strip()
@@ -88,6 +108,8 @@ async def login(body: LoginBody, request: Request):
         return JSONResponse({"success": False, "error": "Please enter a name (at least 2 characters)"})
     request.session["user"] = username
     request.session["is_guest"] = False
+    logger.info("LOGIN   | user=%-20s | ip=%-15s | browser=%s",
+                username, get_client_ip(request), get_browser(request))
     return JSONResponse({"success": True, "username": username})
 
 
@@ -95,6 +117,8 @@ async def login(body: LoginBody, request: Request):
 async def guest(request: Request):
     request.session["user"] = "Guest"
     request.session["is_guest"] = True
+    logger.info("GUEST   | ip=%-15s | browser=%s",
+                get_client_ip(request), get_browser(request))
     return JSONResponse({"success": True, "username": "Guest"})
 
 
@@ -135,6 +159,9 @@ async def generate(body: GenerateBody, request: Request):
             return JSONResponse({"success": False, "error": "Please select at least one topic"})
 
         topic_names = [grade_topics[t]["name"] for t in topics if t in grade_topics]
+        user = request.session.get("user", "anonymous")
+        logger.info("GENERATE| user=%-20s | ip=%-15s | grade=%-3s | q=%-2s | topics=%s",
+                    user, get_client_ip(request), grade, num_questions, ", ".join(topic_names))
         if not topic_names:
             return JSONResponse({"success": False, "error": "Invalid topics selected"})
 
@@ -153,8 +180,8 @@ async def generate(body: GenerateBody, request: Request):
 
         per_topic = max(1, num_questions // len(topic_names))
 
-        # Dynamic max_tokens: ~220 tokens per question + 400 overhead, capped at 4000
-        max_tokens = min(4000, max(1200, num_questions * 220 + 400))
+        # Dynamic max_tokens: ~200 tokens per question + 300 overhead, capped at 4000
+        max_tokens = min(4000, max(800, num_questions * 200 + 300))
 
         prompt = f"""Create a BC Grade {grade} Mathematics worksheet with EXACTLY {num_questions} questions.
 
@@ -163,14 +190,12 @@ PROBLEM TYPES: {problem_type_desc}
 DIFFICULTY: {difficulty_desc}
 DISTRIBUTION: ~{per_topic} question(s) per topic across {len(topic_names)} topic(s).
 
-REQUIREMENTS:
-- Mathematically verified correct answers
-- Word problems: BC contexts (Vancouver, Fraser River, First Peoples traditions, CAD, hockey)
-- space_needed: "small" (one line), "medium" (3–5 lines), "large" (multi-step/diagrams)
+- space_needed: small/medium/large
 - solution_steps: full step-by-step working
 """
         if custom_prompt:
             prompt += f"\nTEACHER INSTRUCTIONS: {custom_prompt}\n"
+            prompt += "NOTE: Teacher instructions modify topic/type selection only. Curriculum difficulty and number ranges for this grade still apply.\n"
 
         prompt += "\nReturn ONLY the raw JSON object. No markdown. No extra text."
 
@@ -187,6 +212,7 @@ REQUIREMENTS:
         response = None
 
         # --- Primary: Groq ---
+        llm_used = None
         if GROQ_API_KEY:
             try:
                 groq_client = Groq(api_key=GROQ_API_KEY)
@@ -195,15 +221,18 @@ REQUIREMENTS:
                     timeout=90,
                     **common_params,
                 )
+                llm_used = "Groq"
             except Exception as e:
+                logger.warning("Groq error (%s): %s", type(e).__name__, str(e))
                 if "429" not in str(e):
                     raise  # non-rate-limit error — don't fall back, surface it
-                # 429 → fall through to OpenRouter
+                logger.warning("Groq rate limit hit — falling back to OpenRouter")
 
         # --- Fallback: OpenRouter ---
         if response is None:
             if not OPENROUTER_API_KEY:
                 raise Exception("Groq rate limit reached and no OpenRouter API key configured.")
+            logger.info("Sending request to OpenRouter (%s)", OPENROUTER_MODEL)
             or_client = OpenAI(
                 base_url="https://openrouter.ai/api/v1",
                 api_key=OPENROUTER_API_KEY,
@@ -213,6 +242,7 @@ REQUIREMENTS:
                 model=OPENROUTER_MODEL,
                 **common_params,
             )
+            llm_used = "OpenRouter"
 
         msg = response.choices[0].message
         raw = msg.content or getattr(msg, 'reasoning', None)
@@ -223,6 +253,8 @@ REQUIREMENTS:
         worksheet_data["date"]            = datetime.now().strftime("%B %d, %Y")
         worksheet_data["include_answers"] = include_answers
 
+        logger.info("SUCCESS | user=%-20s | llm=%-12s | tokens=%s",
+                    user, llm_used, max_tokens)
         return JSONResponse({"success": True, "worksheet": worksheet_data})
 
     except Exception as e:
@@ -241,15 +273,15 @@ REQUIREMENTS:
 # ===== ENTRY POINT =====
 if __name__ == "__main__":
     import uvicorn
-    print("=" * 60)
-    print("  MathSheet Pro — BC Math Worksheet Generator (KG–9)")
-    print("  Framework: FastAPI + Uvicorn")
-    print("=" * 60)
+    logger.info("MathSheet Pro — BC Math Worksheet Generator (Grade 1–9)")
+    logger.info("Framework: FastAPI + Uvicorn")
     if not GROQ_API_KEY:
-        print("  ⚠  WARNING: GROQ_API_KEY not set in .env file!")
-        print("  Get a free key at: https://console.groq.com/keys")
+        logger.warning("GROQ_API_KEY not set in .env — get a free key at https://console.groq.com/keys")
     else:
-        print("  ✓  Groq API key loaded")
-    print("  Open browser at: http://localhost:5000")
-    print("=" * 60)
+        logger.info("Groq API key loaded")
+    if not OPENROUTER_API_KEY:
+        logger.warning("OPENROUTER_API_KEY not set — no fallback available if Groq rate limits")
+    else:
+        logger.info("OpenRouter API key loaded (fallback ready)")
+    logger.info("Open browser at: http://localhost:5000")
     uvicorn.run("app:app", host="0.0.0.0", port=5000, reload=True)
