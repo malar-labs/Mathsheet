@@ -1207,6 +1207,13 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
     align-items: center;
 }
 
+/* Bottom check button inside worksheet */
+.ws-bottom-actions {
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem 0 0.5rem;
+}
+
 /* ===== TOAST ===== */
 .toast {
     position: fixed;
@@ -1491,9 +1498,10 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
     white-space: nowrap;
 }
 
-/* Answer key */
-.ws-answer-key-section {
-    page-break-before: always;
+/* Answer key — screen: hidden (print/download only) */
+.ws-answer-key-section,
+.ws-answer-key-divider {
+    display: none;
 }
 
 .ws-ak-header {
@@ -1904,6 +1912,11 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
     .ws-ak-item {
         page-break-inside: avoid;
         break-inside: avoid;
+    }
+
+    .ws-answer-key-section,
+    .ws-answer-key-divider {
+        display: block !important;
     }
 
     .ws-answer-key-section {
