@@ -8,6 +8,8 @@ from pydantic import BaseModel
 from typing import List
 from groq import Groq
 from openai import OpenAI
+from google import genai
+from google.genai import types as genai_types
 import os
 import json
 import re
@@ -38,9 +40,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 templates.env.filters['tojson'] = lambda v: Markup(json.dumps(v, ensure_ascii=False))
 
-GROQ_API_KEY       = os.environ.get('GROQ_API_KEY', '')
-OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY', '')
+GOOGLE_CLOUD_PROJECT  = os.environ.get('GOOGLE_CLOUD_PROJECT', '')
+GOOGLE_CLOUD_LOCATION = os.environ.get('GOOGLE_CLOUD_LOCATION', 'us-central1')
+GROQ_API_KEY          = os.environ.get('GROQ_API_KEY', '')
+OPENROUTER_API_KEY    = os.environ.get('OPENROUTER_API_KEY', '')
 
+VERTEX_MODEL       = "gemini-2.5-flash-lite"
+GROQ_MODEL         = "llama-3.3-70b-versatile"
 OPENROUTER_MODEL   = "meta-llama/llama-3.3-70b-instruct:free"
 
 # ===== REQUEST MODELS =====
@@ -209,45 +215,73 @@ DISTRIBUTION: ~{per_topic} question(s) per topic across {len(topic_names)} topic
             max_tokens=max_tokens,
         )
 
-        response = None
-
-        # --- Primary: Groq ---
+        raw      = None
         llm_used = None
-        if GROQ_API_KEY:
+
+        # --- Primary: Vertex AI (Gemini) ---
+        if GOOGLE_CLOUD_PROJECT:
             try:
+                logger.info("Sending request to Vertex AI (%s)", VERTEX_MODEL)
+                vertex_client = genai.Client(
+                    vertexai=True,
+                    project=GOOGLE_CLOUD_PROJECT,
+                    location=GOOGLE_CLOUD_LOCATION,
+                )
+                system_content = messages[0]['content']
+                user_content   = messages[1]['content']
+                vertex_response = vertex_client.models.generate_content(
+                    model=VERTEX_MODEL,
+                    contents=user_content,
+                    config=genai_types.GenerateContentConfig(
+                        system_instruction=system_content,
+                        max_output_tokens=max_tokens,
+                        temperature=0.65,
+                    ),
+                )
+                raw      = vertex_response.text
+                llm_used = "Vertex AI"
+            except Exception as e:
+                logger.warning("Vertex AI error (%s): %s — falling back to Groq", type(e).__name__, str(e))
+
+        # --- First Fallback: Groq ---
+        if raw is None and GROQ_API_KEY:
+            try:
+                logger.info("Sending request to Groq (%s)", GROQ_MODEL)
                 groq_client = Groq(api_key=GROQ_API_KEY)
-                response = groq_client.chat.completions.create(
-                    model="llama-3.3-70b-versatile",
+                groq_response = groq_client.chat.completions.create(
+                    model=GROQ_MODEL,
                     timeout=90,
                     **common_params,
                 )
+                msg      = groq_response.choices[0].message
+                raw      = msg.content or getattr(msg, 'reasoning', None)
                 llm_used = "Groq"
             except Exception as e:
                 logger.warning("Groq error (%s): %s", type(e).__name__, str(e))
                 if "429" not in str(e):
-                    raise  # non-rate-limit error — don't fall back, surface it
+                    raise  # non-rate-limit error — surface it
                 logger.warning("Groq rate limit hit — falling back to OpenRouter")
 
-        # --- Fallback: OpenRouter ---
-        if response is None:
+        # --- Second Fallback: OpenRouter ---
+        if raw is None:
             if not OPENROUTER_API_KEY:
-                raise Exception("Groq rate limit reached and no OpenRouter API key configured.")
+                raise Exception("All providers failed and no OpenRouter API key configured.")
             logger.info("Sending request to OpenRouter (%s)", OPENROUTER_MODEL)
             or_client = OpenAI(
                 base_url="https://openrouter.ai/api/v1",
                 api_key=OPENROUTER_API_KEY,
                 timeout=90.0,
             )
-            response = or_client.chat.completions.create(
+            or_response = or_client.chat.completions.create(
                 model=OPENROUTER_MODEL,
                 **common_params,
             )
+            msg      = or_response.choices[0].message
+            raw      = msg.content or getattr(msg, 'reasoning', None)
             llm_used = "OpenRouter"
 
-        msg = response.choices[0].message
-        raw = msg.content or getattr(msg, 'reasoning', None)
         if not raw:
-            raise ValueError("Model returned empty response.")
+            raise ValueError("All providers returned an empty response.")
         worksheet_data = extract_json(raw)
         worksheet_data["student_name"]    = student_name
         worksheet_data["date"]            = datetime.now().strftime("%B %d, %Y")
@@ -275,13 +309,17 @@ if __name__ == "__main__":
     import uvicorn
     logger.info("MathSheet Pro — BC Math Worksheet Generator (Grade 1–9)")
     logger.info("Framework: FastAPI + Uvicorn")
-    if not GROQ_API_KEY:
-        logger.warning("GROQ_API_KEY not set in .env — get a free key at https://console.groq.com/keys")
+    if GOOGLE_CLOUD_PROJECT:
+        logger.info("Vertex AI primary  | project=%s location=%s model=%s", GOOGLE_CLOUD_PROJECT, GOOGLE_CLOUD_LOCATION, VERTEX_MODEL)
     else:
-        logger.info("Groq API key loaded")
-    if not OPENROUTER_API_KEY:
-        logger.warning("OPENROUTER_API_KEY not set — no fallback available if Groq rate limits")
+        logger.warning("GOOGLE_CLOUD_PROJECT not set — Vertex AI disabled")
+    if GROQ_API_KEY:
+        logger.info("Groq first fallback | model=%s", GROQ_MODEL)
     else:
-        logger.info("OpenRouter API key loaded (fallback ready)")
+        logger.warning("GROQ_API_KEY not set — Groq fallback disabled")
+    if OPENROUTER_API_KEY:
+        logger.info("OpenRouter second fallback | model=%s", OPENROUTER_MODEL)
+    else:
+        logger.warning("OPENROUTER_API_KEY not set — OpenRouter fallback disabled")
     logger.info("Open browser at: http://localhost:5000")
     uvicorn.run("app:app", host="0.0.0.0", port=5000, reload=True)
