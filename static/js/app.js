@@ -536,6 +536,9 @@ function buildAnswerKeyHTML(ws) {
     `).join('');
 
     return `
+        <div class="ws-bottom-actions no-print">
+            <button class="btn btn-check" onclick="submitAnswers()">✅ Check My Answers</button>
+        </div>
         <hr class="ws-answer-key-divider">
         <div class="ws-answer-key-section">
             <div class="ws-ak-header">
