@@ -40,12 +40,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 templates.env.filters['tojson'] = lambda v: Markup(json.dumps(v, ensure_ascii=False))
 
-GOOGLE_CLOUD_PROJECT  = os.environ.get('GOOGLE_CLOUD_PROJECT', '')
-GOOGLE_CLOUD_LOCATION = os.environ.get('GOOGLE_CLOUD_LOCATION', 'us-central1')
-GROQ_API_KEY          = os.environ.get('GROQ_API_KEY', '')
-OPENROUTER_API_KEY    = os.environ.get('OPENROUTER_API_KEY', '')
+GEMINI_API_KEY     = os.environ.get('GEMINI_API_KEY', '')
+GROQ_API_KEY       = os.environ.get('GROQ_API_KEY', '')
+OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY', '')
 
-VERTEX_MODEL       = "gemini-2.5-flash-lite"
+GEMINI_MODEL       = "gemini-2.5-flash-lite"
 GROQ_MODEL         = "llama-3.3-70b-versatile"
 OPENROUTER_MODEL   = "meta-llama/llama-3.3-70b-instruct:free"
 
@@ -144,10 +143,10 @@ async def get_topics(grade: int):
 
 @app.post("/api/generate")
 async def generate(body: GenerateBody, request: Request):
-    if not GROQ_API_KEY and not OPENROUTER_API_KEY:
+    if not GEMINI_API_KEY and not GROQ_API_KEY and not OPENROUTER_API_KEY:
         return JSONResponse({
             "success": False,
-            "error": "No API key configured. Add GROQ_API_KEY or OPENROUTER_API_KEY to your .env file."
+            "error": "No API key configured. Add GEMINI_API_KEY, GROQ_API_KEY, or OPENROUTER_API_KEY to your .env file."
         })
 
     try:
@@ -218,19 +217,15 @@ DISTRIBUTION: ~{per_topic} question(s) per topic across {len(topic_names)} topic
         raw      = None
         llm_used = None
 
-        # --- Primary: Vertex AI (Gemini) ---
-        if GOOGLE_CLOUD_PROJECT:
+        # --- Primary: Gemini (Google AI Studio) ---
+        if GEMINI_API_KEY:
             try:
-                logger.info("Sending request to Vertex AI (%s)", VERTEX_MODEL)
-                vertex_client = genai.Client(
-                    vertexai=True,
-                    project=GOOGLE_CLOUD_PROJECT,
-                    location=GOOGLE_CLOUD_LOCATION,
-                )
+                logger.info("Sending request to Gemini (%s)", GEMINI_MODEL)
+                gemini_client = genai.Client(api_key=GEMINI_API_KEY)
                 system_content = messages[0]['content']
                 user_content   = messages[1]['content']
-                vertex_response = vertex_client.models.generate_content(
-                    model=VERTEX_MODEL,
+                gemini_response = gemini_client.models.generate_content(
+                    model=GEMINI_MODEL,
                     contents=user_content,
                     config=genai_types.GenerateContentConfig(
                         system_instruction=system_content,
@@ -238,10 +233,10 @@ DISTRIBUTION: ~{per_topic} question(s) per topic across {len(topic_names)} topic
                         temperature=0.65,
                     ),
                 )
-                raw      = vertex_response.text
-                llm_used = "Vertex AI"
+                raw      = gemini_response.text
+                llm_used = "Gemini"
             except Exception as e:
-                logger.warning("Vertex AI error (%s): %s — falling back to Groq", type(e).__name__, str(e))
+                logger.warning("Gemini error (%s): %s — falling back to Groq", type(e).__name__, str(e))
 
         # --- First Fallback: Groq ---
         if raw is None and GROQ_API_KEY:
@@ -309,12 +304,12 @@ if __name__ == "__main__":
     import uvicorn
     logger.info("MathSheet Pro — BC Math Worksheet Generator (Grade 1–9)")
     logger.info("Framework: FastAPI + Uvicorn")
-    if GOOGLE_CLOUD_PROJECT:
-        logger.info("Vertex AI primary  | project=%s location=%s model=%s", GOOGLE_CLOUD_PROJECT, GOOGLE_CLOUD_LOCATION, VERTEX_MODEL)
+    if GEMINI_API_KEY:
+        logger.info("Gemini primary         | model=%s", GEMINI_MODEL)
     else:
-        logger.warning("GOOGLE_CLOUD_PROJECT not set — Vertex AI disabled")
+        logger.warning("GEMINI_API_KEY not set — Gemini disabled")
     if GROQ_API_KEY:
-        logger.info("Groq first fallback | model=%s", GROQ_MODEL)
+        logger.info("Groq first fallback    | model=%s", GROQ_MODEL)
     else:
         logger.warning("GROQ_API_KEY not set — Groq fallback disabled")
     if OPENROUTER_API_KEY:
