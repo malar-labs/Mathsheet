@@ -383,9 +383,6 @@ function topicCardHTML(section, i) {
         : st.firstOpen === -1 ? ['finished', `Finished · score ${st.score}`]
         : ['in-progress', 'In progress'];
     const cta = st.answered === 0 ? 'Start' : st.firstOpen === -1 ? 'Review' : 'Continue';
-    const skills = section.key_concepts
-        .map(k => (typeof k === 'string' ? k : k.text))
-        .map(t => `<li>${renderMath(t)}</li>`).join('');
     return `
         <a class="ul-topic-card" href="${topicUrl(section.id)}" style="--topic-color:${escHTML(section.color || '#6C63FF')}">
             <div class="ul-topic-head">
@@ -393,10 +390,9 @@ function topicCardHTML(section, i) {
                 <span class="ul-topic-emoji">${section.emoji}</span>
                 <div>
                     <div class="ul-topic-title">${escHTML(section.title)}</div>
-                    <div class="ul-topic-meta">${qs.length} questions${words ? ` · ${words} word problems` : ''}</div>
+                    <div class="ul-topic-meta">${qs.length} questions${words ? ` · ${words} word` : ''}</div>
                 </div>
             </div>
-            <ul class="ul-topic-skills">${skills}</ul>
             <div class="ul-topic-foot">
                 <div class="ul-topic-progress">${progressBarHTML(st.answered, st.total)}<span>${st.answered}/${st.total}</span></div>
                 <span class="ul-topic-status ul-status-${status[0]}">${status[1]}</span>
@@ -430,10 +426,6 @@ function menuPageHTML(section, qs) {
     return `
         <div class="ul-layout">
             <div class="ul-layout-main">
-                <section class="ul-panel ul-intro-panel">
-                    <div class="ul-kicker">📘 The big idea</div>
-                    <p class="ul-lesson-blurb">${escHTML(section.blurb)}</p>
-                </section>
                 <div class="ul-choice-grid">
                     <button class="ul-choice" data-go="lesson">
                         <span class="ul-choice-emoji" aria-hidden="true">📖</span>

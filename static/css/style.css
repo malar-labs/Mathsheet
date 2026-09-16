@@ -327,9 +327,17 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
     transform: translateY(-1px);
 }
 
+/* turned off for now — still visible, so it reads as "not yet" rather than gone */
+.btn-header-login.is-disabled {
+    display: inline-block;
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* ===== HEADER ===== */
 .app-header {
-    background: linear-gradient(135deg, #6C63FF 0%, #a78bfa 50%, #4ECDC4 100%);
+    background: var(--purple);
     padding: 0.9rem 2rem;
     position: sticky;
     top: 0;
@@ -1257,7 +1265,7 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
 
 /* Worksheet header banner */
 .ws-header-banner {
-    background: linear-gradient(135deg, #6C63FF 0%, #a78bfa 60%, #4ECDC4 100%);
+    background: var(--purple);
     padding: 1.5rem 2rem;
     color: white;
     display: flex;
@@ -1505,7 +1513,7 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
 }
 
 .ws-ak-header {
-    background: linear-gradient(135deg, #2D3436, #636E72);
+    background: var(--dark);
     color: white;
     padding: 1rem 1.5rem;
     border-radius: 12px;

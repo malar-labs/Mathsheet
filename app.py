@@ -106,7 +106,7 @@ async def home(request: Request):
     return templates.TemplateResponse(
         request,
         "units_home.html",
-        {"catalog": UNITS_CATALOG}
+        {"grades": catalog_by_grade()}
     )
 
 
@@ -134,9 +134,19 @@ UNITS_CATALOG = [
         "available": True,
     },
     {
+        "grade": 8, "unit": "algebra", "title": "Algebra", "emoji": "⚖️",
+        "description": "Writing and simplifying expressions, and solving two-step equations.",
+        "available": False,
+    },
+    {
         "grade": 9, "unit": "rational-numbers", "title": "Rational Numbers", "emoji": "±",
         "description": "Comparing and ordering, the four operations in decimal and fraction form with negatives, and order of operations.",
         "available": True,
+    },
+    {
+        "grade": 9, "unit": "exponents", "title": "Exponents & Powers", "emoji": "xⁿ",
+        "description": "Powers with integral exponents, and the exponent laws for multiplying, dividing and raising powers.",
+        "available": False,
     },
     {
         "grade": 3, "unit": "coming-soon", "title": "Coming soon", "emoji": "🧮",
@@ -158,6 +168,36 @@ def load_unit_bundle(grade: int, unit: str):
     return {"lessons": lessons, "questions": questions.get("questions", [])}
 
 
+def catalog_by_grade():
+    """The catalog grouped under its grades, so the landing page shows the
+    Grade → Unit → Topics hierarchy. Counts come from each unit's own JSON,
+    so they can't drift from the content.
+
+    Grades you can actually study come first, in grade order; grades that only
+    hold "coming soon" placeholders sink to the bottom rather than leading the
+    page with something nobody can open."""
+    grades: dict[int, list] = {}
+    for item in UNITS_CATALOG:
+        entry = dict(item)
+        bundle = load_unit_bundle(item["grade"], item["unit"]) if item["available"] else None
+        if bundle:
+            entry["topics"] = [
+                {"id": s["id"], "title": s["title"]} for s in bundle["lessons"]["sections"]
+            ]
+            entry["question_count"] = len(bundle["questions"])
+        grades.setdefault(item["grade"], []).append(entry)
+
+    def order(grade):
+        has_units = any(unit["available"] for unit in grades[grade])
+        return (0 if has_units else 1, grade)
+
+    # ...and inside a grade, the units you can open come before the placeholders.
+    return [
+        {"grade": grade, "units": sorted(grades[grade], key=lambda u: not u["available"])}
+        for grade in sorted(grades, key=order)
+    ]
+
+
 @app.get("/units")
 async def units_home():
     # The catalog moved to the landing page; keep older links working.
@@ -173,7 +213,7 @@ def render_unit_page(request: Request, grade: int, unit: str, section_id: str | 
         return templates.TemplateResponse(
             request,
             "units_home.html",
-            {"catalog": UNITS_CATALOG, "not_found": True},
+            {"grades": catalog_by_grade(), "not_found": True},
             status_code=404,
         )
     return templates.TemplateResponse(
