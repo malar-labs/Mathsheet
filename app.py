@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from starlette.middleware.sessions import SessionMiddleware
 from markupsafe import Markup
 from pydantic import BaseModel
@@ -100,7 +100,18 @@ def extract_json(text: str) -> dict:
 # ===== ROUTES =====
 
 @app.get("/")
-async def index(request: Request):
+async def home(request: Request):
+    """Unit-wise learning is the landing page; the worksheet generator is one
+    click away at /generator."""
+    return templates.TemplateResponse(
+        request,
+        "units_home.html",
+        {"catalog": UNITS_CATALOG}
+    )
+
+
+@app.get("/generator")
+async def generator(request: Request):
     return templates.TemplateResponse(
         request,
         "index.html",
@@ -148,12 +159,9 @@ def load_unit_bundle(grade: int, unit: str):
 
 
 @app.get("/units")
-async def units_home(request: Request):
-    return templates.TemplateResponse(
-        request,
-        "units_home.html",
-        {"catalog": UNITS_CATALOG},
-    )
+async def units_home():
+    # The catalog moved to the landing page; keep older links working.
+    return RedirectResponse("/", status_code=308)
 
 
 def render_unit_page(request: Request, grade: int, unit: str, section_id: str | None = None):
