@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit-Wise Learning — MathSheet Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/unit_learning.css') }}">
+</head>
+<body>
+
+<header class="app-header no-print">
+    <div class="header-inner">
+        <a class="logo" href="/" style="text-decoration:none">
+            <div class="logo-icon-wrap">📐</div>
+            <div>
+                <div class="logo-title">MathSheet <span>Pro</span></div>
+                <div class="logo-sub">BC Curriculum · Math Worksheet Generator</div>
+            </div>
+        </a>
+        <div class="header-right">
+            <a href="/" class="btn-header-login">← Back to Worksheet Generator</a>
+        </div>
+    </div>
+</header>
+
+<main class="main">
+    <div class="section-header">
+        <h2>🧩 Unit-Wise Learning</h2>
+        <p>Pick a unit below to learn it step-by-step, then practice with instant feedback — no worksheet generation needed for these!</p>
+    </div>
+
+    {% if not_found %}
+    <div class="ul-notice">That unit isn't available yet — pick one below.</div>
+    {% endif %}
+
+    <div class="ul-catalog-grid">
+        {% for item in catalog %}
+        {% if item.available %}
+        <a class="ul-catalog-card" href="/units/grade{{ item.grade }}/{{ item.unit }}">
+        {% else %}
+        <div class="ul-catalog-card ul-catalog-card-disabled">
+        {% endif %}
+            <div class="ul-catalog-emoji">{{ item.emoji }}</div>
+            <div class="ul-catalog-grade">Grade {{ item.grade }}</div>
+            <div class="ul-catalog-title">{{ item.title }}</div>
+            <div class="ul-catalog-desc">{{ item.description }}</div>
+            {% if not item.available %}<div class="ul-catalog-badge">Coming soon</div>{% endif %}
+        {% if item.available %}
+        </a>
+        {% else %}
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</main>
+
+</body>
+</html>

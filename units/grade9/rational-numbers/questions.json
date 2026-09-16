@@ -1,0 +1,1381 @@
+{
+  "questions": [
+    {
+      "id": "intro-01",
+      "section": "intro",
+      "qtype": "choice",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Is {-3} a rational number?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "answer": {
+        "choice": "Yes",
+        "display": "Yes"
+      },
+      "steps": "Every integer is already a fraction: -3 = -3/1. The top and bottom are both integers and the bottom isn't 0, so -3 is rational.",
+      "tip": "Ask yourself: can I write this as one integer over another integer? Whole numbers, terminating decimals and repeating decimals always can. A square root can only if the root comes out exactly."
+    },
+    {
+      "id": "intro-02",
+      "section": "intro",
+      "qtype": "choice",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Is 0.25 a rational number?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "answer": {
+        "choice": "Yes",
+        "display": "Yes"
+      },
+      "steps": "0.25 = 25/100, and both 25 and 100 are integers. Reduced, that's 1/4. Every terminating decimal is rational.",
+      "tip": "Ask yourself: can I write this as one integer over another integer? Whole numbers, terminating decimals and repeating decimals always can. A square root can only if the root comes out exactly."
+    },
+    {
+      "id": "intro-03",
+      "section": "intro",
+      "qtype": "choice",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Is √10 a rational number?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "answer": {
+        "choice": "No",
+        "display": "No"
+      },
+      "steps": "10 is not a perfect square: 3² = 9 and 4² = 16, so √10 sits between 3 and 4. Its decimal never ends and never repeats, so it can't be written as a fraction.",
+      "tip": "Ask yourself: can I write this as one integer over another integer? Whole numbers, terminating decimals and repeating decimals always can. A square root can only if the root comes out exactly."
+    },
+    {
+      "id": "intro-04",
+      "section": "intro",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Write 0.25 as a fully reduced fraction.",
+      "answer": {
+        "num": 1,
+        "den": 4,
+        "whole": 0,
+        "display": "1/4"
+      },
+      "steps": "0.25 has 2 decimal places, so put 25 over 100: 25/100. Reduce: GCD(25, 100) = 25, so divide top and bottom by 25 to get 1/4.",
+      "tip": "Put the digits over the matching power of 10 — one decimal place means /10, two decimal places means /100 — then reduce."
+    },
+    {
+      "id": "intro-05",
+      "section": "intro",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Write -0.7 as a fully reduced fraction.",
+      "answer": {
+        "num": -7,
+        "den": 10,
+        "whole": 0,
+        "display": "-7/10"
+      },
+      "steps": "0.7 has 1 decimal place, so that's 7/10, and the number is negative: -7/10. GCD(7, 10) = 1, so -7/10 is already fully reduced.",
+      "tip": "Work with the size first (0.7 = 7/10), then put the minus sign back on the top."
+    },
+    {
+      "id": "intro-06",
+      "section": "intro",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Simplify √16 / √49.",
+      "answer": {
+        "num": 4,
+        "den": 7,
+        "whole": 0,
+        "display": "4/7"
+      },
+      "steps": "√16 = 4 because 4² = 16, and √49 = 7 because 7² = 49. Both roots come out exactly, so the value is 4/7 — a rational number. GCD(4, 7) = 1, so 4/7 is already fully reduced.",
+      "tip": "Take the square root of the top and the bottom separately. If both are perfect squares, the result is a rational number."
+    },
+    {
+      "id": "intro-07",
+      "section": "intro",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "Simplify √(50/72).",
+      "answer": {
+        "num": 5,
+        "den": 6,
+        "whole": 0,
+        "display": "5/6"
+      },
+      "steps": "Reduce inside the root first: GCD(50, 72) = 2, so 50/72 = 25/36. Now √25 = 5 and √36 = 6, so the value is 5/6. GCD(5, 6) = 1, so 5/6 is already fully reduced.",
+      "tip": "Reduce the fraction under the root before taking any roots — 50 and 72 aren't perfect squares, but 25 and 36 are."
+    },
+    {
+      "id": "intro-08",
+      "section": "intro",
+      "qtype": "choice",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "Kai says that 7.656565... (the 65 repeats forever) is a rational number. Is Kai right?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "answer": {
+        "choice": "Yes",
+        "display": "Yes"
+      },
+      "steps": "Repeating decimals are rational. 7.656565... = 7 + 65/99 = 758/99, which is one integer over another, so Kai is right.",
+      "tip": "Ask yourself: can I write this as one integer over another integer? Whole numbers, terminating decimals and repeating decimals always can. A square root can only if the root comes out exactly."
+    },
+    {
+      "id": "intro-09",
+      "section": "intro",
+      "qtype": "choice",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "A square patio has an area of 2.5 m². Ana says its side length, √2.5 m, is a rational number. Is Ana right?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "answer": {
+        "choice": "No",
+        "display": "No"
+      },
+      "steps": "For √2.5 to be rational the root would have to come out exactly. 1.5² = 2.25 and 1.6² = 2.56, so √2.5 is between 1.5 and 1.6 and never settles into a terminating or repeating decimal. Ana is wrong.",
+      "tip": "Ask yourself: can I write this as one integer over another integer? Whole numbers, terminating decimals and repeating decimals always can. A square root can only if the root comes out exactly."
+    },
+    {
+      "id": "intro-10",
+      "section": "intro",
+      "qtype": "fraction",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "A hiker ends a walk 0.8 km lower than where she started, so her change in elevation is -0.8 km. Write -0.8 as a fully reduced fraction.",
+      "answer": {
+        "num": -4,
+        "den": 5,
+        "whole": 0,
+        "display": "-4/5"
+      },
+      "steps": "0.8 has 1 decimal place, so that's 8/10, and the change is downwards so it is negative: -8/10. Reduce: GCD(8, 10) = 2, so divide top and bottom by 2 to get -4/5.",
+      "tip": "'Lower than where she started' means the signed number is negative. Convert 0.8 to a fraction first, then attach the minus sign."
+    },
+    {
+      "id": "compare-01",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Which sign goes between {-3/4} and -0.8?  (< , > , or =)",
+      "answer": {
+        "symbol": ">",
+        "display": ">"
+      },
+      "steps": "-3/4 = -0.75 and the other number is -0.8. On a number line -0.8 is further left, so -3/4 is the bigger number: -3/4 > -0.8.",
+      "tip": "Turn everything into a decimal, then picture a number line. The further LEFT a number is, the smaller it is — so with two negatives, the one with the bigger size is the smaller number."
+    },
+    {
+      "id": "compare-02",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Which sign goes between {-26/8} and {-3_1/4}?  (< , > , or =)",
+      "answer": {
+        "symbol": "=",
+        "display": "="
+      },
+      "steps": "-26/8 reduces to -13/4 = -3.25, and -3 1/4 is also -3.25. They are the same number written two ways, so the sign is =.",
+      "tip": "Turn everything into a decimal, then picture a number line. The further LEFT a number is, the smaller it is — so with two negatives, the one with the bigger size is the smaller number."
+    },
+    {
+      "id": "compare-03",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Which sign goes between -8.29 and -8.3?  (< , > , or =)",
+      "answer": {
+        "symbol": ">",
+        "display": ">"
+      },
+      "steps": "Line the decimals up as -8.29 and -8.30. The size 8.29 is smaller than 8.30, so -8.29 is closer to zero — which makes it the bigger number: -8.29 > -8.3.",
+      "tip": "Turn everything into a decimal, then picture a number line. The further LEFT a number is, the smaller it is — so with two negatives, the one with the bigger size is the smaller number."
+    },
+    {
+      "id": "compare-04",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "Which sign goes between 4.2 and √20?  (< , > , or =)",
+      "answer": {
+        "symbol": "<",
+        "display": "<"
+      },
+      "steps": "4.2² = 17.64, which is less than 20, so √20 must be bigger than 4.2 (√20 ≈ 4.47). So 4.2 < √20.",
+      "tip": "You don't need a calculator: square the decimal and compare it with the number under the root sign."
+    },
+    {
+      "id": "compare-05",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Which sign goes between {-3/4} and {-2/3}?  (< , > , or =)",
+      "answer": {
+        "symbol": "<",
+        "display": "<"
+      },
+      "steps": "-3/4 = -0.75 and -2/3 = -0.6666... -0.75 is further left on the number line, so -3/4 < -2/3.",
+      "tip": "Turn everything into a decimal, then picture a number line. The further LEFT a number is, the smaller it is — so with two negatives, the one with the bigger size is the smaller number."
+    },
+    {
+      "id": "compare-06",
+      "section": "compare",
+      "qtype": "order",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "Click these in ascending order (least to greatest).",
+      "options": [
+        "-1.2",
+        "{4/5}",
+        "{7/8}",
+        "-0.4",
+        "{-5/8}"
+      ],
+      "answer": {
+        "order": [
+          "-1.2",
+          "{-5/8}",
+          "-0.4",
+          "{4/5}",
+          "{7/8}"
+        ],
+        "display": "-1.2, -5/8, -0.4, 4/5, 7/8"
+      },
+      "steps": "As decimals: -1.2, 4/5 = 0.8, 7/8 = 0.875, -0.4, -5/8 = -0.625. Reading a number line left to right: -1.2, -0.625, -0.4, 0.8, 0.875.",
+      "tip": "Convert every fraction to a decimal first, then sort. All the negatives come before all the positives."
+    },
+    {
+      "id": "compare-07",
+      "section": "compare",
+      "qtype": "order",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Click these in descending order (greatest to least).",
+      "options": [
+        "0.25",
+        "{-1_1/2}",
+        "{1/2}",
+        "-0.1",
+        "-0.6"
+      ],
+      "answer": {
+        "order": [
+          "{1/2}",
+          "0.25",
+          "-0.1",
+          "-0.6",
+          "{-1_1/2}"
+        ],
+        "display": "1/2, 0.25, -0.1, -0.6, -1 1/2"
+      },
+      "steps": "As decimals: 0.25, -1 1/2 = -1.5, 1/2 = 0.5, -0.1, -0.6. Biggest to smallest: 0.5, 0.25, -0.1, -0.6, -1.5.",
+      "tip": "Descending means you start at the right-hand end of the number line and work left. Among the negatives, the one closest to zero comes first."
+    },
+    {
+      "id": "compare-08",
+      "section": "compare",
+      "qtype": "choice",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "Which of these lies between -0.7 and -0.8?",
+      "options": [
+        "{-3/4}",
+        "{-2/3}",
+        "{-7/8}",
+        "{-1/2}"
+      ],
+      "answer": {
+        "choice": "{-3/4}",
+        "display": "-3/4"
+      },
+      "steps": "As decimals: -3/4 = -0.75, -2/3 = -0.666..., -7/8 = -0.875, -1/2 = -0.5. Only -0.75 sits between -0.8 and -0.7.",
+      "tip": "Convert each option to a decimal and check which one falls between -0.8 and -0.7 on the number line. Remember -0.8 is to the LEFT of -0.7."
+    },
+    {
+      "id": "compare-09",
+      "section": "compare",
+      "qtype": "order",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "Daily temperatures in Kamloops B.C. were: Monday -2.1 °C, Tuesday -7.5 °C, Wednesday 3.6 °C, Thursday -0.5 °C, Friday 1.5 °C. Click the days in order from coldest to warmest.",
+      "options": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "answer": {
+        "order": [
+          "Tuesday",
+          "Monday",
+          "Thursday",
+          "Friday",
+          "Wednesday"
+        ],
+        "display": "Tuesday, Monday, Thursday, Friday, Wednesday"
+      },
+      "steps": "Sort the temperatures from least to greatest: -7.5, -2.1, -0.5, 1.5, 3.6. That gives Tuesday, Monday, Thursday, Friday, Wednesday.",
+      "tip": "Coldest means most negative. -7.5 is colder than -2.1, even though 7.5 is the bigger number."
+    },
+    {
+      "id": "compare-10",
+      "section": "compare",
+      "qtype": "order",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "Boiling points: Water 100 °C, Oxygen -183 °C, Carbon Dioxide -78.5 °C, Helium -269 °C, Olive Oil 300 °C. Click them from least to greatest.",
+      "options": [
+        "Water",
+        "Oxygen",
+        "Carbon Dioxide",
+        "Helium",
+        "Olive Oil"
+      ],
+      "answer": {
+        "order": [
+          "Helium",
+          "Oxygen",
+          "Carbon Dioxide",
+          "Water",
+          "Olive Oil"
+        ],
+        "display": "Helium, Oxygen, Carbon Dioxide, Water, Olive Oil"
+      },
+      "steps": "Least to greatest: -269, -183, -78.5, 100, 300. That gives Helium, Oxygen, Carbon Dioxide, Water, Olive Oil.",
+      "tip": "All three negative boiling points come before the positive ones. Among the negatives, the biggest size is the smallest number."
+    },
+    {
+      "id": "compare-11",
+      "section": "compare",
+      "qtype": "order",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "Melting points: Oxygen -222.7 °C, Mercury -38.7 °C, Nitrogen -209.9 °C, Sulfur 115.4 °C, Sodium 98 °C. Click them in descending order (highest melting point first).",
+      "options": [
+        "Oxygen",
+        "Mercury",
+        "Nitrogen",
+        "Sulfur",
+        "Sodium"
+      ],
+      "answer": {
+        "order": [
+          "Sulfur",
+          "Sodium",
+          "Mercury",
+          "Nitrogen",
+          "Oxygen"
+        ],
+        "display": "Sulfur, Sodium, Mercury, Nitrogen, Oxygen"
+      },
+      "steps": "Greatest to least: 115.4, 98, -38.7, -209.9, -222.7. That gives Sulfur, Sodium, Mercury, Nitrogen, Oxygen.",
+      "tip": "Start with the positives, biggest first. Then the negatives, closest to zero first — -38.7 is higher than -209.9."
+    },
+    {
+      "id": "compare-12",
+      "section": "compare",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "In Kamloops the warmest day was 3.6 °C and the coldest was -7.5 °C. What is the difference between the warmest and the coldest day, in °C?",
+      "answer": {
+        "value": 11.1,
+        "display": "11.1"
+      },
+      "steps": "Difference = warmest - coldest = 3.6 - (-7.5). Subtracting a negative is adding: 3.6 + 7.5 = 11.1 °C.",
+      "tip": "Difference means bigger minus smaller. Subtracting a negative turns into adding, so the gap is bigger than either number on its own."
+    },
+    {
+      "id": "dec-add-01",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "-2.8 + (-4.3) =",
+      "answer": {
+        "value": -7.1,
+        "display": "-7.1"
+      },
+      "steps": "Both numbers have the same sign, so add the sizes and keep that sign: 2.8 + 4.3 = 7.1, giving -7.1.",
+      "tip": "Estimate first by rounding to whole numbers, so you know what sign and roughly what size to expect. Same signs: add the sizes and keep the sign. Different signs: subtract the smaller size from the bigger one and keep the sign of the bigger."
+    },
+    {
+      "id": "dec-add-02",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5.2 + (-3.9) =",
+      "answer": {
+        "value": 1.3,
+        "display": "1.3"
+      },
+      "steps": "The signs are different, so take the smaller size away from the bigger one: 5.2 - 3.9 = 1.3. The bigger size came from 5.2, so the answer keeps that sign: 1.3.",
+      "tip": "Estimate first by rounding to whole numbers, so you know what sign and roughly what size to expect. Same signs: add the sizes and keep the sign. Different signs: subtract the smaller size from the bigger one and keep the sign of the bigger."
+    },
+    {
+      "id": "dec-add-03",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "-5.7 + 11.2 =",
+      "answer": {
+        "value": 5.5,
+        "display": "5.5"
+      },
+      "steps": "The signs are different, so take the smaller size away from the bigger one: 11.2 - 5.7 = 5.5. The bigger size came from 11.2, so the answer keeps that sign: 5.5.",
+      "tip": "Estimate first by rounding to whole numbers, so you know what sign and roughly what size to expect. Same signs: add the sizes and keep the sign. Different signs: subtract the smaller size from the bigger one and keep the sign of the bigger."
+    },
+    {
+      "id": "dec-add-04",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "(-7.83) + 1.61 =",
+      "answer": {
+        "value": -6.22,
+        "display": "-6.22"
+      },
+      "steps": "The signs are different, so take the smaller size away from the bigger one: 7.83 - 1.61 = 6.22. The bigger size came from -7.83, so the answer keeps that sign: -6.22.",
+      "tip": "Estimate first by rounding to whole numbers, so you know what sign and roughly what size to expect. Same signs: add the sizes and keep the sign. Different signs: subtract the smaller size from the bigger one and keep the sign of the bigger."
+    },
+    {
+      "id": "dec-add-05",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "-2.75 + (-4.81) =",
+      "answer": {
+        "value": -7.56,
+        "display": "-7.56"
+      },
+      "steps": "Both numbers have the same sign, so add the sizes and keep that sign: 2.75 + 4.81 = 7.56, giving -7.56.",
+      "tip": "Estimate first by rounding to whole numbers, so you know what sign and roughly what size to expect. Same signs: add the sizes and keep the sign. Different signs: subtract the smaller size from the bigger one and keep the sign of the bigger."
+    },
+    {
+      "id": "dec-add-06",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "2.47 - 3.1 =",
+      "answer": {
+        "value": -0.63,
+        "display": "-0.63"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 2.47 - 3.1 = 2.47 + (-3.1). The signs are different, so take the smaller size away from the bigger one: 3.1 - 2.47 = 0.63. The bigger size came from -3.1, so the answer keeps that sign: -0.63.",
+      "tip": "Estimate first by rounding to whole numbers, so you know what sign and roughly what size to expect. Same signs: add the sizes and keep the sign. Different signs: subtract the smaller size from the bigger one and keep the sign of the bigger."
+    },
+    {
+      "id": "dec-add-07",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "5.21 - (-6.92) =",
+      "answer": {
+        "value": 12.13,
+        "display": "12.13"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 5.21 - (-6.92) = 5.21 + 6.92. Both numbers have the same sign, so add the sizes and keep that sign: 5.21 + 6.92 = 12.13, giving 12.13.",
+      "tip": "Estimate first by rounding to whole numbers, so you know what sign and roughly what size to expect. Same signs: add the sizes and keep the sign. Different signs: subtract the smaller size from the bigger one and keep the sign of the bigger."
+    },
+    {
+      "id": "dec-add-08",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "-5.21 - (-6.92) =",
+      "answer": {
+        "value": 1.71,
+        "display": "1.71"
+      },
+      "steps": "Subtracting is the same as adding the opposite: -5.21 - (-6.92) = -5.21 + 6.92. The signs are different, so take the smaller size away from the bigger one: 6.92 - 5.21 = 1.71. The bigger size came from 6.92, so the answer keeps that sign: 1.71.",
+      "tip": "Estimate first by rounding to whole numbers, so you know what sign and roughly what size to expect. Same signs: add the sizes and keep the sign. Different signs: subtract the smaller size from the bigger one and keep the sign of the bigger."
+    },
+    {
+      "id": "dec-add-09",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "In Prince George B.C. the average mid-afternoon temperature in January is -4.1 °C. In July it is 22.5 °C. How many degrees colder is Prince George in January than in July?",
+      "answer": {
+        "value": 26.6,
+        "display": "26.6"
+      },
+      "steps": "Take the difference: 22.5 - (-4.1). Subtracting a negative is adding, so 22.5 + 4.1 = 26.6. Prince George is 26.6 °C colder in January.",
+      "tip": "'How much colder' is a difference: warmer temperature minus colder temperature. Watch for the double minus."
+    },
+    {
+      "id": "dec-add-10",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 1,
+      "prompt": "A pelican dives from a height of 2.4 m above the water to catch a fish 1.3 m below the water. How long is the pelican's dive, in metres?",
+      "answer": {
+        "value": 3.7,
+        "display": "3.7"
+      },
+      "steps": "Above the water is +2.4 and below the water is -1.3. The length of the dive is the distance between them: 2.4 - (-1.3) = 2.4 + 1.3 = 3.7 m.",
+      "tip": "Draw the water line as 0. The dive covers the distance above it plus the distance below it."
+    },
+    {
+      "id": "dec-add-11",
+      "section": "dec-add",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "A Death Valley ultra-marathon starts 86 m below sea level and finishes at an elevation of 2548 m above sea level. What is the total elevation gained, in metres?",
+      "answer": {
+        "value": 2634.0,
+        "display": "2634"
+      },
+      "steps": "Below sea level is -86 and above sea level is +2548. Elevation gained = finish - start = 2548 - (-86) = 2548 + 86 = 2634 m.",
+      "tip": "Below sea level is a negative elevation. Finish minus start, and the double minus turns into a plus."
+    },
+    {
+      "id": "dec-mult-01",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2.8 × (-0.2) =",
+      "answer": {
+        "value": -0.56,
+        "display": "-0.56"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Now work with the sizes only: 2.8 × 0.2 = 0.56. Put the sign back on: -0.56.",
+      "tip": "Work out the sizes first and put the sign on at the end: same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "dec-mult-02",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "(-0.6) × (-2.5) =",
+      "answer": {
+        "value": 1.5,
+        "display": "1.5"
+      },
+      "steps": "The two numbers have the same sign, so the answer is positive. Now work with the sizes only: 0.6 × 2.5 = 1.5. Put the sign back on: 1.5.",
+      "tip": "Work out the sizes first and put the sign on at the end: same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "dec-mult-03",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "(-0.12) × 4 =",
+      "answer": {
+        "value": -0.48,
+        "display": "-0.48"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Now work with the sizes only: 0.12 × 4 = 0.48. Put the sign back on: -0.48.",
+      "tip": "Work out the sizes first and put the sign on at the end: same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "dec-mult-04",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "0.3 × (-0.07) =",
+      "answer": {
+        "value": -0.021,
+        "display": "-0.021"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Now work with the sizes only: 0.3 × 0.07 = 0.021. Put the sign back on: -0.021.",
+      "tip": "Work out the sizes first and put the sign on at the end: same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "dec-mult-05",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "(-0.9) × (-4) =",
+      "answer": {
+        "value": 3.6,
+        "display": "3.6"
+      },
+      "steps": "The two numbers have the same sign, so the answer is positive. Now work with the sizes only: 0.9 × 4 = 3.6. Put the sign back on: 3.6.",
+      "tip": "Work out the sizes first and put the sign on at the end: same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "dec-mult-06",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "(-5.5) ÷ 1.1 =",
+      "answer": {
+        "value": -5.0,
+        "display": "-5"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Now work with the sizes only: 5.5 ÷ 1.1 = 5. Put the sign back on: -5.",
+      "tip": "Work out the sizes first and put the sign on at the end: same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "dec-mult-07",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "(-14.4) ÷ 1.2 =",
+      "answer": {
+        "value": -12.0,
+        "display": "-12"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Now work with the sizes only: 14.4 ÷ 1.2 = 12. Put the sign back on: -12.",
+      "tip": "Work out the sizes first and put the sign on at the end: same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "dec-mult-08",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "-4.2 ÷ 0.7 =",
+      "answer": {
+        "value": -6.0,
+        "display": "-6"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Now work with the sizes only: 4.2 ÷ 0.7 = 6. Put the sign back on: -6.",
+      "tip": "Work out the sizes first and put the sign on at the end: same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "dec-mult-09",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "(-9.2) ÷ (-0.01) =",
+      "answer": {
+        "value": 920.0,
+        "display": "920"
+      },
+      "steps": "The two numbers have the same sign, so the answer is positive. Now work with the sizes only: 9.2 ÷ 0.01 = 920. Put the sign back on: 920.",
+      "tip": "Work out the sizes first and put the sign on at the end: same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "dec-mult-10",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "A pelican's dive is 3.7 m long and takes 0.2 seconds. What is the pelican's dive speed, in metres per second?",
+      "answer": {
+        "value": 18.5,
+        "display": "18.5"
+      },
+      "steps": "Speed = distance ÷ time = 3.7 ÷ 0.2. Shift both numbers one place to divide by a whole number: 37 ÷ 2 = 18.5 m/s.",
+      "tip": "Speed is distance divided by time. Dividing by a number smaller than 1 makes the answer bigger than the distance."
+    },
+    {
+      "id": "dec-mult-11",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "On Saturday the temperature at Okanagan Lake near Kelowna B.C. decreased by 1.8 °C/h for 2.5 h, then decreased by 0.6 °C/h for 3.5 h. What was the total change in temperature, in °C?",
+      "answer": {
+        "value": -6.6,
+        "display": "-6.6"
+      },
+      "steps": "A decrease is a negative rate. First stretch: -1.8 × 2.5 = -4.5. Second stretch: -0.6 × 3.5 = -2.1. Total change: -4.5 + (-2.1) = -6.6 °C.",
+      "tip": "'Decreased by' means the rate is negative. Work out each stretch separately, then add the two changes together."
+    },
+    {
+      "id": "dec-mult-12",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "Over those same 6 hours at Okanagan Lake the temperature changed by a total of -6.6 °C. What was the average rate of change, in °C per hour?",
+      "answer": {
+        "value": -1.1,
+        "display": "-1.1"
+      },
+      "steps": "Average rate = total change ÷ total time. The total time is 2.5 + 3.5 = 6 h, so -6.6 ÷ 6 = -1.1 °C/h.",
+      "tip": "Add the two stretches of time together first, then divide the total change by the total time. The answer stays negative because the temperature fell."
+    },
+    {
+      "id": "dec-mult-13",
+      "section": "dec-mult",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "A submarine was travelling at a depth of 153 m and rose at 2.4 metres per minute for 8 minutes. What was the submarine's depth at the end of the rise, in metres?",
+      "answer": {
+        "value": 133.8,
+        "display": "133.8"
+      },
+      "steps": "How far it rose: 2.4 × 8 = 19.2 m. Rising makes the depth smaller: 153 - 19.2 = 133.8 m.",
+      "tip": "Find the total distance risen first (rate × time), then take it off the starting depth — rising means less depth."
+    },
+    {
+      "id": "frac-add-01",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{-2/3} + {1/5} =",
+      "answer": {
+        "num": -7,
+        "den": 15,
+        "whole": 0,
+        "display": "-7/15"
+      },
+      "steps": "The LCM of the denominators 3 and 5 is 15. Rewrite both: -2/3 = -10/15 and 1/5 = 3/15. Add the numerators and keep the denominator: -10 + 3 = -7, so -7/15. GCD(7, 15) = 1, so -7/15 is already fully reduced.",
+      "tip": "Turn mixed numbers into improper fractions first (keeping the sign), then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. Reduce at the end."
+    },
+    {
+      "id": "frac-add-02",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{4/5} - ({-3/10}) =",
+      "answer": {
+        "num": 11,
+        "den": 10,
+        "whole": 0,
+        "display": "11/10"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 4/5 - (-3/10) = 4/5 + 3/10. The LCM of the denominators 5 and 10 is 10. Rewrite both: 4/5 = 8/10 and 3/10 = 3/10. Add the numerators and keep the denominator: 8 + 3 = 11, so 11/10. GCD(11, 10) = 1, so 11/10 is already fully reduced.",
+      "tip": "Turn mixed numbers into improper fractions first (keeping the sign), then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. Reduce at the end."
+    },
+    {
+      "id": "frac-add-03",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{5/6} - 2 =",
+      "answer": {
+        "num": -7,
+        "den": 6,
+        "whole": 0,
+        "display": "-7/6"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 5/6 - 2 = 5/6 + (-2). The LCM of the denominators 6 and 1 is 6. Rewrite both: 5/6 = 5/6 and -2 = -12/6. Add the numerators and keep the denominator: 5 + (-12) = -7, so -7/6. GCD(7, 6) = 1, so -7/6 is already fully reduced.",
+      "tip": "Turn mixed numbers into improper fractions first (keeping the sign), then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. Reduce at the end."
+    },
+    {
+      "id": "frac-add-04",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{1_1/2} + ({-4/15}) =",
+      "answer": {
+        "num": 37,
+        "den": 30,
+        "whole": 0,
+        "display": "37/30"
+      },
+      "steps": "The LCM of the denominators 2 and 15 is 30. Rewrite both: 3/2 = 45/30 and -4/15 = -8/30. Add the numerators and keep the denominator: 45 + (-8) = 37, so 37/30. GCD(37, 30) = 1, so 37/30 is already fully reduced.",
+      "tip": "Turn mixed numbers into improper fractions first (keeping the sign), then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. Reduce at the end."
+    },
+    {
+      "id": "frac-add-05",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{-1/4} + {1_5/6} =",
+      "answer": {
+        "num": 19,
+        "den": 12,
+        "whole": 0,
+        "display": "19/12"
+      },
+      "steps": "The LCM of the denominators 4 and 6 is 12. Rewrite both: -1/4 = -3/12 and 11/6 = 22/12. Add the numerators and keep the denominator: -3 + 22 = 19, so 19/12. GCD(19, 12) = 1, so 19/12 is already fully reduced.",
+      "tip": "Turn mixed numbers into improper fractions first (keeping the sign), then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. Reduce at the end."
+    },
+    {
+      "id": "frac-add-06",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{1_2/3} + ({-2_1/2}) =",
+      "answer": {
+        "num": -5,
+        "den": 6,
+        "whole": 0,
+        "display": "-5/6"
+      },
+      "steps": "The LCM of the denominators 3 and 2 is 6. Rewrite both: 5/3 = 10/6 and -5/2 = -15/6. Add the numerators and keep the denominator: 10 + (-15) = -5, so -5/6. GCD(5, 6) = 1, so -5/6 is already fully reduced.",
+      "tip": "Turn mixed numbers into improper fractions first (keeping the sign), then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. Reduce at the end."
+    },
+    {
+      "id": "frac-add-07",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{-1/4} + ({-3_4/5}) =",
+      "answer": {
+        "num": -81,
+        "den": 20,
+        "whole": 0,
+        "display": "-81/20"
+      },
+      "steps": "The LCM of the denominators 4 and 5 is 20. Rewrite both: -1/4 = -5/20 and -19/5 = -76/20. Add the numerators and keep the denominator: -5 + (-76) = -81, so -81/20. GCD(81, 20) = 1, so -81/20 is already fully reduced.",
+      "tip": "Turn mixed numbers into improper fractions first (keeping the sign), then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. Reduce at the end."
+    },
+    {
+      "id": "frac-add-08",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{-3/14} - {2_1/7} =",
+      "answer": {
+        "num": -33,
+        "den": 14,
+        "whole": 0,
+        "display": "-33/14"
+      },
+      "steps": "Subtracting is the same as adding the opposite: -3/14 - 15/7 = -3/14 + (-15/7). The LCM of the denominators 14 and 7 is 14. Rewrite both: -3/14 = -3/14 and -15/7 = -30/14. Add the numerators and keep the denominator: -3 + (-30) = -33, so -33/14. GCD(33, 14) = 1, so -33/14 is already fully reduced.",
+      "tip": "Turn mixed numbers into improper fractions first (keeping the sign), then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. Reduce at the end."
+    },
+    {
+      "id": "frac-add-09",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "{5/9} - ({-1_5/12}) =",
+      "answer": {
+        "num": 71,
+        "den": 36,
+        "whole": 0,
+        "display": "71/36"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 5/9 - (-17/12) = 5/9 + 17/12. The LCM of the denominators 9 and 12 is 36. Rewrite both: 5/9 = 20/36 and 17/12 = 51/36. Add the numerators and keep the denominator: 20 + 51 = 71, so 71/36. GCD(71, 36) = 1, so 71/36 is already fully reduced.",
+      "tip": "Turn mixed numbers into improper fractions first (keeping the sign), then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. Reduce at the end."
+    },
+    {
+      "id": "frac-add-10",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "Cory is a baker. Today he needs {2_1/2} cups of sugar for tarts, {1/4} cup for bread and {1_1/3} cup for cake. How much sugar does he need in total, in cups?",
+      "answer": {
+        "num": 49,
+        "den": 12,
+        "whole": 0,
+        "display": "49/12"
+      },
+      "steps": "As improper fractions the total is 5/2 + 1/4 + 4/3. The LCM of 2, 4 and 3 is 12, so rewrite all three: 30/12 + 3/12 + 16/12. Add the numerators: 30 + 3 + 16 = 49, so 49/12. GCD(49, 12) = 1, so 49/12 is already fully reduced. (That's just over 4 cups.)",
+      "tip": "Convert every mixed number to an improper fraction, then use the LCM of 2, 4 and 3 as the common denominator."
+    },
+    {
+      "id": "frac-add-11",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "Lori is a carpenter with 24 m of baseboard. She installs {2/3} of the baseboard in one room and {1/4} of it in another. What FRACTION of the baseboard does she have left over?",
+      "answer": {
+        "num": 1,
+        "den": 12,
+        "whole": 0,
+        "display": "1/12"
+      },
+      "steps": "She starts with 1 whole lot of baseboard and uses 2/3 + 1/4 of it. The LCM of 3 and 4 is 12, so she uses 8/12 + 3/12 = 11/12 of it. What is left is 1 - 11/12 = 12/12 - 11/12 = 1/12. (As a length that is 1/12 of 24 m = 2 m.)",
+      "tip": "Both fractions are fractions OF the same 24 m, so work with 1 whole and subtract. The LCM of 3 and 4 is 12."
+    },
+    {
+      "id": "frac-add-12",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "At the start of a week Maka had $40 of her allowance left. That week she spent {2/5} of the money on bus fares, another {1/4} on shopping and {1/8} on snacks. What fraction of her money did she have left at the end of the week?",
+      "answer": {
+        "num": 9,
+        "den": 40,
+        "whole": 0,
+        "display": "9/40"
+      },
+      "steps": "She spent 2/5 + 1/4 + 1/8 of her money. The LCM of 5, 4 and 8 is 40, so that is 16/40 + 10/40 + 5/40 = 31/40. What is left is 1 - 31/40 = 9/40. (As money that is 9/40 of $40 = $9.)",
+      "tip": "Every fraction is a fraction of the same $40, so add them up and subtract from 1 whole. The LCM of 5, 4 and 8 is 40."
+    },
+    {
+      "id": "frac-add-13",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "Andy and Bee shared two same-size pizzas: the pepperoni was cut into {6} slices and the Hawaiian into {8} slices. Andy ate two slices of Hawaiian and one slice of pepperoni. Bee ate two slices of pepperoni and one slice of Hawaiian. How much more pizza did Bee eat than Andy, as a fraction of one pizza?",
+      "answer": {
+        "num": 1,
+        "den": 24,
+        "whole": 0,
+        "display": "1/24"
+      },
+      "steps": "Andy: 2/8 + 1/6 = 5/12. Bee: 2/6 + 1/8 = 11/24. Subtracting is the same as adding the opposite: 11/24 - 5/12 = 11/24 + (-5/12). The LCM of the denominators 24 and 12 is 24. Rewrite both: 11/24 = 11/24 and -5/12 = -10/24. Add the numerators and keep the denominator: 11 + (-10) = 1, so 1/24. GCD(1, 24) = 1, so 1/24 is already fully reduced.",
+      "tip": "A slice of Hawaiian is 1/8 of a pizza and a slice of pepperoni is 1/6. Work out each person's total first, then subtract."
+    },
+    {
+      "id": "frac-add-14",
+      "section": "frac-add",
+      "qtype": "fraction",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "Andy and Bee started with two whole pizzas. What fraction of the TOTAL pizza (both pizzas together) was left over?",
+      "answer": {
+        "num": 9,
+        "den": 16,
+        "whole": 0,
+        "display": "9/16"
+      },
+      "steps": "Together they ate 5/12 + 11/24 = 7/8 of a pizza. That leaves 2 - 7/8 = 9/8 of a pizza. As a fraction of the two whole pizzas, divide by 2: 9/8 ÷ 2 = 9/16.",
+      "tip": "Careful what the fraction is OF. Work out how much pizza is left first, then divide by 2 because there were two whole pizzas to begin with."
+    },
+    {
+      "id": "frac-mult-01",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{5/7} × ({-2/3}) =",
+      "answer": {
+        "num": -10,
+        "den": 21,
+        "whole": 0,
+        "display": "-10/21"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Multiply straight across: (5 × -2) / (7 × 3) = -10/21. GCD(10, 21) = 1, so -10/21 is already fully reduced.",
+      "tip": "No common denominator needed. Multiply straight across; to divide, keep-change-flip. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-mult-02",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{3/4} × ({-6/7}) =",
+      "answer": {
+        "num": -9,
+        "den": 14,
+        "whole": 0,
+        "display": "-9/14"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Multiply straight across: (3 × -6) / (4 × 7) = -18/28. Reduce: GCD(18, 28) = 2, so divide top and bottom by 2 to get -9/14.",
+      "tip": "No common denominator needed. Multiply straight across; to divide, keep-change-flip. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-mult-03",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "({-2_3/5}) × (-5) =",
+      "answer": {
+        "num": 13,
+        "den": 1,
+        "whole": 0,
+        "display": "13"
+      },
+      "steps": "The two numbers have the same sign, so the answer is positive. Multiply straight across: (-13 × -5) / (5 × 1) = 65/5. Reduce: GCD(65, 5) = 5, so divide top and bottom by 5 to get 13.",
+      "tip": "No common denominator needed. Multiply straight across; to divide, keep-change-flip. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-mult-04",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "-5 × {2_2/3} =",
+      "answer": {
+        "num": -40,
+        "den": 3,
+        "whole": 0,
+        "display": "-40/3"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Multiply straight across: (-5 × 8) / (1 × 3) = -40/3. GCD(40, 3) = 1, so -40/3 is already fully reduced.",
+      "tip": "No common denominator needed. Multiply straight across; to divide, keep-change-flip. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-mult-05",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{3/4} ÷ ({-6/7}) =",
+      "answer": {
+        "num": -7,
+        "den": 8,
+        "whole": 0,
+        "display": "-7/8"
+      },
+      "steps": "Keep-change-flip: 3/4 ÷ (-6/7) = 3/4 × (-7/6). The two numbers have different signs, so the answer is negative. Multiply straight across: (3 × -7) / (4 × 6) = -21/24. Reduce: GCD(21, 24) = 3, so divide top and bottom by 3 to get -7/8.",
+      "tip": "No common denominator needed. Multiply straight across; to divide, keep-change-flip. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-mult-06",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 ÷ ({-6/7}) =",
+      "answer": {
+        "num": -14,
+        "den": 3,
+        "whole": 0,
+        "display": "-14/3"
+      },
+      "steps": "Keep-change-flip: 4 ÷ (-6/7) = 4 × (-7/6). The two numbers have different signs, so the answer is negative. Multiply straight across: (4 × -7) / (1 × 6) = -28/6. Reduce: GCD(28, 6) = 2, so divide top and bottom by 2 to get -14/3.",
+      "tip": "No common denominator needed. Multiply straight across; to divide, keep-change-flip. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-mult-07",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "({-4/9}) ÷ ({-3/5}) =",
+      "answer": {
+        "num": 20,
+        "den": 27,
+        "whole": 0,
+        "display": "20/27"
+      },
+      "steps": "Keep-change-flip: -4/9 ÷ (-3/5) = -4/9 × (-5/3). The two numbers have the same sign, so the answer is positive. Multiply straight across: (-4 × -5) / (9 × 3) = 20/27. GCD(20, 27) = 1, so 20/27 is already fully reduced.",
+      "tip": "No common denominator needed. Multiply straight across; to divide, keep-change-flip. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-mult-08",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-7_1/2}) ÷ ({-20/21}) =",
+      "answer": {
+        "num": 63,
+        "den": 8,
+        "whole": 0,
+        "display": "63/8"
+      },
+      "steps": "Keep-change-flip: -15/2 ÷ (-20/21) = -15/2 × (-21/20). The two numbers have the same sign, so the answer is positive. Multiply straight across: (-15 × -21) / (2 × 20) = 315/40. Reduce: GCD(315, 40) = 5, so divide top and bottom by 5 to get 63/8.",
+      "tip": "No common denominator needed. Multiply straight across; to divide, keep-change-flip. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-mult-09",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-1_2/7}) × ({-1_1/6}) =",
+      "answer": {
+        "num": 3,
+        "den": 2,
+        "whole": 0,
+        "display": "3/2"
+      },
+      "steps": "The two numbers have the same sign, so the answer is positive. Multiply straight across: (-9 × -7) / (7 × 6) = 63/42. Reduce: GCD(63, 42) = 21, so divide top and bottom by 21 to get 3/2.",
+      "tip": "No common denominator needed. Multiply straight across; to divide, keep-change-flip. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-mult-10",
+      "section": "frac-mult",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 1,
+      "prompt": "Maka spent {2/5} of her $40 allowance on bus fares. How many dollars is that?",
+      "answer": {
+        "value": 16.0,
+        "display": "16"
+      },
+      "steps": "'Of' means multiply: 2/5 × 40 = 80/5 = 16. She spent $16 on bus fares.",
+      "tip": "'A fraction of an amount' means multiply. 2/5 of 40 is (2 × 40) ÷ 5."
+    },
+    {
+      "id": "frac-mult-11",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "A soup recipe calls for {1_1/3} cups of broth. How many full batches of soup can you make with 2 litres of broth?  (1 L is about 4 cups.)",
+      "answer": {
+        "num": 6,
+        "den": 1,
+        "whole": 0,
+        "display": "6"
+      },
+      "steps": "2 L is about 2 × 4 = 8 cups. Each batch takes 1 1/3 cups = 4/3 cups. Keep-change-flip: 8 ÷ 4/3 = 8 × 3/4. The two numbers have the same sign, so the answer is positive. Multiply straight across: (8 × 3) / (1 × 4) = 24/4. Reduce: GCD(24, 4) = 4, so divide top and bottom by 4 to get 6.",
+      "tip": "Convert the litres to cups first. 'How many batches fit' is a division: total cups ÷ cups per batch."
+    },
+    {
+      "id": "frac-mult-12",
+      "section": "frac-mult",
+      "qtype": "fraction",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "A diver descends {3/4} of a metre every second, so her change in depth is {-3/4} m each second. Written as a signed number, what is her total change in depth after {2_2/3} seconds, in metres?",
+      "answer": {
+        "num": -2,
+        "den": 1,
+        "whole": 0,
+        "display": "-2"
+      },
+      "steps": "Total change = rate × time = -3/4 × 8/3. The two numbers have different signs, so the answer is negative. Multiply straight across: (-3 × 8) / (4 × 3) = -24/12. Reduce: GCD(24, 12) = 12, so divide top and bottom by 12 to get -2.",
+      "tip": "Descending makes the change negative. Convert 2 2/3 to the improper fraction 8/3, then multiply straight across."
+    },
+    {
+      "id": "order-ops-01",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "-2.1 × 3 + 4.3 =",
+      "answer": {
+        "value": -2.0,
+        "display": "-2"
+      },
+      "steps": "No brackets or exponents, so multiply first: -2.1 × 3 = -6.3. Then add: -6.3 + 4.3 = -2.",
+      "tip": "Multiplication comes before addition, even though the addition is written further to the right."
+    },
+    {
+      "id": "order-ops-02",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "((-7.2) + 7.6) ÷ (-0.2) =",
+      "answer": {
+        "value": -2.0,
+        "display": "-2"
+      },
+      "steps": "Brackets first: -7.2 + 7.6 = 0.4. Then divide: 0.4 ÷ (-0.2) = -2 — different signs, so the answer is negative.",
+      "tip": "A fraction bar is a bracket: work out everything on top before you divide by what is underneath."
+    },
+    {
+      "id": "order-ops-03",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "-0.2(4.8 - 5.6) =",
+      "answer": {
+        "value": 0.16,
+        "display": "0.16"
+      },
+      "steps": "Brackets first: 4.8 - 5.6 = -0.8. A number written against a bracket means multiply: -0.2 × (-0.8) = 0.16 — two negatives make a positive.",
+      "tip": "A number sitting right beside a bracket means multiply. Do the subtraction inside the bracket first."
+    },
+    {
+      "id": "order-ops-04",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "(4.5 - 5.3)(5.7 - 6.5) =",
+      "answer": {
+        "value": 0.64,
+        "display": "0.64"
+      },
+      "steps": "Work out each bracket: 4.5 - 5.3 = -0.8 and 5.7 - 6.5 = -0.8. Then multiply: -0.8 × (-0.8) = 0.64 — same signs, positive answer.",
+      "tip": "Two brackets written side by side means multiply them. Do both brackets first."
+    },
+    {
+      "id": "order-ops-05",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "0.3² + (-0.8) ÷ 2 =",
+      "answer": {
+        "value": -0.31,
+        "display": "-0.31"
+      },
+      "steps": "Exponents first: 0.3² = 0.09. Then divide: -0.8 ÷ 2 = -0.4. Finally add: 0.09 + (-0.4) = -0.31.",
+      "tip": "Exponents come before division, and division comes before addition. 0.3² is 0.3 × 0.3, not 0.6."
+    },
+    {
+      "id": "order-ops-06",
+      "section": "order-ops",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "({2/5} - {1/2}) ÷ {3/10} =",
+      "answer": {
+        "num": -1,
+        "den": 3,
+        "whole": 0,
+        "display": "-1/3"
+      },
+      "steps": "Brackets first: the LCM of 5 and 2 is 10, so 4/10 - 5/10 = -1/10. Now the division, -1/10 ÷ 3/10. Keep-change-flip: -1/10 ÷ 3/10 = -1/10 × 10/3. The two numbers have different signs, so the answer is negative. Multiply straight across: (-1 × 10) / (10 × 3) = -10/30. Reduce: GCD(10, 30) = 10, so divide top and bottom by 10 to get -1/3.",
+      "tip": "Finish everything inside the bracket before you divide. Then keep-change-flip."
+    },
+    {
+      "id": "order-ops-07",
+      "section": "order-ops",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "({3/8} - {7/4}) × ({-1/3}) =",
+      "answer": {
+        "num": 11,
+        "den": 24,
+        "whole": 0,
+        "display": "11/24"
+      },
+      "steps": "Brackets first: the LCM of 8 and 4 is 8, so 3/8 - 14/8 = -11/8. Now the multiplication, -11/8 × (-1/3). The two numbers have the same sign, so the answer is positive. Multiply straight across: (-11 × -1) / (8 × 3) = 11/24. GCD(11, 24) = 1, so 11/24 is already fully reduced.",
+      "tip": "Do the subtraction inside the bracket first — you need a common denominator for that, but not for the multiplication that follows."
+    },
+    {
+      "id": "order-ops-08",
+      "section": "order-ops",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "{3/4} + ({-1_1/2}) ÷ {6/7} =",
+      "answer": {
+        "num": -1,
+        "den": 1,
+        "whole": 0,
+        "display": "-1"
+      },
+      "steps": "Division comes before addition. Convert the mixed number first: -1 1/2 = -3/2. Keep-change-flip: -3/2 ÷ 6/7 = -3/2 × 7/6. The two numbers have different signs, so the answer is negative. Multiply straight across: (-3 × 7) / (2 × 6) = -21/12. Reduce: GCD(21, 12) = 3, so divide top and bottom by 3 to get -7/4. Now do the addition, 3/4 + (-7/4). Add the numerators and keep the denominator: 3 + (-7) = -4, so -4/4. Reduce: GCD(4, 4) = 4, so divide top and bottom by 4 to get -1.",
+      "tip": "Do the division before the addition. Turn the mixed number into an improper fraction before you flip anything."
+    },
+    {
+      "id": "order-ops-09",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "2.4 + 1.8 × (-2) ÷ (-0.6) =",
+      "answer": {
+        "value": 8.4,
+        "display": "8.4"
+      },
+      "steps": "No brackets or exponents. Multiplication and division are the same step, so work left to right: 1.8 × (-2) = -3.6, then -3.6 ÷ (-0.6) = 6. Finally add: 2.4 + 6 = 8.4.",
+      "tip": "× and ÷ rank equally — do them in the order they appear, left to right. Only then do the addition."
+    },
+    {
+      "id": "order-ops-10",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "(-0.5 - √0.36) + (-3)² × 0.1 =",
+      "answer": {
+        "value": -0.2,
+        "display": "-0.2"
+      },
+      "steps": "The square root is an exponent, so it goes first: √0.36 = 0.6. The bracket is then -0.5 - 0.6 = -1.1. Next exponent: (-3)² = 9 — the bracket squares the minus sign too. Then multiply: 9 × 0.1 = 0.9. Finally add: -1.1 + 0.9 = -0.2.",
+      "tip": "(-3)² = 9 because the bracket squares the minus as well. Square roots are handled at the Exponents step."
+    },
+    {
+      "id": "order-ops-11",
+      "section": "order-ops",
+      "qtype": "fraction",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "{1/3}({2/3} - {3/4}) + {5/12} =",
+      "answer": {
+        "num": 7,
+        "den": 18,
+        "whole": 0,
+        "display": "7/18"
+      },
+      "steps": "Brackets first: the LCM of 3 and 4 is 12, so 8/12 - 9/12 = -1/12. The two numbers have different signs, so the answer is negative. Multiply straight across: (1 × -1) / (3 × 12) = -1/36. GCD(1, 36) = 1, so -1/36 is already fully reduced. Now do the addition, -1/36 + 5/12. The LCM of the denominators 36 and 12 is 36. Rewrite both: -1/36 = -1/36 and 5/12 = 15/36. Add the numerators and keep the denominator: -1 + 15 = 14, so 14/36. Reduce: GCD(14, 36) = 2, so divide top and bottom by 2 to get 7/18.",
+      "tip": "Bracket, then the multiplication written against it, then the addition."
+    },
+    {
+      "id": "order-ops-12",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "The surface area of a cube is 150 cm². A cube has 6 identical square faces. What is the edge length of the cube, in cm?",
+      "answer": {
+        "value": 5.0,
+        "display": "5"
+      },
+      "steps": "Each face has area 150 ÷ 6 = 25 cm². A face is a square, so the edge is √25 = 5 cm.",
+      "tip": "Divide the surface area by 6 to get the area of one square face, then take the square root of that."
+    },
+    {
+      "id": "order-ops-13",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "That same cube has an edge length of 5 cm. What is its volume, in cm³?",
+      "answer": {
+        "value": 125.0,
+        "display": "125"
+      },
+      "steps": "Volume = edge³ = 5³ = 5 × 5 × 5 = 125 cm³.",
+      "tip": "Volume of a cube is the edge length cubed — multiply the edge by itself three times."
+    },
+    {
+      "id": "order-ops-14",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "Matt is building a fence around his square garden. The garden's area is 36 m² and the fence costs $19.00 per metre. He has $250 to spend and will borrow the rest from his brother. How many dollars will he owe his brother?",
+      "answer": {
+        "value": 206.0,
+        "display": "206"
+      },
+      "steps": "The garden is square with area 36 m², so each side is √36 = 6 m and the perimeter is 4 × 6 = 24 m. The fence costs 24 × $19.00 = $456. He pays $250 himself, so he owes 456 - 250 = $206.",
+      "tip": "Find the side length from the area first, then the perimeter, then the cost. Only the part he can't pay for is borrowed."
+    },
+    {
+      "id": "order-ops-15",
+      "section": "order-ops",
+      "qtype": "decimal",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "James works at a hospital. On a holiday he is paid time and a half — 1.5 times his regular wage of $24.80 per hour. He worked from 8:30 AM to 4:15 PM. How many dollars did he earn that day?",
+      "answer": {
+        "value": 288.3,
+        "display": "288.30"
+      },
+      "steps": "From 8:30 AM to 4:15 PM is 7 h 45 min = 7.75 hours. His holiday rate is 1.5 × $24.80 = $37.20 per hour. He earned 7.75 × 37.20 = $288.30.",
+      "tip": "Work out the hours as a decimal first (45 minutes is 0.75 of an hour), then the holiday rate, then multiply."
+    }
+  ]
+}

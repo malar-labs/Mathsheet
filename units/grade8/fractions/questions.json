@@ -1,0 +1,1138 @@
+{
+  "questions": [
+    {
+      "id": "intro-01",
+      "section": "intro",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "A pizza is cut into {4} equal slices. You eat {1} slice. What fraction of the pizza did you eat?",
+      "answer": {
+        "num": 1,
+        "den": 4,
+        "whole": 0,
+        "display": "1/4"
+      },
+      "steps": "1 out of 4 equal parts → 1/4.",
+      "tip": "Check for reducing: GCD(1, 4) = 1, so 1/4 is already in simplest form. Check for improper form: 1/4 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "intro-02",
+      "section": "intro",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "A chocolate bar has {6} equal pieces. Your friend eats {2} pieces. What fraction of the bar did they eat?",
+      "answer": {
+        "num": 1,
+        "den": 3,
+        "whole": 0,
+        "display": "1/3"
+      },
+      "steps": "2 out of 6 equal parts → 2/6. Simplify: Reduce first: your raw fraction is 2/6. GCD(2, 6) = 2, so divide top and bottom by 2 to get 1/3. Check for improper form: 1/3 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw fraction is 2/6. GCD(2, 6) = 2, so divide top and bottom by 2 to get 1/3. Check for improper form: 1/3 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "intro-03",
+      "section": "intro",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "A pizza is cut into {8} slices. After the party, {5} slices are left. What fraction of the pizza is LEFT?",
+      "answer": {
+        "num": 5,
+        "den": 8,
+        "whole": 0,
+        "display": "5/8"
+      },
+      "steps": "5 out of 8 equal parts → 5/8.",
+      "tip": "Check for reducing: GCD(5, 8) = 1, so 5/8 is already in simplest form. Check for improper form: 5/8 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "intro-04",
+      "section": "intro",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "A box has {12} cupcakes. {9} of them have sprinkles. What fraction of the cupcakes do NOT have sprinkles?",
+      "answer": {
+        "num": 1,
+        "den": 4,
+        "whole": 0,
+        "display": "1/4"
+      },
+      "steps": "3 out of 12 equal parts → 3/12. Simplify: Reduce first: your raw fraction is 3/12. GCD(3, 12) = 3, so divide top and bottom by 3 to get 1/4. Check for improper form: 1/4 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw fraction is 3/12. GCD(3, 12) = 3, so divide top and bottom by 3 to get 1/4. Check for improper form: 1/4 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "intro-05",
+      "section": "intro",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "Two identical pizzas are each cut into {6} slices ({12} slices total). You eat {9} of the {12} slices. What fraction of all the pizza did you eat?",
+      "answer": {
+        "num": 3,
+        "den": 4,
+        "whole": 0,
+        "display": "3/4"
+      },
+      "steps": "9 out of 12 equal parts → 9/12. Simplify: Reduce first: your raw fraction is 9/12. GCD(9, 12) = 3, so divide top and bottom by 3 to get 3/4. Check for improper form: 3/4 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw fraction is 9/12. GCD(9, 12) = 3, so divide top and bottom by 3 to get 3/4. Check for improper form: 3/4 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "intro-06",
+      "section": "intro",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "You have {2} identical granola bars, each cut into {5} pieces ({10} pieces total). You eat {7} pieces. What fraction of all the pieces did you eat?",
+      "answer": {
+        "num": 7,
+        "den": 10,
+        "whole": 0,
+        "display": "7/10"
+      },
+      "steps": "7 out of 10 equal parts → 7/10.",
+      "tip": "Check for reducing: GCD(7, 10) = 1, so 7/10 is already in simplest form. Check for improper form: 7/10 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "intro-07",
+      "section": "intro",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "A pizza is cut into {6} slices. Between two pizzas, you and your friends finish {10} slices in total. What fraction of ONE whole pizza's worth of slices did you eat? (Hint: your answer can be more than 1 whole!)",
+      "answer": {
+        "num": 2,
+        "den": 3,
+        "whole": 1,
+        "display": "1 2/3"
+      },
+      "steps": "10 out of 6 equal parts → 10/6. Simplify: Reduce first: your raw fraction is 10/6. GCD(10, 6) = 2, so divide top and bottom by 2 to get 5/3. Check for improper form: 5/3 is improper (top ≥ bottom), so convert it to the mixed number 1 2/3.",
+      "tip": "Reduce first: your raw fraction is 10/6. GCD(10, 6) = 2, so divide top and bottom by 2 to get 5/3. Check for improper form: 5/3 is improper (top ≥ bottom), so convert it to the mixed number 1 2/3."
+    },
+    {
+      "id": "intro-08",
+      "section": "intro",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "A sandwich is cut into {8} equal pieces. Friends eat {9} pieces in total (from more than one sandwich). What fraction of ONE whole sandwich's worth did they eat?",
+      "answer": {
+        "num": 1,
+        "den": 8,
+        "whole": 1,
+        "display": "1 1/8"
+      },
+      "steps": "9 out of 8 equal parts → 9/8. Simplify: Check for reducing: GCD(9, 8) = 1, so 9/8 is already in simplest form. Check for improper form: 9/8 is improper (top ≥ bottom), so convert it to the mixed number 1 1/8.",
+      "tip": "Check for reducing: GCD(9, 8) = 1, so 9/8 is already in simplest form. Check for improper form: 9/8 is improper (top ≥ bottom), so convert it to the mixed number 1 1/8."
+    },
+    {
+      "id": "compare-01",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Which sign goes between {3/8} and {5/8}?  (< , > , or =)",
+      "answer": {
+        "symbol": "<",
+        "display": "<"
+      },
+      "steps": "Same denominator (8), so just compare numerators: 3 vs 5 → 3/8 < 5/8.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-02",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Which sign goes between {7/10} and {3/10}?  (< , > , or =)",
+      "answer": {
+        "symbol": ">",
+        "display": ">"
+      },
+      "steps": "Same denominator (10), so just compare numerators: 7 vs 3 → 7/10 > 3/10.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-03",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Which sign goes between {1/2} and {1/3}?  (< , > , or =)",
+      "answer": {
+        "symbol": ">",
+        "display": ">"
+      },
+      "steps": "LCM of the denominators 2 and 3 is 6. Rewrite: 1/2 = 3/6 and 1/3 = 2/6. Compare numerators: 3 vs 2 → 1/2 > 1/3.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-04",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Which sign goes between {2/3} and {3/4}?  (< , > , or =)",
+      "answer": {
+        "symbol": "<",
+        "display": "<"
+      },
+      "steps": "LCM of the denominators 3 and 4 is 12. Rewrite: 2/3 = 8/12 and 3/4 = 9/12. Compare numerators: 8 vs 9 → 2/3 < 3/4.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-05",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Which sign goes between {3/6} and {1/2}?  (< , > , or =)",
+      "answer": {
+        "symbol": "=",
+        "display": "="
+      },
+      "steps": "LCM of the denominators 6 and 2 is 6. Rewrite: 3/6 = 3/6 and 1/2 = 3/6. Compare numerators: 3 vs 3 → 3/6 = 1/2.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-06",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Which sign goes between {5/6} and {7/9}?  (< , > , or =)",
+      "answer": {
+        "symbol": ">",
+        "display": ">"
+      },
+      "steps": "LCM of the denominators 6 and 9 is 18. Rewrite: 5/6 = 15/18 and 7/9 = 14/18. Compare numerators: 15 vs 14 → 5/6 > 7/9.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-07",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "Which sign goes between {4/7} and {3/5}?  (< , > , or =)",
+      "answer": {
+        "symbol": "<",
+        "display": "<"
+      },
+      "steps": "LCM of the denominators 7 and 5 is 35. Rewrite: 4/7 = 20/35 and 3/5 = 21/35. Compare numerators: 20 vs 21 → 4/7 < 3/5.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-08",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "Which sign goes between {7/12} and {5/8}?  (< , > , or =)",
+      "answer": {
+        "symbol": "<",
+        "display": "<"
+      },
+      "steps": "LCM of the denominators 12 and 8 is 24. Rewrite: 7/12 = 14/24 and 5/8 = 15/24. Compare numerators: 14 vs 15 → 7/12 < 5/8.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-09",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "Which sign goes between {6/9} and {8/12}?  (< , > , or =)",
+      "answer": {
+        "symbol": "=",
+        "display": "="
+      },
+      "steps": "LCM of the denominators 9 and 12 is 36. Rewrite: 6/9 = 24/36 and 8/12 = 24/36. Compare numerators: 24 vs 24 → 6/9 = 8/12.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-10",
+      "section": "compare",
+      "qtype": "compare",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "Which sign goes between {9/8} and {7/6}?  (< , > , or =)",
+      "answer": {
+        "symbol": "<",
+        "display": "<"
+      },
+      "steps": "LCM of the denominators 8 and 6 is 24. Rewrite: 9/8 = 27/24 and 7/6 = 28/24. Compare numerators: 27 vs 28 → 9/8 < 7/6.",
+      "tip": "You can only compare numerators once both fractions share the same denominator — find the LCM of the denominators first, rewrite both fractions with it, then compare the tops."
+    },
+    {
+      "id": "compare-11",
+      "section": "compare",
+      "qtype": "choice",
+      "kind": "word",
+      "difficulty": 1,
+      "prompt": "Maya ate {3/8} of a pizza. Leo ate {5/8} of the same size pizza. Who ate MORE pizza?",
+      "options": [
+        "Maya",
+        "Leo",
+        "Same"
+      ],
+      "answer": {
+        "choice": "Leo",
+        "display": "Leo"
+      },
+      "steps": "Same denominator (8), so just compare numerators: 3 vs 5 → 3/8 < 5/8.\nThe question asks for the BIGGER fraction, so the answer is Leo.",
+      "tip": "Find the two fractions in the story, compare them (use the LCM of the denominators), then read the question again — does it ask for MORE or LESS?"
+    },
+    {
+      "id": "compare-12",
+      "section": "compare",
+      "qtype": "choice",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "Ava walks {2/3} km to school. Noah walks {3/5} km to school. Who walks FARTHER?",
+      "options": [
+        "Ava",
+        "Noah",
+        "Same"
+      ],
+      "answer": {
+        "choice": "Ava",
+        "display": "Ava"
+      },
+      "steps": "LCM of the denominators 3 and 5 is 15. Rewrite: 2/3 = 10/15 and 3/5 = 9/15. Compare numerators: 10 vs 9 → 2/3 > 3/5.\nThe question asks for the BIGGER fraction, so the answer is Ava.",
+      "tip": "Find the two fractions in the story, compare them (use the LCM of the denominators), then read the question again — does it ask for MORE or LESS?"
+    },
+    {
+      "id": "compare-13",
+      "section": "compare",
+      "qtype": "choice",
+      "kind": "word",
+      "difficulty": 2,
+      "prompt": "For a recipe, Jordan used {3/4} cup of flour and Priya used {6/8} cup of flour. Who used MORE flour?",
+      "options": [
+        "Jordan",
+        "Priya",
+        "Same"
+      ],
+      "answer": {
+        "choice": "Same",
+        "display": "Same"
+      },
+      "steps": "LCM of the denominators 4 and 8 is 8. Rewrite: 3/4 = 6/8 and 6/8 = 6/8. Compare numerators: 6 vs 6 → 3/4 = 6/8.\nThe fractions are equal, so the answer is: the same.",
+      "tip": "Find the two fractions in the story, compare them (use the LCM of the denominators), then read the question again — does it ask for MORE or LESS?"
+    },
+    {
+      "id": "compare-14",
+      "section": "compare",
+      "qtype": "choice",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "Liam has finished {5/6} of his homework. Sofia has finished {7/9} of hers. Who has finished LESS?",
+      "options": [
+        "Liam",
+        "Sofia",
+        "Same"
+      ],
+      "answer": {
+        "choice": "Sofia",
+        "display": "Sofia"
+      },
+      "steps": "LCM of the denominators 6 and 9 is 18. Rewrite: 5/6 = 15/18 and 7/9 = 14/18. Compare numerators: 15 vs 14 → 5/6 > 7/9.\nThe question asks for the SMALLER fraction, so the answer is Sofia.",
+      "tip": "Find the two fractions in the story, compare them (use the LCM of the denominators), then read the question again — does it ask for MORE or LESS?"
+    },
+    {
+      "id": "compare-15",
+      "section": "compare",
+      "qtype": "choice",
+      "kind": "word",
+      "difficulty": 3,
+      "prompt": "Ethan and Mia have the same size water bottles. Ethan drank {7/12} of his bottle and Mia drank {5/8} of hers. Who has MORE water LEFT?",
+      "options": [
+        "Ethan",
+        "Mia",
+        "Same"
+      ],
+      "answer": {
+        "choice": "Ethan",
+        "display": "Ethan"
+      },
+      "steps": "First find what is left: Ethan: 1 − 7/12 = 5/12. Mia: 1 − 5/8 = 3/8.\nLCM of the denominators 12 and 8 is 24. Rewrite: 5/12 = 10/24 and 3/8 = 9/24. Compare numerators: 10 vs 9 → 5/12 > 3/8.\nThe question asks for the BIGGER fraction, so the answer is Ethan.",
+      "tip": "Find the two fractions in the story, compare them (use the LCM of the denominators), then read the question again — does it ask for MORE or LESS?"
+    },
+    {
+      "id": "lcm-01",
+      "section": "lcm",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "What is the LCM (Least Common Multiple) of {4} and {6}?",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "Multiples of 4: 4, 8, 12, 16, 20, 24, ...\nMultiples of 6: 6, 12, 18, 24, 30, 36, ...\nThe smallest number that appears in both lists is 12.",
+      "tip": "List the multiples of each number (skip-count) until the same number shows up in both lists — that's the LCM. Use it as the new denominator when adding or comparing fractions."
+    },
+    {
+      "id": "lcm-02",
+      "section": "lcm",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "What is the LCM of {3} and {5}?",
+      "answer": {
+        "value": 15,
+        "display": "15"
+      },
+      "steps": "Multiples of 3: 3, 6, 9, 12, 15, 18, ...\nMultiples of 5: 5, 10, 15, 20, 25, 30, ...\nThe smallest number that appears in both lists is 15.",
+      "tip": "List the multiples of each number (skip-count) until the same number shows up in both lists — that's the LCM. Use it as the new denominator when adding or comparing fractions."
+    },
+    {
+      "id": "lcm-03",
+      "section": "lcm",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "What is the LCM of {6} and {8}?",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Multiples of 6: 6, 12, 18, 24, 30, 36, ...\nMultiples of 8: 8, 16, 24, 32, 40, 48, ...\nThe smallest number that appears in both lists is 24.",
+      "tip": "List the multiples of each number (skip-count) until the same number shows up in both lists — that's the LCM. Use it as the new denominator when adding or comparing fractions."
+    },
+    {
+      "id": "lcm-04",
+      "section": "lcm",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "What is the LCM of {4} and {10}?",
+      "answer": {
+        "value": 20,
+        "display": "20"
+      },
+      "steps": "Multiples of 4: 4, 8, 12, 16, 20, 24, ...\nMultiples of 10: 10, 20, 30, 40, 50, 60, ...\nThe smallest number that appears in both lists is 20.",
+      "tip": "List the multiples of each number (skip-count) until the same number shows up in both lists — that's the LCM. Use it as the new denominator when adding or comparing fractions."
+    },
+    {
+      "id": "lcm-05",
+      "section": "lcm",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "What is the LCM of {9} and {12}?",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Multiples of 9: 9, 18, 27, 36, 45, 54, ...\nMultiples of 12: 12, 24, 36, 48, 60, 72, ...\nThe smallest number that appears in both lists is 36.",
+      "tip": "List the multiples of each number (skip-count) until the same number shows up in both lists — that's the LCM. Use it as the new denominator when adding or comparing fractions."
+    },
+    {
+      "id": "lcm-06",
+      "section": "lcm",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "What is the LCM of {8} and {20}?",
+      "answer": {
+        "value": 40,
+        "display": "40"
+      },
+      "steps": "Multiples of 8: 8, 16, 24, 32, 40, 48, ...\nMultiples of 20: 20, 40, 60, 80, 100, 120, ...\nThe smallest number that appears in both lists is 40.",
+      "tip": "List the multiples of each number (skip-count) until the same number shows up in both lists — that's the LCM. Use it as the new denominator when adding or comparing fractions."
+    },
+    {
+      "id": "lcm-07",
+      "section": "lcm",
+      "qtype": "integer",
+      "difficulty": 3,
+      "prompt": "To add {1/12} and {1/18}, what should the new denominator be? (Hint: find the LCM of 12 and 18.)",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Multiples of 12: 12, 24, 36, 48, 60, 72, ...\nMultiples of 18: 18, 36, 54, 72, 90, 108, ...\nThe smallest number that appears in both lists is 36.",
+      "tip": "List the multiples of each number (skip-count) until the same number shows up in both lists — that's the LCM. Use it as the new denominator when adding or comparing fractions."
+    },
+    {
+      "id": "lcm-08",
+      "section": "lcm",
+      "qtype": "integer",
+      "difficulty": 3,
+      "prompt": "To add {2/15} and {3/25}, what should the new denominator be? (Hint: find the LCM of 15 and 25.)",
+      "answer": {
+        "value": 75,
+        "display": "75"
+      },
+      "steps": "Multiples of 15: 15, 30, 45, 60, 75, 90, ...\nMultiples of 25: 25, 50, 75, 100, 125, 150, ...\nThe smallest number that appears in both lists is 75.",
+      "tip": "List the multiples of each number (skip-count) until the same number shows up in both lists — that's the LCM. Use it as the new denominator when adding or comparing fractions."
+    },
+    {
+      "id": "simplify-01",
+      "section": "simplify",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "Reduce {4/8} to lowest terms.",
+      "answer": {
+        "num": 1,
+        "den": 2,
+        "whole": 0,
+        "display": "1/2"
+      },
+      "steps": "Find the GCF of 4 and 8: GCF = 4. Divide both top and bottom by 4: 4/4 = 1, 8/4 = 2 → 1/2.",
+      "tip": "Find the greatest common factor (GCF) of the numerator and denominator, then divide both by it. If the GCF is 1, it's already fully reduced."
+    },
+    {
+      "id": "simplify-02",
+      "section": "simplify",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "Reduce {6/9} to lowest terms.",
+      "answer": {
+        "num": 2,
+        "den": 3,
+        "whole": 0,
+        "display": "2/3"
+      },
+      "steps": "Find the GCF of 6 and 9: GCF = 3. Divide both top and bottom by 3: 6/3 = 2, 9/3 = 3 → 2/3.",
+      "tip": "Find the greatest common factor (GCF) of the numerator and denominator, then divide both by it. If the GCF is 1, it's already fully reduced."
+    },
+    {
+      "id": "simplify-03",
+      "section": "simplify",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "Reduce {10/15} to lowest terms.",
+      "answer": {
+        "num": 2,
+        "den": 3,
+        "whole": 0,
+        "display": "2/3"
+      },
+      "steps": "Find the GCF of 10 and 15: GCF = 5. Divide both top and bottom by 5: 10/5 = 2, 15/5 = 3 → 2/3.",
+      "tip": "Find the greatest common factor (GCF) of the numerator and denominator, then divide both by it. If the GCF is 1, it's already fully reduced."
+    },
+    {
+      "id": "simplify-04",
+      "section": "simplify",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "Reduce {14/21} to lowest terms.",
+      "answer": {
+        "num": 2,
+        "den": 3,
+        "whole": 0,
+        "display": "2/3"
+      },
+      "steps": "Find the GCF of 14 and 21: GCF = 7. Divide both top and bottom by 7: 14/7 = 2, 21/7 = 3 → 2/3.",
+      "tip": "Find the greatest common factor (GCF) of the numerator and denominator, then divide both by it. If the GCF is 1, it's already fully reduced."
+    },
+    {
+      "id": "simplify-05",
+      "section": "simplify",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "Reduce {18/24} to lowest terms.",
+      "answer": {
+        "num": 3,
+        "den": 4,
+        "whole": 0,
+        "display": "3/4"
+      },
+      "steps": "Find the GCF of 18 and 24: GCF = 6. Divide both top and bottom by 6: 18/6 = 3, 24/6 = 4 → 3/4.",
+      "tip": "Find the greatest common factor (GCF) of the numerator and denominator, then divide both by it. If the GCF is 1, it's already fully reduced."
+    },
+    {
+      "id": "simplify-06",
+      "section": "simplify",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "Reduce {20/30} to lowest terms.",
+      "answer": {
+        "num": 2,
+        "den": 3,
+        "whole": 0,
+        "display": "2/3"
+      },
+      "steps": "Find the GCF of 20 and 30: GCF = 10. Divide both top and bottom by 10: 20/10 = 2, 30/10 = 3 → 2/3.",
+      "tip": "Find the greatest common factor (GCF) of the numerator and denominator, then divide both by it. If the GCF is 1, it's already fully reduced."
+    },
+    {
+      "id": "simplify-07",
+      "section": "simplify",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "Reduce {36/48} to lowest terms.",
+      "answer": {
+        "num": 3,
+        "den": 4,
+        "whole": 0,
+        "display": "3/4"
+      },
+      "steps": "Find the GCF of 36 and 48: GCF = 12. Divide both top and bottom by 12: 36/12 = 3, 48/12 = 4 → 3/4.",
+      "tip": "Find the greatest common factor (GCF) of the numerator and denominator, then divide both by it. If the GCF is 1, it's already fully reduced."
+    },
+    {
+      "id": "simplify-08",
+      "section": "simplify",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "Reduce {40/64} to lowest terms.",
+      "answer": {
+        "num": 5,
+        "den": 8,
+        "whole": 0,
+        "display": "5/8"
+      },
+      "steps": "Find the GCF of 40 and 64: GCF = 8. Divide both top and bottom by 8: 40/8 = 5, 64/8 = 8 → 5/8.",
+      "tip": "Find the greatest common factor (GCF) of the numerator and denominator, then divide both by it. If the GCF is 1, it's already fully reduced."
+    },
+    {
+      "id": "add-01",
+      "section": "add",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{1/5} + {2/5} =",
+      "answer": {
+        "num": 3,
+        "den": 5,
+        "whole": 0,
+        "display": "3/5"
+      },
+      "steps": "Same denominator (5) — just add the numerators: 1 + 2 = 3, keep the denominator: 3/5. Check for reducing: GCD(3, 5) = 1, so 3/5 is already in simplest form. Check for improper form: 3/5 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(3, 5) = 1, so 3/5 is already in simplest form. Check for improper form: 3/5 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "add-02",
+      "section": "add",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{2/9} + {5/9} =",
+      "answer": {
+        "num": 7,
+        "den": 9,
+        "whole": 0,
+        "display": "7/9"
+      },
+      "steps": "Same denominator (9) — just add the numerators: 2 + 5 = 7, keep the denominator: 7/9. Check for reducing: GCD(7, 9) = 1, so 7/9 is already in simplest form. Check for improper form: 7/9 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(7, 9) = 1, so 7/9 is already in simplest form. Check for improper form: 7/9 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "add-03",
+      "section": "add",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{3/8} + {5/8} =",
+      "answer": {
+        "num": 0,
+        "den": 1,
+        "whole": 1,
+        "display": "1"
+      },
+      "steps": "Same denominator (8) — just add the numerators: 3 + 5 = 8, keep the denominator: 8/8. Reduce first: your raw sum is 8/8. GCD(8, 8) = 8, so divide top and bottom by 8 to get 1/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw sum is 8/8. GCD(8, 8) = 8, so divide top and bottom by 8 to get 1/1. It actually simplifies all the way down to a whole number."
+    },
+    {
+      "id": "add-04",
+      "section": "add",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{1/4} + {1/6} =",
+      "answer": {
+        "num": 5,
+        "den": 12,
+        "whole": 0,
+        "display": "5/12"
+      },
+      "steps": "Find the LCM of the denominators 4 and 6 → 12. Rewrite: 1/4 = 3/12 and 1/6 = 2/12. Add: 3 + 2 = 5 → 5/12. Check for reducing: GCD(5, 12) = 1, so 5/12 is already in simplest form. Check for improper form: 5/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(5, 12) = 1, so 5/12 is already in simplest form. Check for improper form: 5/12 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "add-05",
+      "section": "add",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{1/7} + {2/3} =",
+      "answer": {
+        "num": 17,
+        "den": 21,
+        "whole": 0,
+        "display": "17/21"
+      },
+      "steps": "Find the LCM of the denominators 7 and 3 → 21. Rewrite: 1/7 = 3/21 and 2/3 = 14/21. Add: 3 + 14 = 17 → 17/21. Check for reducing: GCD(17, 21) = 1, so 17/21 is already in simplest form. Check for improper form: 17/21 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(17, 21) = 1, so 17/21 is already in simplest form. Check for improper form: 17/21 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "add-06",
+      "section": "add",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{5/6} + {3/4} =",
+      "answer": {
+        "num": 7,
+        "den": 12,
+        "whole": 1,
+        "display": "1 7/12"
+      },
+      "steps": "Find the LCM of the denominators 6 and 4 → 12. Rewrite: 5/6 = 10/12 and 3/4 = 9/12. Add: 10 + 9 = 19 → 19/12. Check for reducing: GCD(19, 12) = 1, so 19/12 is already in simplest form. Check for improper form: 19/12 is improper (top ≥ bottom), so convert it to the mixed number 1 7/12.",
+      "tip": "Check for reducing: GCD(19, 12) = 1, so 19/12 is already in simplest form. Check for improper form: 19/12 is improper (top ≥ bottom), so convert it to the mixed number 1 7/12."
+    },
+    {
+      "id": "add-07",
+      "section": "add",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{1_1/4} + {2/5} =",
+      "answer": {
+        "num": 13,
+        "den": 20,
+        "whole": 1,
+        "display": "1 13/20"
+      },
+      "steps": "Convert to improper fractions: 1 1/4 = 5/4, 2/5 stays 2/5. Find the LCM of the denominators 4 and 5 → 20. Rewrite: 5/4 = 25/20 and 2/5 = 8/20. Add: 25 + 8 = 33 → 33/20. Check for reducing: GCD(33, 20) = 1, so 33/20 is already in simplest form. Check for improper form: 33/20 is improper (top ≥ bottom), so convert it to the mixed number 1 13/20.",
+      "tip": "Check for reducing: GCD(33, 20) = 1, so 33/20 is already in simplest form. Check for improper form: 33/20 is improper (top ≥ bottom), so convert it to the mixed number 1 13/20."
+    },
+    {
+      "id": "add-08",
+      "section": "add",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{2_1/3} + {1_3/4} =",
+      "answer": {
+        "num": 1,
+        "den": 12,
+        "whole": 4,
+        "display": "4 1/12"
+      },
+      "steps": "Convert to improper fractions: 2 1/3 = 7/3, 1 3/4 = 7/4. Find the LCM of the denominators 3 and 4 → 12. Rewrite: 7/3 = 28/12 and 7/4 = 21/12. Add: 28 + 21 = 49 → 49/12. Check for reducing: GCD(49, 12) = 1, so 49/12 is already in simplest form. Check for improper form: 49/12 is improper (top ≥ bottom), so convert it to the mixed number 4 1/12.",
+      "tip": "Check for reducing: GCD(49, 12) = 1, so 49/12 is already in simplest form. Check for improper form: 49/12 is improper (top ≥ bottom), so convert it to the mixed number 4 1/12."
+    },
+    {
+      "id": "add-09",
+      "section": "add",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "You jog {3/4} km in the morning and {5/8} km in the evening. How many km did you jog in total?",
+      "answer": {
+        "num": 3,
+        "den": 8,
+        "whole": 1,
+        "display": "1 3/8"
+      },
+      "steps": "Find the LCM of the denominators 4 and 8 → 8. Rewrite: 3/4 = 6/8 and 5/8 = 5/8. Add: 6 + 5 = 11 → 11/8. Check for reducing: GCD(11, 8) = 1, so 11/8 is already in simplest form. Check for improper form: 11/8 is improper (top ≥ bottom), so convert it to the mixed number 1 3/8.",
+      "tip": "Check for reducing: GCD(11, 8) = 1, so 11/8 is already in simplest form. Check for improper form: 11/8 is improper (top ≥ bottom), so convert it to the mixed number 1 3/8."
+    },
+    {
+      "id": "subtract-01",
+      "section": "subtract",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{5/7} - {2/7} =",
+      "answer": {
+        "num": 3,
+        "den": 7,
+        "whole": 0,
+        "display": "3/7"
+      },
+      "steps": "Same denominator (7) — just subtract the numerators: 5 - 2 = 3, keep the denominator: 3/7. Check for reducing: GCD(3, 7) = 1, so 3/7 is already in simplest form. Check for improper form: 3/7 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(3, 7) = 1, so 3/7 is already in simplest form. Check for improper form: 3/7 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "subtract-02",
+      "section": "subtract",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{8/9} - {3/9} =",
+      "answer": {
+        "num": 5,
+        "den": 9,
+        "whole": 0,
+        "display": "5/9"
+      },
+      "steps": "Same denominator (9) — just subtract the numerators: 8 - 3 = 5, keep the denominator: 5/9. Check for reducing: GCD(5, 9) = 1, so 5/9 is already in simplest form. Check for improper form: 5/9 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(5, 9) = 1, so 5/9 is already in simplest form. Check for improper form: 5/9 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "subtract-03",
+      "section": "subtract",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{7/10} - {3/10} =",
+      "answer": {
+        "num": 2,
+        "den": 5,
+        "whole": 0,
+        "display": "2/5"
+      },
+      "steps": "Same denominator (10) — just subtract the numerators: 7 - 3 = 4, keep the denominator: 4/10. Reduce first: your raw difference is 4/10. GCD(4, 10) = 2, so divide top and bottom by 2 to get 2/5. Check for improper form: 2/5 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw difference is 4/10. GCD(4, 10) = 2, so divide top and bottom by 2 to get 2/5. Check for improper form: 2/5 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "subtract-04",
+      "section": "subtract",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{5/6} - {3/4} =",
+      "answer": {
+        "num": 1,
+        "den": 12,
+        "whole": 0,
+        "display": "1/12"
+      },
+      "steps": "Find the LCM of the denominators 6 and 4 → 12. Rewrite: 5/6 = 10/12 and 3/4 = 9/12. Subtract: 10 - 9 = 1 → 1/12. Check for reducing: GCD(1, 12) = 1, so 1/12 is already in simplest form. Check for improper form: 1/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(1, 12) = 1, so 1/12 is already in simplest form. Check for improper form: 1/12 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "subtract-05",
+      "section": "subtract",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{3/4} - {1/6} =",
+      "answer": {
+        "num": 7,
+        "den": 12,
+        "whole": 0,
+        "display": "7/12"
+      },
+      "steps": "Find the LCM of the denominators 4 and 6 → 12. Rewrite: 3/4 = 9/12 and 1/6 = 2/12. Subtract: 9 - 2 = 7 → 7/12. Check for reducing: GCD(7, 12) = 1, so 7/12 is already in simplest form. Check for improper form: 7/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(7, 12) = 1, so 7/12 is already in simplest form. Check for improper form: 7/12 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "subtract-06",
+      "section": "subtract",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{7/8} - {2/5} =",
+      "answer": {
+        "num": 19,
+        "den": 40,
+        "whole": 0,
+        "display": "19/40"
+      },
+      "steps": "Find the LCM of the denominators 8 and 5 → 40. Rewrite: 7/8 = 35/40 and 2/5 = 16/40. Subtract: 35 - 16 = 19 → 19/40. Check for reducing: GCD(19, 40) = 1, so 19/40 is already in simplest form. Check for improper form: 19/40 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(19, 40) = 1, so 19/40 is already in simplest form. Check for improper form: 19/40 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "subtract-07",
+      "section": "subtract",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{3_1/6} - {1_2/3} =",
+      "answer": {
+        "num": 1,
+        "den": 2,
+        "whole": 1,
+        "display": "1 1/2"
+      },
+      "steps": "Convert to improper fractions: 3 1/6 = 19/6, 1 2/3 = 5/3. Find the LCM of the denominators 6 and 3 → 6. Rewrite: 19/6 = 19/6 and 5/3 = 10/6. Subtract: 19 - 10 = 9 → 9/6. Reduce first: your raw difference is 9/6. GCD(9, 6) = 3, so divide top and bottom by 3 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "tip": "Reduce first: your raw difference is 9/6. GCD(9, 6) = 3, so divide top and bottom by 3 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2."
+    },
+    {
+      "id": "subtract-08",
+      "section": "subtract",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{4_1/5} - {2_3/10} =",
+      "answer": {
+        "num": 9,
+        "den": 10,
+        "whole": 1,
+        "display": "1 9/10"
+      },
+      "steps": "Convert to improper fractions: 4 1/5 = 21/5, 2 3/10 = 23/10. Find the LCM of the denominators 5 and 10 → 10. Rewrite: 21/5 = 42/10 and 23/10 = 23/10. Subtract: 42 - 23 = 19 → 19/10. Check for reducing: GCD(19, 10) = 1, so 19/10 is already in simplest form. Check for improper form: 19/10 is improper (top ≥ bottom), so convert it to the mixed number 1 9/10.",
+      "tip": "Check for reducing: GCD(19, 10) = 1, so 19/10 is already in simplest form. Check for improper form: 19/10 is improper (top ≥ bottom), so convert it to the mixed number 1 9/10."
+    },
+    {
+      "id": "subtract-09",
+      "section": "subtract",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "A ribbon is {7/8} m long. You cut off {1/4} m to make a bow. How much ribbon is left?",
+      "answer": {
+        "num": 5,
+        "den": 8,
+        "whole": 0,
+        "display": "5/8"
+      },
+      "steps": "Find the LCM of the denominators 8 and 4 → 8. Rewrite: 7/8 = 7/8 and 1/4 = 2/8. Subtract: 7 - 2 = 5 → 5/8. Check for reducing: GCD(5, 8) = 1, so 5/8 is already in simplest form. Check for improper form: 5/8 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(5, 8) = 1, so 5/8 is already in simplest form. Check for improper form: 5/8 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "multiply-01",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{1/7} × {3/4} =",
+      "answer": {
+        "num": 3,
+        "den": 28,
+        "whole": 0,
+        "display": "3/28"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (1×3)/(7×4) = 3/28. Check for reducing: GCD(3, 28) = 1, so 3/28 is already in simplest form. Check for improper form: 3/28 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(3, 28) = 1, so 3/28 is already in simplest form. Check for improper form: 3/28 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "multiply-02",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{2/5} × {7/9} =",
+      "answer": {
+        "num": 14,
+        "den": 45,
+        "whole": 0,
+        "display": "14/45"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (2×7)/(5×9) = 14/45. Check for reducing: GCD(14, 45) = 1, so 14/45 is already in simplest form. Check for improper form: 14/45 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(14, 45) = 1, so 14/45 is already in simplest form. Check for improper form: 14/45 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "multiply-03",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "3 × {2/11} =",
+      "answer": {
+        "num": 6,
+        "den": 11,
+        "whole": 0,
+        "display": "6/11"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (3×2)/(1×11) = 6/11. Check for reducing: GCD(6, 11) = 1, so 6/11 is already in simplest form. Check for improper form: 6/11 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(6, 11) = 1, so 6/11 is already in simplest form. Check for improper form: 6/11 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "multiply-04",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{5/30} × {9/5} =",
+      "answer": {
+        "num": 3,
+        "den": 10,
+        "whole": 0,
+        "display": "3/10"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (5×9)/(30×5) = 45/150. Reduce first: your raw product is 45/150. GCD(45, 150) = 15, so divide top and bottom by 15 to get 3/10. Check for improper form: 3/10 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw product is 45/150. GCD(45, 150) = 15, so divide top and bottom by 15 to get 3/10. Check for improper form: 3/10 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "multiply-05",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{7/12} × {8/13} =",
+      "answer": {
+        "num": 14,
+        "den": 39,
+        "whole": 0,
+        "display": "14/39"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (7×8)/(12×13) = 56/156. Reduce first: your raw product is 56/156. GCD(56, 156) = 4, so divide top and bottom by 4 to get 14/39. Check for improper form: 14/39 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw product is 56/156. GCD(56, 156) = 4, so divide top and bottom by 4 to get 14/39. Check for improper form: 14/39 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "multiply-06",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{11/25} × 75 =",
+      "answer": {
+        "num": 0,
+        "den": 1,
+        "whole": 33,
+        "display": "33"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (11×75)/(25×1) = 825/25. Reduce first: your raw product is 825/25. GCD(825, 25) = 25, so divide top and bottom by 25 to get 33/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw product is 825/25. GCD(825, 25) = 25, so divide top and bottom by 25 to get 33/1. It actually simplifies all the way down to a whole number."
+    },
+    {
+      "id": "multiply-07",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{3/4} × {1_1/5} =",
+      "answer": {
+        "num": 9,
+        "den": 10,
+        "whole": 0,
+        "display": "9/10"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (3×6)/(4×5) = 18/20. Reduce first: your raw product is 18/20. GCD(18, 20) = 2, so divide top and bottom by 2 to get 9/10. Check for improper form: 9/10 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw product is 18/20. GCD(18, 20) = 2, so divide top and bottom by 2 to get 9/10. Check for improper form: 9/10 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "multiply-08",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{3_1/4} × {3/8} =",
+      "answer": {
+        "num": 7,
+        "den": 32,
+        "whole": 1,
+        "display": "1 7/32"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (13×3)/(4×8) = 39/32. Check for reducing: GCD(39, 32) = 1, so 39/32 is already in simplest form. Check for improper form: 39/32 is improper (top ≥ bottom), so convert it to the mixed number 1 7/32.",
+      "tip": "Check for reducing: GCD(39, 32) = 1, so 39/32 is already in simplest form. Check for improper form: 39/32 is improper (top ≥ bottom), so convert it to the mixed number 1 7/32."
+    },
+    {
+      "id": "multiply-09",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{1_10/11} × {1_1/3} =",
+      "answer": {
+        "num": 6,
+        "den": 11,
+        "whole": 2,
+        "display": "2 6/11"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (21×4)/(11×3) = 84/33. Reduce first: your raw product is 84/33. GCD(84, 33) = 3, so divide top and bottom by 3 to get 28/11. Check for improper form: 28/11 is improper (top ≥ bottom), so convert it to the mixed number 2 6/11.",
+      "tip": "Reduce first: your raw product is 84/33. GCD(84, 33) = 3, so divide top and bottom by 3 to get 28/11. Check for improper form: 28/11 is improper (top ≥ bottom), so convert it to the mixed number 2 6/11."
+    },
+    {
+      "id": "multiply-10",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "A recipe needs {2/3} cup of sugar per batch. How much sugar do you need for {1_1/2} batches?",
+      "answer": {
+        "num": 0,
+        "den": 1,
+        "whole": 1,
+        "display": "1"
+      },
+      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (2×3)/(3×2) = 6/6. Reduce first: your raw amount of sugar is 6/6. GCD(6, 6) = 6, so divide top and bottom by 6 to get 1/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw amount of sugar is 6/6. GCD(6, 6) = 6, so divide top and bottom by 6 to get 1/1. It actually simplifies all the way down to a whole number."
+    },
+    {
+      "id": "divide-01",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{1/2} ÷ {1/4} =",
+      "answer": {
+        "num": 0,
+        "den": 1,
+        "whole": 2,
+        "display": "2"
+      },
+      "steps": "Dividing by a fraction = multiplying by its reciprocal: 1/2 ÷ 1/4 = 1/2 × 4/1 = (1×4)/(2×1) = 4/2. Reduce first: your raw quotient is 4/2. GCD(4, 2) = 2, so divide top and bottom by 2 to get 2/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw quotient is 4/2. GCD(4, 2) = 2, so divide top and bottom by 2 to get 2/1. It actually simplifies all the way down to a whole number."
+    },
+    {
+      "id": "divide-02",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{3/5} ÷ {2/5} =",
+      "answer": {
+        "num": 1,
+        "den": 2,
+        "whole": 1,
+        "display": "1 1/2"
+      },
+      "steps": "Dividing by a fraction = multiplying by its reciprocal: 3/5 ÷ 2/5 = 3/5 × 5/2 = (3×5)/(5×2) = 15/10. Reduce first: your raw quotient is 15/10. GCD(15, 10) = 5, so divide top and bottom by 5 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "tip": "Reduce first: your raw quotient is 15/10. GCD(15, 10) = 5, so divide top and bottom by 5 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2."
+    },
+    {
+      "id": "divide-03",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{2/3} ÷ 4 =",
+      "answer": {
+        "num": 1,
+        "den": 6,
+        "whole": 0,
+        "display": "1/6"
+      },
+      "steps": "Dividing by a fraction = multiplying by its reciprocal: 2/3 ÷ 4/1 = 2/3 × 1/4 = (2×1)/(3×4) = 2/12. Reduce first: your raw quotient is 2/12. GCD(2, 12) = 2, so divide top and bottom by 2 to get 1/6. Check for improper form: 1/6 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw quotient is 2/12. GCD(2, 12) = 2, so divide top and bottom by 2 to get 1/6. Check for improper form: 1/6 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "divide-04",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{5/6} ÷ {2/3} =",
+      "answer": {
+        "num": 1,
+        "den": 4,
+        "whole": 1,
+        "display": "1 1/4"
+      },
+      "steps": "Dividing by a fraction = multiplying by its reciprocal: 5/6 ÷ 2/3 = 5/6 × 3/2 = (5×3)/(6×2) = 15/12. Reduce first: your raw quotient is 15/12. GCD(15, 12) = 3, so divide top and bottom by 3 to get 5/4. Check for improper form: 5/4 is improper (top ≥ bottom), so convert it to the mixed number 1 1/4.",
+      "tip": "Reduce first: your raw quotient is 15/12. GCD(15, 12) = 3, so divide top and bottom by 3 to get 5/4. Check for improper form: 5/4 is improper (top ≥ bottom), so convert it to the mixed number 1 1/4."
+    },
+    {
+      "id": "divide-05",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{7/8} ÷ {3/4} =",
+      "answer": {
+        "num": 1,
+        "den": 6,
+        "whole": 1,
+        "display": "1 1/6"
+      },
+      "steps": "Dividing by a fraction = multiplying by its reciprocal: 7/8 ÷ 3/4 = 7/8 × 4/3 = (7×4)/(8×3) = 28/24. Reduce first: your raw quotient is 28/24. GCD(28, 24) = 4, so divide top and bottom by 4 to get 7/6. Check for improper form: 7/6 is improper (top ≥ bottom), so convert it to the mixed number 1 1/6.",
+      "tip": "Reduce first: your raw quotient is 28/24. GCD(28, 24) = 4, so divide top and bottom by 4 to get 7/6. Check for improper form: 7/6 is improper (top ≥ bottom), so convert it to the mixed number 1 1/6."
+    },
+    {
+      "id": "divide-06",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "4 ÷ {2/5} =",
+      "answer": {
+        "num": 0,
+        "den": 1,
+        "whole": 10,
+        "display": "10"
+      },
+      "steps": "Dividing by a fraction = multiplying by its reciprocal: 4/1 ÷ 2/5 = 4/1 × 5/2 = (4×5)/(1×2) = 20/2. Reduce first: your raw quotient is 20/2. GCD(20, 2) = 2, so divide top and bottom by 2 to get 10/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw quotient is 20/2. GCD(20, 2) = 2, so divide top and bottom by 2 to get 10/1. It actually simplifies all the way down to a whole number."
+    },
+    {
+      "id": "divide-07",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{1_1/2} ÷ {1/3} =",
+      "answer": {
+        "num": 1,
+        "den": 2,
+        "whole": 4,
+        "display": "4 1/2"
+      },
+      "steps": "Dividing by a fraction = multiplying by its reciprocal: 3/2 ÷ 1/3 = 3/2 × 3/1 = (3×3)/(2×1) = 9/2. Check for reducing: GCD(9, 2) = 1, so 9/2 is already in simplest form. Check for improper form: 9/2 is improper (top ≥ bottom), so convert it to the mixed number 4 1/2.",
+      "tip": "Check for reducing: GCD(9, 2) = 1, so 9/2 is already in simplest form. Check for improper form: 9/2 is improper (top ≥ bottom), so convert it to the mixed number 4 1/2."
+    },
+    {
+      "id": "divide-08",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{2_1/4} ÷ {1_1/2} =",
+      "answer": {
+        "num": 1,
+        "den": 2,
+        "whole": 1,
+        "display": "1 1/2"
+      },
+      "steps": "Dividing by a fraction = multiplying by its reciprocal: 9/4 ÷ 3/2 = 9/4 × 2/3 = (9×2)/(4×3) = 18/12. Reduce first: your raw quotient is 18/12. GCD(18, 12) = 6, so divide top and bottom by 6 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "tip": "Reduce first: your raw quotient is 18/12. GCD(18, 12) = 6, so divide top and bottom by 6 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2."
+    },
+    {
+      "id": "divide-09",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "You have {3/4} of a pizza left and want to split it evenly among {3} friends. What fraction of a WHOLE pizza does each friend get?",
+      "answer": {
+        "num": 1,
+        "den": 4,
+        "whole": 0,
+        "display": "1/4"
+      },
+      "steps": "Dividing by a fraction = multiplying by its reciprocal: 3/4 ÷ 3/1 = 3/4 × 1/3 = (3×1)/(4×3) = 3/12. Reduce first: your raw each share is 3/12. GCD(3, 12) = 3, so divide top and bottom by 3 to get 1/4. Check for improper form: 1/4 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw each share is 3/12. GCD(3, 12) = 3, so divide top and bottom by 3 to get 1/4. Check for improper form: 1/4 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    }
+  ]
+}

@@ -1,0 +1,502 @@
+{
+  "meta": {
+    "grade": 9,
+    "unit": "rational-numbers",
+    "title": "Rational Numbers",
+    "emoji": "±",
+    "description": "Compare and order rational numbers, then add, subtract, multiply and divide them in both decimal and fraction form — negatives included — and finish with order of operations.",
+    "sections": [
+      {
+        "id": "intro",
+        "title": "What Is a Rational Number?",
+        "emoji": "🔢",
+        "question_count": 10
+      },
+      {
+        "id": "compare",
+        "title": "Comparing & Ordering",
+        "emoji": "⚖️",
+        "question_count": 12
+      },
+      {
+        "id": "dec-add",
+        "title": "Adding & Subtracting Decimals",
+        "emoji": "➕",
+        "question_count": 11
+      },
+      {
+        "id": "dec-mult",
+        "title": "Multiplying & Dividing Decimals",
+        "emoji": "✖️",
+        "question_count": 13
+      },
+      {
+        "id": "frac-add",
+        "title": "Adding & Subtracting Fractions",
+        "emoji": "🥧",
+        "question_count": 14
+      },
+      {
+        "id": "frac-mult",
+        "title": "Multiplying & Dividing Fractions",
+        "emoji": "🔁",
+        "question_count": 12
+      },
+      {
+        "id": "order-ops",
+        "title": "Order of Operations",
+        "emoji": "🧮",
+        "question_count": 15
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "intro",
+      "title": "What Is a Rational Number?",
+      "emoji": "🔢",
+      "color": "#6C63FF",
+      "blurb": "A rational number is any number you can write as a fraction — one integer over another, as long as the bottom one isn't 0. Positive or negative, whole numbers, terminating decimals like 0.25 and repeating decimals like 3.3333... all count. Numbers that can't be written that way, such as √10, are irrational.",
+      "key_concepts": [
+        "Every integer is already rational: 5 = {5/1} and -3 = {-3/1}. The bottom number just has to be an integer that isn't 0.",
+        {
+          "text": "Negative rational numbers live to the LEFT of 0 on the number line. The further left you go, the smaller the number gets.",
+          "visual": {
+            "type": "signline",
+            "min": -2,
+            "max": 2,
+            "step": 0.5,
+            "points": [
+              {
+                "v": -1.2,
+                "label": "-1.2",
+                "color": "coral"
+              },
+              {
+                "v": -0.625,
+                "label": "{-5/8}",
+                "color": "orange"
+              },
+              {
+                "v": 0.8,
+                "label": "{4/5}",
+                "color": "teal"
+              }
+            ],
+            "caption": "-1.2 is the smallest of these three even though 1.2 is not the biggest number — what counts is how far LEFT it sits."
+          }
+        },
+        "A terminating decimal is rational: put the digits over the matching power of 10, then reduce. 0.25 = {25/100} = {1/4}, and -0.7 = {-7/10}.",
+        "A repeating decimal is rational too: 3.3333... = {10/3} and 7.656565... = {758/99}.",
+        "A square root is rational only when the root comes out exactly: √9 = 3 and √0.81 = 0.9 are rational, and so is √(50/72) = √(25/36) = {5/6}. But √10 is irrational."
+      ],
+      "examples": [
+        {
+          "prompt": "Is 0.25 a rational number?",
+          "steps": "0.25 has 2 decimal places, so it is 25/100. Both 25 and 100 are integers and the bottom isn't 0, so yes. Reduced, 0.25 = 1/4.",
+          "answer_display": "Yes — it equals 1/4"
+        },
+        {
+          "prompt": "Simplify √16 / √49.",
+          "steps": "√16 = 4 and √49 = 7. Both roots come out exactly, so the value is 4/7 — a rational number.",
+          "answer_display": "4/7"
+        },
+        {
+          "prompt": "Is √10 a rational number?",
+          "steps": "10 is not a perfect square: 3² = 9 and 4² = 16. So √10 lies between 3 and 4 and its decimal never terminates or repeats.",
+          "answer_display": "No — it is irrational"
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "title": "Comparing & Ordering",
+      "emoji": "⚖️",
+      "color": "#4ECDC4",
+      "blurb": "To compare rational numbers, get them all into the same form — usually decimals — then picture them on a number line. Be careful with negatives: the further LEFT a number is, the smaller it is, so -7.5 is smaller than -2.1 even though 7.5 is bigger than 2.1.",
+      "key_concepts": [
+        "Turn every fraction into a decimal by dividing the top by the bottom: {4/5} = 0.8, {7/8} = 0.875 and {-5/8} = -0.625.",
+        {
+          "text": "Then place them on a number line and read left to right — that is ascending order.",
+          "visual": {
+            "type": "signline",
+            "min": -1.5,
+            "max": 1,
+            "step": 0.5,
+            "points": [
+              {
+                "v": -1.2,
+                "label": "-1.2",
+                "color": "coral"
+              },
+              {
+                "v": -0.625,
+                "label": "{-5/8}",
+                "color": "orange"
+              },
+              {
+                "v": -0.4,
+                "label": "-0.4",
+                "color": "purple"
+              },
+              {
+                "v": 0.8,
+                "label": "{4/5}",
+                "color": "teal"
+              }
+            ],
+            "caption": "Ascending order, straight off the line: -1.2, {-5/8}, -0.4, {4/5}."
+          }
+        },
+        {
+          "text": "With two negatives, the one with the BIGGER size is the SMALLER number — it sits further from zero on the left.",
+          "visual": {
+            "type": "signline",
+            "min": -1,
+            "max": 0,
+            "step": 0.25,
+            "zones": false,
+            "points": [
+              {
+                "v": -0.75,
+                "label": "{-3/4}",
+                "color": "coral"
+              },
+              {
+                "v": -0.6666666,
+                "label": "{-2/3}",
+                "color": "teal"
+              }
+            ],
+            "caption": "{-3/4} = -0.75 and {-2/3} = -0.6666... -0.75 is further left, so {-3/4} < {-2/3} — even though 3/4 > 2/3."
+          }
+        },
+        "To find a number between two others, compare their decimals. Between -0.7 and -0.8 sits -0.75, which is {-3/4}.",
+        "No calculator for a square root? Square the decimal instead: 4.2² = 17.64, which is less than 20, so 4.2 < √20."
+      ],
+      "examples": [
+        {
+          "prompt": "Write -1.2, {4/5}, {7/8}, -0.4 and {-5/8} in ascending order.",
+          "steps": "As decimals: -1.2, 0.8, 0.875, -0.4, -0.625. Sorted from smallest to biggest: -1.2, -0.625, -0.4, 0.8, 0.875.",
+          "answer_display": "-1.2, -5/8, -0.4, 4/5, 7/8"
+        },
+        {
+          "prompt": "Which is greater, {-3/4} or {-2/3}?",
+          "steps": "-3/4 = -0.75 and -2/3 = -0.6666... -0.6666... is further right on the number line, so -2/3 is the greater number.",
+          "answer_display": "-2/3"
+        },
+        {
+          "prompt": "Put the right sign between -8.29 and -8.3.",
+          "steps": "Line the decimals up as -8.29 and -8.30. The size 8.29 is smaller, so -8.29 is closer to zero and therefore the bigger number.",
+          "answer_display": "-8.29 > -8.3"
+        }
+      ]
+    },
+    {
+      "id": "dec-add",
+      "title": "Adding & Subtracting Decimals",
+      "emoji": "➕",
+      "color": "#FF9F43",
+      "blurb": "Estimate first by rounding to whole numbers — it tells you what sign and roughly what size to expect, which catches most mistakes. Then work exactly. Subtracting a number is the same as adding its opposite, so every subtraction can be turned into an addition.",
+      "key_concepts": [
+        {
+          "text": "Two signs sitting next to each other collapse into one: subtracting a negative becomes adding, and adding a negative becomes subtracting.",
+          "visual": {
+            "type": "rules",
+            "items": [
+              {
+                "expr": "a - (-b)",
+                "result": "+",
+                "note": "-5.21 - (-6.92) = -5.21 + 6.92"
+              },
+              {
+                "expr": "a + (-b)",
+                "result": "-",
+                "note": "-2.75 + (-4.81) = -2.75 - 4.81"
+              }
+            ],
+            "caption": "Rewrite the double sign first — then it's an ordinary addition or subtraction."
+          }
+        },
+        "Same signs? Add the sizes and keep the sign: -2.75 + (-4.81) = -7.56.",
+        "Different signs? Take the smaller size away from the bigger one and keep the sign of the bigger: 5.2 + (-3.9) = 1.3, but -7.83 + 1.61 = -6.22.",
+        {
+          "text": "Estimate before you calculate. -2.8 + (-4.3) is about -3 + (-4) = -7, so an exact answer of -7.1 makes sense.",
+          "visual": {
+            "type": "signline",
+            "min": -8,
+            "max": 2,
+            "step": 1,
+            "points": [
+              {
+                "v": -2.8,
+                "label": "start -2.8",
+                "color": "teal"
+              },
+              {
+                "v": -7.1,
+                "label": "end -7.1",
+                "color": "coral"
+              }
+            ],
+            "caption": "Adding a negative moves you LEFT: start at -2.8, move 4.3 further left, and you land on -7.1."
+          }
+        }
+      ],
+      "examples": [
+        {
+          "prompt": "-2.75 + (-4.81) =",
+          "steps": "Both numbers are negative, so add the sizes and keep the minus: 2.75 + 4.81 = 7.56, so the answer is -7.56.",
+          "answer_display": "-7.56"
+        },
+        {
+          "prompt": "-5.21 - (-6.92) =",
+          "steps": "Subtracting a negative is adding: -5.21 + 6.92. The signs differ, so subtract the sizes: 6.92 - 5.21 = 1.71. The bigger size came from +6.92, so the answer is positive.",
+          "answer_display": "1.71"
+        },
+        {
+          "prompt": "2.47 - 3.1 =",
+          "steps": "Rewrite as 2.47 + (-3.1). Different signs, so 3.1 - 2.47 = 0.63. The bigger size came from -3.1, so the answer is -0.63.",
+          "answer_display": "-0.63"
+        }
+      ]
+    },
+    {
+      "id": "dec-mult",
+      "title": "Multiplying & Dividing Decimals",
+      "emoji": "✖️",
+      "color": "#FF6B6B",
+      "blurb": "For × and ÷ the sign rule is simple: same signs give a positive answer, different signs give a negative one. Work out the sizes first and put the sign on at the end — that way you only have one thing to think about at a time.",
+      "key_concepts": [
+        {
+          "text": "Same signs → positive. Different signs → negative. The rule is identical for × and ÷.",
+          "visual": {
+            "type": "rules",
+            "items": [
+              {
+                "expr": "(+) × (+)",
+                "result": "+",
+                "note": "2.5 × 4 = 10"
+              },
+              {
+                "expr": "(-) × (-)",
+                "result": "+",
+                "note": "(-0.6) × (-2.5) = 1.5"
+              },
+              {
+                "expr": "(+) × (-)",
+                "result": "-",
+                "note": "2.8 × (-0.2) = -0.56"
+              },
+              {
+                "expr": "(-) ÷ (-)",
+                "result": "+",
+                "note": "(-9.2) ÷ (-0.01) = 920"
+              },
+              {
+                "expr": "(-) ÷ (+)",
+                "result": "-",
+                "note": "(-5.5) ÷ 1.1 = -5"
+              },
+              {
+                "expr": "(+) ÷ (-)",
+                "result": "-",
+                "note": "2.4 ÷ (-0.8) = -3"
+              }
+            ],
+            "caption": "Multiplying several numbers? Count the minus signs: an even number of them gives a positive answer, an odd number gives a negative one."
+          }
+        },
+        "Count decimal places when you multiply: 0.3 × 0.07 has 1 + 2 = 3 decimal places, so 3 × 7 = 21 becomes 0.021.",
+        "To divide by a decimal, shift BOTH numbers the same number of places until you are dividing by a whole number: 3.7 ÷ 0.2 becomes 37 ÷ 2 = 18.5.",
+        "Dividing by a number smaller than 1 makes the answer BIGGER, not smaller: (-9.2) ÷ (-0.01) = 920."
+      ],
+      "examples": [
+        {
+          "prompt": "2.8 × (-0.2) =",
+          "steps": "The signs are different, so the answer is negative. Sizes: 2.8 × 0.2 = 0.56. So the answer is -0.56.",
+          "answer_display": "-0.56"
+        },
+        {
+          "prompt": "(-9.2) ÷ (-0.01) =",
+          "steps": "Same signs, so the answer is positive. Shift both numbers two places: 920 ÷ 1 = 920.",
+          "answer_display": "920"
+        },
+        {
+          "prompt": "(-14.4) ÷ 1.2 =",
+          "steps": "Different signs, so the answer is negative. Sizes: shift both one place to get 144 ÷ 12 = 12. So the answer is -12.",
+          "answer_display": "-12"
+        }
+      ]
+    },
+    {
+      "id": "frac-add",
+      "title": "Adding & Subtracting Fractions",
+      "emoji": "🥧",
+      "color": "#7EC8E3",
+      "blurb": "Turn every mixed number into an improper fraction first — it saves you from borrowing. Then find the LCM of the denominators, rewrite both fractions with it, and combine the numerators. The sign travels with the numerator.",
+      "key_concepts": [
+        "Mixed number → improper fraction, sign included: -3 {4/5} = -(3 × 5 + 4)/5 = {-19/5}. Do this before anything else.",
+        "Subtracting a negative flips to adding: {4/5} - ({-3/10}) = {4/5} + {3/10}.",
+        {
+          "text": "Rewrite both fractions over the LCM of the denominators, then add or subtract the numerators. Only the top changes.",
+          "visual": {
+            "type": "bars",
+            "rows": [
+              {
+                "label": "{4/5}",
+                "n": 4,
+                "d": 5,
+                "color": "teal",
+                "note": "4/5 of a bar..."
+              },
+              {
+                "label": "{8/10}",
+                "n": 8,
+                "d": 10,
+                "color": "teal",
+                "note": "...is the same amount, just cut into smaller pieces:"
+              },
+              {
+                "label": "{3/10}",
+                "n": 3,
+                "d": 10,
+                "color": "orange",
+                "note": "now both are in tenths, so they can be combined:"
+              }
+            ],
+            "caption": "{4/5} - ({-3/10}) = {8/10} + {3/10} = {11/10}."
+          }
+        },
+        "Reduce at the end. In this unit a fully reduced improper fraction like {-81/20} is the expected answer — you don't have to convert it to a mixed number."
+      ],
+      "examples": [
+        {
+          "prompt": "{4/5} - ({-3/10}) =",
+          "steps": "Subtracting a negative is adding: 4/5 + 3/10. The LCM of 5 and 10 is 10, so 4/5 = 8/10. Then 8/10 + 3/10 = 11/10. GCD(11, 10) = 1, so 11/10 is fully reduced.",
+          "answer_display": "11/10"
+        },
+        {
+          "prompt": "{-1/4} + {1_5/6} =",
+          "steps": "1 5/6 = 11/6. The LCM of 4 and 6 is 12, so -1/4 = -3/12 and 11/6 = 22/12. Then -3 + 22 = 19, giving 19/12.",
+          "answer_display": "19/12"
+        },
+        {
+          "prompt": "{1_2/3} + ({-2_1/2}) =",
+          "steps": "1 2/3 = 5/3 and -2 1/2 = -5/2. The LCM of 3 and 2 is 6, so 5/3 = 10/6 and -5/2 = -15/6. Then 10 + (-15) = -5, giving -5/6.",
+          "answer_display": "-5/6"
+        }
+      ]
+    },
+    {
+      "id": "frac-mult",
+      "title": "Multiplying & Dividing Fractions",
+      "emoji": "🔁",
+      "color": "#A8E6CF",
+      "blurb": "No common denominator needed here. Multiply straight across; to divide, keep-change-flip. The sign rule is exactly the same as for decimals: same signs give a positive answer, different signs give a negative one.",
+      "key_concepts": [
+        {
+          "text": "Decide the sign first, then forget about it until the end.",
+          "visual": {
+            "type": "rules",
+            "items": [
+              {
+                "expr": "{5/7} × ({-2/3})",
+                "result": "-"
+              },
+              {
+                "expr": "({-9/7}) × ({-7/6})",
+                "result": "+"
+              },
+              {
+                "expr": "{3/4} ÷ ({-6/7})",
+                "result": "-"
+              },
+              {
+                "expr": "({-4/9}) ÷ ({-3/5})",
+                "result": "+"
+              }
+            ],
+            "caption": "Same signs → positive, different signs → negative — for both × and ÷."
+          }
+        },
+        "Multiply straight across: (top × top) over (bottom × bottom). No LCM, no common denominator.",
+        "Keep-change-flip to divide: {3/4} ÷ ({-6/7}) = {3/4} × ({-7/6}). The flipped fraction keeps its minus sign.",
+        "Whole numbers become fractions over 1 (-5 = {-5/1}), and mixed numbers become improper fractions first ({2_2/3} = {8/3})."
+      ],
+      "examples": [
+        {
+          "prompt": "{5/7} × ({-2/3}) =",
+          "steps": "Different signs, so the answer is negative. Multiply across: (5 × 2)/(7 × 3) = 10/21. GCD(10, 21) = 1, so -10/21 is fully reduced.",
+          "answer_display": "-10/21"
+        },
+        {
+          "prompt": "-5 × {2_2/3} =",
+          "steps": "2 2/3 = 8/3 and -5 = -5/1. Different signs, so the answer is negative. Multiply across: (5 × 8)/(1 × 3) = 40/3, so -40/3.",
+          "answer_display": "-40/3"
+        },
+        {
+          "prompt": "{3/4} ÷ ({-6/7}) =",
+          "steps": "Keep-change-flip: 3/4 × (-7/6). Different signs, so negative. Multiply across: 21/24, and GCD(21, 24) = 3, so -7/8.",
+          "answer_display": "-7/8"
+        }
+      ]
+    },
+    {
+      "id": "order-ops",
+      "title": "Order of Operations",
+      "emoji": "🧮",
+      "color": "#FFE66D",
+      "blurb": "BEDMAS: Brackets, Exponents, then Division and Multiplication in the order they appear left to right, then Addition and Subtraction in the order they appear. Square roots count as exponents, and a fraction bar acts as a bracket — work out the top and the bottom before you divide.",
+      "key_concepts": [
+        {
+          "text": "Work down this ladder. Division and multiplication share one rung, and so do addition and subtraction — on a shared rung, go left to right.",
+          "visual": {
+            "type": "rules",
+            "items": [
+              {
+                "expr": "Brackets ( )",
+                "result": "1"
+              },
+              {
+                "expr": "Exponents ² and √",
+                "result": "2"
+              },
+              {
+                "expr": "Divide ÷ and Multiply ×",
+                "result": "3",
+                "note": "same rung — in the order they appear"
+              },
+              {
+                "expr": "Add + and Subtract -",
+                "result": "4",
+                "note": "same rung — in the order they appear"
+              }
+            ]
+          }
+        },
+        "A fraction bar groups everything above it and everything below it: ((-7.2) + 7.6) ÷ (-0.2) means work out 0.4 first, then divide.",
+        "A number written right beside a bracket means multiply: -0.2(4.8 - 5.6) = -0.2 × (-0.8).",
+        "Watch the sign on exponents: (-3)² = 9 because the bracket squares the minus too, but -3² = -9.",
+        "Square roots come out at the Exponents step: √0.36 = 0.6 and √(4/9) = {2/3}."
+      ],
+      "examples": [
+        {
+          "prompt": "-0.2(4.8 - 5.6) =",
+          "steps": "Brackets first: 4.8 - 5.6 = -0.8. The number against the bracket means multiply: -0.2 × (-0.8) = 0.16 — two negatives make a positive.",
+          "answer_display": "0.16"
+        },
+        {
+          "prompt": "2.4 + 1.8 × (-2) ÷ (-0.6) =",
+          "steps": "No brackets or exponents. × and ÷ share a rung, so go left to right: 1.8 × (-2) = -3.6, then -3.6 ÷ (-0.6) = 6. Finally 2.4 + 6 = 8.4.",
+          "answer_display": "8.4"
+        },
+        {
+          "prompt": "({3/8} - {7/4}) × ({-1/3}) =",
+          "steps": "Brackets first: the LCM of 8 and 4 is 8, so 3/8 - 14/8 = -11/8. Then multiply: (-11/8) × (-1/3) = 11/24 — same signs, positive.",
+          "answer_display": "11/24"
+        }
+      ]
+    }
+  ]
+}

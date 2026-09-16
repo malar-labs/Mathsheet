@@ -1,22 +1,29 @@
 """
 MathSheet Pro — Test Suite
 Covers: extract_json, curriculum data, system prompt, API endpoints,
-        max_tokens formula. No LLM calls made — all AI interactions mocked.
+        max_tokens formula, and the static unit-learning content.
+No LLM calls made — all AI interactions mocked.
 """
 import os
 import json
+import importlib.util
 import pytest
+from math import gcd
+from pathlib import Path
 from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
 
 # Ensure no real API keys are used during tests
+os.environ["GEMINI_API_KEY"] = ""
 os.environ["GROQ_API_KEY"] = ""
 os.environ["OPENROUTER_API_KEY"] = ""
 
-from app import app, extract_json
+from app import app, UNITS_CATALOG, UNITS_DIR, extract_json, load_unit_bundle
 from curriculum import CURRICULUM, build_system_prompt
 
 client = TestClient(app)
+
+AVAILABLE_UNITS = [(u["grade"], u["unit"]) for u in UNITS_CATALOG if u["available"]]
 
 
 # =============================================
@@ -205,6 +212,121 @@ class TestTopicsEndpoint:
         assert isinstance(data, dict)
         for topic in data.values():
             assert "name" in topic
+
+
+# =============================================
+#   Unit-wise learning pages (static content)
+# =============================================
+
+class TestUnitPages:
+    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
+    def test_unit_page_is_overview(self, grade, unit):
+        r = client.get(f"/units/grade{grade}/{unit}")
+        assert r.status_code == 200
+        assert "const UNIT_FOCUS_SECTION = null" in r.text
+
+    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
+    def test_every_topic_has_its_own_page(self, grade, unit):
+        sections = load_unit_bundle(grade, unit)["lessons"]["sections"]
+        assert len(sections) >= 3
+        for section in sections:
+            page = client.get(f"/units/grade{grade}/{unit}/{section['id']}")
+            assert page.status_code == 200
+            assert section["title"] in page.text
+            assert f'const UNIT_FOCUS_SECTION = "{section["id"]}"' in page.text
+
+    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
+    def test_unknown_topic_returns_404(self, grade, unit):
+        r = client.get(f"/units/grade{grade}/{unit}/nope")
+        assert r.status_code == 404
+
+    def test_catalog_entries_that_claim_to_be_available_really_are(self):
+        for item in UNITS_CATALOG:
+            bundle = load_unit_bundle(item["grade"], item["unit"])
+            assert (bundle is not None) == item["available"], item
+
+    def test_compare_has_10_number_and_5_word_problems(self):
+        questions = [q for q in load_unit_bundle(8, "fractions")["questions"]
+                     if q["section"] == "compare"]
+        kinds = [q["kind"] for q in questions]
+        assert kinds == ["number"] * 10 + ["word"] * 5
+        for q in questions:
+            if q["kind"] == "word":
+                assert q["answer"]["choice"] in q["options"]
+
+
+# =============================================
+#   Unit question data — the contract the front-end engine relies on
+# =============================================
+
+ALL_UNIT_QUESTIONS = [
+    pytest.param(grade, unit, q, id=f"grade{grade}-{unit}-{q['id']}")
+    for grade, unit in AVAILABLE_UNITS
+    for q in load_unit_bundle(grade, unit)["questions"]
+]
+
+
+class TestUnitQuestions:
+    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
+    def test_question_ids_are_unique_and_sections_exist(self, grade, unit):
+        bundle = load_unit_bundle(grade, unit)
+        ids = [q["id"] for q in bundle["questions"]]
+        assert len(ids) == len(set(ids))
+        section_ids = {s["id"] for s in bundle["lessons"]["sections"]}
+        assert {q["section"] for q in bundle["questions"]} <= section_ids
+
+    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
+    def test_number_problems_come_before_word_problems(self, grade, unit):
+        """The topic page prints a 'word problems start here' banner at the
+        changeover, so a word problem must never be followed by a number one."""
+        bundle = load_unit_bundle(grade, unit)
+        for section in bundle["lessons"]["sections"]:
+            kinds = [q.get("kind", "number") for q in bundle["questions"]
+                     if q["section"] == section["id"]]
+            assert kinds == sorted(kinds, key=lambda k: k != "number"), (section["id"], kinds)
+
+    @pytest.mark.parametrize("grade,unit,q", ALL_UNIT_QUESTIONS)
+    def test_question_has_the_fields_the_engine_reads(self, grade, unit, q):
+        for field in ("id", "section", "qtype", "difficulty", "prompt", "answer", "steps", "tip"):
+            assert q.get(field) not in (None, ""), field
+        assert q["difficulty"] in (1, 2, 3)
+        assert q["answer"].get("display")
+
+    @pytest.mark.parametrize("grade,unit,q", ALL_UNIT_QUESTIONS)
+    def test_answer_shape_matches_question_type(self, grade, unit, q):
+        answer, qtype = q["answer"], q["qtype"]
+        if qtype == "fraction":
+            assert answer["den"] > 0
+            # Answers are always given fully reduced.
+            assert gcd(abs(answer["num"]), answer["den"]) == 1
+        elif qtype == "decimal":
+            assert float(answer["display"].replace("$", "")) == pytest.approx(answer["value"])
+        elif qtype == "integer":
+            assert isinstance(answer["value"], int)
+        elif qtype == "compare":
+            assert answer["symbol"] in ("<", "=", ">")
+        elif qtype == "choice":
+            assert answer["choice"] in q["options"]
+        elif qtype == "order":
+            assert sorted(answer["order"]) == sorted(q["options"])
+            assert len(set(q["options"])) == len(q["options"])
+        else:
+            pytest.fail(f"unknown qtype {qtype!r}")
+
+
+class TestGeneratedContentIsUpToDate:
+    """The JSON files are build output. If someone edits them by hand the
+    generator becomes a lie, so check the two still agree."""
+
+    def test_rational_numbers_json_matches_its_generator(self):
+        path = UNITS_DIR / "grade9" / "rational-numbers" / "_generate.py"
+        spec = importlib.util.spec_from_file_location("rn_generate", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        bundle = load_unit_bundle(9, "rational-numbers")
+        assert bundle["questions"] == module.QUESTIONS
+        assert bundle["lessons"]["sections"] == module.SECTIONS
 
 
 # =============================================
