@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if focus %}{{ focus.title }} — {% endif %}{{ meta.title }} — Grade {{ meta.grade }} Unit Learning — MathSheet Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/unit_learning.css') }}">
+</head>
+<body>
+
+<header class="app-header no-print">
+    <div class="header-inner ul-wide">
+        <a class="logo" href="/" style="text-decoration:none">
+            <div class="logo-icon-wrap">📐</div>
+            <div>
+                <div class="logo-title">MathSheet <span>Pro</span></div>
+                <div class="logo-sub">BC Curriculum · Math Worksheet Generator</div>
+            </div>
+        </a>
+        <div class="header-right">
+            <a href="/units" class="btn-header-login">← All Units</a>
+        </div>
+    </div>
+</header>
+
+<main class="main ul-main">
+    <nav class="ul-crumbs" aria-label="Breadcrumb">
+        <a href="/units">Units</a>
+        <span aria-hidden="true">›</span>
+        {% if focus %}
+        <a href="/units/grade{{ meta.grade }}/{{ meta.unit }}">Grade {{ meta.grade }} {{ meta.title }}</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">{{ focus.title }}</span>
+        {% else %}
+        <span aria-current="page">Grade {{ meta.grade }} {{ meta.title }}</span>
+        {% endif %}
+    </nav>
+
+    <div class="ul-page-head">
+        {% if focus %}
+        <h1>{{ focus.emoji }} {{ focus.title }}</h1>
+        <p>{% for s in sections %}{% if s.id == focus.id %}Topic {{ loop.index }} of {{ sections | length }}{% endif %}{% endfor %} · Grade {{ meta.grade }} {{ meta.title }}</p>
+        {% else %}
+        <h1>{{ meta.emoji }} Grade {{ meta.grade }} · {{ meta.title }}</h1>
+        <p>{{ meta.description }} Pick a topic: read the lesson, then practise one question at a time.</p>
+        {% endif %}
+    </div>
+
+    <div id="ul-content"><!-- filled by JS --></div>
+</main>
+
+<script>
+    const UNIT_SECTIONS  = {{ sections | tojson }};
+    const UNIT_QUESTIONS = {{ questions | tojson }};
+    const UNIT_KEY = "grade{{ meta.grade }}_{{ meta.unit }}";
+    const UNIT_BASE_URL = "/units/grade{{ meta.grade }}/{{ meta.unit }}";
+    // the topic this page shows; null on the unit overview
+    const UNIT_FOCUS_SECTION = {{ (focus.id if focus else none) | tojson }};
+</script>
+<script src="{{ asset_url('js/unit_learning.js') }}"></script>
+</body>
+</html>

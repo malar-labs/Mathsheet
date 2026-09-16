@@ -15,6 +15,7 @@ import json
 import re
 import asyncio
 import logging
+from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
 from curriculum import CURRICULUM, build_system_prompt
@@ -39,6 +40,18 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 templates.env.filters['tojson'] = lambda v: Markup(json.dumps(v, ensure_ascii=False))
+
+
+def asset_url(path: str) -> str:
+    """/static URL with the file's modified time appended, so browsers load edited CSS/JS right away."""
+    try:
+        version = int((Path("static") / path).stat().st_mtime)
+    except OSError:
+        version = 0
+    return f"/static/{path}?v={version}"
+
+
+templates.env.globals['asset_url'] = asset_url
 
 GEMINI_API_KEY     = os.environ.get('GEMINI_API_KEY', '')
 GROQ_API_KEY       = os.environ.get('GROQ_API_KEY', '')
@@ -89,9 +102,93 @@ def extract_json(text: str) -> dict:
 @app.get("/")
 async def index(request: Request):
     return templates.TemplateResponse(
+        request,
         "index.html",
-        {"request": request, "curriculum": CURRICULUM}
+        {"curriculum": CURRICULUM}
     )
+
+
+# ===== UNIT-WISE LEARNING (static content, no AI/LLM calls) =====
+# Lessons + practice questions here are pre-written and stored as JSON under
+# units/gradeN/<unit>/. They were generated once (offline, from a curriculum
+# prompt and a sample worksheet) and are just read from disk at request time
+# — this feature never calls Gemini/Groq/OpenRouter.
+
+UNITS_DIR = Path(__file__).resolve().parent / "units"
+
+UNITS_CATALOG = [
+    {
+        "grade": 8, "unit": "fractions", "title": "Fractions", "emoji": "🍕",
+        "description": "What fractions are, comparing, common multiples, simplifying, and all four operations.",
+        "available": True,
+    },
+    {
+        "grade": 9, "unit": "rational-numbers", "title": "Rational Numbers", "emoji": "±",
+        "description": "Comparing and ordering, the four operations in decimal and fraction form with negatives, and order of operations.",
+        "available": True,
+    },
+    {
+        "grade": 3, "unit": "coming-soon", "title": "Coming soon", "emoji": "🧮",
+        "description": "More Grade 3 units are on the way.", "available": False,
+    },
+]
+
+
+def load_unit_bundle(grade: int, unit: str):
+    base = UNITS_DIR / f"grade{grade}" / unit
+    lessons_file = base / "lessons.json"
+    questions_file = base / "questions.json"
+    if not lessons_file.is_file() or not questions_file.is_file():
+        return None
+    with open(lessons_file, encoding="utf-8") as f:
+        lessons = json.load(f)
+    with open(questions_file, encoding="utf-8") as f:
+        questions = json.load(f)
+    return {"lessons": lessons, "questions": questions.get("questions", [])}
+
+
+@app.get("/units")
+async def units_home(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "units_home.html",
+        {"catalog": UNITS_CATALOG},
+    )
+
+
+def render_unit_page(request: Request, grade: int, unit: str, section_id: str | None = None):
+    bundle = load_unit_bundle(grade, unit)
+    focus = None
+    if bundle and section_id:
+        focus = next((s for s in bundle["lessons"]["sections"] if s["id"] == section_id), None)
+    if not bundle or (section_id and not focus):
+        return templates.TemplateResponse(
+            request,
+            "units_home.html",
+            {"catalog": UNITS_CATALOG, "not_found": True},
+            status_code=404,
+        )
+    return templates.TemplateResponse(
+        request,
+        "unit_page.html",
+        {
+            "meta": bundle["lessons"]["meta"],
+            "sections": bundle["lessons"]["sections"],
+            "questions": bundle["questions"],
+            "focus": focus,
+        },
+    )
+
+
+@app.get("/units/grade{grade}/{unit}")
+async def unit_page(request: Request, grade: int, unit: str):
+    return render_unit_page(request, grade, unit)
+
+
+# One topic on its own page (no topic tabs), e.g. /units/grade8/fractions/compare
+@app.get("/units/grade{grade}/{unit}/{section}")
+async def unit_section_page(request: Request, grade: int, unit: str, section: str):
+    return render_unit_page(request, grade, unit, section)
 
 
 def get_client_ip(request: Request) -> str:

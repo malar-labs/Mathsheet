@@ -1,0 +1,342 @@
+{
+  "meta": {
+    "grade": 8,
+    "unit": "fractions",
+    "title": "Fractions",
+    "emoji": "🍕",
+    "description": "Learn fractions step by step: what they are, comparing, common multiples, simplifying, and the four operations.",
+    "sections": [
+      {
+        "id": "intro",
+        "title": "What Is a Fraction?",
+        "emoji": "🍕",
+        "question_count": 8
+      },
+      {
+        "id": "compare",
+        "title": "Greater or Smaller?",
+        "emoji": "⚖️",
+        "question_count": 15
+      },
+      {
+        "id": "lcm",
+        "title": "Common Multiples & the LCM",
+        "emoji": "🔢",
+        "question_count": 8
+      },
+      {
+        "id": "simplify",
+        "title": "Simplifying & Reducing",
+        "emoji": "✂️",
+        "question_count": 8
+      },
+      {
+        "id": "add",
+        "title": "Adding Fractions",
+        "emoji": "➕",
+        "question_count": 9
+      },
+      {
+        "id": "subtract",
+        "title": "Subtracting Fractions",
+        "emoji": "➖",
+        "question_count": 9
+      },
+      {
+        "id": "multiply",
+        "title": "Multiplying Fractions",
+        "emoji": "✖️",
+        "question_count": 10
+      },
+      {
+        "id": "divide",
+        "title": "Dividing Fractions",
+        "emoji": "➗",
+        "question_count": 9
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "intro",
+      "title": "What Is a Fraction?",
+      "emoji": "🍕",
+      "color": "#FF6B6B",
+      "blurb": "A fraction tells you how many equal parts you have out of a whole. The bottom number (denominator) says how many equal parts the whole is cut into. The top number (numerator) says how many of those parts you're talking about — like slices of a pizza!",
+      "key_concepts": [
+        "The denominator (bottom) = how many equal parts make up the WHOLE thing.",
+        "The numerator (top) = how many of those parts you actually have.",
+        "If the numerator is bigger than the denominator, you have MORE than one whole — that's an improper fraction, and it can be rewritten as a mixed number."
+      ],
+      "examples": [
+        {
+          "prompt": "A pizza is cut into {8} equal slices. You eat {3} of them. What fraction did you eat?",
+          "steps": "3 slices out of 8 total slices → 3/8. GCD(3,8) = 1, so it's already in simplest form, and 3 < 8 so it's already proper.",
+          "answer_display": "3/8"
+        },
+        {
+          "prompt": "A pan of brownies is cut into {9} pieces. {6} pieces get eaten. What fraction is eaten?",
+          "steps": "6 out of 9 → 6/9. GCD(6,9) = 3, so reduce: 6/9 = 2/3.",
+          "answer_display": "2/3"
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "title": "Greater or Smaller?",
+      "emoji": "⚖️",
+      "color": "#4ECDC4",
+      "blurb": "It's easy to compare fractions when the denominators already match — just look at the numerators! When the denominators are different, first rewrite both fractions so they have the same denominator (use the LCM of the denominators), THEN compare.",
+      "key_concepts": [
+        {
+          "text": "Same denominator? Just compare the numerators — bigger numerator wins.",
+          "visual": {
+            "type": "pizzas",
+            "items": [
+              {
+                "n": 3,
+                "d": 8
+              },
+              {
+                "n": 5,
+                "d": 8
+              }
+            ],
+            "sign": "<",
+            "caption": "Both pizzas are cut into 8 same-size slices. 5 slices is more than 3 slices, so {3/8} < {5/8}."
+          }
+        },
+        {
+          "text": "Different denominators? Find the LCM of the denominators, rewrite both fractions with it, then compare numerators.",
+          "visual": {
+            "type": "pizzas",
+            "rows": [
+              {
+                "note": "Step 1: the first pizza is cut into 4 slices and the second into 8 slices, so the slices are NOT the same size 🤔 Counting slices won't work yet — first we need the same denominator (same-size slices).",
+                "items": [
+                  {
+                    "n": 3,
+                    "d": 4
+                  },
+                  {
+                    "n": 5,
+                    "d": 8
+                  }
+                ],
+                "sign": "?"
+              },
+              {
+                "title": "Step 2: Find the LCM of the denominators 🔍",
+                "lines": [
+                  "LCM = Least Common Multiple: the smallest number that is a multiple of both denominators.",
+                  "Multiples of 4: 4, {8}, 12, …",
+                  "Multiples of 8: {8}, 16, …",
+                  "The smallest number in both lists is 8, so the LCM = {8}.",
+                  "8 becomes the new denominator for both fractions."
+                ]
+              },
+              {
+                "note": "Step 3: ✂️ cut every slice of the first pizza into 2. Now both pizzas have 8 same-size slices!",
+                "items": [
+                  {
+                    "n": 6,
+                    "d": 8
+                  },
+                  {
+                    "n": 5,
+                    "d": 8
+                  }
+                ],
+                "sign": ">"
+              }
+            ],
+            "caption": "Same amount of pizza, just smaller slices: {3/4} = {6/8}. Now count: {6/8} > {5/8}, so {3/4} > {5/8}."
+          }
+        },
+        {
+          "text": "Quick check: is each fraction MORE or LESS than half? A fraction that's more than half is always bigger than one that's less than half.",
+          "visual": {
+            "type": "numberline",
+            "halfway": true,
+            "points": [
+              {
+                "n": 2,
+                "d": 5,
+                "icon": "🐢",
+                "color": "coral"
+              },
+              {
+                "n": 9,
+                "d": 10,
+                "icon": "🐇",
+                "color": "teal"
+              }
+            ],
+            "caption": "Trick: double the top number and compare it with the bottom number.\n{2/5}: 2 × 2 = 4, which is LESS than 5 → less than half.\n{9/10}: 9 × 2 = 18, which is MORE than 10 → more than half.\nMore than half beats less than half, so {9/10} > {2/5} 🎉"
+          }
+        }
+      ],
+      "examples": [
+        {
+          "prompt": "Compare {2/5} and {3/5}.",
+          "steps": "Same denominator (5), so just compare numerators: 2 < 3, so 2/5 < 3/5.",
+          "answer_display": "2/5 < 3/5"
+        },
+        {
+          "prompt": "Compare {3/4} and {5/8}.",
+          "steps": "LCM of 4 and 8 is 8. 3/4 = 6/8. Compare 6/8 and 5/8 → 6 > 5, so 3/4 > 5/8.",
+          "answer_display": "3/4 > 5/8"
+        },
+        {
+          "prompt": "Sam ran {3/4} km. Kai ran {2/3} km. Who ran farther?",
+          "steps": "Pull out the fractions: 3/4 and 2/3. LCM of 4 and 3 is 12. 3/4 = 9/12 and 2/3 = 8/12. 9 > 8, so 3/4 > 2/3 — Sam ran farther.",
+          "answer_display": "Sam"
+        }
+      ]
+    },
+    {
+      "id": "lcm",
+      "title": "Common Multiples & the LCM",
+      "emoji": "🔢",
+      "color": "#FFE66D",
+      "blurb": "Before you can add, subtract, or compare fractions with different denominators, both fractions need the same denominator. The best one to use is the LCM (Least Common Multiple) of the two denominators.",
+      "key_concepts": [
+        "A multiple of a number is what you get multiplying it by 1, 2, 3, 4...",
+        "The LCM of two numbers is the smallest multiple they have in common.",
+        "With fractions, use the LCM of the denominators as the new denominator for both fractions."
+      ],
+      "examples": [
+        {
+          "prompt": "Find the LCM of {4} and {6}.",
+          "steps": "Multiples of 4: 4, 8, 12, 16... Multiples of 6: 6, 12, 18... The smallest match is 12.",
+          "answer_display": "12"
+        },
+        {
+          "prompt": "To add {1/6} and {1/8}, what should the new denominator be?",
+          "steps": "Multiples of 6: 6,12,18,24... Multiples of 8: 8,16,24... First match: 24.",
+          "answer_display": "24"
+        }
+      ]
+    },
+    {
+      "id": "simplify",
+      "title": "Simplifying & Reducing",
+      "emoji": "✂️",
+      "color": "#A8E6CF",
+      "blurb": "\"Simplifying\" and \"reducing\" mean the same thing: rewriting a fraction with the smallest possible numerator and denominator, without changing its value. You do this by dividing top and bottom by their greatest common factor (GCF).",
+      "key_concepts": [
+        "GCF = the biggest number that divides evenly into both the numerator and denominator.",
+        "Divide numerator AND denominator by the GCF — never just one of them.",
+        "A fraction is 'in simplest form' once its GCF is 1."
+      ],
+      "examples": [
+        {
+          "prompt": "Reduce {8/12} to lowest terms.",
+          "steps": "GCF(8,12) = 4. 8÷4 = 2, 12÷4 = 3 → 2/3.",
+          "answer_display": "2/3"
+        },
+        {
+          "prompt": "Reduce {15/20} to lowest terms.",
+          "steps": "GCF(15,20) = 5. 15÷5 = 3, 20÷5 = 4 → 3/4.",
+          "answer_display": "3/4"
+        }
+      ]
+    },
+    {
+      "id": "add",
+      "title": "Adding Fractions",
+      "emoji": "➕",
+      "color": "#7EC8E3",
+      "blurb": "Same denominator? Just add the numerators. Different denominators? Find the LCM of the denominators first, rewrite both fractions, THEN add. With mixed numbers, it's easiest to convert to improper fractions first.",
+      "key_concepts": [
+        "Same denominator: add the numerators, keep the denominator.",
+        "Different denominators: find the LCM of the denominators, rewrite both fractions with it, then add.",
+        "Mixed numbers: convert to improper fractions first, add, then convert back and simplify."
+      ],
+      "examples": [
+        {
+          "prompt": "{2/9} + {4/9} =",
+          "steps": "Same denominator: 2 + 4 = 6 → 6/9. Reduce: GCD(6,9)=3 → 2/3.",
+          "answer_display": "2/3"
+        },
+        {
+          "prompt": "{1/3} + {1/4} =",
+          "steps": "LCM of 3 and 4 is 12. 1/3 = 4/12, 1/4 = 3/12. Add: 4/12 + 3/12 = 7/12.",
+          "answer_display": "7/12"
+        }
+      ]
+    },
+    {
+      "id": "subtract",
+      "title": "Subtracting Fractions",
+      "emoji": "➖",
+      "color": "#FF8B94",
+      "blurb": "Subtracting works just like adding: same denominator, subtract the numerators; different denominators, find the LCM of the denominators first. For mixed numbers, convert to improper fractions first so you never have to \"borrow\".",
+      "key_concepts": [
+        "Same denominator: subtract the numerators, keep the denominator.",
+        "Different denominators: find the LCM of the denominators, rewrite both fractions, then subtract.",
+        "Mixed numbers: convert to improper fractions first — it avoids borrowing mistakes."
+      ],
+      "examples": [
+        {
+          "prompt": "{7/9} - {4/9} =",
+          "steps": "Same denominator: 7 - 4 = 3 → 3/9. Reduce: GCD(3,9)=3 → 1/3.",
+          "answer_display": "1/3"
+        },
+        {
+          "prompt": "{3/4} - {1/6} =",
+          "steps": "LCM of 4 and 6 is 12. 3/4 = 9/12, 1/6 = 2/12. Subtract: 9/12 - 2/12 = 7/12.",
+          "answer_display": "7/12"
+        }
+      ]
+    },
+    {
+      "id": "multiply",
+      "title": "Multiplying Fractions",
+      "emoji": "✖️",
+      "color": "#6C63FF",
+      "blurb": "Multiplying fractions is the most straightforward operation: multiply the numerators together, multiply the denominators together — no common denominator needed! For mixed numbers, convert to improper fractions first.",
+      "key_concepts": [
+        "Multiply straight across: (numerator × numerator) / (denominator × denominator).",
+        "Mixed numbers: convert to improper fractions before multiplying.",
+        "Shortcut: you can cancel common factors between a numerator and a denominator BEFORE multiplying — it keeps the numbers smaller."
+      ],
+      "examples": [
+        {
+          "prompt": "{2/3} × {5/7} =",
+          "steps": "Multiply across: (2×5)/(3×7) = 10/21. GCD(10,21)=1, already simplest form.",
+          "answer_display": "10/21"
+        },
+        {
+          "prompt": "{5/30} × {9/5} =",
+          "steps": "Multiply across: 45/150. GCD(45,150)=15 → 3/10. (You could also cancel the two 5's first!)",
+          "answer_display": "3/10"
+        }
+      ]
+    },
+    {
+      "id": "divide",
+      "title": "Dividing Fractions",
+      "emoji": "➗",
+      "color": "#FF9F43",
+      "blurb": "\"Keep, Change, Flip\": keep the first fraction, change ÷ to ×, and flip (reciprocal) the second fraction. Then multiply straight across like normal.",
+      "key_concepts": [
+        "Dividing by a fraction is the same as multiplying by its reciprocal (flip it).",
+        "Whole numbers can be written as a fraction over 1 before flipping.",
+        "Mixed numbers: convert to improper fractions first, then keep-change-flip."
+      ],
+      "examples": [
+        {
+          "prompt": "{2/3} ÷ {1/6} =",
+          "steps": "Keep-change-flip: 2/3 × 6/1 = 12/3 = 4.",
+          "answer_display": "4"
+        },
+        {
+          "prompt": "{3/4} ÷ {2/5} =",
+          "steps": "Keep-change-flip: 3/4 × 5/2 = 15/8 → improper → mixed 1 7/8.",
+          "answer_display": "1 7/8"
+        }
+      ]
+    }
+  ]
+}
