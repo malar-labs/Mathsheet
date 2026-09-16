@@ -194,15 +194,17 @@ function gradeDecimalAnswer(userInput, answer) {
 
 // ===== routing =====
 //   /units/grade8/fractions               → unit overview (every topic)
-//   /units/grade8/fractions/compare       → topic lesson
+//   /units/grade8/fractions/compare       → topic menu: learn or practise?
+//   /units/grade8/fractions/compare#learn → the lesson
 //   /units/grade8/fractions/compare#3     → question 3 (1-based)
 //   /units/grade8/fractions/compare#done  → results
 const FOCUS_SECTION = (typeof UNIT_FOCUS_SECTION !== 'undefined' && UNIT_FOCUS_SECTION) || null;
 
 function pageHash(page) {
     if (page === 'done') return 'done';
+    if (page === 'lesson') return 'learn';
     if (typeof page === 'number') return String(page + 1);
-    return '';
+    return '';   // the topic menu
 }
 
 function topicUrl(sectionId, page) {
@@ -213,11 +215,12 @@ function topicUrl(sectionId, page) {
 function parsePage(sectionId) {
     const page = decodeURIComponent(location.hash.slice(1));
     if (page === 'done') return 'done';
+    if (page === 'learn') return 'lesson';
     if (/^\d+$/.test(page)) {
         const i = parseInt(page, 10) - 1;
         if (i >= 0 && i < questionsFor(sectionId).length) return i;
     }
-    return 'lesson';
+    return 'menu';
 }
 
 function ulGo(sectionId, page) {
@@ -411,9 +414,54 @@ function renderTopic() {
     const page = ulState.page;
     if (page === 'done') content.innerHTML = resultsPageHTML(section, qs);
     else if (typeof page === 'number') content.innerHTML = questionPageHTML(section, qs, page);
-    else content.innerHTML = lessonPageHTML(section, qs);
+    else if (page === 'lesson') content.innerHTML = lessonPageHTML(section, qs);
+    else content.innerHTML = menuPageHTML(section, qs);
     wireCommon(content);
     if (typeof page === 'number') wireQuestion(qs[page]);
+}
+
+// The landing page for a topic: read the lesson first, or go straight to the
+// questions. The lesson itself lives one click away, under "Learn".
+function menuPageHTML(section, qs) {
+    const st = sectionStats(section.id);
+    const cta = practiceCta(st);
+    const concepts = section.key_concepts.length;
+    const examples = section.examples.length;
+    return `
+        <div class="ul-layout">
+            <div class="ul-layout-main">
+                <section class="ul-panel ul-intro-panel">
+                    <div class="ul-kicker">📘 The big idea</div>
+                    <p class="ul-lesson-blurb">${escHTML(section.blurb)}</p>
+                </section>
+                <div class="ul-choice-grid">
+                    <button class="ul-choice" data-go="lesson">
+                        <span class="ul-choice-emoji" aria-hidden="true">📖</span>
+                        <span class="ul-choice-title">Learn</span>
+                        <span class="ul-choice-desc">${concepts} key concept${concepts === 1 ? '' : 's'}
+                            and ${examples} worked example${examples === 1 ? '' : 's'}, with pictures.</span>
+                        <span class="ul-choice-cta">Read the lesson →</span>
+                    </button>
+                    <button class="ul-choice ul-choice-practice" data-go="${cta.go}">
+                        <span class="ul-choice-emoji" aria-hidden="true">✏️</span>
+                        <span class="ul-choice-title">Practice</span>
+                        <span class="ul-choice-desc">${kindSummary(qs)}, one per page, marked as you go.</span>
+                        <span class="ul-choice-cta">${cta.label} →</span>
+                    </button>
+                </div>
+            </div>
+            <aside class="ul-layout-side"><div class="ul-side-sticky">
+                <div class="ul-side-card">
+                    <div class="ul-side-title">✏️ Your progress</div>
+                    <div class="ul-score-row">
+                        ${scoreRingHTML(st.score)}
+                        <div><div class="ul-big-num">${st.answered}<span>/${st.total}</span></div><div class="ul-muted">answered</div></div>
+                    </div>
+                    ${st.answered ? '<button class="ul-side-link js-restart">🔄 Start over</button>' : ''}
+                </div>
+                ${topicListHTML(section.id)}
+            </div></aside>
+        </div>`;
 }
 
 function lessonPageHTML(section, qs) {
@@ -436,6 +484,7 @@ function lessonPageHTML(section, qs) {
     return `
         <div class="ul-layout">
             <div class="ul-layout-main">
+                <button class="ul-back-link" data-go="menu">← Back to ${escHTML(section.title)}</button>
                 <section class="ul-panel ul-intro-panel">
                     <div class="ul-kicker">📘 The big idea</div>
                     <p class="ul-lesson-blurb">${escHTML(section.blurb)}</p>
@@ -766,7 +815,7 @@ function resultsPageHTML(section, qs) {
                             ${skipped ? `<span class="ul-chip">– ${skipped} not answered</span>` : ''}
                         </div>
                         <div class="ul-fb-actions">
-                            ${nextSection ? `<button class="ul-next-btn" data-section="${nextSection.id}" data-go="lesson">Next topic: ${escHTML(nextSection.title)} →</button>` : ''}
+                            ${nextSection ? `<button class="ul-next-btn" data-section="${nextSection.id}" data-go="menu">Next topic: ${escHTML(nextSection.title)} →</button>` : ''}
                             <button class="ul-prev-btn" data-go="lesson">📖 Review the lesson</button>
                             <button class="ul-prev-btn js-restart">🔄 Start over</button>
                         </div>

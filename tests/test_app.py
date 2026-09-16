@@ -218,6 +218,33 @@ class TestTopicsEndpoint:
 #   Unit-wise learning pages (static content)
 # =============================================
 
+class TestTopLevelPages:
+    def test_landing_page_is_unit_wise_learning(self):
+        r = client.get("/")
+        assert r.status_code == 200
+        assert "Unit-Wise Learning" in r.text
+        # the catalog, not the worksheet generator
+        assert "/units/grade9/rational-numbers" in r.text
+        assert 'id="login-btn"' not in r.text
+
+    def test_worksheet_generator_moved_to_generator(self):
+        r = client.get("/generator")
+        assert r.status_code == 200
+        assert 'id="login-btn"' in r.text
+
+    def test_generator_is_reachable_from_the_landing_page(self):
+        assert 'href="/generator"' in client.get("/").text
+
+    def test_landing_page_is_reachable_from_the_generator(self):
+        assert 'href="/"' in client.get("/generator").text
+
+    def test_old_units_url_still_works(self):
+        r = client.get("/units", follow_redirects=False)
+        assert r.status_code in (307, 308)
+        assert r.headers["location"] == "/"
+        assert client.get("/units").status_code == 200
+
+
 class TestUnitPages:
     @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
     def test_unit_page_is_overview(self, grade, unit):
