@@ -215,14 +215,14 @@ class TestTopicsEndpoint:
 
 
 # =============================================
-#   Unit-wise learning pages (static content)
+#   Grade-wise learning pages (static content)
 # =============================================
 
 class TestTopLevelPages:
-    def test_landing_page_is_unit_wise_learning(self):
+    def test_landing_page_is_grade_wise_learning(self):
         r = client.get("/")
         assert r.status_code == 200
-        assert "Unit-Wise Learning" in r.text
+        assert "Grade-Wise Learning" in r.text
         # the catalog, not the worksheet generator
         assert "/units/grade9/rational-numbers" in r.text
         assert 'id="login-btn"' not in r.text

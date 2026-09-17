@@ -124,7 +124,7 @@ def extract_json(text: str) -> dict:
 
 @app.get("/")
 async def home(request: Request):
-    """Unit-wise learning is the landing page; the worksheet generator is one
+    """Grade-wise learning is the landing page; the worksheet generator is one
     click away at /generator."""
     return templates.TemplateResponse(
         request,

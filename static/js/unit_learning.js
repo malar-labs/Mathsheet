@@ -1,5 +1,5 @@
 /* =============================================
-   Unit-Wise Learning — shared engine for every unit
+   Grade-Wise Learning — shared engine for every unit
    Fully client-side: no AI, no network calls.
    All lesson content & questions come from UNIT_SECTIONS /
    UNIT_QUESTIONS (injected server-side from static JSON files).

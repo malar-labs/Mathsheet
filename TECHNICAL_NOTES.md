@@ -37,7 +37,7 @@ NOTE: Teacher instructions modify topic/type selection only. Curriculum difficul
 **Fix:** `AbortController` (2 min) on fetch + 90s timeout on Groq API call.
 **Result:** Clear timeout message instead of silent failure.
 
-### Unit-Wise Learning — One Engine, Many Units
+### Grade-Wise Learning — One Engine, Many Units
 **Problem:** The unit-learning front end was written for the Grade 8 Fractions unit (`unit_fractions.js`). Grade 9 Rational Numbers needs negatives, decimal answers and "put these in order" questions, none of which it could express.
 **Fix:** Renamed the file to `static/js/unit_learning.js` — it was already driven entirely by `UNIT_SECTIONS` / `UNIT_QUESTIONS`, so only the name was unit-specific — and extended it:
 - A mixed number's sign now lives on the whole part, so `-1 3/4` grades as `-(1 + 3/4)` instead of `-1×4 + 3`. The reduce and improper→mixed checks compare magnitudes.
