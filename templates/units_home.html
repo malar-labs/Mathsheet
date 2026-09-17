@@ -23,6 +23,11 @@
             </div>
         </a>
         <div class="header-right">
+            {% if learner %}
+            <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
+            {% else %}
+            <a href="/account" class="btn-header-login">🔐 Save my progress</a>
+            {% endif %}
             <span class="btn-header-login is-disabled"
                   aria-disabled="true"
                   title="The worksheet generator is turned off for now">📝 Worksheet Generator</span>
@@ -33,7 +38,7 @@
 <main class="main">
     <div class="section-header">
         <h2>🧩 Unit-Wise Learning</h2>
-        <p>Pick a unit below to learn it step-by-step, then practice with instant feedback. Need a printable worksheet instead? Use the <a href="/generator">Worksheet Generator</a>.</p>
+        <p>Pick a unit below to learn it step-by-step, then practice with instant feedback.</p>
     </div>
 
     {% if not_found %}

@@ -15,10 +15,12 @@ import json
 import re
 import asyncio
 import logging
+from contextlib import asynccontextmanager
 from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
 from curriculum import CURRICULUM, build_system_prompt
+import store
 
 load_dotenv()
 
@@ -30,7 +32,15 @@ logging.basicConfig(
 logger = logging.getLogger("mathsheet")
 
 # ===== APP SETUP =====
-app = FastAPI(title="MathSheet Pro — BC Math Worksheet Generator")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    # Let go of the shared Supabase connection on the way out.
+    await store.aclose()
+
+
+app = FastAPI(title="MathSheet Pro — BC Math Worksheet Generator", lifespan=lifespan)
 
 app.add_middleware(
     SessionMiddleware,
@@ -64,6 +74,19 @@ OPENROUTER_MODEL   = "meta-llama/llama-3.3-70b-instruct:free"
 # ===== REQUEST MODELS =====
 class LoginBody(BaseModel):
     username: str
+
+class AccountBody(BaseModel):
+    username: str = ''
+    pin: str = ''
+    grade: int | None = None
+
+class ProgressBody(BaseModel):
+    unit_key: str
+    verdicts: dict[str, str] = {}
+
+class ClearProgressBody(BaseModel):
+    unit_key: str
+    question_ids: List[str] = []
 
 class GenerateBody(BaseModel):
     topics: List[str] = []
@@ -106,7 +129,7 @@ async def home(request: Request):
     return templates.TemplateResponse(
         request,
         "units_home.html",
-        {"grades": catalog_by_grade()}
+        {"grades": catalog_by_grade(), "learner": current_learner(request)}
     )
 
 
@@ -204,7 +227,7 @@ async def units_home():
     return RedirectResponse("/", status_code=308)
 
 
-def render_unit_page(request: Request, grade: int, unit: str, section_id: str | None = None):
+async def render_unit_page(request: Request, grade: int, unit: str, section_id: str | None = None):
     bundle = load_unit_bundle(grade, unit)
     focus = None
     if bundle and section_id:
@@ -213,9 +236,23 @@ def render_unit_page(request: Request, grade: int, unit: str, section_id: str | 
         return templates.TemplateResponse(
             request,
             "units_home.html",
-            {"grades": catalog_by_grade(), "not_found": True},
+            {"grades": catalog_by_grade(), "not_found": True, "learner": current_learner(request)},
             status_code=404,
         )
+
+    # A signed-in learner's saved answers ship with the page, so the progress
+    # bar is right in the first paint instead of jumping after a fetch. If
+    # Supabase is unreachable the page still renders — the browser's own copy
+    # takes over and syncing resumes later.
+    learner = current_learner(request)
+    unit_key = f"grade{grade}_{unit}"
+    saved: dict = {}
+    if learner:
+        try:
+            saved = (await store.load_progress(learner["id"], unit_key)).get(unit_key, {})
+        except store.StoreError as exc:
+            logger.warning("PROGRESS| %s", exc)
+
     return templates.TemplateResponse(
         request,
         "unit_page.html",
@@ -224,19 +261,159 @@ def render_unit_page(request: Request, grade: int, unit: str, section_id: str | 
             "sections": bundle["lessons"]["sections"],
             "questions": bundle["questions"],
             "focus": focus,
+            "learner": learner,
+            "saved_progress": saved,
         },
     )
 
 
 @app.get("/units/grade{grade}/{unit}")
 async def unit_page(request: Request, grade: int, unit: str):
-    return render_unit_page(request, grade, unit)
+    return await render_unit_page(request, grade, unit)
 
 
 # One topic on its own page (no topic tabs), e.g. /units/grade8/fractions/compare
 @app.get("/units/grade{grade}/{unit}/{section}")
 async def unit_section_page(request: Request, grade: int, unit: str, section: str):
-    return render_unit_page(request, grade, unit, section)
+    return await render_unit_page(request, grade, unit, section)
+
+
+# ===== LEARNER ACCOUNTS (username + 4-digit PIN) =====
+# Deliberately not email/OAuth: most of these learners are under 13, so the less
+# we know about them the better. A username and a PIN carry progress between
+# devices and identify nobody. The cost is that a forgotten PIN has to be reset
+# by hand from the Supabase dashboard — there's no email to send a link to.
+
+def current_learner(request: Request) -> dict | None:
+    return request.session.get("learner")
+
+
+@app.get("/account")
+async def account_page(request: Request, next: str = "/"):
+    return templates.TemplateResponse(
+        request,
+        "account.html",
+        {
+            "learner": current_learner(request),
+            "accounts_enabled": store.enabled(),
+            "next_url": next if next.startswith("/") else "/",
+        },
+    )
+
+
+@app.post("/api/account/signup")
+async def account_signup(body: AccountBody, request: Request):
+    if not store.enabled():
+        return JSONResponse({"success": False, "error": "Accounts aren't set up on this server."}, status_code=503)
+
+    display_name = (body.username or '').strip()
+    username = store.normalize_username(display_name)
+    problem = store.username_problem(username) or store.pin_problem(body.pin)
+    if problem:
+        return JSONResponse({"success": False, "error": problem}, status_code=400)
+
+    try:
+        if await store.find_learner(username):
+            raise store.UsernameTaken("That username is taken — try another.")
+        learner = await store.create_learner(username, display_name, body.pin, body.grade)
+    except store.UsernameTaken as exc:
+        return JSONResponse({"success": False, "error": str(exc)}, status_code=409)
+    except store.StoreError as exc:
+        logger.warning("SIGNUP  | %s", exc)
+        return JSONResponse({"success": False, "error": "Couldn't save your account — try again."}, status_code=502)
+
+    request.session["learner"] = {
+        "id": learner["id"], "username": username, "display_name": learner["display_name"],
+    }
+    logger.info("SIGNUP  | user=%-20s | ip=%s", username, get_client_ip(request))
+    return JSONResponse({"success": True, "learner": request.session["learner"]})
+
+
+@app.post("/api/account/login")
+async def account_login(body: AccountBody, request: Request):
+    if not store.enabled():
+        return JSONResponse({"success": False, "error": "Accounts aren't set up on this server."}, status_code=503)
+
+    username = store.normalize_username(body.username)
+    try:
+        learner = await store.find_learner(username)
+    except store.StoreError as exc:
+        logger.warning("LOGIN   | %s", exc)
+        return JSONResponse({"success": False, "error": "Couldn't reach the progress server — try again."}, status_code=502)
+
+    # One message for "no such user" and "wrong PIN" alike, so the form can't be
+    # used to find out which usernames exist.
+    wrong = JSONResponse({"success": False, "error": "That username and PIN don't match."}, status_code=401)
+    if not learner:
+        return wrong
+
+    locked = store.lockout_remaining(learner)
+    if locked:
+        return JSONResponse(
+            {"success": False, "error": f"Too many wrong tries. Try again in {locked} minutes."},
+            status_code=429,
+        )
+
+    if not store.verify_pin(body.pin, learner["pin_hash"]):
+        minutes = await store.note_failed_attempt(learner)
+        if minutes:
+            return JSONResponse(
+                {"success": False, "error": f"Too many wrong tries. Try again in {minutes} minutes."},
+                status_code=429,
+            )
+        return wrong
+
+    await store.note_signed_in(learner["id"])
+    request.session["learner"] = {
+        "id": learner["id"], "username": username, "display_name": learner["display_name"],
+    }
+    logger.info("LOGIN   | user=%-20s | ip=%s", username, get_client_ip(request))
+    return JSONResponse({"success": True, "learner": request.session["learner"]})
+
+
+@app.post("/api/account/logout")
+async def account_logout(request: Request):
+    request.session.pop("learner", None)
+    return JSONResponse({"success": True})
+
+
+@app.get("/api/progress")
+async def get_progress(request: Request):
+    learner = current_learner(request)
+    if not learner:
+        return JSONResponse({"success": False, "error": "Not signed in."}, status_code=401)
+    try:
+        return JSONResponse({"success": True, "progress": await store.load_progress(learner["id"])})
+    except store.StoreError as exc:
+        logger.warning("PROGRESS| %s", exc)
+        return JSONResponse({"success": False, "error": "Couldn't load your progress."}, status_code=502)
+
+
+@app.post("/api/progress")
+async def post_progress(body: ProgressBody, request: Request):
+    learner = current_learner(request)
+    if not learner:
+        return JSONResponse({"success": False, "error": "Not signed in."}, status_code=401)
+    try:
+        merged = await store.save_progress(learner["id"], body.unit_key, body.verdicts)
+    except store.StoreError as exc:
+        # Losing a sync isn't fatal — the browser still holds the answers.
+        logger.warning("PROGRESS| %s", exc)
+        return JSONResponse({"success": False, "error": "Couldn't save right now."}, status_code=502)
+    return JSONResponse({"success": True, "progress": merged})
+
+
+@app.post("/api/progress/clear")
+async def post_progress_clear(body: ClearProgressBody, request: Request):
+    learner = current_learner(request)
+    if not learner:
+        return JSONResponse({"success": False, "error": "Not signed in."}, status_code=401)
+    try:
+        await store.clear_progress(learner["id"], body.unit_key, body.question_ids)
+    except store.StoreError as exc:
+        logger.warning("PROGRESS| %s", exc)
+        return JSONResponse({"success": False, "error": "Couldn't clear that topic."}, status_code=502)
+    return JSONResponse({"success": True})
 
 
 def get_client_ip(request: Request) -> str:

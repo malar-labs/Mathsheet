@@ -23,6 +23,11 @@
             </div>
         </a>
         <div class="header-right">
+            {% if learner %}
+            <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
+            {% else %}
+            <a href="/account?next={{ request.url.path | urlencode }}" class="btn-header-login">🔐 Save my progress</a>
+            {% endif %}
             <a href="/" class="btn-header-login">← All Units</a>
         </div>
     </div>
@@ -61,6 +66,10 @@
     const UNIT_BASE_URL = "/units/grade{{ meta.grade }}/{{ meta.unit }}";
     // the topic this page shows; null on the unit overview
     const UNIT_FOCUS_SECTION = {{ (focus.id if focus else none) | tojson }};
+    // null when nobody is signed in — progress then stays in this browser only
+    const UL_LEARNER = {{ learner | tojson }};
+    // answers already saved to this learner's account, merged with localStorage on load
+    const UNIT_PROGRESS = {{ saved_progress | tojson }};
 </script>
 <script src="{{ asset_url('js/unit_learning.js') }}"></script>
 </body>
