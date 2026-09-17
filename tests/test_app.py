@@ -232,8 +232,11 @@ class TestTopLevelPages:
         assert r.status_code == 200
         assert 'id="login-btn"' in r.text
 
-    def test_generator_is_reachable_from_the_landing_page(self):
-        assert 'href="/generator"' in client.get("/").text
+    def test_generator_is_not_linked_from_the_landing_page(self):
+        # The generator is turned off for now: the header button is inert and
+        # nothing in the copy offers a way in. /generator itself still answers,
+        # so old links and bookmarks keep working.
+        assert 'href="/generator"' not in client.get("/").text
 
     def test_landing_page_is_reachable_from_the_generator(self):
         assert 'href="/"' in client.get("/generator").text
