@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in — MathSheet Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/unit_learning.css') }}">
+</head>
+<body>
+
+<header class="app-header no-print">
+    <div class="header-inner">
+        <a class="logo" href="/" style="text-decoration:none">
+            <div class="logo-icon-wrap">📐</div>
+            <div>
+                <div class="logo-title">MathSheet <span>Pro</span></div>
+                <div class="logo-sub">BC Curriculum · Math Worksheet Generator</div>
+            </div>
+        </a>
+        <div class="header-right">
+            <a href="/" class="btn-header-login">← All Units</a>
+        </div>
+    </div>
+</header>
+
+<main class="main">
+    {% if learner %}
+    <div class="ul-account-wrap">
+        <section class="ul-account-card">
+            <div class="ul-account-emoji">👋</div>
+            <h1>Hi, {{ learner.display_name }}!</h1>
+            <p>Your progress saves automatically. Sign in with this username and PIN on any other device to pick up where you left off.</p>
+            <div class="ul-account-actions">
+                <a class="ul-account-btn" href="/">Keep learning →</a>
+                <button type="button" class="ul-account-link" id="ul-signout">Sign out</button>
+            </div>
+        </section>
+    </div>
+
+    {% elif not accounts_enabled %}
+    <div class="ul-account-wrap">
+        <section class="ul-account-card">
+            <div class="ul-account-emoji">💾</div>
+            <h1>Accounts are off right now</h1>
+            <p>Your progress is still being saved in this browser, so you can keep learning as normal — it just won't follow you to another device.</p>
+            <div class="ul-account-actions">
+                <a class="ul-account-btn" href="/">Back to units →</a>
+            </div>
+        </section>
+    </div>
+
+    {% else %}
+    <div class="ul-account-wrap">
+        <section class="ul-account-card">
+            <div class="ul-account-emoji">🔐</div>
+            <h1>Save your progress</h1>
+            <p>Pick a username and a 4-digit PIN. No email, no password — just something you'll remember.</p>
+
+            <div class="ul-account-tabs" role="tablist">
+                <button type="button" role="tab" class="is-active" data-tab="signin" aria-selected="true">I have an account</button>
+                <button type="button" role="tab" data-tab="signup" aria-selected="false">I'm new here</button>
+            </div>
+
+            <form class="ul-account-form" id="ul-form-signin" novalidate>
+                <label for="signin-username">Username</label>
+                <input id="signin-username" name="username" autocomplete="username"
+                       autocapitalize="none" spellcheck="false" required>
+
+                <label for="signin-pin">PIN</label>
+                <input id="signin-pin" name="pin" inputmode="numeric" pattern="\d{4}" maxlength="4"
+                       autocomplete="current-password" placeholder="••••" required>
+
+                <p class="ul-account-error" id="ul-error-signin" hidden role="alert"></p>
+                <button type="submit" class="ul-account-btn">Sign in</button>
+            </form>
+
+            <form class="ul-account-form" id="ul-form-signup" hidden novalidate>
+                <label for="signup-username">Pick a username</label>
+                <input id="signup-username" name="username" autocomplete="username"
+                       autocapitalize="none" spellcheck="false" required>
+                <span class="ul-account-hint">3–20 characters. Letters, numbers, - and _</span>
+
+                <label for="signup-pin">Pick a 4-digit PIN</label>
+                <input id="signup-pin" name="pin" inputmode="numeric" pattern="\d{4}" maxlength="4"
+                       autocomplete="new-password" placeholder="••••" required>
+                <span class="ul-account-hint">Don't use your birthday. Nobody can reset this for you.</span>
+
+                <p class="ul-account-error" id="ul-error-signup" hidden role="alert"></p>
+                <button type="submit" class="ul-account-btn">Create account</button>
+            </form>
+
+            <p class="ul-account-foot">
+                You don't need an account to learn — <a href="/">everything works without one</a>.
+                Signing in just carries your progress between devices.
+            </p>
+        </section>
+    </div>
+    {% endif %}
+</main>
+
+<script>
+    const ACCOUNT_NEXT = {{ next_url | tojson }};
+</script>
+<script src="{{ asset_url('js/account.js') }}"></script>
+</body>
+</html>

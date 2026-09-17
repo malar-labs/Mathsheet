@@ -23,6 +23,11 @@
             </div>
         </a>
         <div class="header-right">
+            {% if learner %}
+            <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
+            {% else %}
+            <a href="/account" class="btn-header-login">🔐 Save my progress</a>
+            {% endif %}
             <span class="btn-header-login is-disabled"
                   aria-disabled="true"
                   title="The worksheet generator is turned off for now">📝 Worksheet Generator</span>

@@ -616,6 +616,91 @@ a.ul-catalog-title::after { content: ''; position: absolute; inset: 0; z-index: 
     background: var(--border); transform: translateX(-50%);
 }
 
+/* ===== sign in / sign up ===== */
+.ul-account-wrap { display: flex; justify-content: center; padding: 1rem 0 3rem; }
+.ul-account-card {
+    width: 100%; max-width: 440px; background: var(--white);
+    border: 2px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 2rem 1.75rem;
+}
+.ul-account-emoji { font-size: 2.4rem; line-height: 1; margin-bottom: 0.5rem; }
+.ul-account-card h1 {
+    font-family: var(--font-main); font-weight: 800; font-size: 1.5rem;
+    color: var(--dark); margin: 0 0 0.4rem;
+}
+.ul-account-card > p {
+    font-family: var(--font-body); color: var(--gray); font-size: 0.95rem;
+    line-height: 1.5; margin: 0 0 1.25rem;
+}
+
+.ul-account-tabs { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; }
+.ul-account-tabs button {
+    flex: 1; padding: 0.6rem 0.5rem; cursor: pointer;
+    font-family: var(--font-main); font-weight: 700; font-size: 0.85rem;
+    color: var(--gray); background: var(--bg);
+    border: 2px solid transparent; border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+.ul-account-tabs button.is-active {
+    background: var(--purple-light); border-color: var(--purple); color: var(--purple-dark);
+}
+
+.ul-account-form { display: flex; flex-direction: column; }
+/* display:flex above would otherwise beat the [hidden] attribute and show both
+   the sign-in and sign-up forms at once */
+.ul-account-form[hidden] { display: none; }
+.ul-account-form label {
+    font-family: var(--font-main); font-weight: 700; font-size: 0.82rem;
+    color: var(--dark); margin-bottom: 0.35rem;
+}
+.ul-account-form input {
+    font-family: var(--font-body); font-size: 1.05rem; font-weight: 600;
+    padding: 0.7rem 0.85rem; margin-bottom: 0.3rem;
+    border: 2px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--white); color: var(--dark); transition: var(--transition);
+}
+.ul-account-form input:focus {
+    outline: none; border-color: var(--purple); box-shadow: 0 0 0 4px var(--purple-light);
+}
+/* PIN entry reads as a PIN, not a sentence */
+.ul-account-form input[inputmode="numeric"] {
+    letter-spacing: 0.5em; text-align: center; max-width: 9rem;
+}
+.ul-account-hint {
+    font-family: var(--font-body); font-size: 0.78rem; color: var(--light-gray);
+    margin-bottom: 1rem;
+}
+.ul-account-error {
+    font-family: var(--font-body); font-weight: 700; font-size: 0.85rem;
+    color: var(--coral); background: #fff0f0; border: 2px solid var(--coral);
+    border-radius: var(--radius-sm); padding: 0.55rem 0.7rem; margin: 0.25rem 0 0.9rem;
+}
+.ul-account-btn {
+    display: inline-block; text-align: center; text-decoration: none; cursor: pointer;
+    font-family: var(--font-main); font-weight: 800; font-size: 0.95rem;
+    padding: 0.8rem 1.2rem; margin-top: 0.5rem;
+    color: var(--white); background: var(--purple);
+    border: none; border-radius: var(--radius-sm); transition: var(--transition);
+}
+.ul-account-btn:hover { background: var(--purple-dark); }
+.ul-account-btn:disabled { opacity: 0.6; cursor: default; }
+.ul-account-link {
+    background: none; border: none; cursor: pointer; padding: 0.8rem 0.5rem;
+    font-family: var(--font-main); font-weight: 700; font-size: 0.9rem;
+    color: var(--gray); text-decoration: underline;
+}
+.ul-account-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.ul-account-foot {
+    font-family: var(--font-body); font-size: 0.8rem; color: var(--light-gray);
+    line-height: 1.5; margin: 1.25rem 0 0; padding-top: 1rem;
+    border-top: 2px solid var(--border);
+}
+.ul-account-foot a { color: var(--purple); }
+
+@media (max-width: 480px) {
+    .ul-account-card { padding: 1.5rem 1.15rem; }
+}
+
 /* sign rules ("two negatives make a positive") */
 .ul-rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.6rem; }
 .ul-rule {
