@@ -62,6 +62,12 @@ def asset_url(path: str) -> str:
 
 
 templates.env.globals['asset_url'] = asset_url
+# Cloudflare Web Analytics site token. Public by design (it ships in the HTML),
+# so the live site's token is the default; set CF_ANALYTICS_TOKEN to '' to turn
+# the beacon off, e.g. when running locally.
+templates.env.globals['cf_analytics_token'] = os.environ.get(
+    'CF_ANALYTICS_TOKEN', '14d3a471abb949d9bf14c1ef99334ffc'
+)
 
 GEMINI_API_KEY     = os.environ.get('GEMINI_API_KEY', '')
 GROQ_API_KEY       = os.environ.get('GROQ_API_KEY', '')
