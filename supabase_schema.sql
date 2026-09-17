@@ -37,3 +37,14 @@ create index if not exists progress_learner_unit_idx on progress (learner_id, un
 -- key — which is designed to be public — can read no learner data at all.
 alter table learners enable row level security;
 alter table progress enable row level security;
+
+-- Bypassing RLS is not the same as having table privileges, and not every
+-- project applies default grants to service_role — without these the API
+-- answers 42501 "permission denied" on tables that plainly exist. Granted to
+-- service_role only: anon and authenticated are deliberately left with nothing,
+-- so the publishable key stays unable to touch learner data.
+grant usage on schema public to service_role;
+grant all privileges on table public.learners to service_role;
+grant all privileges on table public.progress to service_role;
+-- learners.id is an identity column, so inserts need its sequence too
+grant usage, select on all sequences in schema public to service_role;
