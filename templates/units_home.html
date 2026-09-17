@@ -23,7 +23,9 @@
             </div>
         </a>
         <div class="header-right">
-            <a href="/generator" class="btn-header-login">📝 Worksheet Generator</a>
+            <span class="btn-header-login is-disabled"
+                  aria-disabled="true"
+                  title="The worksheet generator is turned off for now">📝 Worksheet Generator</span>
         </div>
     </div>
 </header>
@@ -38,25 +40,43 @@
     <div class="ul-notice">That unit isn't available yet — pick one below.</div>
     {% endif %}
 
-    <div class="ul-catalog-grid">
-        {% for item in catalog %}
-        {% if item.available %}
-        <a class="ul-catalog-card" href="/units/grade{{ item.grade }}/{{ item.unit }}">
-        {% else %}
-        <div class="ul-catalog-card ul-catalog-card-disabled">
-        {% endif %}
-            <div class="ul-catalog-emoji">{{ item.emoji }}</div>
-            <div class="ul-catalog-grade">Grade {{ item.grade }}</div>
-            <div class="ul-catalog-title">{{ item.title }}</div>
-            <div class="ul-catalog-desc">{{ item.description }}</div>
-            {% if not item.available %}<div class="ul-catalog-badge">Coming soon</div>{% endif %}
-        {% if item.available %}
-        </a>
-        {% else %}
+    {% for group in grades %}
+    <section class="ul-grade-block">
+        <h3 class="ul-grade-heading"><span>Grade {{ group.grade }}</span></h3>
+        <div class="ul-catalog-grid">
+            {% for item in group.units %}
+            {% set unit_url = "/units/grade" ~ item.grade ~ "/" ~ item.unit %}
+            <div class="ul-catalog-card{% if not item.available %} ul-catalog-card-disabled{% endif %}">
+                <div class="ul-catalog-head">
+                    <span class="ul-catalog-emoji">{{ item.emoji }}</span>
+                    <span>
+                        {% if item.available %}<span class="ul-catalog-kicker">Unit</span>{% endif %}
+                        {% if item.available %}
+                        <a class="ul-catalog-title" href="{{ unit_url }}">{{ item.title }}</a>
+                        {% else %}
+                        <span class="ul-catalog-title">{{ item.title }}</span>
+                        {% endif %}
+                    </span>
+                </div>
+                {% if item.available %}
+                <div class="ul-catalog-topics">
+                    <div class="ul-catalog-topics-label">{{ item.topics | length }} topics · {{ item.question_count }} questions</div>
+                    <ol class="ul-catalog-topic-list">
+                        {% for topic in item.topics %}
+                        <li><a href="{{ unit_url }}/{{ topic.id }}">{{ topic.title }}</a></li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <a class="ul-catalog-cta" href="{{ unit_url }}">Open unit →</a>
+                {% else %}
+                <div class="ul-catalog-desc">{{ item.description }}</div>
+                <div class="ul-catalog-badge">Coming soon</div>
+                {% endif %}
+            </div>
+            {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
-    </div>
+    </section>
+    {% endfor %}
 </main>
 
 </body>
