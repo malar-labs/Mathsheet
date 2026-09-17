@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit-Wise Learning — MathSheet Pro</title>
+    <title>Grade-Wise Learning — MathSheet Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -37,16 +37,25 @@
 
 <main class="main">
     <div class="section-header">
-        <h2>🧩 Unit-Wise Learning</h2>
-        <p>Pick a unit below to learn it step-by-step, then practice with instant feedback.</p>
+        <h2>🧩 Grade-Wise Learning</h2>
+        <p>Pick your grade and a unit to learn it step-by-step, then practice with instant feedback.</p>
     </div>
 
     {% if not_found %}
     <div class="ul-notice">That unit isn't available yet — pick one below.</div>
     {% endif %}
 
+    {% if grades | length > 1 %}
+    <nav class="ul-grade-nav" aria-label="Choose a grade">
+        {% for group in grades %}
+        <a class="ul-grade-pill{% if loop.first %} is-active{% endif %}" href="#grade-{{ group.grade }}"
+           data-grade="{{ group.grade }}"{% if loop.first %} aria-current="true"{% endif %}>Grade {{ group.grade }}</a>
+        {% endfor %}
+    </nav>
+    {% endif %}
+
     {% for group in grades %}
-    <section class="ul-grade-block">
+    <section class="ul-grade-block" id="grade-{{ group.grade }}">
         <h3 class="ul-grade-heading"><span>Grade {{ group.grade }}</span></h3>
         <div class="ul-catalog-grid">
             {% for item in group.units %}
@@ -83,6 +92,42 @@
     </section>
     {% endfor %}
 </main>
+
+<script>
+// Grade tabs: show one grade at a time. Without JS every grade stays visible
+// and the pills fall back to plain jump links.
+(function () {
+    const pills = document.querySelectorAll('.ul-grade-pill');
+    const blocks = document.querySelectorAll('.ul-grade-block');
+    if (pills.length < 2) return;
+
+    function show(grade, updateUrl) {
+        let found = false;
+        blocks.forEach(b => {
+            const match = b.id === 'grade-' + grade;
+            b.hidden = !match;
+            found = found || match;
+        });
+        if (!found) return show(pills[0].dataset.grade, false);
+        pills.forEach(p => {
+            const active = p.dataset.grade === String(grade);
+            p.classList.toggle('is-active', active);
+            if (active) p.setAttribute('aria-current', 'true');
+            else p.removeAttribute('aria-current');
+        });
+        // replaceState keeps the choice on refresh/back without scrolling the page
+        if (updateUrl) history.replaceState(null, '', '#grade-' + grade);
+    }
+
+    pills.forEach(p => p.addEventListener('click', e => {
+        e.preventDefault();
+        show(p.dataset.grade, true);
+    }));
+
+    const fromHash = location.hash.match(/^#grade-(\d+)$/);
+    show(fromHash ? fromHash[1] : pills[0].dataset.grade, false);
+})();
+</script>
 
 </body>
 </html>

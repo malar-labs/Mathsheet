@@ -1,5 +1,5 @@
 /* =============================================
-   Unit-Wise Learning — styles
+   Grade-Wise Learning — styles
    Builds on the CSS variables defined in style.css
    ============================================= */
 
@@ -24,6 +24,23 @@
 /* ===== Catalog (units home) =====
    The hierarchy is Grade → Unit → Topics, so a grade heading rules across the
    page and each unit card lists the topics that live inside it. */
+.ul-grade-nav {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
+    margin-bottom: 1.6rem;
+}
+.ul-grade-pill {
+    font-family: var(--font-main); font-weight: 700; font-size: 0.95rem;
+    color: var(--purple); background: var(--white);
+    border: 2px solid var(--border); border-radius: 999px;
+    padding: 0.4rem 1.1rem; text-decoration: none;
+    box-shadow: var(--shadow-sm); transition: var(--transition);
+}
+.ul-grade-pill:hover, .ul-grade-pill:focus-visible {
+    border-color: var(--purple); background: var(--purple-light); color: var(--purple-dark);
+}
+.ul-grade-pill.is-active {
+    background: var(--purple); border-color: var(--purple); color: var(--white);
+}
 .ul-grade-block { margin-bottom: 2rem; }
 .ul-grade-heading {
     display: flex; align-items: center; gap: 0.9rem;
