@@ -349,5 +349,6 @@
     const CURRICULUM_DATA = {{ curriculum | tojson }};
 </script>
 <script src="{{ url_for('static', path='js/app.js') }}"></script>
+{% include "partials/analytics.html" %}
 </body>
 </html>
