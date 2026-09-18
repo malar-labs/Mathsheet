@@ -353,6 +353,29 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
     transform: translateY(-1px);
 }
 
+/* The logo and the pills together need about 850px. Below that the logo's
+   strapline wraps to two lines and the last pills slide off the right edge, so
+   the two stop sharing a row well before phone width rather than at it. */
+@media (max-width: 900px) {
+    .header-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.55rem;
+    }
+    .logo-sub { display: none; }
+    .header-right {
+        width: 100%;
+        justify-content: center;
+    }
+    /* the logo already goes back to all units */
+    .header-right .btn-header-back { display: none; }
+    .btn-header-tab,
+    .btn-header-login {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
+
 /* ===== HEADER ===== */
 .app-header {
     background: var(--purple);
@@ -1972,26 +1995,6 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
 @media (max-width: 768px) {
     .app-header { padding: 0.7rem 1rem; }
 
-    /* On a phone the logo alone is wider than the space the pills need, so
-       sharing a row clips them off the edge. Give the pills their own centred
-       row underneath instead, drop the strapline, and drop the back pill --
-       the logo already returns to all units. */
-    .header-inner {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.55rem;
-    }
-    .logo-sub { display: none; }
-    .header-right {
-        width: 100%;
-        justify-content: center;
-    }
-    .header-right .btn-header-back { display: none; }
-    .btn-header-tab,
-    .btn-header-login {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-    }
     .logo-title { font-size: 1.2rem; }
     .logo-sub { display: none; }
 

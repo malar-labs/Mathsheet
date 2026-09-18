@@ -139,7 +139,8 @@ async def home(request: Request):
     return templates.TemplateResponse(
         request,
         "units_home.html",
-        {"grades": catalog_by_grade(), "learner": current_learner(request)}
+        {"grades": catalog_by_grade(), "standalone": standalone_catalog(),
+         "learner": current_learner(request)}
     )
 
 
@@ -182,19 +183,42 @@ UNITS_CATALOG = [
         "available": False,
     },
     {
-        "grade": 3, "unit": "math-marathon", "title": "Math Marathon", "emoji": "🏃",
-        "description": "Fact drills that build muscle memory — count up the ladder, pick the answer, then type it.",
-        "available": True,
-    },
-    {
         "grade": 3, "unit": "coming-soon", "title": "Coming soon", "emoji": "🧮",
         "description": "More Grade 3 units are on the way.", "available": False,
     },
 ]
 
+# Units that belong to no grade. Fact fluency isn't something a child finishes
+# in Grade 3 and never needs again — a Grade 8 student still counting on their
+# fingers for 7 x 8 is slowed down in every fraction question — so Math Marathon
+# sits outside the grade list and anyone can open it.
+STANDALONE_UNITS = [
+    {
+        "grade": None, "unit": "math-marathon", "title": "Math Marathon", "emoji": "🏃",
+        "description": "Fact drills that build muscle memory — count up the ladder, pick the answer, then type it. Any grade, any time.",
+        "available": True,
+    },
+]
 
-def load_unit_bundle(grade: int, unit: str):
-    base = UNITS_DIR / f"grade{grade}" / unit
+
+def unit_dir(grade: int | None, unit: str) -> Path:
+    """Where a unit's JSON lives. A gradeless unit sits directly under units/."""
+    return UNITS_DIR / unit if grade is None else UNITS_DIR / f"grade{grade}" / unit
+
+
+def unit_url(grade: int | None, unit: str) -> str:
+    """A gradeless unit gets a top-level URL, because /units/grade3/math-marathon
+    would say it belongs to Grade 3 when the whole point is that it doesn't."""
+    return f"/{unit}" if grade is None else f"/units/grade{grade}/{unit}"
+
+
+def unit_key(grade: int | None, unit: str) -> str:
+    """The key progress is stored under, for this unit."""
+    return unit if grade is None else f"grade{grade}_{unit}"
+
+
+def load_unit_bundle(grade: int | None, unit: str):
+    base = unit_dir(grade, unit)
     lessons_file = base / "lessons.json"
     questions_file = base / "questions.json"
     if not lessons_file.is_file() or not questions_file.is_file():
@@ -223,6 +247,26 @@ def group_topics(topics, sections):
     return groups
 
 
+def catalog_entry(item):
+    """A catalog row with its topics and counts read from the unit's own JSON,
+    so neither can drift from the content."""
+    entry = dict(item)
+    entry["url"] = unit_url(item["grade"], item["unit"])
+    bundle = load_unit_bundle(item["grade"], item["unit"]) if item["available"] else None
+    if bundle:
+        sections = bundle["lessons"]["sections"]
+        entry["topics"] = [
+            {"id": s["id"], "title": s["title"], "group": s.get("group")} for s in sections
+        ]
+        entry["topic_groups"] = group_topics(entry["topics"], sections)
+        entry["question_count"] = len(bundle["questions"])
+    return entry
+
+
+def standalone_catalog():
+    return [catalog_entry(item) for item in STANDALONE_UNITS]
+
+
 def catalog_by_grade():
     """The catalog grouped under its grades, so the landing page shows the
     Grade → Unit → Topics hierarchy. Counts come from each unit's own JSON,
@@ -233,16 +277,7 @@ def catalog_by_grade():
     page with something nobody can open."""
     grades: dict[int, list] = {}
     for item in UNITS_CATALOG:
-        entry = dict(item)
-        bundle = load_unit_bundle(item["grade"], item["unit"]) if item["available"] else None
-        if bundle:
-            entry["topics"] = [
-                {"id": s["id"], "title": s["title"], "group": s.get("group")}
-                for s in bundle["lessons"]["sections"]
-            ]
-            entry["topic_groups"] = group_topics(entry["topics"], bundle["lessons"]["sections"])
-            entry["question_count"] = len(bundle["questions"])
-        grades.setdefault(item["grade"], []).append(entry)
+        grades.setdefault(item["grade"], []).append(catalog_entry(item))
 
     def order(grade):
         has_units = any(unit["available"] for unit in grades[grade])
@@ -261,7 +296,7 @@ async def units_home():
     return RedirectResponse("/", status_code=308)
 
 
-async def render_unit_page(request: Request, grade: int, unit: str, section_id: str | None = None):
+async def render_unit_page(request: Request, grade: int | None, unit: str, section_id: str | None = None):
     bundle = load_unit_bundle(grade, unit)
     focus = None
     if bundle and section_id:
@@ -270,7 +305,8 @@ async def render_unit_page(request: Request, grade: int, unit: str, section_id: 
         return templates.TemplateResponse(
             request,
             "units_home.html",
-            {"grades": catalog_by_grade(), "not_found": True, "learner": current_learner(request)},
+            {"grades": catalog_by_grade(), "standalone": standalone_catalog(),
+             "not_found": True, "learner": current_learner(request)},
             status_code=404,
         )
 
@@ -279,11 +315,11 @@ async def render_unit_page(request: Request, grade: int, unit: str, section_id: 
     # Supabase is unreachable the page still renders — the browser's own copy
     # takes over and syncing resumes later.
     learner = current_learner(request)
-    unit_key = f"grade{grade}_{unit}"
+    key = unit_key(grade, unit)
     saved: dict = {}
     if learner:
         try:
-            saved = (await store.load_progress(learner["id"], unit_key)).get(unit_key, {})
+            saved = (await store.load_progress(learner["id"], key)).get(key, {})
         except store.StoreError as exc:
             logger.warning("PROGRESS| %s", exc)
 
@@ -304,8 +340,33 @@ async def render_unit_page(request: Request, grade: int, unit: str, section_id: 
             "focus": focus,
             "learner": learner,
             "saved_progress": saved,
+            "unit_key": key,
+            "base_url": unit_url(grade, unit),
         },
     )
+
+
+# Math Marathon belongs to no grade, so it gets a top-level URL rather than
+# one that would claim it is Grade 3 content.
+@app.get("/math-marathon")
+async def math_marathon(request: Request):
+    return await render_unit_page(request, None, "math-marathon")
+
+
+@app.get("/math-marathon/{section}")
+async def math_marathon_level(request: Request, section: str):
+    return await render_unit_page(request, None, "math-marathon", section)
+
+
+@app.get("/units/grade3/math-marathon")
+async def math_marathon_moved():
+    # It used to live under Grade 3; keep older links and bookmarks working.
+    return RedirectResponse("/math-marathon", status_code=308)
+
+
+@app.get("/units/grade3/math-marathon/{section}")
+async def math_marathon_level_moved(section: str):
+    return RedirectResponse(f"/math-marathon/{section}", status_code=308)
 
 
 @app.get("/units/grade{grade}/{unit}")

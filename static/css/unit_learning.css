@@ -51,6 +51,13 @@
     content: ''; flex: 1; height: 3px; border-radius: 2px; background: var(--border);
 }
 
+/* Sits above the grade tabs and stays put whichever grade is chosen, because
+   it isn't one of them. */
+.ul-anygrade-note {
+    font-family: var(--font-body); font-size: 0.88rem; color: var(--gray);
+    margin: -0.6rem 0 0.9rem;
+}
+
 .ul-catalog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

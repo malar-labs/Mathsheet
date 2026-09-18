@@ -93,37 +93,49 @@ function ttGroupedLevels() {
 }
 
 function ttOverviewHTML() {
-    const levelCard = level => {
-        const st = ttLevelStats(level.id);
-        const pct = st.total ? Math.round((st.answered / st.total) * 100) : 0;
-        const state = st.done ? 'done' : st.answered ? 'going' : 'new';
-        const label = st.done ? 'Finished' : st.answered ? 'Keep going' : 'Start';
-        return `
-            <a class="tt-level tt-level-${state}" href="${UNIT_BASE_URL}/${level.id}"
-               style="--tt-accent:${ttEsc(level.color)}">
-                <span class="tt-level-emoji" aria-hidden="true">${ttEsc(level.emoji)}</span>
-                <span class="tt-level-body">
-                    <span class="tt-level-title">${ttEsc(level.title)}</span>
-                    <span class="tt-level-meta">${st.sets.length} pages · ${st.total} questions</span>
-                    <span class="tt-bar"><span class="tt-bar-fill" style="width:${pct}%"></span></span>
-                </span>
-                <span class="tt-level-cta">${label} →</span>
-            </a>`;
-    };
-
-    const groups = ttGroupedLevels().map(group => `
-        <section class="tt-group">
-            ${group.name ? `<h2 class="tt-group-name">
-                <span aria-hidden="true">${ttEsc(group.emoji || '')}</span>
-                ${ttEsc(group.name)}
-                <span class="tt-group-count">${group.levels.length} levels</span>
-            </h2>` : ''}
-            <div class="tt-level-grid">${group.levels.map(levelCard).join('')}</div>
-        </section>`).join('');
-
     const total = UNIT_QUESTIONS.length;
     const answered = UNIT_QUESTIONS.filter(q => ulState.progress[q.id]).length;
     const levelsDone = UNIT_SECTIONS.filter(l => ttLevelStats(l.id).done).length;
+
+    // One tile per group, listing its levels as links. A grid of thirteen
+    // tiles buried what the group actually was; a single named tile says it
+    // once and lets the levels be a list you can scan.
+    const tiles = ttGroupedLevels().map(group => {
+        const items = group.levels.map(level => {
+            const st = ttLevelStats(level.id);
+            const state = st.done ? 'is-done' : st.answered ? 'is-going' : '';
+            const mark = st.done ? '✓' : st.answered ? '·' : '';
+            return `
+                <li class="${state}">
+                    <a href="${UNIT_BASE_URL}/${level.id}">
+                        <span class="tt-item-emoji" aria-hidden="true">${ttEsc(level.emoji)}</span>
+                        <span class="tt-item-title">${ttEsc(level.title)}</span>
+                        <span class="tt-item-meta">${st.sets.length} pages · ${st.total} questions</span>
+                        <span class="tt-item-mark" aria-hidden="true">${mark}</span>
+                    </a>
+                </li>`;
+        }).join('');
+
+        const groupTotal = group.levels.reduce((n, l) => n + ttLevelStats(l.id).total, 0);
+        const groupDone = group.levels.reduce((n, l) => n + ttLevelStats(l.id).answered, 0);
+        const pct = groupTotal ? Math.round((groupDone / groupTotal) * 100) : 0;
+
+        return `
+            <section class="tt-tile">
+                <header class="tt-tile-head">
+                    <span class="tt-tile-emoji" aria-hidden="true">${ttEsc(group.emoji || '✖️')}</span>
+                    <span>
+                        <span class="tt-tile-kicker">Fact group</span>
+                        <h2 class="tt-tile-title">${ttEsc(group.name || 'Levels')}</h2>
+                    </span>
+                </header>
+                <div class="tt-tile-meta">
+                    ${group.levels.length} levels · ${groupTotal} questions
+                    <span class="tt-bar"><span class="tt-bar-fill" style="width:${pct}%"></span></span>
+                </div>
+                <ol class="tt-item-list">${items}</ol>
+            </section>`;
+    }).join('');
 
     return `
         <div class="tt-summary">
@@ -132,7 +144,7 @@ function ttOverviewHTML() {
             <div class="tt-stat"><b>${answered}</b><span>answered</span></div>
             <div class="tt-stat"><b>${levelsDone}</b><span>levels finished</span></div>
         </div>
-        ${groups}`;
+        <div class="tt-tiles">${tiles}</div>`;
 }
 
 // ===== one set of questions =====

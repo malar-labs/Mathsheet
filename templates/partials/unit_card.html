@@ -1,0 +1,36 @@
+{# One unit on the catalog. Shared by the grade sections and the "Any grade"
+   section, so a unit looks the same wherever it is listed. Expects `item`. #}
+<div class="ul-catalog-card{% if not item.available %} ul-catalog-card-disabled{% endif %}">
+    <div class="ul-catalog-head">
+        <span class="ul-catalog-emoji">{{ item.emoji }}</span>
+        <span>
+            {% if item.available %}<span class="ul-catalog-kicker">Unit</span>{% endif %}
+            {% if item.available %}
+            <a class="ul-catalog-title" href="{{ item.url }}">{{ item.title }}</a>
+            {% else %}
+            <span class="ul-catalog-title">{{ item.title }}</span>
+            {% endif %}
+        </span>
+    </div>
+    {% if item.available %}
+    <div class="ul-catalog-topics">
+        <div class="ul-catalog-topics-label">{{ item.topics | length }} topics · {{ item.question_count }} questions</div>
+        {% for group in item.topic_groups %}
+        <div class="ul-catalog-group">
+            {% if group.name %}
+            <div class="ul-catalog-group-name">{{ group.emoji }} {{ group.name }}</div>
+            {% endif %}
+            <ol class="ul-catalog-topic-list{% if group.topics | length > 8 %} is-split{% endif %}">
+                {% for topic in group.topics %}
+                <li><a href="{{ item.url }}/{{ topic.id }}">{{ topic.title }}</a></li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="ul-catalog-cta" href="{{ item.url }}">Open unit →</a>
+    {% else %}
+    <div class="ul-catalog-desc">{{ item.description }}</div>
+    <div class="ul-catalog-badge">Coming soon</div>
+    {% endif %}
+</div>

@@ -23,7 +23,7 @@
             </div>
         </a>
         <div class="header-right">
-            <a href="/units/grade3/math-marathon" class="btn-header-tab">🏃 Math Marathon</a>
+            <a href="/math-marathon" class="btn-header-tab">🏃 Math Marathon</a>
             {% if learner %}
             <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
             {% else %}
@@ -63,8 +63,8 @@
 <script>
     const UNIT_SECTIONS  = {{ sections | tojson }};
     const UNIT_QUESTIONS = {{ questions | tojson }};
-    const UNIT_KEY = "grade{{ meta.grade }}_{{ meta.unit }}";
-    const UNIT_BASE_URL = "/units/grade{{ meta.grade }}/{{ meta.unit }}";
+    const UNIT_KEY = {{ unit_key | tojson }};
+    const UNIT_BASE_URL = {{ base_url | tojson }};
     // the topic this page shows; null on the unit overview
     const UNIT_FOCUS_SECTION = {{ (focus.id if focus else none) | tojson }};
     // null when nobody is signed in — progress then stays in this browser only

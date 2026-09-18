@@ -18,12 +18,16 @@ os.environ["GEMINI_API_KEY"] = ""
 os.environ["GROQ_API_KEY"] = ""
 os.environ["OPENROUTER_API_KEY"] = ""
 
-from app import app, UNITS_CATALOG, UNITS_DIR, extract_json, load_unit_bundle
+from app import (app, UNITS_CATALOG, STANDALONE_UNITS, UNITS_DIR, extract_json,
+                 load_unit_bundle, unit_url)
 from curriculum import CURRICULUM, build_system_prompt
 
 client = TestClient(app)
 
-AVAILABLE_UNITS = [(u["grade"], u["unit"]) for u in UNITS_CATALOG if u["available"]]
+# Standalone units are listed too, so the per-question contract checks below
+# keep covering Math Marathon now that it no longer sits under a grade.
+AVAILABLE_UNITS = [(u["grade"], u["unit"])
+                   for u in UNITS_CATALOG + STANDALONE_UNITS if u["available"]]
 
 
 # =============================================
@@ -245,7 +249,22 @@ class TestTopLevelPages:
     def test_math_marathon_is_one_click_from_every_page(self, path):
         """It is the one unit a child returns to daily, so it gets a header tab
         rather than living three clicks down behind a grade."""
-        assert 'href="/units/grade3/math-marathon"' in client.get(path).text
+        assert 'href="/math-marathon"' in client.get(path).text
+
+    def test_math_marathon_is_not_under_a_grade(self):
+        """It belongs to no grade, so its URL must not claim one."""
+        assert client.get("/math-marathon").status_code == 200
+        page = client.get("/math-marathon").text
+        assert "Grade 3" not in page
+
+    @pytest.mark.parametrize("old,new", [
+        ("/units/grade3/math-marathon", "/math-marathon"),
+        ("/units/grade3/math-marathon/t7", "/math-marathon/t7"),
+    ])
+    def test_the_old_grade_3_url_redirects(self, old, new):
+        r = client.get(old, follow_redirects=False)
+        assert r.status_code == 308
+        assert r.headers["location"] == new
 
     def test_old_units_url_still_works(self):
         r = client.get("/units", follow_redirects=False)
@@ -257,7 +276,7 @@ class TestTopLevelPages:
 class TestUnitPages:
     @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
     def test_unit_page_is_overview(self, grade, unit):
-        r = client.get(f"/units/grade{grade}/{unit}")
+        r = client.get(unit_url(grade, unit))
         assert r.status_code == 200
         assert "const UNIT_FOCUS_SECTION = null" in r.text
 
@@ -266,18 +285,18 @@ class TestUnitPages:
         sections = load_unit_bundle(grade, unit)["lessons"]["sections"]
         assert len(sections) >= 3
         for section in sections:
-            page = client.get(f"/units/grade{grade}/{unit}/{section['id']}")
+            page = client.get(f"{unit_url(grade, unit)}/{section['id']}")
             assert page.status_code == 200
             assert section["title"] in page.text
             assert f'const UNIT_FOCUS_SECTION = "{section["id"]}"' in page.text
 
     @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
     def test_unknown_topic_returns_404(self, grade, unit):
-        r = client.get(f"/units/grade{grade}/{unit}/nope")
+        r = client.get(f"{unit_url(grade, unit)}/nope")
         assert r.status_code == 404
 
     def test_catalog_entries_that_claim_to_be_available_really_are(self):
-        for item in UNITS_CATALOG:
+        for item in UNITS_CATALOG + STANDALONE_UNITS:
             bundle = load_unit_bundle(item["grade"], item["unit"])
             assert (bundle is not None) == item["available"], item
 
@@ -355,10 +374,10 @@ class TestMathMarathonDrill:
     a page of questions at a time, and recognition before recall."""
 
     def bundle(self):
-        return load_unit_bundle(3, "math-marathon")
+        return load_unit_bundle(None, "math-marathon")
 
     def test_it_uses_the_drill_engine_not_the_lesson_one(self):
-        page = client.get("/units/grade3/math-marathon").text
+        page = client.get("/math-marathon").text
         assert "js/times_tables.js" in page
         assert "js/unit_learning.js" not in page
 
@@ -447,7 +466,7 @@ class TestMathMarathonDrill:
         assert min(spread.values()) >= len(spread) * 0.05
 
     def test_a_level_page_renders_without_a_lesson(self):
-        page = client.get("/units/grade3/math-marathon/t7").text
+        page = client.get("/math-marathon/t7").text
         assert 'const UNIT_FOCUS_SECTION = "t7"' in page
         assert "Learn" not in page or "ul-choice" not in page
 
@@ -467,12 +486,12 @@ class TestGeneratedContentIsUpToDate:
         assert bundle["lessons"]["sections"] == module.SECTIONS
 
     def test_math_marathon_json_matches_its_generator(self):
-        path = UNITS_DIR / "grade3" / "math-marathon" / "_generate.py"
+        path = UNITS_DIR / "math-marathon" / "_generate.py"
         spec = importlib.util.spec_from_file_location("math_marathon_generate", path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-        bundle = load_unit_bundle(3, "math-marathon")
+        bundle = load_unit_bundle(None, "math-marathon")
         assert bundle["questions"] == module.QUESTIONS
         assert bundle["lessons"]["sections"] == module.SECTIONS
 
@@ -482,7 +501,7 @@ class TestGeneratedContentIsUpToDate:
         import re
 
         facts = set()
-        for q in load_unit_bundle(3, "math-marathon")["questions"]:
+        for q in load_unit_bundle(None, "math-marathon")["questions"]:
             if q["mode"] == "skip":
                 continue   # a rung on the counting ladder, not a stated fact
             product = re.fullmatch(r"(\d+) x (\d+) = \?", q["prompt"])

@@ -1,5 +1,5 @@
 """
-One-time content generator for the Grade 3 "Math Marathon" unit.
+One-time content generator for the "Math Marathon" unit.
 
 This script is NOT called by the running app. It writes the static lessons.json
 and questions.json files that ship with the app; the app only ever reads those
@@ -7,7 +7,12 @@ JSON files, and nothing in this feature calls any AI/LLM API.
 
 Re-run with `python _generate.py` from this folder after editing anything below.
 
-Math Marathon is a drill, not a lesson. It is built the way a Kumon worksheet
+Math Marathon belongs to no grade. Fact fluency is not something a child
+finishes in Grade 3 and never needs again — a Grade 8 student who still counts
+on their fingers for 7 x 8 is slowed down in every fraction question — so it
+sits outside the grade list and anyone can open it.
+
+It is a drill, not a lesson. It is built the way a Kumon worksheet
 is built: one table at a time, a page of questions at a time, the same facts
 coming round again and again until the answer arrives before the child has time
 to count. So there is no lesson page and no reading — you open a level and start.
@@ -355,7 +360,6 @@ def main():
 
     lessons = {
         "meta": {
-            "grade": 3,
             "unit": "math-marathon",
             "engine": "drill",
             "emoji": "🏃",

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if focus %}{{ focus.title }} — {% endif %}{{ meta.title }} — Grade {{ meta.grade }} — MathSheet Pro</title>
+    <title>{% if focus %}{{ focus.title }} — {% endif %}{{ meta.title }} — MathSheet Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
             </div>
         </a>
         <div class="header-right">
-            <a href="/units/grade3/math-marathon" class="btn-header-tab">🏃 Math Marathon</a>
+            <a href="/math-marathon" class="btn-header-tab">🏃 Math Marathon</a>
             {% if learner %}
             <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
             {% else %}
@@ -40,11 +40,11 @@
         <a href="/">Units</a>
         <span aria-hidden="true">›</span>
         {% if focus %}
-        <a href="/units/grade{{ meta.grade }}/{{ meta.unit }}">{{ meta.title }}</a>
+        <a href="{{ base_url }}">{{ meta.title }}</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page">{{ focus.title }}</span>
         {% else %}
-        <span aria-current="page">Grade {{ meta.grade }} {{ meta.title }}</span>
+        <span aria-current="page">{{ meta.title }}</span>
         {% endif %}
     </nav>
 
@@ -53,7 +53,7 @@
         <h1>{{ focus.emoji }} {{ focus.title }}</h1>
         <p>{{ focus.blurb }}</p>
         {% else %}
-        <h1>{{ meta.emoji }} Grade {{ meta.grade }} · {{ meta.title }}</h1>
+        <h1>{{ meta.emoji }} {{ meta.title }}</h1>
         <p>{{ meta.description }}</p>
         {% endif %}
     </div>
@@ -64,8 +64,8 @@
 <script>
     const UNIT_SECTIONS  = {{ sections | tojson }};
     const UNIT_QUESTIONS = {{ questions | tojson }};
-    const UNIT_KEY = "grade{{ meta.grade }}_{{ meta.unit }}";
-    const UNIT_BASE_URL = "/units/grade{{ meta.grade }}/{{ meta.unit }}";
+    const UNIT_KEY = {{ unit_key | tojson }};
+    const UNIT_BASE_URL = {{ base_url | tojson }};
     // the level this page shows; null on the list of levels
     const UNIT_FOCUS_SECTION = {{ (focus.id if focus else none) | tojson }};
     // null when nobody is signed in — progress then stays in this browser only
