@@ -223,6 +223,8 @@ function ttSetHTML(level, set, sets) {
 
     const footer = ttChecked
         ? `<div class="tt-result ${score === set.questions.length ? 'is-perfect' : ''}">
+               ${score === set.questions.length
+                   ? '<span class="tt-cheer" aria-hidden="true">🎉</span>' : ''}
                <span class="tt-score">${score} / ${set.questions.length}</span>
                <span class="tt-result-msg">${score === set.questions.length
                    ? 'Perfect page!' : 'Look at the ones marked ✗, then carry on.'}</span>
@@ -323,6 +325,7 @@ function ttWire(level, set, sets) {
         ttChecked = true;
         ttRender();
         ttRoot.querySelector('.tt-result')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        if (set.questions.every(q => ttIsRight(q, ttDraft[q.id]))) ttCelebrate();
     });
 
     document.getElementById('tt-redo')?.addEventListener('click', () => {
@@ -345,6 +348,49 @@ function ttWire(level, set, sets) {
         location.hash = '';
         ttRender();
     });
+}
+
+const TT_CONFETTI_COLOURS = ['#6C63FF', '#4ECDC4', '#FF6B6B', '#FFE66D', '#FF9F43', '#10AC84'];
+
+/** A short burst of confetti over a clean page.
+ *
+ *  Built from plain spans rather than a library: it runs once, lasts a second
+ *  and never needs to know anything about the page, so a canvas and a
+ *  dependency would both be more machinery than the moment is worth.
+ *
+ *  Skipped entirely for anyone who asked for reduced motion — they still get
+ *  the badge and the score, which is where the actual information is. */
+function ttCelebrate() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const anchor = ttRoot.querySelector('.tt-result');
+    if (!anchor) return;
+    const box = anchor.getBoundingClientRect();
+    const originX = box.left + box.width / 2;
+    const originY = box.top + box.height / 2;
+
+    const layer = document.createElement('div');
+    layer.className = 'tt-confetti';
+
+    for (let i = 0; i < 26; i++) {
+        const piece = document.createElement('i');
+        // Fan the pieces upward and out, then let them fall past the anchor.
+        const angle = (-160 + Math.random() * 140) * (Math.PI / 180);
+        const reach = 90 + Math.random() * 160;
+        piece.style.left = `${originX}px`;
+        piece.style.top = `${originY}px`;
+        piece.style.setProperty('--dx', `${Math.cos(angle) * reach}px`);
+        piece.style.setProperty('--up', `${Math.sin(angle) * reach}px`);
+        piece.style.setProperty('--dy', `${140 + Math.random() * 180}px`);
+        piece.style.setProperty('--rot', `${-540 + Math.random() * 1080}deg`);
+        piece.style.setProperty('--delay', `${Math.random() * 140}ms`);
+        piece.style.background = TT_CONFETTI_COLOURS[i % TT_CONFETTI_COLOURS.length];
+        if (i % 3 === 0) piece.classList.add('is-round');
+        layer.appendChild(piece);
+    }
+
+    document.body.appendChild(layer);
+    setTimeout(() => layer.remove(), 1600);
 }
 
 function ttRender() {
