@@ -1,0 +1,346 @@
+/* =============================================
+   Times Tables — the drill engine.
+
+   Deliberately not the lesson engine. There is no lesson to read and no
+   menu to pick from: you open a level and you are answering. A whole set of
+   5-6 questions is on screen at once, the way a Kumon worksheet page is, so
+   a child builds a rhythm instead of waiting for a new page after every fact.
+
+   Each level runs its facts twice. The "pick" sets offer four options, which
+   is recognition; the "type" sets offer nothing, which is recall. Recognition
+   comes first because it is the easier half and it teaches what the answer
+   looks like.
+
+   Progress lives in ulState.progress via progress.js, shared with the lesson
+   engine, so a signed-in learner's drill carries between devices too.
+
+   Routing:
+     /units/grade3/times-tables           -> every level
+     /units/grade3/times-tables/t7        -> level 7, first unfinished set
+     /units/grade3/times-tables/t7#2      -> level 7, set 2
+     /units/grade3/times-tables/t7#done   -> level 7 summary
+   ============================================= */
+'use strict';
+
+const ttRoot = document.getElementById('ul-content');
+const TT_FOCUS = typeof UNIT_FOCUS_SECTION !== 'undefined' ? UNIT_FOCUS_SECTION : null;
+
+// Answers typed or picked in the set currently on screen, before it's checked.
+let ttDraft = {};
+let ttChecked = false;
+// Which page we're on. Held rather than recomputed: once a page is checked its
+// questions count as answered, so asking for "the first unfinished page" again
+// would skip to the next one mid-render and score the wrong set.
+let ttCurrentSet = null;
+
+function ttEsc(str) {
+    return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+function ttQuestions(levelId) {
+    return UNIT_QUESTIONS.filter(q => q.section === levelId);
+}
+
+function ttSets(levelId) {
+    const sets = new Map();
+    ttQuestions(levelId).forEach(q => {
+        if (!sets.has(q.set)) sets.set(q.set, []);
+        sets.get(q.set).push(q);
+    });
+    return [...sets.entries()].sort((a, b) => a[0] - b[0]).map(([number, questions]) => ({
+        number, questions, mode: questions[0].mode,
+    }));
+}
+
+function ttLevelStats(levelId) {
+    const questions = ttQuestions(levelId);
+    const answered = questions.filter(q => ulState.progress[q.id]);
+    const correct = questions.filter(q => ulState.progress[q.id] === 'correct');
+    return {
+        total: questions.length,
+        answered: answered.length,
+        correct: correct.length,
+        done: answered.length === questions.length,
+        sets: ttSets(levelId),
+    };
+}
+
+/** The set to drop someone into: the first with an unanswered question. */
+function ttFirstUnfinishedSet(levelId) {
+    const sets = ttSets(levelId);
+    const open = sets.find(s => s.questions.some(q => !ulState.progress[q.id]));
+    return open ? open.number : sets[sets.length - 1].number;
+}
+
+// ===== every level =====
+
+function ttOverviewHTML() {
+    const cards = UNIT_SECTIONS.map(level => {
+        const st = ttLevelStats(level.id);
+        const pct = st.total ? Math.round((st.answered / st.total) * 100) : 0;
+        const state = st.done ? 'done' : st.answered ? 'going' : 'new';
+        const label = st.done ? 'Finished' : st.answered ? 'Keep going' : 'Start';
+        return `
+            <a class="tt-level tt-level-${state}" href="${UNIT_BASE_URL}/${level.id}"
+               style="--tt-accent:${ttEsc(level.color)}">
+                <span class="tt-level-emoji" aria-hidden="true">${ttEsc(level.emoji)}</span>
+                <span class="tt-level-body">
+                    <span class="tt-level-title">${ttEsc(level.title)}</span>
+                    <span class="tt-level-meta">${st.sets.length} pages · ${st.total} questions</span>
+                    <span class="tt-bar"><span class="tt-bar-fill" style="width:${pct}%"></span></span>
+                </span>
+                <span class="tt-level-cta">${label} →</span>
+            </a>`;
+    }).join('');
+
+    const total = UNIT_QUESTIONS.length;
+    const answered = UNIT_QUESTIONS.filter(q => ulState.progress[q.id]).length;
+    const levelsDone = UNIT_SECTIONS.filter(l => ttLevelStats(l.id).done).length;
+
+    return `
+        <div class="tt-summary">
+            <div class="tt-stat"><b>${UNIT_SECTIONS.length}</b><span>levels</span></div>
+            <div class="tt-stat"><b>${total}</b><span>questions</span></div>
+            <div class="tt-stat"><b>${answered}</b><span>answered</span></div>
+            <div class="tt-stat"><b>${levelsDone}</b><span>levels finished</span></div>
+        </div>
+        <div class="tt-level-grid">${cards}</div>`;
+}
+
+// ===== one set of questions =====
+
+function ttQuestionHTML(q, index) {
+    const solved = ulState.progress[q.id];
+    const draft = ttDraft[q.id];
+    const marked = ttChecked && draft !== undefined;
+    const right = marked && ttIsRight(q, draft);
+    const mark = !marked ? '' : right ? 'tt-q-right' : 'tt-q-wrong';
+
+    let input;
+    if (q.mode === 'pick') {
+        input = `<div class="tt-options" role="group" aria-label="${ttEsc(q.prompt)}">` +
+            q.options.map(option => {
+                const chosen = draft === option;
+                const classes = ['tt-option'];
+                if (chosen) classes.push('is-chosen');
+                if (marked && chosen && !right) classes.push('is-wrong');
+                if (marked && option === q.answer.choice) classes.push('is-answer');
+                return `<button type="button" class="${classes.join(' ')}"
+                          data-qid="${ttEsc(q.id)}" data-value="${ttEsc(option)}"
+                          ${ttChecked ? 'disabled' : ''}>${ttEsc(option)}</button>`;
+            }).join('') + `</div>`;
+    } else {
+        input = `<input class="tt-input" type="text" inputmode="numeric"
+                    aria-label="${ttEsc(q.prompt)}" data-qid="${ttEsc(q.id)}"
+                    value="${draft === undefined ? '' : ttEsc(draft)}"
+                    ${ttChecked ? 'disabled' : ''} autocomplete="off">`;
+    }
+
+    // Only a wrong answer gets the strategy: it's the one moment a child is
+    // actually asking how the fact works.
+    const help = marked && !right
+        ? `<div class="tt-q-help"><b>${ttEsc(q.answer.display)}</b> — ${ttEsc(q.steps)}</div>`
+        : '';
+
+    return `
+        <li class="tt-q ${mark}" data-qid="${ttEsc(q.id)}">
+            <span class="tt-q-num">${index + 1}</span>
+            <span class="tt-q-prompt">${ttEsc(q.prompt)}</span>
+            ${input}
+            <span class="tt-q-mark" aria-hidden="true">${marked ? (right ? '✓' : '✗') : (solved === 'correct' ? '·' : '')}</span>
+            ${help}
+        </li>`;
+}
+
+function ttIsRight(q, value) {
+    if (q.mode === 'pick') return value === q.answer.choice;
+    const typed = String(value === undefined ? '' : value).trim();
+    return /^\d+$/.test(typed) && parseInt(typed, 10) === q.answer.value;
+}
+
+function ttSetHTML(level, set, sets) {
+    const position = sets.findIndex(s => s.number === set.number);
+    const isLast = position === sets.length - 1;
+    const answeredAll = set.questions.every(q => ttDraft[q.id] !== undefined && ttDraft[q.id] !== '');
+    const score = ttChecked
+        ? set.questions.filter(q => ttIsRight(q, ttDraft[q.id])).length : 0;
+
+    const dots = sets.map(s => {
+        const done = s.questions.every(q => ulState.progress[q.id]);
+        const here = s.number === set.number;
+        return `<a class="tt-dot${here ? ' is-here' : ''}${done ? ' is-done' : ''}"
+                   href="#${s.number}" aria-label="Page ${s.number}"
+                   ${here ? 'aria-current="true"' : ''}>${s.number}</a>`;
+    }).join('');
+
+    const banner = set.mode === 'pick'
+        ? `<div class="tt-mode tt-mode-pick">👆 Pick the right answer</div>`
+        : `<div class="tt-mode tt-mode-type">⌨️ Type the answer — no options this time</div>`;
+
+    const footer = ttChecked
+        ? `<div class="tt-result ${score === set.questions.length ? 'is-perfect' : ''}">
+               <span class="tt-score">${score} / ${set.questions.length}</span>
+               <span class="tt-result-msg">${score === set.questions.length
+                   ? 'Perfect page!' : 'Look at the ones marked ✗, then carry on.'}</span>
+               <span class="tt-result-actions">
+                   <button type="button" class="tt-btn tt-btn-ghost" id="tt-redo">🔄 Try this page again</button>
+                   ${isLast
+                       ? `<a class="tt-btn" href="#done">See level summary →</a>`
+                       : `<a class="tt-btn" href="#${sets[position + 1].number}">Next page →</a>`}
+               </span>
+           </div>`
+        : `<div class="tt-check-row">
+               <button type="button" class="tt-btn" id="tt-check" ${answeredAll ? '' : 'disabled'}>
+                   Check my answers
+               </button>
+               <span class="tt-check-hint">${answeredAll ? 'All done — check them!' : 'Answer all of them, then check.'}</span>
+           </div>`;
+
+    return `
+        <div class="tt-setbar">
+            <a class="tt-back" href="${UNIT_BASE_URL}">← All levels</a>
+            <span class="tt-pages">${dots}</span>
+        </div>
+        ${banner}
+        <ol class="tt-list">${set.questions.map(ttQuestionHTML).join('')}</ol>
+        ${footer}`;
+}
+
+// ===== level summary =====
+
+function ttDoneHTML(level) {
+    const st = ttLevelStats(level.id);
+    const pct = st.total ? Math.round((st.correct / st.total) * 100) : 0;
+    const index = UNIT_SECTIONS.findIndex(l => l.id === level.id);
+    const next = UNIT_SECTIONS[index + 1];
+    const emoji = pct === 100 ? '🏆' : pct >= 80 ? '🌟' : '💪';
+
+    const weak = ttQuestions(level.id)
+        .filter(q => ulState.progress[q.id] && ulState.progress[q.id] !== 'correct')
+        .map(q => q.prompt.replace(' = ?', ''));
+    const unique = [...new Set(weak)];
+
+    return `
+        <div class="tt-done">
+            <div class="tt-done-emoji">${emoji}</div>
+            <h2>${ttEsc(level.title)}</h2>
+            <p class="tt-done-score">${st.correct} of ${st.total} right${st.answered < st.total
+                ? ` · ${st.total - st.answered} still to do` : ''}</p>
+            ${unique.length ? `<div class="tt-done-weak">
+                <b>Worth another lap:</b> ${unique.slice(0, 12).map(ttEsc).join(' · ')}
+            </div>` : ''}
+            <div class="tt-done-actions">
+                <button type="button" class="tt-btn tt-btn-ghost" id="tt-restart">🔄 Start this level over</button>
+                ${next ? `<a class="tt-btn" href="${UNIT_BASE_URL}/${next.id}">Next: ${ttEsc(next.title)} →</a>`
+                       : `<a class="tt-btn" href="${UNIT_BASE_URL}">All levels →</a>`}
+            </div>
+        </div>`;
+}
+
+// ===== wiring =====
+
+function ttWire(level, set, sets) {
+    ttRoot.querySelectorAll('.tt-option').forEach(button => {
+        button.addEventListener('click', () => {
+            ttDraft[button.dataset.qid] = button.dataset.value;
+            ttRender();
+        });
+    });
+
+    ttRoot.querySelectorAll('.tt-input').forEach(input => {
+        input.addEventListener('input', () => {
+            // Keep digits only: a stray letter would just fail the check later.
+            input.value = input.value.replace(/[^\d]/g, '');
+            ttDraft[input.dataset.qid] = input.value;
+            const check = document.getElementById('tt-check');
+            const ready = set.questions.every(q => (ttDraft[q.id] || '') !== '');
+            if (check) check.disabled = !ready;
+        });
+        // Enter moves to the next box, so a whole page can be typed without
+        // reaching for the mouse.
+        input.addEventListener('keydown', event => {
+            if (event.key !== 'Enter') return;
+            event.preventDefault();
+            const boxes = [...ttRoot.querySelectorAll('.tt-input')];
+            const next = boxes[boxes.indexOf(input) + 1];
+            if (next) next.focus();
+            else document.getElementById('tt-check')?.click();
+        });
+    });
+
+    const check = document.getElementById('tt-check');
+    if (check) check.addEventListener('click', () => {
+        const verdicts = {};
+        set.questions.forEach(q => {
+            verdicts[q.id] = ttIsRight(q, ttDraft[q.id]) ? 'correct' : 'wrong';
+            ulState.progress[q.id] = verdicts[q.id];
+        });
+        ulSaveProgress(verdicts);
+        ttChecked = true;
+        ttRender();
+        ttRoot.querySelector('.tt-result')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
+
+    document.getElementById('tt-redo')?.addEventListener('click', () => {
+        ulClearProgress(set.questions.map(q => q.id));
+        set.questions.forEach(q => { delete ulState.progress[q.id]; });
+        ulWriteLocal();
+        ttDraft = {};
+        ttChecked = false;
+        ttRender();
+    });
+
+    document.getElementById('tt-restart')?.addEventListener('click', () => {
+        if (!window.confirm(`Start ${level.title} over? Your answers for this level will be cleared.`)) return;
+        const ids = ttQuestions(level.id).map(q => q.id);
+        ulClearProgress(ids);
+        ids.forEach(id => { delete ulState.progress[id]; });
+        ulWriteLocal();
+        ttDraft = {};
+        ttChecked = false;
+        location.hash = '';
+        ttRender();
+    });
+}
+
+function ttRender() {
+    if (!TT_FOCUS) {
+        ttRoot.innerHTML = ttOverviewHTML();
+        return;
+    }
+
+    const level = UNIT_SECTIONS.find(l => l.id === TT_FOCUS);
+    if (!level) { ttRoot.innerHTML = ttOverviewHTML(); return; }
+
+    const sets = ttSets(level.id);
+    const hash = location.hash.replace('#', '');
+
+    if (hash === 'done') {
+        ttRoot.innerHTML = ttDoneHTML(level);
+        ttWire(level, null, sets);
+        return;
+    }
+
+    const wanted = /^\d+$/.test(hash) ? parseInt(hash, 10)
+        : ttCurrentSet !== null ? ttCurrentSet
+        : ttFirstUnfinishedSet(level.id);
+    const set = sets.find(s => s.number === wanted) || sets[0];
+    ttCurrentSet = set.number;
+    ttRoot.innerHTML = ttSetHTML(level, set, sets);
+    ttWire(level, set, sets);
+    const first = ttRoot.querySelector('.tt-input');
+    if (first && window.matchMedia('(pointer: fine)').matches) first.focus({ preventScroll: true });
+}
+
+window.addEventListener('hashchange', () => {
+    // A new page means a clean slate; the previous page's answers are saved.
+    ttDraft = {};
+    ttChecked = false;
+    ttCurrentSet = null;   // the hash decides now
+    ttRender();
+});
+
+ulLoadProgress();
+ttRender();

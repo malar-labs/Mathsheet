@@ -350,6 +350,71 @@ class TestUnitQuestions:
             pytest.fail(f"unknown qtype {qtype!r}")
 
 
+class TestTimesTablesDrill:
+    """The drill is a different shape from the lesson units: no lesson to read,
+    a page of questions at a time, and recognition before recall."""
+
+    def bundle(self):
+        return load_unit_bundle(3, "times-tables")
+
+    def test_it_uses_the_drill_engine_not_the_lesson_one(self):
+        page = client.get("/units/grade3/times-tables").text
+        assert "js/times_tables.js" in page
+        assert "js/unit_learning.js" not in page
+
+    def test_pages_hold_five_or_six_questions(self):
+        """Short enough to finish in a sitting and see a score for."""
+        from collections import Counter
+        sizes = Counter()
+        for q in self.bundle()["questions"]:
+            sizes[(q["section"], q["set"])] += 1
+        assert set(sizes.values()) <= {5, 6}, sorted(set(sizes.values()))
+
+    def test_every_level_picks_before_it_types(self):
+        """Recognising an answer is easier than producing one, so the multiple
+        choice pass has to come first in every level."""
+        bundle = self.bundle()
+        for section in bundle["lessons"]["sections"]:
+            modes = [q["mode"] for q in bundle["questions"]
+                     if q["section"] == section["id"]]
+            assert set(modes) == {"pick", "type"}, section["id"]
+            assert modes == sorted(modes, key=lambda m: m != "pick"), section["id"]
+
+    def test_every_fact_is_drilled_both_ways(self):
+        bundle = self.bundle()
+        for section in bundle["lessons"]["sections"]:
+            picked = {q["prompt"] for q in bundle["questions"]
+                      if q["section"] == section["id"] and q["mode"] == "pick"}
+            typed = {q["prompt"] for q in bundle["questions"]
+                     if q["section"] == section["id"] and q["mode"] == "type"}
+            assert picked == typed, section["id"]
+
+    def test_multiple_choice_options_are_four_distinct_plausible_numbers(self):
+        for q in self.bundle()["questions"]:
+            if q["qtype"] != "choice":
+                continue
+            options = [int(o) for o in q["options"]]
+            assert len(set(options)) == 4, q["id"]
+            assert all(o > 0 for o in options), q["id"]
+            answer = int(q["answer"]["choice"])
+            assert answer in options, q["id"]
+            # A distractor miles from the answer is no test of anything.
+            assert max(abs(o - answer) for o in options) <= 30, q["id"]
+
+    def test_the_answer_is_not_always_in_the_same_place(self):
+        """Otherwise a child learns the position instead of the fact."""
+        from collections import Counter
+        spread = Counter(q["options"].index(q["answer"]["choice"])
+                         for q in self.bundle()["questions"] if q["qtype"] == "choice")
+        assert set(spread) == {0, 1, 2, 3}, dict(spread)
+        assert min(spread.values()) >= len(spread) * 0.05
+
+    def test_a_level_page_renders_without_a_lesson(self):
+        page = client.get("/units/grade3/times-tables/t7").text
+        assert 'const UNIT_FOCUS_SECTION = "t7"' in page
+        assert "Learn" not in page or "ul-choice" not in page
+
+
 class TestGeneratedContentIsUpToDate:
     """The JSON files are build output. If someone edits them by hand the
     generator becomes a lie, so check the two still agree."""
@@ -384,12 +449,16 @@ class TestGeneratedContentIsUpToDate:
             product = re.fullmatch(r"(\d+) x (\d+) = \?", q["prompt"])
             missing = re.fullmatch(r"(\d+) x \? = (\d+)", q["prompt"])
             assert product or missing, q["prompt"]
+            # Half the questions are multiple choice, so the answer arrives as
+            # a chosen string rather than a number.
+            value = (int(q["answer"]["choice"]) if q["qtype"] == "choice"
+                     else q["answer"]["value"])
             if product:
                 a, b = int(product.group(1)), int(product.group(2))
-                assert a * b == q["answer"]["value"], q["id"]
+                assert a * b == value, q["id"]
             else:
                 a, total = int(missing.group(1)), int(missing.group(2))
-                b = q["answer"]["value"]
+                b = value
                 assert a * b == total, q["id"]
             facts.add(tuple(sorted((a, b))))
 

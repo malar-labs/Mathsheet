@@ -1,0 +1,219 @@
+/* =============================================
+   Times Tables — the drill.
+   A worksheet page, not a lesson: big numbers, wide targets, and a whole
+   set visible at once so a child builds a rhythm down the page.
+   ============================================= */
+
+/* ===== the list of levels ===== */
+.tt-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.5rem;
+    margin-bottom: 1.4rem;
+}
+.tt-stat { display: flex; align-items: baseline; gap: 0.4rem; }
+.tt-stat b {
+    font-family: var(--font-main); font-weight: 900; font-size: 1.5rem; color: var(--dark);
+}
+.tt-stat span { font-family: var(--font-body); font-size: 0.85rem; color: var(--gray); }
+
+.tt-level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.85rem;
+}
+
+.tt-level {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-top: 5px solid var(--tt-accent, var(--purple));
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+.tt-level:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--tt-accent, var(--purple));
+    border-top-color: var(--tt-accent, var(--purple));
+}
+.tt-level-emoji { font-size: 1.7rem; line-height: 1; flex: none; }
+.tt-level-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+.tt-level-title {
+    font-family: var(--font-main); font-weight: 800; font-size: 1rem; color: var(--dark);
+}
+.tt-level-meta { font-family: var(--font-body); font-size: 0.78rem; color: var(--gray); }
+.tt-level-cta {
+    font-family: var(--font-main); font-weight: 700; font-size: 0.82rem;
+    color: var(--purple); white-space: nowrap; flex: none;
+}
+.tt-level-done { background: #f3fdf8; }
+.tt-level-done .tt-level-cta { color: var(--green); }
+
+.tt-bar { display: block; height: 6px; border-radius: 3px; background: var(--bg); overflow: hidden; }
+.tt-bar-fill { display: block; height: 100%; background: var(--tt-accent, var(--purple)); }
+
+/* ===== a set of questions ===== */
+.tt-setbar {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.9rem;
+}
+.tt-back {
+    font-family: var(--font-main); font-weight: 700; font-size: 0.85rem;
+    color: var(--purple); text-decoration: none;
+}
+.tt-pages { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.tt-dot {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 30px; height: 30px; padding: 0 0.35rem;
+    border: 2px solid var(--border); border-radius: 8px;
+    background: var(--white); text-decoration: none;
+    font-family: var(--font-main); font-weight: 700; font-size: 0.8rem; color: var(--gray);
+    transition: var(--transition);
+}
+.tt-dot.is-done { background: var(--mint); border-color: var(--mint); color: #0b6b4f; }
+.tt-dot.is-here { background: var(--purple); border-color: var(--purple); color: var(--white); }
+
+.tt-mode {
+    font-family: var(--font-main); font-weight: 700; font-size: 0.9rem;
+    padding: 0.6rem 0.9rem; border-radius: var(--radius-sm); margin-bottom: 1rem;
+}
+.tt-mode-pick { background: var(--purple-light); color: var(--purple-dark); }
+.tt-mode-type { background: #fff4e0; color: #9a5b00; }
+
+.tt-list {
+    list-style: none; margin: 0 0 1.1rem; padding: 0;
+    display: flex; flex-direction: column; gap: 0.6rem;
+}
+.tt-q {
+    display: grid;
+    grid-template-columns: auto minmax(5.5rem, auto) 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 0.9rem;
+}
+.tt-q-right { border-color: var(--green); background: #f2fdf8; }
+.tt-q-wrong { border-color: var(--coral); background: #fff5f5; }
+
+.tt-q-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--dark); color: var(--white);
+    font-family: var(--font-main); font-weight: 700; font-size: 0.78rem;
+}
+.tt-q-prompt {
+    font-family: var(--font-main); font-weight: 800; font-size: 1.25rem;
+    color: var(--dark); white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+.tt-q-mark {
+    font-family: var(--font-main); font-weight: 900; font-size: 1.2rem;
+    width: 1.2rem; text-align: center; color: var(--light-gray);
+}
+.tt-q-right .tt-q-mark { color: var(--green); }
+.tt-q-wrong .tt-q-mark { color: var(--coral); }
+
+.tt-q-help {
+    grid-column: 1 / -1;
+    font-family: var(--font-body); font-size: 0.85rem; color: var(--gray);
+    line-height: 1.45; padding-top: 0.15rem;
+}
+.tt-q-help b { color: var(--dark); }
+
+/* pick */
+.tt-options { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tt-option {
+    min-width: 64px; padding: 0.5rem 0.75rem;
+    border: 2px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--white); cursor: pointer;
+    font-family: var(--font-main); font-weight: 800; font-size: 1.05rem;
+    color: var(--dark); font-variant-numeric: tabular-nums;
+    transition: var(--transition);
+}
+.tt-option:hover:not(:disabled) { border-color: var(--purple); transform: translateY(-1px); }
+.tt-option.is-chosen { background: var(--purple); border-color: var(--purple); color: var(--white); }
+.tt-option.is-wrong { background: var(--coral); border-color: var(--coral); color: var(--white); }
+.tt-option.is-answer { background: var(--green); border-color: var(--green); color: var(--white); }
+.tt-option:disabled { cursor: default; }
+
+/* type */
+.tt-input {
+    width: 7rem; padding: 0.5rem 0.7rem;
+    border: 2px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--white); color: var(--dark);
+    font-family: var(--font-main); font-weight: 800; font-size: 1.15rem;
+    text-align: center; font-variant-numeric: tabular-nums;
+    transition: var(--transition);
+}
+.tt-input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 4px var(--purple-light); }
+
+/* ===== check / result ===== */
+.tt-btn {
+    display: inline-block; cursor: pointer; text-decoration: none; text-align: center;
+    font-family: var(--font-main); font-weight: 800; font-size: 0.95rem;
+    padding: 0.7rem 1.3rem; border: none; border-radius: var(--radius-sm);
+    background: var(--purple); color: var(--white); transition: var(--transition);
+}
+.tt-btn:hover:not(:disabled) { background: var(--purple-dark); }
+.tt-btn:disabled { opacity: 0.45; cursor: default; }
+.tt-btn-ghost { background: var(--bg); color: var(--gray); }
+.tt-btn-ghost:hover { background: var(--border); color: var(--dark); }
+
+.tt-check-row { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+.tt-check-hint { font-family: var(--font-body); font-size: 0.85rem; color: var(--gray); }
+
+.tt-result {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    background: var(--white); border: 2px solid var(--border);
+    border-radius: var(--radius); padding: 1rem 1.2rem;
+}
+.tt-result.is-perfect { border-color: var(--green); background: #f2fdf8; }
+.tt-score {
+    font-family: var(--font-main); font-weight: 900; font-size: 1.6rem; color: var(--dark);
+    font-variant-numeric: tabular-nums;
+}
+.tt-result-msg { font-family: var(--font-body); color: var(--gray); flex: 1; min-width: 12rem; }
+.tt-result-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* ===== level summary ===== */
+.tt-done {
+    background: var(--white); border: 2px solid var(--border);
+    border-radius: var(--radius); padding: 2rem 1.5rem; text-align: center;
+}
+.tt-done-emoji { font-size: 3rem; line-height: 1; }
+.tt-done h2 {
+    font-family: var(--font-main); font-weight: 800; font-size: 1.5rem;
+    color: var(--dark); margin: 0.4rem 0 0.2rem;
+}
+.tt-done-score { font-family: var(--font-body); color: var(--gray); margin: 0 0 1rem; }
+.tt-done-weak {
+    font-family: var(--font-body); font-size: 0.9rem; color: var(--dark);
+    background: var(--bg); border-radius: var(--radius-sm);
+    padding: 0.8rem 1rem; margin-bottom: 1.2rem; line-height: 1.6;
+}
+.tt-done-actions { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 600px) {
+    .tt-q { grid-template-columns: auto auto 1fr auto; gap: 0.5rem; row-gap: 0.5rem; }
+    .tt-q-prompt { font-size: 1.1rem; }
+    /* A typed answer is two or three digits, so the box stays beside the
+       question. Letting it fill the row made each question tall enough that
+       only four of the six fitted on a phone screen, which defeats the point
+       of putting a whole page up at once. */
+    .tt-input { width: 100%; max-width: 6rem; font-size: 1.05rem; }
+    /* Four options genuinely do need the full width, so those drop to a row
+       of their own. */
+    .tt-options { grid-column: 1 / -1; }
+    .tt-option { flex: 1; min-width: 58px; padding: 0.5rem 0.4rem; }
+}

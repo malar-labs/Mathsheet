@@ -183,7 +183,7 @@ UNITS_CATALOG = [
     },
     {
         "grade": 3, "unit": "times-tables", "title": "Times Tables", "emoji": "✖️",
-        "description": "Multiplication facts from the 2 times table up to the 12s, drilled one at a time until they come back without thinking.",
+        "description": "Multiplication facts from the 2 times table up to the 12s. Pick the answer first, type it later, one short page at a time.",
         "available": True,
     },
     {
@@ -268,9 +268,16 @@ async def render_unit_page(request: Request, grade: int, unit: str, section_id: 
         except store.StoreError as exc:
             logger.warning("PROGRESS| %s", exc)
 
+    # A unit declares its own engine. "drill" units (Times Tables) are a
+    # worksheet page of questions with no lesson to read; everything else is
+    # the lesson-then-practice engine.
+    template = ("times_tables.html"
+                if bundle["lessons"]["meta"].get("engine") == "drill"
+                else "unit_page.html")
+
     return templates.TemplateResponse(
         request,
-        "unit_page.html",
+        template,
         {
             "meta": bundle["lessons"]["meta"],
             "sections": bundle["lessons"]["sections"],
