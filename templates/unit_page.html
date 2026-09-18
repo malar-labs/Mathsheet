@@ -26,7 +26,7 @@
             {% if learner %}
             <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
             {% else %}
-            <a href="/account?next={{ request.url.path | urlencode }}" class="btn-header-login">🔐 Save my progress</a>
+            <a href="/account?next={{ request.url.path | urlencode }}" class="btn-header-login">🔐 Sign in</a>
             {% endif %}
             <a href="/" class="btn-header-login">← All Units</a>
         </div>

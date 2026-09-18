@@ -1,0 +1,4 @@
+tests/
+units/**/_generate.py
+TECHNICAL_NOTES.md
+supabase_schema.sql

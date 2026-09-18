@@ -47,15 +47,19 @@ app.add_middleware(
     secret_key=os.environ.get('SECRET_KEY', 'mathsheet-bc-grade8-secret-2024'),
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+# Absolute paths: on serverless hosts the process starts from somewhere else.
+BASE_DIR = Path(__file__).resolve().parent
+STATIC_DIR = BASE_DIR / "static"
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+templates = Jinja2Templates(directory=BASE_DIR / "templates")
 templates.env.filters['tojson'] = lambda v: Markup(json.dumps(v, ensure_ascii=False))
 
 
 def asset_url(path: str) -> str:
     """/static URL with the file's modified time appended, so browsers load edited CSS/JS right away."""
     try:
-        version = int((Path("static") / path).stat().st_mtime)
+        version = int((STATIC_DIR / path).stat().st_mtime)
     except OSError:
         version = 0
     return f"/static/{path}?v={version}"
@@ -154,7 +158,7 @@ async def generator(request: Request):
 # prompt and a sample worksheet) and are just read from disk at request time
 # — this feature never calls Gemini/Groq/OpenRouter.
 
-UNITS_DIR = Path(__file__).resolve().parent / "units"
+UNITS_DIR = BASE_DIR / "units"
 
 UNITS_CATALOG = [
     {
