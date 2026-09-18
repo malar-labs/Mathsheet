@@ -327,14 +327,6 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
     transform: translateY(-1px);
 }
 
-/* turned off for now — still visible, so it reads as "not yet" rather than gone */
-.btn-header-login.is-disabled {
-    display: inline-block;
-    opacity: 0.45;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
 /* ===== HEADER ===== */
 .app-header {
     background: var(--purple);
