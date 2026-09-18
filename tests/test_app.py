@@ -242,10 +242,10 @@ class TestTopLevelPages:
         assert 'href="/"' in client.get("/generator").text
 
     @pytest.mark.parametrize("path", ["/", "/account", "/units/grade9/rational-numbers"])
-    def test_times_tables_is_one_click_from_every_page(self, path):
+    def test_math_marathon_is_one_click_from_every_page(self, path):
         """It is the one unit a child returns to daily, so it gets a header tab
         rather than living three clicks down behind a grade."""
-        assert 'href="/units/grade3/times-tables"' in client.get(path).text
+        assert 'href="/units/grade3/math-marathon"' in client.get(path).text
 
     def test_old_units_url_still_works(self):
         r = client.get("/units", follow_redirects=False)
@@ -350,15 +350,15 @@ class TestUnitQuestions:
             pytest.fail(f"unknown qtype {qtype!r}")
 
 
-class TestTimesTablesDrill:
+class TestMathMarathonDrill:
     """The drill is a different shape from the lesson units: no lesson to read,
     a page of questions at a time, and recognition before recall."""
 
     def bundle(self):
-        return load_unit_bundle(3, "times-tables")
+        return load_unit_bundle(3, "math-marathon")
 
     def test_it_uses_the_drill_engine_not_the_lesson_one(self):
-        page = client.get("/units/grade3/times-tables").text
+        page = client.get("/units/grade3/math-marathon").text
         assert "js/times_tables.js" in page
         assert "js/unit_learning.js" not in page
 
@@ -447,7 +447,7 @@ class TestTimesTablesDrill:
         assert min(spread.values()) >= len(spread) * 0.05
 
     def test_a_level_page_renders_without_a_lesson(self):
-        page = client.get("/units/grade3/times-tables/t7").text
+        page = client.get("/units/grade3/math-marathon/t7").text
         assert 'const UNIT_FOCUS_SECTION = "t7"' in page
         assert "Learn" not in page or "ul-choice" not in page
 
@@ -466,23 +466,23 @@ class TestGeneratedContentIsUpToDate:
         assert bundle["questions"] == module.QUESTIONS
         assert bundle["lessons"]["sections"] == module.SECTIONS
 
-    def test_times_tables_json_matches_its_generator(self):
-        path = UNITS_DIR / "grade3" / "times-tables" / "_generate.py"
-        spec = importlib.util.spec_from_file_location("times_tables_generate", path)
+    def test_math_marathon_json_matches_its_generator(self):
+        path = UNITS_DIR / "grade3" / "math-marathon" / "_generate.py"
+        spec = importlib.util.spec_from_file_location("math_marathon_generate", path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-        bundle = load_unit_bundle(3, "times-tables")
+        bundle = load_unit_bundle(3, "math-marathon")
         assert bundle["questions"] == module.QUESTIONS
         assert bundle["lessons"]["sections"] == module.SECTIONS
 
-    def test_times_tables_covers_every_fact(self):
+    def test_math_marathon_covers_every_fact(self):
         """A fact the drill never asks is a fact a child never practises, so the
         2-12 tables have to be covered exhaustively rather than sampled."""
         import re
 
         facts = set()
-        for q in load_unit_bundle(3, "times-tables")["questions"]:
+        for q in load_unit_bundle(3, "math-marathon")["questions"]:
             if q["mode"] == "skip":
                 continue   # a rung on the counting ladder, not a stated fact
             product = re.fullmatch(r"(\d+) x (\d+) = \?", q["prompt"])

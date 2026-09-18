@@ -77,8 +77,23 @@ function ttFirstUnfinishedSet(levelId) {
 
 // ===== every level =====
 
+/** Levels bundled under their group heading, in the order they are declared.
+ *  Thirteen level tiles in one grid is a wall; the heading says what they are
+ *  and leaves an obvious seam for a second group to land under later. */
+function ttGroupedLevels() {
+    const groups = [];
+    UNIT_SECTIONS.forEach(level => {
+        const name = level.group || null;
+        if (!groups.length || groups[groups.length - 1].name !== name) {
+            groups.push({ name, emoji: level.group_emoji, levels: [] });
+        }
+        groups[groups.length - 1].levels.push(level);
+    });
+    return groups;
+}
+
 function ttOverviewHTML() {
-    const cards = UNIT_SECTIONS.map(level => {
+    const levelCard = level => {
         const st = ttLevelStats(level.id);
         const pct = st.total ? Math.round((st.answered / st.total) * 100) : 0;
         const state = st.done ? 'done' : st.answered ? 'going' : 'new';
@@ -94,7 +109,17 @@ function ttOverviewHTML() {
                 </span>
                 <span class="tt-level-cta">${label} →</span>
             </a>`;
-    }).join('');
+    };
+
+    const groups = ttGroupedLevels().map(group => `
+        <section class="tt-group">
+            ${group.name ? `<h2 class="tt-group-name">
+                <span aria-hidden="true">${ttEsc(group.emoji || '')}</span>
+                ${ttEsc(group.name)}
+                <span class="tt-group-count">${group.levels.length} levels</span>
+            </h2>` : ''}
+            <div class="tt-level-grid">${group.levels.map(levelCard).join('')}</div>
+        </section>`).join('');
 
     const total = UNIT_QUESTIONS.length;
     const answered = UNIT_QUESTIONS.filter(q => ulState.progress[q.id]).length;
@@ -107,7 +132,7 @@ function ttOverviewHTML() {
             <div class="tt-stat"><b>${answered}</b><span>answered</span></div>
             <div class="tt-stat"><b>${levelsDone}</b><span>levels finished</span></div>
         </div>
-        <div class="tt-level-grid">${cards}</div>`;
+        ${groups}`;
 }
 
 // ===== one set of questions =====

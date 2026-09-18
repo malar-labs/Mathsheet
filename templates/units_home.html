@@ -23,7 +23,7 @@
             </div>
         </a>
         <div class="header-right">
-            <a href="/units/grade3/times-tables" class="btn-header-tab">✖️ Times Tables</a>
+            <a href="/units/grade3/math-marathon" class="btn-header-tab">🏃 Math Marathon</a>
             {% if learner %}
             <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
             {% else %}
@@ -73,11 +73,18 @@
                 {% if item.available %}
                 <div class="ul-catalog-topics">
                     <div class="ul-catalog-topics-label">{{ item.topics | length }} topics · {{ item.question_count }} questions</div>
-                    <ol class="ul-catalog-topic-list">
-                        {% for topic in item.topics %}
-                        <li><a href="{{ unit_url }}/{{ topic.id }}">{{ topic.title }}</a></li>
-                        {% endfor %}
-                    </ol>
+                    {% for group in item.topic_groups %}
+                    <div class="ul-catalog-group">
+                        {% if group.name %}
+                        <div class="ul-catalog-group-name">{{ group.emoji }} {{ group.name }}</div>
+                        {% endif %}
+                        <ol class="ul-catalog-topic-list{% if group.topics | length > 8 %} is-split{% endif %}">
+                            {% for topic in group.topics %}
+                            <li><a href="{{ unit_url }}/{{ topic.id }}">{{ topic.title }}</a></li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                    {% endfor %}
                 </div>
                 <a class="ul-catalog-cta" href="{{ unit_url }}">Open unit →</a>
                 {% else %}

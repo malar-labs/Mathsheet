@@ -1,5 +1,5 @@
 """
-One-time content generator for the Grade 3 "Times Tables" unit.
+One-time content generator for the Grade 3 "Math Marathon" unit.
 
 This script is NOT called by the running app. It writes the static lessons.json
 and questions.json files that ship with the app; the app only ever reads those
@@ -7,10 +7,14 @@ JSON files, and nothing in this feature calls any AI/LLM API.
 
 Re-run with `python _generate.py` from this folder after editing anything below.
 
-This unit is a drill, not a lesson. It is built the way a Kumon worksheet is
-built: one table at a time, a page of questions at a time, the same facts coming
-round again and again until the answer arrives before the child has time to
-count. So there is no lesson page and no reading — you open a level and start.
+Math Marathon is a drill, not a lesson. It is built the way a Kumon worksheet
+is built: one table at a time, a page of questions at a time, the same facts
+coming round again and again until the answer arrives before the child has time
+to count. So there is no lesson page and no reading — you open a level and start.
+
+Every level here belongs to the Multiplication Facts group. The group exists so
+the unit can grow another one — addition facts, division facts — without the
+level list on the landing page turning into an undifferentiated run of links.
 
 Two passes per table, because recognising an answer and producing one are
 different skills and the easier one has to come first:
@@ -45,6 +49,11 @@ TABLE_EMOJI = {
 PALETTE = ["#4ECDC4", "#6C63FF", "#FF9F43", "#FF6B6B", "#10AC84", "#0652DD", "#FF8B94"]
 
 SET_SIZE = 6
+
+# Everything in this unit so far is one group. Named rather than implied, so a
+# second group can be added without reshaping the data or the landing page.
+GROUP = "Multiplication Facts"
+GROUP_EMOJI = "✖️"
 
 
 # ---------------------------------------------------------------------------
@@ -229,6 +238,8 @@ def add_level(level_id, title, emoji, items, tip, difficulty, blurb, skip_table=
         "id": level_id,
         "title": title,
         "emoji": emoji,
+        "group": GROUP,
+        "group_emoji": GROUP_EMOJI,
         "color": PALETTE[len(SECTIONS) % len(PALETTE)],
         "blurb": blurb,
     }
@@ -345,15 +356,16 @@ def main():
     lessons = {
         "meta": {
             "grade": 3,
-            "unit": "times-tables",
+            "unit": "math-marathon",
             "engine": "drill",
-            "emoji": "✖️",
-            "title": "Times Tables",
-            "description": "Multiplication facts from the 2 times table up to the 12s. "
-                           "Pick the answer first, type it later, one short page at a "
-                           "time — until they come back without thinking.",
+            "emoji": "🏃",
+            "title": "Math Marathon",
+            "description": "Fact drills that build muscle memory. Count up the "
+                           "ladder, pick the answer, then type it — one short page "
+                           "at a time, until it comes back without thinking.",
             "sections": [
                 {"id": s["id"], "title": s["title"], "emoji": s["emoji"],
+                 "group": s["group"], "group_emoji": s["group_emoji"],
                  "question_count": counts[s["id"]], "set_count": set_counts[s["id"]]}
                 for s in SECTIONS
             ],

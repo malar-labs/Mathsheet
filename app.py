@@ -182,8 +182,8 @@ UNITS_CATALOG = [
         "available": False,
     },
     {
-        "grade": 3, "unit": "times-tables", "title": "Times Tables", "emoji": "✖️",
-        "description": "Multiplication facts from the 2 times table up to the 12s. Pick the answer first, type it later, one short page at a time.",
+        "grade": 3, "unit": "math-marathon", "title": "Math Marathon", "emoji": "🏃",
+        "description": "Fact drills that build muscle memory — count up the ladder, pick the answer, then type it.",
         "available": True,
     },
     {
@@ -206,6 +206,23 @@ def load_unit_bundle(grade: int, unit: str):
     return {"lessons": lessons, "questions": questions.get("questions", [])}
 
 
+def group_topics(topics, sections):
+    """Topics bundled under their group heading, in the order they appear.
+
+    A unit with many topics reads as an undifferentiated run of links unless
+    they are grouped. Units that declare no group get a single unnamed bundle,
+    so the template has one shape to render either way.
+    """
+    emoji = {s["id"]: s.get("group_emoji") for s in sections}
+    groups: list[dict] = []
+    for topic in topics:
+        name = topic.get("group")
+        if not groups or groups[-1]["name"] != name:
+            groups.append({"name": name, "emoji": emoji.get(topic["id"]), "topics": []})
+        groups[-1]["topics"].append(topic)
+    return groups
+
+
 def catalog_by_grade():
     """The catalog grouped under its grades, so the landing page shows the
     Grade → Unit → Topics hierarchy. Counts come from each unit's own JSON,
@@ -220,8 +237,10 @@ def catalog_by_grade():
         bundle = load_unit_bundle(item["grade"], item["unit"]) if item["available"] else None
         if bundle:
             entry["topics"] = [
-                {"id": s["id"], "title": s["title"]} for s in bundle["lessons"]["sections"]
+                {"id": s["id"], "title": s["title"], "group": s.get("group")}
+                for s in bundle["lessons"]["sections"]
             ]
+            entry["topic_groups"] = group_topics(entry["topics"], bundle["lessons"]["sections"])
             entry["question_count"] = len(bundle["questions"])
         grades.setdefault(item["grade"], []).append(entry)
 
@@ -268,7 +287,7 @@ async def render_unit_page(request: Request, grade: int, unit: str, section_id: 
         except store.StoreError as exc:
             logger.warning("PROGRESS| %s", exc)
 
-    # A unit declares its own engine. "drill" units (Times Tables) are a
+    # A unit declares its own engine. "drill" units (Math Marathon) are a
     # worksheet page of questions with no lesson to read; everything else is
     # the lesson-then-practice engine.
     template = ("times_tables.html"

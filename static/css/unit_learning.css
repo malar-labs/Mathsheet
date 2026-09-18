@@ -633,6 +633,21 @@ a.ul-catalog-title::after { content: ''; position: absolute; inset: 0; z-index: 
     background: var(--border); transform: translateX(-50%);
 }
 
+/* A unit's topics bundled under a group heading. With thirteen of them a flat
+   list reads as one long run of links, so the heading names what they are and
+   the list splits into columns rather than pushing the card metres tall. */
+.ul-catalog-group + .ul-catalog-group { margin-top: 0.7rem; }
+.ul-catalog-group-name {
+    font-family: var(--font-main); font-weight: 800; font-size: 0.82rem;
+    color: var(--dark); margin-bottom: 0.35rem;
+}
+.ul-catalog-topic-list.is-split { columns: 2; column-gap: 1.1rem; }
+.ul-catalog-topic-list.is-split li { break-inside: avoid; }
+
+@media (max-width: 420px) {
+    .ul-catalog-topic-list.is-split { columns: 1; }
+}
+
 /* ===== sign in / sign up ===== */
 .ul-account-wrap { display: flex; justify-content: center; padding: 1rem 0 3rem; }
 .ul-account-card {
