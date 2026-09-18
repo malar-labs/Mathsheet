@@ -148,14 +148,52 @@ def choice_options(answer, near, slot):
 QUESTIONS = []
 
 
-def build_level(level_id, items, tip, difficulty):
-    """Lay a level's facts out as pages of SET_SIZE, pick pass then type pass.
+# Which rungs of the skip-counting ladder are left blank. The first two are
+# given so the pattern is visible before anything is asked, and the rest are
+# spread out rather than bunched, so a child has to keep stepping rather than
+# reading one number off the one beside it.
+SKIP_BLANKS = [3, 5, 6, 8, 10, 12]
 
-    `items` is a list of (prompt, answer, near_misses, steps). The same facts go
-    through twice: choosing from four options first, typing from nothing second.
+
+def build_skip(level_id, table, tip):
+    """The skip-counting ladder: 7, 14, 21 ... with some rungs missing.
+
+    Counting up in a number is how the chain gets learned in the first place,
+    and it is the bridge to multiplication — the 3rd number you land on IS
+    7 x 3. So it comes before anything else in the level.
+    """
+    chain = [table * step for step in range(1, 13)]
+    for order, step in enumerate(SKIP_BLANKS, start=1):
+        value = chain[step - 1]
+        QUESTIONS.append({
+            "id": f"{level_id}-skip-{order:02d}",
+            "section": level_id,
+            "set": 1,
+            "mode": "skip",
+            "step": step,
+            "qtype": "integer",
+            "kind": "number",
+            "difficulty": 1,
+            "prompt": f"Count by {table}s — number {step}",
+            "answer": {"value": value, "display": str(value)},
+            "steps": (f"Keep adding {table}. Number {step - 1} is {chain[step - 2]}, "
+                      f"so number {step} is {chain[step - 2]} + {table} = {value}. "
+                      f"That is the same as {table} x {step}."),
+            "tip": tip,
+        })
+    return chain
+
+
+def build_level(level_id, items, tip, difficulty, skip_table=None):
+    """Lay a level's facts out as pages of SET_SIZE.
+
+    A table level starts with one skip-counting page, then goes through its
+    facts twice: choosing from four options first, typing from nothing second.
+
+    `items` is a list of (prompt, answer, near_misses, steps).
     """
     number = 0
-    set_index = 0
+    set_index = 1 if skip_table is not None else 0
     for mode in ("pick", "type"):
         for start in range(0, len(items), SET_SIZE):
             set_index += 1
@@ -186,15 +224,21 @@ def build_level(level_id, items, tip, difficulty):
 SECTIONS = []
 
 
-def add_level(level_id, title, emoji, items, tip, difficulty, blurb):
-    SECTIONS.append({
+def add_level(level_id, title, emoji, items, tip, difficulty, blurb, skip_table=None):
+    section = {
         "id": level_id,
         "title": title,
         "emoji": emoji,
         "color": PALETTE[len(SECTIONS) % len(PALETTE)],
         "blurb": blurb,
-    })
-    build_level(level_id, items, tip, difficulty)
+    }
+    SECTIONS.append(section)
+    # The ladder is drawn from the section, not repeated on every blank, so the
+    # page can show the whole chain with the answered rungs still in place.
+    if skip_table is not None:
+        section["table"] = skip_table
+        section["skip_chain"] = build_skip(level_id, skip_table, tip)
+    build_level(level_id, items, tip, difficulty, skip_table)
 
 
 # --- one level per table ---------------------------------------------------
@@ -218,7 +262,9 @@ for table in TABLE_ORDER:
         facts,
         TABLE_TIP[table],
         1 if table in (2, 5, 10) else 2 if table in (3, 4, 11) else 3,
-        f"Every fact in the {table} times table, picked first and then typed.",
+        f"Count by {table}s first, then every fact in the {table} times table — "
+        f"picked, then typed.",
+        skip_table=table,
     )
 
 

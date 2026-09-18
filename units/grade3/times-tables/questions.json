@@ -1,9 +1,111 @@
 {
   "questions": [
     {
-      "id": "t2-001",
+      "id": "t2-skip-01",
       "section": "t2",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 2s — number 3",
+      "answer": {
+        "value": 6,
+        "display": "6"
+      },
+      "steps": "Keep adding 2. Number 2 is 4, so number 3 is 4 + 2 = 6. That is the same as 2 x 3.",
+      "tip": "Every answer is the number added to itself."
+    },
+    {
+      "id": "t2-skip-02",
+      "section": "t2",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 2s — number 5",
+      "answer": {
+        "value": 10,
+        "display": "10"
+      },
+      "steps": "Keep adding 2. Number 4 is 8, so number 5 is 8 + 2 = 10. That is the same as 2 x 5.",
+      "tip": "Every answer is the number added to itself."
+    },
+    {
+      "id": "t2-skip-03",
+      "section": "t2",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 2s — number 6",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "Keep adding 2. Number 5 is 10, so number 6 is 10 + 2 = 12. That is the same as 2 x 6.",
+      "tip": "Every answer is the number added to itself."
+    },
+    {
+      "id": "t2-skip-04",
+      "section": "t2",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 2s — number 8",
+      "answer": {
+        "value": 16,
+        "display": "16"
+      },
+      "steps": "Keep adding 2. Number 7 is 14, so number 8 is 14 + 2 = 16. That is the same as 2 x 8.",
+      "tip": "Every answer is the number added to itself."
+    },
+    {
+      "id": "t2-skip-05",
+      "section": "t2",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 2s — number 10",
+      "answer": {
+        "value": 20,
+        "display": "20"
+      },
+      "steps": "Keep adding 2. Number 9 is 18, so number 10 is 18 + 2 = 20. That is the same as 2 x 10.",
+      "tip": "Every answer is the number added to itself."
+    },
+    {
+      "id": "t2-skip-06",
+      "section": "t2",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 2s — number 12",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Keep adding 2. Number 11 is 22, so number 12 is 22 + 2 = 24. That is the same as 2 x 12.",
+      "tip": "Every answer is the number added to itself."
+    },
+    {
+      "id": "t2-001",
+      "section": "t2",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -25,7 +127,7 @@
     {
       "id": "t2-002",
       "section": "t2",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -47,7 +149,7 @@
     {
       "id": "t2-003",
       "section": "t2",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -69,7 +171,7 @@
     {
       "id": "t2-004",
       "section": "t2",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -91,7 +193,7 @@
     {
       "id": "t2-005",
       "section": "t2",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -113,7 +215,7 @@
     {
       "id": "t2-006",
       "section": "t2",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -135,7 +237,7 @@
     {
       "id": "t2-007",
       "section": "t2",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -157,7 +259,7 @@
     {
       "id": "t2-008",
       "section": "t2",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -179,7 +281,7 @@
     {
       "id": "t2-009",
       "section": "t2",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -201,7 +303,7 @@
     {
       "id": "t2-010",
       "section": "t2",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -223,7 +325,7 @@
     {
       "id": "t2-011",
       "section": "t2",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -245,7 +347,7 @@
     {
       "id": "t2-012",
       "section": "t2",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -261,7 +363,7 @@
     {
       "id": "t2-013",
       "section": "t2",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -277,7 +379,7 @@
     {
       "id": "t2-014",
       "section": "t2",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -293,7 +395,7 @@
     {
       "id": "t2-015",
       "section": "t2",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -309,7 +411,7 @@
     {
       "id": "t2-016",
       "section": "t2",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -325,7 +427,7 @@
     {
       "id": "t2-017",
       "section": "t2",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -341,7 +443,7 @@
     {
       "id": "t2-018",
       "section": "t2",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -357,7 +459,7 @@
     {
       "id": "t2-019",
       "section": "t2",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -373,7 +475,7 @@
     {
       "id": "t2-020",
       "section": "t2",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -389,7 +491,7 @@
     {
       "id": "t2-021",
       "section": "t2",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -405,7 +507,7 @@
     {
       "id": "t2-022",
       "section": "t2",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -419,9 +521,111 @@
       }
     },
     {
-      "id": "t5-001",
+      "id": "t5-skip-01",
       "section": "t5",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 5s — number 3",
+      "answer": {
+        "value": 15,
+        "display": "15"
+      },
+      "steps": "Keep adding 5. Number 2 is 10, so number 3 is 10 + 5 = 15. That is the same as 5 x 3.",
+      "tip": "Half of the 10 fact. Every answer ends in 5 or 0."
+    },
+    {
+      "id": "t5-skip-02",
+      "section": "t5",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 5s — number 5",
+      "answer": {
+        "value": 25,
+        "display": "25"
+      },
+      "steps": "Keep adding 5. Number 4 is 20, so number 5 is 20 + 5 = 25. That is the same as 5 x 5.",
+      "tip": "Half of the 10 fact. Every answer ends in 5 or 0."
+    },
+    {
+      "id": "t5-skip-03",
+      "section": "t5",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 5s — number 6",
+      "answer": {
+        "value": 30,
+        "display": "30"
+      },
+      "steps": "Keep adding 5. Number 5 is 25, so number 6 is 25 + 5 = 30. That is the same as 5 x 6.",
+      "tip": "Half of the 10 fact. Every answer ends in 5 or 0."
+    },
+    {
+      "id": "t5-skip-04",
+      "section": "t5",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 5s — number 8",
+      "answer": {
+        "value": 40,
+        "display": "40"
+      },
+      "steps": "Keep adding 5. Number 7 is 35, so number 8 is 35 + 5 = 40. That is the same as 5 x 8.",
+      "tip": "Half of the 10 fact. Every answer ends in 5 or 0."
+    },
+    {
+      "id": "t5-skip-05",
+      "section": "t5",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 5s — number 10",
+      "answer": {
+        "value": 50,
+        "display": "50"
+      },
+      "steps": "Keep adding 5. Number 9 is 45, so number 10 is 45 + 5 = 50. That is the same as 5 x 10.",
+      "tip": "Half of the 10 fact. Every answer ends in 5 or 0."
+    },
+    {
+      "id": "t5-skip-06",
+      "section": "t5",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 5s — number 12",
+      "answer": {
+        "value": 60,
+        "display": "60"
+      },
+      "steps": "Keep adding 5. Number 11 is 55, so number 12 is 55 + 5 = 60. That is the same as 5 x 12.",
+      "tip": "Half of the 10 fact. Every answer ends in 5 or 0."
+    },
+    {
+      "id": "t5-001",
+      "section": "t5",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -443,7 +647,7 @@
     {
       "id": "t5-002",
       "section": "t5",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -465,7 +669,7 @@
     {
       "id": "t5-003",
       "section": "t5",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -487,7 +691,7 @@
     {
       "id": "t5-004",
       "section": "t5",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -509,7 +713,7 @@
     {
       "id": "t5-005",
       "section": "t5",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -531,7 +735,7 @@
     {
       "id": "t5-006",
       "section": "t5",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -553,7 +757,7 @@
     {
       "id": "t5-007",
       "section": "t5",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -575,7 +779,7 @@
     {
       "id": "t5-008",
       "section": "t5",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -597,7 +801,7 @@
     {
       "id": "t5-009",
       "section": "t5",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -619,7 +823,7 @@
     {
       "id": "t5-010",
       "section": "t5",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -641,7 +845,7 @@
     {
       "id": "t5-011",
       "section": "t5",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -663,7 +867,7 @@
     {
       "id": "t5-012",
       "section": "t5",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -679,7 +883,7 @@
     {
       "id": "t5-013",
       "section": "t5",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -695,7 +899,7 @@
     {
       "id": "t5-014",
       "section": "t5",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -711,7 +915,7 @@
     {
       "id": "t5-015",
       "section": "t5",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -727,7 +931,7 @@
     {
       "id": "t5-016",
       "section": "t5",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -743,7 +947,7 @@
     {
       "id": "t5-017",
       "section": "t5",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -759,7 +963,7 @@
     {
       "id": "t5-018",
       "section": "t5",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -775,7 +979,7 @@
     {
       "id": "t5-019",
       "section": "t5",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -791,7 +995,7 @@
     {
       "id": "t5-020",
       "section": "t5",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -807,7 +1011,7 @@
     {
       "id": "t5-021",
       "section": "t5",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -823,7 +1027,7 @@
     {
       "id": "t5-022",
       "section": "t5",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -837,9 +1041,111 @@
       }
     },
     {
-      "id": "t10-001",
+      "id": "t10-skip-01",
       "section": "t10",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 10s — number 3",
+      "answer": {
+        "value": 30,
+        "display": "30"
+      },
+      "steps": "Keep adding 10. Number 2 is 20, so number 3 is 20 + 10 = 30. That is the same as 10 x 3.",
+      "tip": "Every digit moves up one place."
+    },
+    {
+      "id": "t10-skip-02",
+      "section": "t10",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 10s — number 5",
+      "answer": {
+        "value": 50,
+        "display": "50"
+      },
+      "steps": "Keep adding 10. Number 4 is 40, so number 5 is 40 + 10 = 50. That is the same as 10 x 5.",
+      "tip": "Every digit moves up one place."
+    },
+    {
+      "id": "t10-skip-03",
+      "section": "t10",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 10s — number 6",
+      "answer": {
+        "value": 60,
+        "display": "60"
+      },
+      "steps": "Keep adding 10. Number 5 is 50, so number 6 is 50 + 10 = 60. That is the same as 10 x 6.",
+      "tip": "Every digit moves up one place."
+    },
+    {
+      "id": "t10-skip-04",
+      "section": "t10",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 10s — number 8",
+      "answer": {
+        "value": 80,
+        "display": "80"
+      },
+      "steps": "Keep adding 10. Number 7 is 70, so number 8 is 70 + 10 = 80. That is the same as 10 x 8.",
+      "tip": "Every digit moves up one place."
+    },
+    {
+      "id": "t10-skip-05",
+      "section": "t10",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 10s — number 10",
+      "answer": {
+        "value": 100,
+        "display": "100"
+      },
+      "steps": "Keep adding 10. Number 9 is 90, so number 10 is 90 + 10 = 100. That is the same as 10 x 10.",
+      "tip": "Every digit moves up one place."
+    },
+    {
+      "id": "t10-skip-06",
+      "section": "t10",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 10s — number 12",
+      "answer": {
+        "value": 120,
+        "display": "120"
+      },
+      "steps": "Keep adding 10. Number 11 is 110, so number 12 is 110 + 10 = 120. That is the same as 10 x 12.",
+      "tip": "Every digit moves up one place."
+    },
+    {
+      "id": "t10-001",
+      "section": "t10",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -861,7 +1167,7 @@
     {
       "id": "t10-002",
       "section": "t10",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -883,7 +1189,7 @@
     {
       "id": "t10-003",
       "section": "t10",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -905,7 +1211,7 @@
     {
       "id": "t10-004",
       "section": "t10",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -927,7 +1233,7 @@
     {
       "id": "t10-005",
       "section": "t10",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -949,7 +1255,7 @@
     {
       "id": "t10-006",
       "section": "t10",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -971,7 +1277,7 @@
     {
       "id": "t10-007",
       "section": "t10",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -993,7 +1299,7 @@
     {
       "id": "t10-008",
       "section": "t10",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -1015,7 +1321,7 @@
     {
       "id": "t10-009",
       "section": "t10",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -1037,7 +1343,7 @@
     {
       "id": "t10-010",
       "section": "t10",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -1059,7 +1365,7 @@
     {
       "id": "t10-011",
       "section": "t10",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 1,
@@ -1081,7 +1387,7 @@
     {
       "id": "t10-012",
       "section": "t10",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1097,7 +1403,7 @@
     {
       "id": "t10-013",
       "section": "t10",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1113,7 +1419,7 @@
     {
       "id": "t10-014",
       "section": "t10",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1129,7 +1435,7 @@
     {
       "id": "t10-015",
       "section": "t10",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1145,7 +1451,7 @@
     {
       "id": "t10-016",
       "section": "t10",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1161,7 +1467,7 @@
     {
       "id": "t10-017",
       "section": "t10",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1177,7 +1483,7 @@
     {
       "id": "t10-018",
       "section": "t10",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1193,7 +1499,7 @@
     {
       "id": "t10-019",
       "section": "t10",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1209,7 +1515,7 @@
     {
       "id": "t10-020",
       "section": "t10",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1225,7 +1531,7 @@
     {
       "id": "t10-021",
       "section": "t10",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1241,7 +1547,7 @@
     {
       "id": "t10-022",
       "section": "t10",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 1,
@@ -1255,9 +1561,111 @@
       }
     },
     {
-      "id": "t3-001",
+      "id": "t3-skip-01",
       "section": "t3",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 3s — number 3",
+      "answer": {
+        "value": 9,
+        "display": "9"
+      },
+      "steps": "Keep adding 3. Number 2 is 6, so number 3 is 6 + 3 = 9. That is the same as 3 x 3.",
+      "tip": "Double it, then add one more of the number."
+    },
+    {
+      "id": "t3-skip-02",
+      "section": "t3",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 3s — number 5",
+      "answer": {
+        "value": 15,
+        "display": "15"
+      },
+      "steps": "Keep adding 3. Number 4 is 12, so number 5 is 12 + 3 = 15. That is the same as 3 x 5.",
+      "tip": "Double it, then add one more of the number."
+    },
+    {
+      "id": "t3-skip-03",
+      "section": "t3",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 3s — number 6",
+      "answer": {
+        "value": 18,
+        "display": "18"
+      },
+      "steps": "Keep adding 3. Number 5 is 15, so number 6 is 15 + 3 = 18. That is the same as 3 x 6.",
+      "tip": "Double it, then add one more of the number."
+    },
+    {
+      "id": "t3-skip-04",
+      "section": "t3",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 3s — number 8",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Keep adding 3. Number 7 is 21, so number 8 is 21 + 3 = 24. That is the same as 3 x 8.",
+      "tip": "Double it, then add one more of the number."
+    },
+    {
+      "id": "t3-skip-05",
+      "section": "t3",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 3s — number 10",
+      "answer": {
+        "value": 30,
+        "display": "30"
+      },
+      "steps": "Keep adding 3. Number 9 is 27, so number 10 is 27 + 3 = 30. That is the same as 3 x 10.",
+      "tip": "Double it, then add one more of the number."
+    },
+    {
+      "id": "t3-skip-06",
+      "section": "t3",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 3s — number 12",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Keep adding 3. Number 11 is 33, so number 12 is 33 + 3 = 36. That is the same as 3 x 12.",
+      "tip": "Double it, then add one more of the number."
+    },
+    {
+      "id": "t3-001",
+      "section": "t3",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1279,7 +1687,7 @@
     {
       "id": "t3-002",
       "section": "t3",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1301,7 +1709,7 @@
     {
       "id": "t3-003",
       "section": "t3",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1323,7 +1731,7 @@
     {
       "id": "t3-004",
       "section": "t3",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1345,7 +1753,7 @@
     {
       "id": "t3-005",
       "section": "t3",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1367,7 +1775,7 @@
     {
       "id": "t3-006",
       "section": "t3",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1389,7 +1797,7 @@
     {
       "id": "t3-007",
       "section": "t3",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1411,7 +1819,7 @@
     {
       "id": "t3-008",
       "section": "t3",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1433,7 +1841,7 @@
     {
       "id": "t3-009",
       "section": "t3",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1455,7 +1863,7 @@
     {
       "id": "t3-010",
       "section": "t3",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1477,7 +1885,7 @@
     {
       "id": "t3-011",
       "section": "t3",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1499,7 +1907,7 @@
     {
       "id": "t3-012",
       "section": "t3",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1515,7 +1923,7 @@
     {
       "id": "t3-013",
       "section": "t3",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1531,7 +1939,7 @@
     {
       "id": "t3-014",
       "section": "t3",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1547,7 +1955,7 @@
     {
       "id": "t3-015",
       "section": "t3",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1563,7 +1971,7 @@
     {
       "id": "t3-016",
       "section": "t3",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1579,7 +1987,7 @@
     {
       "id": "t3-017",
       "section": "t3",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1595,7 +2003,7 @@
     {
       "id": "t3-018",
       "section": "t3",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1611,7 +2019,7 @@
     {
       "id": "t3-019",
       "section": "t3",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1627,7 +2035,7 @@
     {
       "id": "t3-020",
       "section": "t3",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1643,7 +2051,7 @@
     {
       "id": "t3-021",
       "section": "t3",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1659,7 +2067,7 @@
     {
       "id": "t3-022",
       "section": "t3",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1673,9 +2081,111 @@
       }
     },
     {
-      "id": "t4-001",
+      "id": "t4-skip-01",
       "section": "t4",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 4s — number 3",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "Keep adding 4. Number 2 is 8, so number 3 is 8 + 4 = 12. That is the same as 4 x 3.",
+      "tip": "Double, then double again. Every answer is even."
+    },
+    {
+      "id": "t4-skip-02",
+      "section": "t4",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 4s — number 5",
+      "answer": {
+        "value": 20,
+        "display": "20"
+      },
+      "steps": "Keep adding 4. Number 4 is 16, so number 5 is 16 + 4 = 20. That is the same as 4 x 5.",
+      "tip": "Double, then double again. Every answer is even."
+    },
+    {
+      "id": "t4-skip-03",
+      "section": "t4",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 4s — number 6",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Keep adding 4. Number 5 is 20, so number 6 is 20 + 4 = 24. That is the same as 4 x 6.",
+      "tip": "Double, then double again. Every answer is even."
+    },
+    {
+      "id": "t4-skip-04",
+      "section": "t4",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 4s — number 8",
+      "answer": {
+        "value": 32,
+        "display": "32"
+      },
+      "steps": "Keep adding 4. Number 7 is 28, so number 8 is 28 + 4 = 32. That is the same as 4 x 8.",
+      "tip": "Double, then double again. Every answer is even."
+    },
+    {
+      "id": "t4-skip-05",
+      "section": "t4",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 4s — number 10",
+      "answer": {
+        "value": 40,
+        "display": "40"
+      },
+      "steps": "Keep adding 4. Number 9 is 36, so number 10 is 36 + 4 = 40. That is the same as 4 x 10.",
+      "tip": "Double, then double again. Every answer is even."
+    },
+    {
+      "id": "t4-skip-06",
+      "section": "t4",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 4s — number 12",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Keep adding 4. Number 11 is 44, so number 12 is 44 + 4 = 48. That is the same as 4 x 12.",
+      "tip": "Double, then double again. Every answer is even."
+    },
+    {
+      "id": "t4-001",
+      "section": "t4",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1697,7 +2207,7 @@
     {
       "id": "t4-002",
       "section": "t4",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1719,7 +2229,7 @@
     {
       "id": "t4-003",
       "section": "t4",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1741,7 +2251,7 @@
     {
       "id": "t4-004",
       "section": "t4",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1763,7 +2273,7 @@
     {
       "id": "t4-005",
       "section": "t4",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1785,7 +2295,7 @@
     {
       "id": "t4-006",
       "section": "t4",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1807,7 +2317,7 @@
     {
       "id": "t4-007",
       "section": "t4",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1829,7 +2339,7 @@
     {
       "id": "t4-008",
       "section": "t4",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1851,7 +2361,7 @@
     {
       "id": "t4-009",
       "section": "t4",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1873,7 +2383,7 @@
     {
       "id": "t4-010",
       "section": "t4",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1895,7 +2405,7 @@
     {
       "id": "t4-011",
       "section": "t4",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -1917,7 +2427,7 @@
     {
       "id": "t4-012",
       "section": "t4",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1933,7 +2443,7 @@
     {
       "id": "t4-013",
       "section": "t4",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1949,7 +2459,7 @@
     {
       "id": "t4-014",
       "section": "t4",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1965,7 +2475,7 @@
     {
       "id": "t4-015",
       "section": "t4",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1981,7 +2491,7 @@
     {
       "id": "t4-016",
       "section": "t4",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -1997,7 +2507,7 @@
     {
       "id": "t4-017",
       "section": "t4",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -2013,7 +2523,7 @@
     {
       "id": "t4-018",
       "section": "t4",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -2029,7 +2539,7 @@
     {
       "id": "t4-019",
       "section": "t4",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -2045,7 +2555,7 @@
     {
       "id": "t4-020",
       "section": "t4",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -2061,7 +2571,7 @@
     {
       "id": "t4-021",
       "section": "t4",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -2077,7 +2587,7 @@
     {
       "id": "t4-022",
       "section": "t4",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -2091,9 +2601,111 @@
       }
     },
     {
-      "id": "t6-001",
+      "id": "t6-skip-01",
       "section": "t6",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 6s — number 3",
+      "answer": {
+        "value": 18,
+        "display": "18"
+      },
+      "steps": "Keep adding 6. Number 2 is 12, so number 3 is 12 + 6 = 18. That is the same as 6 x 3.",
+      "tip": "The 5 fact plus one more. Every answer is even."
+    },
+    {
+      "id": "t6-skip-02",
+      "section": "t6",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 6s — number 5",
+      "answer": {
+        "value": 30,
+        "display": "30"
+      },
+      "steps": "Keep adding 6. Number 4 is 24, so number 5 is 24 + 6 = 30. That is the same as 6 x 5.",
+      "tip": "The 5 fact plus one more. Every answer is even."
+    },
+    {
+      "id": "t6-skip-03",
+      "section": "t6",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 6s — number 6",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Keep adding 6. Number 5 is 30, so number 6 is 30 + 6 = 36. That is the same as 6 x 6.",
+      "tip": "The 5 fact plus one more. Every answer is even."
+    },
+    {
+      "id": "t6-skip-04",
+      "section": "t6",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 6s — number 8",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Keep adding 6. Number 7 is 42, so number 8 is 42 + 6 = 48. That is the same as 6 x 8.",
+      "tip": "The 5 fact plus one more. Every answer is even."
+    },
+    {
+      "id": "t6-skip-05",
+      "section": "t6",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 6s — number 10",
+      "answer": {
+        "value": 60,
+        "display": "60"
+      },
+      "steps": "Keep adding 6. Number 9 is 54, so number 10 is 54 + 6 = 60. That is the same as 6 x 10.",
+      "tip": "The 5 fact plus one more. Every answer is even."
+    },
+    {
+      "id": "t6-skip-06",
+      "section": "t6",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 6s — number 12",
+      "answer": {
+        "value": 72,
+        "display": "72"
+      },
+      "steps": "Keep adding 6. Number 11 is 66, so number 12 is 66 + 6 = 72. That is the same as 6 x 12.",
+      "tip": "The 5 fact plus one more. Every answer is even."
+    },
+    {
+      "id": "t6-001",
+      "section": "t6",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2115,7 +2727,7 @@
     {
       "id": "t6-002",
       "section": "t6",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2137,7 +2749,7 @@
     {
       "id": "t6-003",
       "section": "t6",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2159,7 +2771,7 @@
     {
       "id": "t6-004",
       "section": "t6",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2181,7 +2793,7 @@
     {
       "id": "t6-005",
       "section": "t6",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2203,7 +2815,7 @@
     {
       "id": "t6-006",
       "section": "t6",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2225,7 +2837,7 @@
     {
       "id": "t6-007",
       "section": "t6",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2247,7 +2859,7 @@
     {
       "id": "t6-008",
       "section": "t6",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2269,7 +2881,7 @@
     {
       "id": "t6-009",
       "section": "t6",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2291,7 +2903,7 @@
     {
       "id": "t6-010",
       "section": "t6",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2313,7 +2925,7 @@
     {
       "id": "t6-011",
       "section": "t6",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2335,7 +2947,7 @@
     {
       "id": "t6-012",
       "section": "t6",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2351,7 +2963,7 @@
     {
       "id": "t6-013",
       "section": "t6",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2367,7 +2979,7 @@
     {
       "id": "t6-014",
       "section": "t6",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2383,7 +2995,7 @@
     {
       "id": "t6-015",
       "section": "t6",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2399,7 +3011,7 @@
     {
       "id": "t6-016",
       "section": "t6",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2415,7 +3027,7 @@
     {
       "id": "t6-017",
       "section": "t6",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2431,7 +3043,7 @@
     {
       "id": "t6-018",
       "section": "t6",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2447,7 +3059,7 @@
     {
       "id": "t6-019",
       "section": "t6",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2463,7 +3075,7 @@
     {
       "id": "t6-020",
       "section": "t6",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2479,7 +3091,7 @@
     {
       "id": "t6-021",
       "section": "t6",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2495,7 +3107,7 @@
     {
       "id": "t6-022",
       "section": "t6",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2509,9 +3121,111 @@
       }
     },
     {
-      "id": "t7-001",
+      "id": "t7-skip-01",
       "section": "t7",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 7s — number 3",
+      "answer": {
+        "value": 21,
+        "display": "21"
+      },
+      "steps": "Keep adding 7. Number 2 is 14, so number 3 is 14 + 7 = 21. That is the same as 7 x 3.",
+      "tip": "Split the 7 into 5 and 2, then add the two parts."
+    },
+    {
+      "id": "t7-skip-02",
+      "section": "t7",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 7s — number 5",
+      "answer": {
+        "value": 35,
+        "display": "35"
+      },
+      "steps": "Keep adding 7. Number 4 is 28, so number 5 is 28 + 7 = 35. That is the same as 7 x 5.",
+      "tip": "Split the 7 into 5 and 2, then add the two parts."
+    },
+    {
+      "id": "t7-skip-03",
+      "section": "t7",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 7s — number 6",
+      "answer": {
+        "value": 42,
+        "display": "42"
+      },
+      "steps": "Keep adding 7. Number 5 is 35, so number 6 is 35 + 7 = 42. That is the same as 7 x 6.",
+      "tip": "Split the 7 into 5 and 2, then add the two parts."
+    },
+    {
+      "id": "t7-skip-04",
+      "section": "t7",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 7s — number 8",
+      "answer": {
+        "value": 56,
+        "display": "56"
+      },
+      "steps": "Keep adding 7. Number 7 is 49, so number 8 is 49 + 7 = 56. That is the same as 7 x 8.",
+      "tip": "Split the 7 into 5 and 2, then add the two parts."
+    },
+    {
+      "id": "t7-skip-05",
+      "section": "t7",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 7s — number 10",
+      "answer": {
+        "value": 70,
+        "display": "70"
+      },
+      "steps": "Keep adding 7. Number 9 is 63, so number 10 is 63 + 7 = 70. That is the same as 7 x 10.",
+      "tip": "Split the 7 into 5 and 2, then add the two parts."
+    },
+    {
+      "id": "t7-skip-06",
+      "section": "t7",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 7s — number 12",
+      "answer": {
+        "value": 84,
+        "display": "84"
+      },
+      "steps": "Keep adding 7. Number 11 is 77, so number 12 is 77 + 7 = 84. That is the same as 7 x 12.",
+      "tip": "Split the 7 into 5 and 2, then add the two parts."
+    },
+    {
+      "id": "t7-001",
+      "section": "t7",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2533,7 +3247,7 @@
     {
       "id": "t7-002",
       "section": "t7",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2555,7 +3269,7 @@
     {
       "id": "t7-003",
       "section": "t7",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2577,7 +3291,7 @@
     {
       "id": "t7-004",
       "section": "t7",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2599,7 +3313,7 @@
     {
       "id": "t7-005",
       "section": "t7",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2621,7 +3335,7 @@
     {
       "id": "t7-006",
       "section": "t7",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2643,7 +3357,7 @@
     {
       "id": "t7-007",
       "section": "t7",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2665,7 +3379,7 @@
     {
       "id": "t7-008",
       "section": "t7",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2687,7 +3401,7 @@
     {
       "id": "t7-009",
       "section": "t7",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2709,7 +3423,7 @@
     {
       "id": "t7-010",
       "section": "t7",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2731,7 +3445,7 @@
     {
       "id": "t7-011",
       "section": "t7",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2753,7 +3467,7 @@
     {
       "id": "t7-012",
       "section": "t7",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2769,7 +3483,7 @@
     {
       "id": "t7-013",
       "section": "t7",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2785,7 +3499,7 @@
     {
       "id": "t7-014",
       "section": "t7",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2801,7 +3515,7 @@
     {
       "id": "t7-015",
       "section": "t7",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2817,7 +3531,7 @@
     {
       "id": "t7-016",
       "section": "t7",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2833,7 +3547,7 @@
     {
       "id": "t7-017",
       "section": "t7",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2849,7 +3563,7 @@
     {
       "id": "t7-018",
       "section": "t7",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2865,7 +3579,7 @@
     {
       "id": "t7-019",
       "section": "t7",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2881,7 +3595,7 @@
     {
       "id": "t7-020",
       "section": "t7",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2897,7 +3611,7 @@
     {
       "id": "t7-021",
       "section": "t7",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2913,7 +3627,7 @@
     {
       "id": "t7-022",
       "section": "t7",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -2927,9 +3641,111 @@
       }
     },
     {
-      "id": "t8-001",
+      "id": "t8-skip-01",
       "section": "t8",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 8s — number 3",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Keep adding 8. Number 2 is 16, so number 3 is 16 + 8 = 24. That is the same as 8 x 3.",
+      "tip": "Double three times. Every answer is even."
+    },
+    {
+      "id": "t8-skip-02",
+      "section": "t8",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 8s — number 5",
+      "answer": {
+        "value": 40,
+        "display": "40"
+      },
+      "steps": "Keep adding 8. Number 4 is 32, so number 5 is 32 + 8 = 40. That is the same as 8 x 5.",
+      "tip": "Double three times. Every answer is even."
+    },
+    {
+      "id": "t8-skip-03",
+      "section": "t8",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 8s — number 6",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Keep adding 8. Number 5 is 40, so number 6 is 40 + 8 = 48. That is the same as 8 x 6.",
+      "tip": "Double three times. Every answer is even."
+    },
+    {
+      "id": "t8-skip-04",
+      "section": "t8",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 8s — number 8",
+      "answer": {
+        "value": 64,
+        "display": "64"
+      },
+      "steps": "Keep adding 8. Number 7 is 56, so number 8 is 56 + 8 = 64. That is the same as 8 x 8.",
+      "tip": "Double three times. Every answer is even."
+    },
+    {
+      "id": "t8-skip-05",
+      "section": "t8",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 8s — number 10",
+      "answer": {
+        "value": 80,
+        "display": "80"
+      },
+      "steps": "Keep adding 8. Number 9 is 72, so number 10 is 72 + 8 = 80. That is the same as 8 x 10.",
+      "tip": "Double three times. Every answer is even."
+    },
+    {
+      "id": "t8-skip-06",
+      "section": "t8",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 8s — number 12",
+      "answer": {
+        "value": 96,
+        "display": "96"
+      },
+      "steps": "Keep adding 8. Number 11 is 88, so number 12 is 88 + 8 = 96. That is the same as 8 x 12.",
+      "tip": "Double three times. Every answer is even."
+    },
+    {
+      "id": "t8-001",
+      "section": "t8",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2951,7 +3767,7 @@
     {
       "id": "t8-002",
       "section": "t8",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2973,7 +3789,7 @@
     {
       "id": "t8-003",
       "section": "t8",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -2995,7 +3811,7 @@
     {
       "id": "t8-004",
       "section": "t8",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3017,7 +3833,7 @@
     {
       "id": "t8-005",
       "section": "t8",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3039,7 +3855,7 @@
     {
       "id": "t8-006",
       "section": "t8",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3061,7 +3877,7 @@
     {
       "id": "t8-007",
       "section": "t8",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3083,7 +3899,7 @@
     {
       "id": "t8-008",
       "section": "t8",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3105,7 +3921,7 @@
     {
       "id": "t8-009",
       "section": "t8",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3127,7 +3943,7 @@
     {
       "id": "t8-010",
       "section": "t8",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3149,7 +3965,7 @@
     {
       "id": "t8-011",
       "section": "t8",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3171,7 +3987,7 @@
     {
       "id": "t8-012",
       "section": "t8",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3187,7 +4003,7 @@
     {
       "id": "t8-013",
       "section": "t8",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3203,7 +4019,7 @@
     {
       "id": "t8-014",
       "section": "t8",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3219,7 +4035,7 @@
     {
       "id": "t8-015",
       "section": "t8",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3235,7 +4051,7 @@
     {
       "id": "t8-016",
       "section": "t8",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3251,7 +4067,7 @@
     {
       "id": "t8-017",
       "section": "t8",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3267,7 +4083,7 @@
     {
       "id": "t8-018",
       "section": "t8",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3283,7 +4099,7 @@
     {
       "id": "t8-019",
       "section": "t8",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3299,7 +4115,7 @@
     {
       "id": "t8-020",
       "section": "t8",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3315,7 +4131,7 @@
     {
       "id": "t8-021",
       "section": "t8",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3331,7 +4147,7 @@
     {
       "id": "t8-022",
       "section": "t8",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3345,9 +4161,111 @@
       }
     },
     {
-      "id": "t9-001",
+      "id": "t9-skip-01",
       "section": "t9",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 9s — number 3",
+      "answer": {
+        "value": 27,
+        "display": "27"
+      },
+      "steps": "Keep adding 9. Number 2 is 18, so number 3 is 18 + 9 = 27. That is the same as 9 x 3.",
+      "tip": "The 10 fact minus one of the number. The digits of the answer add up to 9."
+    },
+    {
+      "id": "t9-skip-02",
+      "section": "t9",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 9s — number 5",
+      "answer": {
+        "value": 45,
+        "display": "45"
+      },
+      "steps": "Keep adding 9. Number 4 is 36, so number 5 is 36 + 9 = 45. That is the same as 9 x 5.",
+      "tip": "The 10 fact minus one of the number. The digits of the answer add up to 9."
+    },
+    {
+      "id": "t9-skip-03",
+      "section": "t9",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 9s — number 6",
+      "answer": {
+        "value": 54,
+        "display": "54"
+      },
+      "steps": "Keep adding 9. Number 5 is 45, so number 6 is 45 + 9 = 54. That is the same as 9 x 6.",
+      "tip": "The 10 fact minus one of the number. The digits of the answer add up to 9."
+    },
+    {
+      "id": "t9-skip-04",
+      "section": "t9",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 9s — number 8",
+      "answer": {
+        "value": 72,
+        "display": "72"
+      },
+      "steps": "Keep adding 9. Number 7 is 63, so number 8 is 63 + 9 = 72. That is the same as 9 x 8.",
+      "tip": "The 10 fact minus one of the number. The digits of the answer add up to 9."
+    },
+    {
+      "id": "t9-skip-05",
+      "section": "t9",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 9s — number 10",
+      "answer": {
+        "value": 90,
+        "display": "90"
+      },
+      "steps": "Keep adding 9. Number 9 is 81, so number 10 is 81 + 9 = 90. That is the same as 9 x 10.",
+      "tip": "The 10 fact minus one of the number. The digits of the answer add up to 9."
+    },
+    {
+      "id": "t9-skip-06",
+      "section": "t9",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 9s — number 12",
+      "answer": {
+        "value": 108,
+        "display": "108"
+      },
+      "steps": "Keep adding 9. Number 11 is 99, so number 12 is 99 + 9 = 108. That is the same as 9 x 12.",
+      "tip": "The 10 fact minus one of the number. The digits of the answer add up to 9."
+    },
+    {
+      "id": "t9-001",
+      "section": "t9",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3369,7 +4287,7 @@
     {
       "id": "t9-002",
       "section": "t9",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3391,7 +4309,7 @@
     {
       "id": "t9-003",
       "section": "t9",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3413,7 +4331,7 @@
     {
       "id": "t9-004",
       "section": "t9",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3435,7 +4353,7 @@
     {
       "id": "t9-005",
       "section": "t9",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3457,7 +4375,7 @@
     {
       "id": "t9-006",
       "section": "t9",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3479,7 +4397,7 @@
     {
       "id": "t9-007",
       "section": "t9",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3501,7 +4419,7 @@
     {
       "id": "t9-008",
       "section": "t9",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3523,7 +4441,7 @@
     {
       "id": "t9-009",
       "section": "t9",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3545,7 +4463,7 @@
     {
       "id": "t9-010",
       "section": "t9",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3567,7 +4485,7 @@
     {
       "id": "t9-011",
       "section": "t9",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -3589,7 +4507,7 @@
     {
       "id": "t9-012",
       "section": "t9",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3605,7 +4523,7 @@
     {
       "id": "t9-013",
       "section": "t9",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3621,7 +4539,7 @@
     {
       "id": "t9-014",
       "section": "t9",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3637,7 +4555,7 @@
     {
       "id": "t9-015",
       "section": "t9",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3653,7 +4571,7 @@
     {
       "id": "t9-016",
       "section": "t9",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3669,7 +4587,7 @@
     {
       "id": "t9-017",
       "section": "t9",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3685,7 +4603,7 @@
     {
       "id": "t9-018",
       "section": "t9",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3701,7 +4619,7 @@
     {
       "id": "t9-019",
       "section": "t9",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3717,7 +4635,7 @@
     {
       "id": "t9-020",
       "section": "t9",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3733,7 +4651,7 @@
     {
       "id": "t9-021",
       "section": "t9",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3749,7 +4667,7 @@
     {
       "id": "t9-022",
       "section": "t9",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -3763,9 +4681,111 @@
       }
     },
     {
-      "id": "t11-001",
+      "id": "t11-skip-01",
       "section": "t11",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 11s — number 3",
+      "answer": {
+        "value": 33,
+        "display": "33"
+      },
+      "steps": "Keep adding 11. Number 2 is 22, so number 3 is 22 + 11 = 33. That is the same as 11 x 3.",
+      "tip": "Write the digit twice, up to 11 x 9. After that, ten of them plus one more."
+    },
+    {
+      "id": "t11-skip-02",
+      "section": "t11",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 11s — number 5",
+      "answer": {
+        "value": 55,
+        "display": "55"
+      },
+      "steps": "Keep adding 11. Number 4 is 44, so number 5 is 44 + 11 = 55. That is the same as 11 x 5.",
+      "tip": "Write the digit twice, up to 11 x 9. After that, ten of them plus one more."
+    },
+    {
+      "id": "t11-skip-03",
+      "section": "t11",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 11s — number 6",
+      "answer": {
+        "value": 66,
+        "display": "66"
+      },
+      "steps": "Keep adding 11. Number 5 is 55, so number 6 is 55 + 11 = 66. That is the same as 11 x 6.",
+      "tip": "Write the digit twice, up to 11 x 9. After that, ten of them plus one more."
+    },
+    {
+      "id": "t11-skip-04",
+      "section": "t11",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 11s — number 8",
+      "answer": {
+        "value": 88,
+        "display": "88"
+      },
+      "steps": "Keep adding 11. Number 7 is 77, so number 8 is 77 + 11 = 88. That is the same as 11 x 8.",
+      "tip": "Write the digit twice, up to 11 x 9. After that, ten of them plus one more."
+    },
+    {
+      "id": "t11-skip-05",
+      "section": "t11",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 11s — number 10",
+      "answer": {
+        "value": 110,
+        "display": "110"
+      },
+      "steps": "Keep adding 11. Number 9 is 99, so number 10 is 99 + 11 = 110. That is the same as 11 x 10.",
+      "tip": "Write the digit twice, up to 11 x 9. After that, ten of them plus one more."
+    },
+    {
+      "id": "t11-skip-06",
+      "section": "t11",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 11s — number 12",
+      "answer": {
+        "value": 132,
+        "display": "132"
+      },
+      "steps": "Keep adding 11. Number 11 is 121, so number 12 is 121 + 11 = 132. That is the same as 11 x 12.",
+      "tip": "Write the digit twice, up to 11 x 9. After that, ten of them plus one more."
+    },
+    {
+      "id": "t11-001",
+      "section": "t11",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3787,7 +4807,7 @@
     {
       "id": "t11-002",
       "section": "t11",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3809,7 +4829,7 @@
     {
       "id": "t11-003",
       "section": "t11",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3831,7 +4851,7 @@
     {
       "id": "t11-004",
       "section": "t11",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3853,7 +4873,7 @@
     {
       "id": "t11-005",
       "section": "t11",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3875,7 +4895,7 @@
     {
       "id": "t11-006",
       "section": "t11",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3897,7 +4917,7 @@
     {
       "id": "t11-007",
       "section": "t11",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3919,7 +4939,7 @@
     {
       "id": "t11-008",
       "section": "t11",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3941,7 +4961,7 @@
     {
       "id": "t11-009",
       "section": "t11",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3963,7 +4983,7 @@
     {
       "id": "t11-010",
       "section": "t11",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -3985,7 +5005,7 @@
     {
       "id": "t11-011",
       "section": "t11",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 2,
@@ -4007,7 +5027,7 @@
     {
       "id": "t11-012",
       "section": "t11",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4023,7 +5043,7 @@
     {
       "id": "t11-013",
       "section": "t11",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4039,7 +5059,7 @@
     {
       "id": "t11-014",
       "section": "t11",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4055,7 +5075,7 @@
     {
       "id": "t11-015",
       "section": "t11",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4071,7 +5091,7 @@
     {
       "id": "t11-016",
       "section": "t11",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4087,7 +5107,7 @@
     {
       "id": "t11-017",
       "section": "t11",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4103,7 +5123,7 @@
     {
       "id": "t11-018",
       "section": "t11",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4119,7 +5139,7 @@
     {
       "id": "t11-019",
       "section": "t11",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4135,7 +5155,7 @@
     {
       "id": "t11-020",
       "section": "t11",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4151,7 +5171,7 @@
     {
       "id": "t11-021",
       "section": "t11",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4167,7 +5187,7 @@
     {
       "id": "t11-022",
       "section": "t11",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 2,
@@ -4181,9 +5201,111 @@
       }
     },
     {
-      "id": "t12-001",
+      "id": "t12-skip-01",
       "section": "t12",
       "set": 1,
+      "mode": "skip",
+      "step": 3,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 12s — number 3",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Keep adding 12. Number 2 is 24, so number 3 is 24 + 12 = 36. That is the same as 12 x 3.",
+      "tip": "The 10 fact plus the 2 fact."
+    },
+    {
+      "id": "t12-skip-02",
+      "section": "t12",
+      "set": 1,
+      "mode": "skip",
+      "step": 5,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 12s — number 5",
+      "answer": {
+        "value": 60,
+        "display": "60"
+      },
+      "steps": "Keep adding 12. Number 4 is 48, so number 5 is 48 + 12 = 60. That is the same as 12 x 5.",
+      "tip": "The 10 fact plus the 2 fact."
+    },
+    {
+      "id": "t12-skip-03",
+      "section": "t12",
+      "set": 1,
+      "mode": "skip",
+      "step": 6,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 12s — number 6",
+      "answer": {
+        "value": 72,
+        "display": "72"
+      },
+      "steps": "Keep adding 12. Number 5 is 60, so number 6 is 60 + 12 = 72. That is the same as 12 x 6.",
+      "tip": "The 10 fact plus the 2 fact."
+    },
+    {
+      "id": "t12-skip-04",
+      "section": "t12",
+      "set": 1,
+      "mode": "skip",
+      "step": 8,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 12s — number 8",
+      "answer": {
+        "value": 96,
+        "display": "96"
+      },
+      "steps": "Keep adding 12. Number 7 is 84, so number 8 is 84 + 12 = 96. That is the same as 12 x 8.",
+      "tip": "The 10 fact plus the 2 fact."
+    },
+    {
+      "id": "t12-skip-05",
+      "section": "t12",
+      "set": 1,
+      "mode": "skip",
+      "step": 10,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 12s — number 10",
+      "answer": {
+        "value": 120,
+        "display": "120"
+      },
+      "steps": "Keep adding 12. Number 9 is 108, so number 10 is 108 + 12 = 120. That is the same as 12 x 10.",
+      "tip": "The 10 fact plus the 2 fact."
+    },
+    {
+      "id": "t12-skip-06",
+      "section": "t12",
+      "set": 1,
+      "mode": "skip",
+      "step": 12,
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "Count by 12s — number 12",
+      "answer": {
+        "value": 144,
+        "display": "144"
+      },
+      "steps": "Keep adding 12. Number 11 is 132, so number 12 is 132 + 12 = 144. That is the same as 12 x 12.",
+      "tip": "The 10 fact plus the 2 fact."
+    },
+    {
+      "id": "t12-001",
+      "section": "t12",
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4205,7 +5327,7 @@
     {
       "id": "t12-002",
       "section": "t12",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4227,7 +5349,7 @@
     {
       "id": "t12-003",
       "section": "t12",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4249,7 +5371,7 @@
     {
       "id": "t12-004",
       "section": "t12",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4271,7 +5393,7 @@
     {
       "id": "t12-005",
       "section": "t12",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4293,7 +5415,7 @@
     {
       "id": "t12-006",
       "section": "t12",
-      "set": 1,
+      "set": 2,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4315,7 +5437,7 @@
     {
       "id": "t12-007",
       "section": "t12",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4337,7 +5459,7 @@
     {
       "id": "t12-008",
       "section": "t12",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4359,7 +5481,7 @@
     {
       "id": "t12-009",
       "section": "t12",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4381,7 +5503,7 @@
     {
       "id": "t12-010",
       "section": "t12",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4403,7 +5525,7 @@
     {
       "id": "t12-011",
       "section": "t12",
-      "set": 2,
+      "set": 3,
       "mode": "pick",
       "kind": "number",
       "difficulty": 3,
@@ -4425,7 +5547,7 @@
     {
       "id": "t12-012",
       "section": "t12",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4441,7 +5563,7 @@
     {
       "id": "t12-013",
       "section": "t12",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4457,7 +5579,7 @@
     {
       "id": "t12-014",
       "section": "t12",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4473,7 +5595,7 @@
     {
       "id": "t12-015",
       "section": "t12",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4489,7 +5611,7 @@
     {
       "id": "t12-016",
       "section": "t12",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4505,7 +5627,7 @@
     {
       "id": "t12-017",
       "section": "t12",
-      "set": 3,
+      "set": 4,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4521,7 +5643,7 @@
     {
       "id": "t12-018",
       "section": "t12",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4537,7 +5659,7 @@
     {
       "id": "t12-019",
       "section": "t12",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4553,7 +5675,7 @@
     {
       "id": "t12-020",
       "section": "t12",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4569,7 +5691,7 @@
     {
       "id": "t12-021",
       "section": "t12",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,
@@ -4585,7 +5707,7 @@
     {
       "id": "t12-022",
       "section": "t12",
-      "set": 4,
+      "set": 5,
       "mode": "type",
       "kind": "number",
       "difficulty": 3,

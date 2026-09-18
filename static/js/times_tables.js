@@ -6,10 +6,11 @@
    5-6 questions is on screen at once, the way a Kumon worksheet page is, so
    a child builds a rhythm instead of waiting for a new page after every fact.
 
-   Each level runs its facts twice. The "pick" sets offer four options, which
-   is recognition; the "type" sets offer nothing, which is recall. Recognition
-   comes first because it is the easier half and it teaches what the answer
-   looks like.
+   A table level runs three passes. "skip" is the counting ladder — 7, 14, 21
+   with rungs missing — which is where the chain gets into a child's head and
+   the bridge to multiplication, since the 3rd rung IS 7 x 3. Then "pick"
+   offers four options, which is recognition, and "type" offers nothing, which
+   is recall. Easiest first, every time.
 
    Progress lives in ulState.progress via progress.js, shared with the lesson
    engine, so a signed-in learner's drill carries between devices too.
@@ -154,6 +155,41 @@ function ttQuestionHTML(q, index) {
         </li>`;
 }
 
+/** The skip-counting ladder: every rung shown, the blank ones as inputs.
+ *  Drawn whole rather than as a list of separate questions, because seeing the
+ *  chain is the point — a child reads back up it to work out the next rung. */
+function ttChainHTML(level, set) {
+    const chain = level.skip_chain || [];
+    const byStep = new Map(set.questions.map(q => [q.step, q]));
+
+    const rungs = chain.map((value, i) => {
+        const step = i + 1;
+        const q = byStep.get(step);
+        if (!q) return `<span class="tt-rung is-given">${value}</span>`;
+
+        const draft = ttDraft[q.id];
+        const marked = ttChecked && draft !== undefined;
+        const right = marked && ttIsRight(q, draft);
+        const state = !marked ? '' : right ? ' is-right' : ' is-wrong';
+        const reveal = marked && !right
+            ? `<span class="tt-rung-answer">${ttEsc(q.answer.display)}</span>` : '';
+        return `<span class="tt-rung is-blank${state}">
+                    <input class="tt-input tt-rung-input" type="text" inputmode="numeric"
+                           aria-label="${ttEsc(q.prompt)}" data-qid="${ttEsc(q.id)}"
+                           value="${draft === undefined ? '' : ttEsc(draft)}"
+                           ${ttChecked ? 'disabled' : ''} autocomplete="off">
+                    ${reveal}
+                </span>`;
+    }).join('<span class="tt-rung-link" aria-hidden="true">→</span>');
+
+    const table = level.table;
+    return `
+        <div class="tt-chain-intro">
+            Start at <b>${table}</b> and keep adding <b>${table}</b>. Fill in the gaps.
+        </div>
+        <div class="tt-chain">${rungs}</div>`;
+}
+
 function ttIsRight(q, value) {
     if (q.mode === 'pick') return value === q.answer.choice;
     const typed = String(value === undefined ? '' : value).trim();
@@ -175,9 +211,15 @@ function ttSetHTML(level, set, sets) {
                    ${here ? 'aria-current="true"' : ''}>${s.number}</a>`;
     }).join('');
 
-    const banner = set.mode === 'pick'
+    const banner = set.mode === 'skip'
+        ? `<div class="tt-mode tt-mode-skip">🪜 Skip counting — count up in ${level.table}s</div>`
+        : set.mode === 'pick'
         ? `<div class="tt-mode tt-mode-pick">👆 Pick the right answer</div>`
         : `<div class="tt-mode tt-mode-type">⌨️ Type the answer — no options this time</div>`;
+
+    const body = set.mode === 'skip'
+        ? ttChainHTML(level, set)
+        : `<ol class="tt-list">${set.questions.map(ttQuestionHTML).join('')}</ol>`;
 
     const footer = ttChecked
         ? `<div class="tt-result ${score === set.questions.length ? 'is-perfect' : ''}">
@@ -204,7 +246,7 @@ function ttSetHTML(level, set, sets) {
             <span class="tt-pages">${dots}</span>
         </div>
         ${banner}
-        <ol class="tt-list">${set.questions.map(ttQuestionHTML).join('')}</ol>
+        ${body}
         ${footer}`;
 }
 

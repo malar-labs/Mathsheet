@@ -11,78 +11,78 @@
         "id": "t2",
         "title": "2 Times Table",
         "emoji": "✌️",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t5",
         "title": "5 Times Table",
         "emoji": "🖐️",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t10",
         "title": "10 Times Table",
         "emoji": "🔟",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t3",
         "title": "3 Times Table",
         "emoji": "🔺",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t4",
         "title": "4 Times Table",
         "emoji": "🟦",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t6",
         "title": "6 Times Table",
         "emoji": "🎲",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t7",
         "title": "7 Times Table",
         "emoji": "🌈",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t8",
         "title": "8 Times Table",
         "emoji": "🎱",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t9",
         "title": "9 Times Table",
         "emoji": "🐈",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t11",
         "title": "11 Times Table",
         "emoji": "🎏",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "t12",
         "title": "12 Times Table",
         "emoji": "🕛",
-        "question_count": 22,
-        "set_count": 4
+        "question_count": 28,
+        "set_count": 5
       },
       {
         "id": "mixed",
@@ -106,88 +106,253 @@
       "title": "2 Times Table",
       "emoji": "✌️",
       "color": "#4ECDC4",
-      "blurb": "Every fact in the 2 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 2s first, then every fact in the 2 times table — picked, then typed.",
+      "table": 2,
+      "skip_chain": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24
+      ],
+      "set_count": 5
     },
     {
       "id": "t5",
       "title": "5 Times Table",
       "emoji": "🖐️",
       "color": "#6C63FF",
-      "blurb": "Every fact in the 5 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 5s first, then every fact in the 5 times table — picked, then typed.",
+      "table": 5,
+      "skip_chain": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55,
+        60
+      ],
+      "set_count": 5
     },
     {
       "id": "t10",
       "title": "10 Times Table",
       "emoji": "🔟",
       "color": "#FF9F43",
-      "blurb": "Every fact in the 10 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 10s first, then every fact in the 10 times table — picked, then typed.",
+      "table": 10,
+      "skip_chain": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120
+      ],
+      "set_count": 5
     },
     {
       "id": "t3",
       "title": "3 Times Table",
       "emoji": "🔺",
       "color": "#FF6B6B",
-      "blurb": "Every fact in the 3 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 3s first, then every fact in the 3 times table — picked, then typed.",
+      "table": 3,
+      "skip_chain": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24,
+        27,
+        30,
+        33,
+        36
+      ],
+      "set_count": 5
     },
     {
       "id": "t4",
       "title": "4 Times Table",
       "emoji": "🟦",
       "color": "#10AC84",
-      "blurb": "Every fact in the 4 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 4s first, then every fact in the 4 times table — picked, then typed.",
+      "table": 4,
+      "skip_chain": [
+        4,
+        8,
+        12,
+        16,
+        20,
+        24,
+        28,
+        32,
+        36,
+        40,
+        44,
+        48
+      ],
+      "set_count": 5
     },
     {
       "id": "t6",
       "title": "6 Times Table",
       "emoji": "🎲",
       "color": "#0652DD",
-      "blurb": "Every fact in the 6 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 6s first, then every fact in the 6 times table — picked, then typed.",
+      "table": 6,
+      "skip_chain": [
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66,
+        72
+      ],
+      "set_count": 5
     },
     {
       "id": "t7",
       "title": "7 Times Table",
       "emoji": "🌈",
       "color": "#FF8B94",
-      "blurb": "Every fact in the 7 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 7s first, then every fact in the 7 times table — picked, then typed.",
+      "table": 7,
+      "skip_chain": [
+        7,
+        14,
+        21,
+        28,
+        35,
+        42,
+        49,
+        56,
+        63,
+        70,
+        77,
+        84
+      ],
+      "set_count": 5
     },
     {
       "id": "t8",
       "title": "8 Times Table",
       "emoji": "🎱",
       "color": "#4ECDC4",
-      "blurb": "Every fact in the 8 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 8s first, then every fact in the 8 times table — picked, then typed.",
+      "table": 8,
+      "skip_chain": [
+        8,
+        16,
+        24,
+        32,
+        40,
+        48,
+        56,
+        64,
+        72,
+        80,
+        88,
+        96
+      ],
+      "set_count": 5
     },
     {
       "id": "t9",
       "title": "9 Times Table",
       "emoji": "🐈",
       "color": "#6C63FF",
-      "blurb": "Every fact in the 9 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 9s first, then every fact in the 9 times table — picked, then typed.",
+      "table": 9,
+      "skip_chain": [
+        9,
+        18,
+        27,
+        36,
+        45,
+        54,
+        63,
+        72,
+        81,
+        90,
+        99,
+        108
+      ],
+      "set_count": 5
     },
     {
       "id": "t11",
       "title": "11 Times Table",
       "emoji": "🎏",
       "color": "#FF9F43",
-      "blurb": "Every fact in the 11 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 11s first, then every fact in the 11 times table — picked, then typed.",
+      "table": 11,
+      "skip_chain": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        110,
+        121,
+        132
+      ],
+      "set_count": 5
     },
     {
       "id": "t12",
       "title": "12 Times Table",
       "emoji": "🕛",
       "color": "#FF6B6B",
-      "blurb": "Every fact in the 12 times table, picked first and then typed.",
-      "set_count": 4
+      "blurb": "Count by 12s first, then every fact in the 12 times table — picked, then typed.",
+      "table": 12,
+      "skip_chain": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "set_count": 5
     },
     {
       "id": "mixed",
