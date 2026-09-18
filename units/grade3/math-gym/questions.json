@@ -1,0 +1,2370 @@
+{
+  "questions": [
+    {
+      "id": "warmup-01",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 2 = ?",
+      "answer": {
+        "value": 4,
+        "display": "4"
+      },
+      "steps": "Doubling: 2 + 2 = 4.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-02",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 3 = ?",
+      "answer": {
+        "value": 6,
+        "display": "6"
+      },
+      "steps": "Doubling: 3 + 3 = 6.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-03",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 4 = ?",
+      "answer": {
+        "value": 8,
+        "display": "8"
+      },
+      "steps": "Doubling: 4 + 4 = 8.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-04",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 5 = ?",
+      "answer": {
+        "value": 10,
+        "display": "10"
+      },
+      "steps": "Doubling: 5 + 5 = 10.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-05",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 6 = ?",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "Doubling: 6 + 6 = 12.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-06",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 7 = ?",
+      "answer": {
+        "value": 14,
+        "display": "14"
+      },
+      "steps": "Doubling: 7 + 7 = 14.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-07",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 8 = ?",
+      "answer": {
+        "value": 16,
+        "display": "16"
+      },
+      "steps": "Doubling: 8 + 8 = 16.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-08",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 9 = ?",
+      "answer": {
+        "value": 18,
+        "display": "18"
+      },
+      "steps": "Doubling: 9 + 9 = 18.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-09",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 10 = ?",
+      "answer": {
+        "value": 20,
+        "display": "20"
+      },
+      "steps": "Doubling: 10 + 10 = 20.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-10",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 11 = ?",
+      "answer": {
+        "value": 22,
+        "display": "22"
+      },
+      "steps": "Doubling: 11 + 11 = 22.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-11",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "2 x 12 = ?",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Doubling: 12 + 12 = 24.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-12",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 2 = ?",
+      "answer": {
+        "value": 10,
+        "display": "10"
+      },
+      "steps": "Ten 2s is 20, and 5 is half of 10, so halve it: half of 20 is 10.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-13",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 3 = ?",
+      "answer": {
+        "value": 15,
+        "display": "15"
+      },
+      "steps": "Ten 3s is 30, and 5 is half of 10, so halve it: half of 30 is 15.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-14",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 4 = ?",
+      "answer": {
+        "value": 20,
+        "display": "20"
+      },
+      "steps": "Ten 4s is 40, and 5 is half of 10, so halve it: half of 40 is 20.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-15",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 5 = ?",
+      "answer": {
+        "value": 25,
+        "display": "25"
+      },
+      "steps": "Ten 5s is 50, and 5 is half of 10, so halve it: half of 50 is 25.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-16",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 6 = ?",
+      "answer": {
+        "value": 30,
+        "display": "30"
+      },
+      "steps": "Ten 6s is 60, and 5 is half of 10, so halve it: half of 60 is 30.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-17",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 7 = ?",
+      "answer": {
+        "value": 35,
+        "display": "35"
+      },
+      "steps": "Ten 7s is 70, and 5 is half of 10, so halve it: half of 70 is 35.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-18",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 8 = ?",
+      "answer": {
+        "value": 40,
+        "display": "40"
+      },
+      "steps": "Ten 8s is 80, and 5 is half of 10, so halve it: half of 80 is 40.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-19",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 9 = ?",
+      "answer": {
+        "value": 45,
+        "display": "45"
+      },
+      "steps": "Ten 9s is 90, and 5 is half of 10, so halve it: half of 90 is 45.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-20",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 10 = ?",
+      "answer": {
+        "value": 50,
+        "display": "50"
+      },
+      "steps": "Ten 10s is 100, and 5 is half of 10, so halve it: half of 100 is 50.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-21",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 11 = ?",
+      "answer": {
+        "value": 55,
+        "display": "55"
+      },
+      "steps": "Ten 11s is 110, and 5 is half of 10, so halve it: half of 110 is 55.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-22",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "5 x 12 = ?",
+      "answer": {
+        "value": 60,
+        "display": "60"
+      },
+      "steps": "Ten 12s is 120, and 5 is half of 10, so halve it: half of 120 is 60.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-23",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 2 = ?",
+      "answer": {
+        "value": 20,
+        "display": "20"
+      },
+      "steps": "Times 10 moves every digit up one place, so 2 becomes 20.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-24",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 3 = ?",
+      "answer": {
+        "value": 30,
+        "display": "30"
+      },
+      "steps": "Times 10 moves every digit up one place, so 3 becomes 30.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-25",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 4 = ?",
+      "answer": {
+        "value": 40,
+        "display": "40"
+      },
+      "steps": "Times 10 moves every digit up one place, so 4 becomes 40.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-26",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 5 = ?",
+      "answer": {
+        "value": 50,
+        "display": "50"
+      },
+      "steps": "Times 10 moves every digit up one place, so 5 becomes 50.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-27",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 6 = ?",
+      "answer": {
+        "value": 60,
+        "display": "60"
+      },
+      "steps": "Times 10 moves every digit up one place, so 6 becomes 60.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-28",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 7 = ?",
+      "answer": {
+        "value": 70,
+        "display": "70"
+      },
+      "steps": "Times 10 moves every digit up one place, so 7 becomes 70.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-29",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 8 = ?",
+      "answer": {
+        "value": 80,
+        "display": "80"
+      },
+      "steps": "Times 10 moves every digit up one place, so 8 becomes 80.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-30",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 9 = ?",
+      "answer": {
+        "value": 90,
+        "display": "90"
+      },
+      "steps": "Times 10 moves every digit up one place, so 9 becomes 90.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-31",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 10 = ?",
+      "answer": {
+        "value": 100,
+        "display": "100"
+      },
+      "steps": "Times 10 moves every digit up one place, so 10 becomes 100.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-32",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 11 = ?",
+      "answer": {
+        "value": 110,
+        "display": "110"
+      },
+      "steps": "Times 10 moves every digit up one place, so 11 becomes 110.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "warmup-33",
+      "section": "warmup",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "10 x 12 = ?",
+      "answer": {
+        "value": 120,
+        "display": "120"
+      },
+      "steps": "Times 10 moves every digit up one place, so 12 becomes 120.",
+      "tip": "These three are the anchors. Nearly every other fact is built out of them, so make these instant first."
+    },
+    {
+      "id": "x3-x4-01",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 2 = ?",
+      "answer": {
+        "value": 6,
+        "display": "6"
+      },
+      "steps": "Double 2 to get 4, then add one more 2: 4 + 2 = 6.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-02",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 3 = ?",
+      "answer": {
+        "value": 9,
+        "display": "9"
+      },
+      "steps": "Double 3 to get 6, then add one more 3: 6 + 3 = 9.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-03",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 4 = ?",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "Double 4 to get 8, then add one more 4: 8 + 4 = 12.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-04",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 5 = ?",
+      "answer": {
+        "value": 15,
+        "display": "15"
+      },
+      "steps": "Double 5 to get 10, then add one more 5: 10 + 5 = 15.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-05",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 6 = ?",
+      "answer": {
+        "value": 18,
+        "display": "18"
+      },
+      "steps": "Double 6 to get 12, then add one more 6: 12 + 6 = 18.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-06",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 7 = ?",
+      "answer": {
+        "value": 21,
+        "display": "21"
+      },
+      "steps": "Double 7 to get 14, then add one more 7: 14 + 7 = 21.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-07",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 8 = ?",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Double 8 to get 16, then add one more 8: 16 + 8 = 24.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-08",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 9 = ?",
+      "answer": {
+        "value": 27,
+        "display": "27"
+      },
+      "steps": "Double 9 to get 18, then add one more 9: 18 + 9 = 27.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-09",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 10 = ?",
+      "answer": {
+        "value": 30,
+        "display": "30"
+      },
+      "steps": "Double 10 to get 20, then add one more 10: 20 + 10 = 30.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-10",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 11 = ?",
+      "answer": {
+        "value": 33,
+        "display": "33"
+      },
+      "steps": "Double 11 to get 22, then add one more 11: 22 + 11 = 33.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-11",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "3 x 12 = ?",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Double 12 to get 24, then add one more 12: 24 + 12 = 36.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-12",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 2 = ?",
+      "answer": {
+        "value": 8,
+        "display": "8"
+      },
+      "steps": "Double twice. 2 doubles to 4, and 4 doubles to 8.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-13",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 3 = ?",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "Double twice. 3 doubles to 6, and 6 doubles to 12.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-14",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 4 = ?",
+      "answer": {
+        "value": 16,
+        "display": "16"
+      },
+      "steps": "Double twice. 4 doubles to 8, and 8 doubles to 16.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-15",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 5 = ?",
+      "answer": {
+        "value": 20,
+        "display": "20"
+      },
+      "steps": "Double twice. 5 doubles to 10, and 10 doubles to 20.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-16",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 6 = ?",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Double twice. 6 doubles to 12, and 12 doubles to 24.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-17",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 7 = ?",
+      "answer": {
+        "value": 28,
+        "display": "28"
+      },
+      "steps": "Double twice. 7 doubles to 14, and 14 doubles to 28.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-18",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 8 = ?",
+      "answer": {
+        "value": 32,
+        "display": "32"
+      },
+      "steps": "Double twice. 8 doubles to 16, and 16 doubles to 32.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-19",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 9 = ?",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Double twice. 9 doubles to 18, and 18 doubles to 36.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-20",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 10 = ?",
+      "answer": {
+        "value": 40,
+        "display": "40"
+      },
+      "steps": "Double twice. 10 doubles to 20, and 20 doubles to 40.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-21",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 11 = ?",
+      "answer": {
+        "value": 44,
+        "display": "44"
+      },
+      "steps": "Double twice. 11 doubles to 22, and 22 doubles to 44.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x3-x4-22",
+      "section": "x3-x4",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x 12 = ?",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Double twice. 12 doubles to 24, and 24 doubles to 48.",
+      "tip": "Both of these lean on doubling. If you can double a number, you already have most of the 3 and 4 tables."
+    },
+    {
+      "id": "x6-x7-01",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 2 = ?",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "Start from the 5 fact. Five 2s is 10, then add one more 2: 10 + 2 = 12.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-02",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 3 = ?",
+      "answer": {
+        "value": 18,
+        "display": "18"
+      },
+      "steps": "Start from the 5 fact. Five 3s is 15, then add one more 3: 15 + 3 = 18.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-03",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 4 = ?",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Start from the 5 fact. Five 4s is 20, then add one more 4: 20 + 4 = 24.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-04",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 5 = ?",
+      "answer": {
+        "value": 30,
+        "display": "30"
+      },
+      "steps": "Start from the 5 fact. Five 5s is 25, then add one more 5: 25 + 5 = 30.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-05",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 6 = ?",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Start from the 5 fact. Five 6s is 30, then add one more 6: 30 + 6 = 36.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-06",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 7 = ?",
+      "answer": {
+        "value": 42,
+        "display": "42"
+      },
+      "steps": "Start from the 5 fact. Five 7s is 35, then add one more 7: 35 + 7 = 42.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-07",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 8 = ?",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Start from the 5 fact. Five 8s is 40, then add one more 8: 40 + 8 = 48.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-08",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 9 = ?",
+      "answer": {
+        "value": 54,
+        "display": "54"
+      },
+      "steps": "Start from the 5 fact. Five 9s is 45, then add one more 9: 45 + 9 = 54.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-09",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 10 = ?",
+      "answer": {
+        "value": 60,
+        "display": "60"
+      },
+      "steps": "Start from the 5 fact. Five 10s is 50, then add one more 10: 50 + 10 = 60.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-10",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 11 = ?",
+      "answer": {
+        "value": 66,
+        "display": "66"
+      },
+      "steps": "Start from the 5 fact. Five 11s is 55, then add one more 11: 55 + 11 = 66.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-11",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "6 x 12 = ?",
+      "answer": {
+        "value": 72,
+        "display": "72"
+      },
+      "steps": "Start from the 5 fact. Five 12s is 60, then add one more 12: 60 + 12 = 72.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-12",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 2 = ?",
+      "answer": {
+        "value": 14,
+        "display": "14"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 2s is 10, two 2s is 4, and 10 + 4 = 14.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-13",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 3 = ?",
+      "answer": {
+        "value": 21,
+        "display": "21"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 3s is 15, two 3s is 6, and 15 + 6 = 21.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-14",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 4 = ?",
+      "answer": {
+        "value": 28,
+        "display": "28"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 4s is 20, two 4s is 8, and 20 + 8 = 28.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-15",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 5 = ?",
+      "answer": {
+        "value": 35,
+        "display": "35"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 5s is 25, two 5s is 10, and 25 + 10 = 35.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-16",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 6 = ?",
+      "answer": {
+        "value": 42,
+        "display": "42"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 6s is 30, two 6s is 12, and 30 + 12 = 42.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-17",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 7 = ?",
+      "answer": {
+        "value": 49,
+        "display": "49"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 7s is 35, two 7s is 14, and 35 + 14 = 49.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-18",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 8 = ?",
+      "answer": {
+        "value": 56,
+        "display": "56"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 8s is 40, two 8s is 16, and 40 + 16 = 56.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-19",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 9 = ?",
+      "answer": {
+        "value": 63,
+        "display": "63"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 9s is 45, two 9s is 18, and 45 + 18 = 63.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-20",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 10 = ?",
+      "answer": {
+        "value": 70,
+        "display": "70"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 10s is 50, two 10s is 20, and 50 + 20 = 70.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-21",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 11 = ?",
+      "answer": {
+        "value": 77,
+        "display": "77"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 11s is 55, two 11s is 22, and 55 + 22 = 77.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x6-x7-22",
+      "section": "x6-x7",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 12 = ?",
+      "answer": {
+        "value": 84,
+        "display": "84"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 12s is 60, two 12s is 24, and 60 + 24 = 84.",
+      "tip": "Reach for the 5 fact first, then adjust. Six of something is five of it plus one more; seven is five plus two."
+    },
+    {
+      "id": "x8-x9-01",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 2 = ?",
+      "answer": {
+        "value": 16,
+        "display": "16"
+      },
+      "steps": "Double three times: 2 to 4, 4 to 8, 8 to 16.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-02",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 3 = ?",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Double three times: 3 to 6, 6 to 12, 12 to 24.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-03",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 4 = ?",
+      "answer": {
+        "value": 32,
+        "display": "32"
+      },
+      "steps": "Double three times: 4 to 8, 8 to 16, 16 to 32.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-04",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 5 = ?",
+      "answer": {
+        "value": 40,
+        "display": "40"
+      },
+      "steps": "Double three times: 5 to 10, 10 to 20, 20 to 40.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-05",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 6 = ?",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Double three times: 6 to 12, 12 to 24, 24 to 48.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-06",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 7 = ?",
+      "answer": {
+        "value": 56,
+        "display": "56"
+      },
+      "steps": "Double three times: 7 to 14, 14 to 28, 28 to 56.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-07",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 8 = ?",
+      "answer": {
+        "value": 64,
+        "display": "64"
+      },
+      "steps": "Double three times: 8 to 16, 16 to 32, 32 to 64.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-08",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 9 = ?",
+      "answer": {
+        "value": 72,
+        "display": "72"
+      },
+      "steps": "Double three times: 9 to 18, 18 to 36, 36 to 72.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-09",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 10 = ?",
+      "answer": {
+        "value": 80,
+        "display": "80"
+      },
+      "steps": "Double three times: 10 to 20, 20 to 40, 40 to 80.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-10",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 11 = ?",
+      "answer": {
+        "value": 88,
+        "display": "88"
+      },
+      "steps": "Double three times: 11 to 22, 22 to 44, 44 to 88.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-11",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 12 = ?",
+      "answer": {
+        "value": 96,
+        "display": "96"
+      },
+      "steps": "Double three times: 12 to 24, 24 to 48, 48 to 96.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-12",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 2 = ?",
+      "answer": {
+        "value": 18,
+        "display": "18"
+      },
+      "steps": "Ten 2s is 20, then take one 2 back off: 20 - 2 = 18.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-13",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 3 = ?",
+      "answer": {
+        "value": 27,
+        "display": "27"
+      },
+      "steps": "Ten 3s is 30, then take one 3 back off: 30 - 3 = 27.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-14",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 4 = ?",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Ten 4s is 40, then take one 4 back off: 40 - 4 = 36.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-15",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 5 = ?",
+      "answer": {
+        "value": 45,
+        "display": "45"
+      },
+      "steps": "Ten 5s is 50, then take one 5 back off: 50 - 5 = 45.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-16",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 6 = ?",
+      "answer": {
+        "value": 54,
+        "display": "54"
+      },
+      "steps": "Ten 6s is 60, then take one 6 back off: 60 - 6 = 54.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-17",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 7 = ?",
+      "answer": {
+        "value": 63,
+        "display": "63"
+      },
+      "steps": "Ten 7s is 70, then take one 7 back off: 70 - 7 = 63.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-18",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 8 = ?",
+      "answer": {
+        "value": 72,
+        "display": "72"
+      },
+      "steps": "Ten 8s is 80, then take one 8 back off: 80 - 8 = 72.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-19",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 9 = ?",
+      "answer": {
+        "value": 81,
+        "display": "81"
+      },
+      "steps": "Ten 9s is 90, then take one 9 back off: 90 - 9 = 81.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-20",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 10 = ?",
+      "answer": {
+        "value": 90,
+        "display": "90"
+      },
+      "steps": "Ten 10s is 100, then take one 10 back off: 100 - 10 = 90.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-21",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 11 = ?",
+      "answer": {
+        "value": 99,
+        "display": "99"
+      },
+      "steps": "Ten 11s is 110, then take one 11 back off: 110 - 11 = 99.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x8-x9-22",
+      "section": "x8-x9",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 12 = ?",
+      "answer": {
+        "value": 108,
+        "display": "108"
+      },
+      "steps": "Ten 12s is 120, then take one 12 back off: 120 - 12 = 108.",
+      "tip": "8 is doubling three times. 9 is the 10 fact minus one of the number — and the digits of every 9 fact add up to 9."
+    },
+    {
+      "id": "x11-x12-01",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 2 = ?",
+      "answer": {
+        "value": 22,
+        "display": "22"
+      },
+      "steps": "For 11 times a single digit, write the digit twice: 2 and 2 gives 22.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-02",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 3 = ?",
+      "answer": {
+        "value": 33,
+        "display": "33"
+      },
+      "steps": "For 11 times a single digit, write the digit twice: 3 and 3 gives 33.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-03",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 4 = ?",
+      "answer": {
+        "value": 44,
+        "display": "44"
+      },
+      "steps": "For 11 times a single digit, write the digit twice: 4 and 4 gives 44.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-04",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 5 = ?",
+      "answer": {
+        "value": 55,
+        "display": "55"
+      },
+      "steps": "For 11 times a single digit, write the digit twice: 5 and 5 gives 55.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-05",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 6 = ?",
+      "answer": {
+        "value": 66,
+        "display": "66"
+      },
+      "steps": "For 11 times a single digit, write the digit twice: 6 and 6 gives 66.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-06",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 7 = ?",
+      "answer": {
+        "value": 77,
+        "display": "77"
+      },
+      "steps": "For 11 times a single digit, write the digit twice: 7 and 7 gives 77.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-07",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 8 = ?",
+      "answer": {
+        "value": 88,
+        "display": "88"
+      },
+      "steps": "For 11 times a single digit, write the digit twice: 8 and 8 gives 88.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-08",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 9 = ?",
+      "answer": {
+        "value": 99,
+        "display": "99"
+      },
+      "steps": "For 11 times a single digit, write the digit twice: 9 and 9 gives 99.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-09",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 10 = ?",
+      "answer": {
+        "value": 110,
+        "display": "110"
+      },
+      "steps": "Ten 10s is 100, plus one more 10: 100 + 10 = 110.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-10",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 11 = ?",
+      "answer": {
+        "value": 121,
+        "display": "121"
+      },
+      "steps": "Ten 11s is 110, plus one more 11: 110 + 11 = 121.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-11",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "11 x 12 = ?",
+      "answer": {
+        "value": 132,
+        "display": "132"
+      },
+      "steps": "Ten 12s is 120, plus one more 12: 120 + 12 = 132.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-12",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 2 = ?",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Ten 2s is 20, two 2s is 4, and 20 + 4 = 24.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-13",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 3 = ?",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Ten 3s is 30, two 3s is 6, and 30 + 6 = 36.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-14",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 4 = ?",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Ten 4s is 40, two 4s is 8, and 40 + 8 = 48.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-15",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 5 = ?",
+      "answer": {
+        "value": 60,
+        "display": "60"
+      },
+      "steps": "Ten 5s is 50, two 5s is 10, and 50 + 10 = 60.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-16",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 6 = ?",
+      "answer": {
+        "value": 72,
+        "display": "72"
+      },
+      "steps": "Ten 6s is 60, two 6s is 12, and 60 + 12 = 72.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-17",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 7 = ?",
+      "answer": {
+        "value": 84,
+        "display": "84"
+      },
+      "steps": "Ten 7s is 70, two 7s is 14, and 70 + 14 = 84.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-18",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 8 = ?",
+      "answer": {
+        "value": 96,
+        "display": "96"
+      },
+      "steps": "Ten 8s is 80, two 8s is 16, and 80 + 16 = 96.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-19",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 9 = ?",
+      "answer": {
+        "value": 108,
+        "display": "108"
+      },
+      "steps": "Ten 9s is 90, two 9s is 18, and 90 + 18 = 108.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-20",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 10 = ?",
+      "answer": {
+        "value": 120,
+        "display": "120"
+      },
+      "steps": "Ten 10s is 100, two 10s is 20, and 100 + 20 = 120.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-21",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 11 = ?",
+      "answer": {
+        "value": 132,
+        "display": "132"
+      },
+      "steps": "Ten 11s is 110, two 11s is 22, and 110 + 22 = 132.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "x11-x12-22",
+      "section": "x11-x12",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 12 = ?",
+      "answer": {
+        "value": 144,
+        "display": "144"
+      },
+      "steps": "Ten 12s is 120, two 12s is 24, and 120 + 24 = 144.",
+      "tip": "11 repeats the digit as far as 11 x 9. 12 is the 10 fact plus the 2 fact, both of which you already know."
+    },
+    {
+      "id": "missing-01",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "2 x ? = 16",
+      "answer": {
+        "value": 8,
+        "display": "8"
+      },
+      "steps": "How many 2s make 16? 2 x 8 = 16, so the missing number is 8. Dividing gets there too: 16 / 2 = 8.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-02",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "5 x ? = 30",
+      "answer": {
+        "value": 6,
+        "display": "6"
+      },
+      "steps": "How many 5s make 30? 5 x 6 = 30, so the missing number is 6. Dividing gets there too: 30 / 5 = 6.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-03",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "10 x ? = 70",
+      "answer": {
+        "value": 7,
+        "display": "7"
+      },
+      "steps": "How many 10s make 70? 10 x 7 = 70, so the missing number is 7. Dividing gets there too: 70 / 10 = 7.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-04",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "3 x ? = 27",
+      "answer": {
+        "value": 9,
+        "display": "9"
+      },
+      "steps": "How many 3s make 27? 3 x 9 = 27, so the missing number is 9. Dividing gets there too: 27 / 3 = 9.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-05",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x ? = 24",
+      "answer": {
+        "value": 6,
+        "display": "6"
+      },
+      "steps": "How many 4s make 24? 4 x 6 = 24, so the missing number is 6. Dividing gets there too: 24 / 4 = 6.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-06",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "2 x ? = 24",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "How many 2s make 24? 2 x 12 = 24, so the missing number is 12. Dividing gets there too: 24 / 2 = 12.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-07",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "5 x ? = 55",
+      "answer": {
+        "value": 11,
+        "display": "11"
+      },
+      "steps": "How many 5s make 55? 5 x 11 = 55, so the missing number is 11. Dividing gets there too: 55 / 5 = 11.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-08",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "6 x ? = 42",
+      "answer": {
+        "value": 7,
+        "display": "7"
+      },
+      "steps": "How many 6s make 42? 6 x 7 = 42, so the missing number is 7. Dividing gets there too: 42 / 6 = 7.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-09",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x ? = 56",
+      "answer": {
+        "value": 8,
+        "display": "8"
+      },
+      "steps": "How many 7s make 56? 7 x 8 = 56, so the missing number is 8. Dividing gets there too: 56 / 7 = 8.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-10",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "6 x ? = 54",
+      "answer": {
+        "value": 9,
+        "display": "9"
+      },
+      "steps": "How many 6s make 54? 6 x 9 = 54, so the missing number is 9. Dividing gets there too: 54 / 6 = 9.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-11",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x ? = 72",
+      "answer": {
+        "value": 9,
+        "display": "9"
+      },
+      "steps": "How many 8s make 72? 8 x 9 = 72, so the missing number is 9. Dividing gets there too: 72 / 8 = 9.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-12",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x ? = 49",
+      "answer": {
+        "value": 7,
+        "display": "7"
+      },
+      "steps": "How many 7s make 49? 7 x 7 = 49, so the missing number is 7. Dividing gets there too: 49 / 7 = 7.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-13",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "4 x ? = 32",
+      "answer": {
+        "value": 8,
+        "display": "8"
+      },
+      "steps": "How many 4s make 32? 4 x 8 = 32, so the missing number is 8. Dividing gets there too: 32 / 4 = 8.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-14",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "3 x ? = 36",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "How many 3s make 36? 3 x 12 = 36, so the missing number is 12. Dividing gets there too: 36 / 3 = 12.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-15",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x ? = 81",
+      "answer": {
+        "value": 9,
+        "display": "9"
+      },
+      "steps": "How many 9s make 81? 9 x 9 = 81, so the missing number is 9. Dividing gets there too: 81 / 9 = 9.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-16",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x ? = 72",
+      "answer": {
+        "value": 6,
+        "display": "6"
+      },
+      "steps": "How many 12s make 72? 12 x 6 = 72, so the missing number is 6. Dividing gets there too: 72 / 12 = 6.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-17",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x ? = 64",
+      "answer": {
+        "value": 8,
+        "display": "8"
+      },
+      "steps": "How many 8s make 64? 8 x 8 = 64, so the missing number is 8. Dividing gets there too: 64 / 8 = 8.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-18",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "11 x ? = 77",
+      "answer": {
+        "value": 7,
+        "display": "7"
+      },
+      "steps": "How many 11s make 77? 11 x 7 = 77, so the missing number is 7. Dividing gets there too: 77 / 11 = 7.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-19",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "6 x ? = 36",
+      "answer": {
+        "value": 6,
+        "display": "6"
+      },
+      "steps": "How many 6s make 36? 6 x 6 = 36, so the missing number is 6. Dividing gets there too: 36 / 6 = 6.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-20",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x ? = 108",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "How many 9s make 108? 9 x 12 = 108, so the missing number is 12. Dividing gets there too: 108 / 9 = 12.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-21",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x ? = 84",
+      "answer": {
+        "value": 12,
+        "display": "12"
+      },
+      "steps": "How many 7s make 84? 7 x 12 = 84, so the missing number is 12. Dividing gets there too: 84 / 7 = 12.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "missing-22",
+      "section": "missing",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x ? = 88",
+      "answer": {
+        "value": 11,
+        "display": "11"
+      },
+      "steps": "How many 8s make 88? 8 x 11 = 88, so the missing number is 11. Dividing gets there too: 88 / 8 = 11.",
+      "tip": "Read it as a question: how many of this make that? If nothing comes to mind, divide — dividing undoes multiplying."
+    },
+    {
+      "id": "mixed-01",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "6 x 7 = ?",
+      "answer": {
+        "value": 42,
+        "display": "42"
+      },
+      "steps": "Start from the 5 fact. Five 7s is 35, then add one more 7: 35 + 7 = 42.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-02",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "4 x 9 = ?",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Double twice. 9 doubles to 18, and 18 doubles to 36.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-03",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 7 = ?",
+      "answer": {
+        "value": 56,
+        "display": "56"
+      },
+      "steps": "Double three times: 7 to 14, 14 to 28, 28 to 56.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-04",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "3 x 8 = ?",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Double 8 to get 16, then add one more 8: 16 + 8 = 24.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-05",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 6 = ?",
+      "answer": {
+        "value": 54,
+        "display": "54"
+      },
+      "steps": "Ten 6s is 60, then take one 6 back off: 60 - 6 = 54.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-06",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 4 = ?",
+      "answer": {
+        "value": 28,
+        "display": "28"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 4s is 20, two 4s is 8, and 20 + 8 = 28.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-07",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 8 = ?",
+      "answer": {
+        "value": 96,
+        "display": "96"
+      },
+      "steps": "Ten 8s is 80, two 8s is 16, and 80 + 16 = 96.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-08",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "5 x 9 = ?",
+      "answer": {
+        "value": 45,
+        "display": "45"
+      },
+      "steps": "Ten 9s is 90, and 5 is half of 10, so halve it: half of 90 is 45.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-09",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 8 = ?",
+      "answer": {
+        "value": 64,
+        "display": "64"
+      },
+      "steps": "Double three times: 8 to 16, 16 to 32, 32 to 64.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-10",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "6 x 4 = ?",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "Start from the 5 fact. Five 4s is 20, then add one more 4: 20 + 4 = 24.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-11",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 9 = ?",
+      "answer": {
+        "value": 63,
+        "display": "63"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 9s is 45, two 9s is 18, and 45 + 18 = 63.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-12",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "11 x 12 = ?",
+      "answer": {
+        "value": 132,
+        "display": "132"
+      },
+      "steps": "Ten 12s is 120, plus one more 12: 120 + 12 = 132.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-13",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "4 x 12 = ?",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Double twice. 12 doubles to 24, and 24 doubles to 48.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-14",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 8 = ?",
+      "answer": {
+        "value": 72,
+        "display": "72"
+      },
+      "steps": "Ten 8s is 80, then take one 8 back off: 80 - 8 = 72.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-15",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "3 x 7 = ?",
+      "answer": {
+        "value": 21,
+        "display": "21"
+      },
+      "steps": "Double 7 to get 14, then add one more 7: 14 + 7 = 21.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-16",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 7 = ?",
+      "answer": {
+        "value": 49,
+        "display": "49"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 7s is 35, two 7s is 14, and 35 + 14 = 49.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-17",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "6 x 8 = ?",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Start from the 5 fact. Five 8s is 40, then add one more 8: 40 + 8 = 48.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-18",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 9 = ?",
+      "answer": {
+        "value": 108,
+        "display": "108"
+      },
+      "steps": "Ten 9s is 90, two 9s is 18, and 90 + 18 = 108.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-19",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 9 = ?",
+      "answer": {
+        "value": 81,
+        "display": "81"
+      },
+      "steps": "Ten 9s is 90, then take one 9 back off: 90 - 9 = 81.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-20",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 4 = ?",
+      "answer": {
+        "value": 32,
+        "display": "32"
+      },
+      "steps": "Double three times: 4 to 8, 8 to 16, 16 to 32.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-21",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "6 x 6 = ?",
+      "answer": {
+        "value": 36,
+        "display": "36"
+      },
+      "steps": "Start from the 5 fact. Five 6s is 30, then add one more 6: 30 + 6 = 36.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-22",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 11 = ?",
+      "answer": {
+        "value": 77,
+        "display": "77"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 11s is 55, two 11s is 22, and 55 + 22 = 77.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-23",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "12 x 12 = ?",
+      "answer": {
+        "value": 144,
+        "display": "144"
+      },
+      "steps": "Ten 12s is 120, two 12s is 24, and 120 + 24 = 144.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-24",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "9 x 3 = ?",
+      "answer": {
+        "value": 27,
+        "display": "27"
+      },
+      "steps": "Ten 3s is 30, then take one 3 back off: 30 - 3 = 27.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-25",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "8 x 6 = ?",
+      "answer": {
+        "value": 48,
+        "display": "48"
+      },
+      "steps": "Double three times: 6 to 12, 12 to 24, 24 to 48.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    },
+    {
+      "id": "mixed-26",
+      "section": "mixed",
+      "qtype": "integer",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "7 x 6 = ?",
+      "answer": {
+        "value": 42,
+        "display": "42"
+      },
+      "steps": "Split the 7 into 5 and 2. Five 6s is 30, two 6s is 12, and 30 + 12 = 42.",
+      "tip": "No pattern to lean on here, which is the point. If you have to work one out, that fact needs another lap."
+    }
+  ]
+}

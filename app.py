@@ -182,6 +182,11 @@ UNITS_CATALOG = [
         "available": False,
     },
     {
+        "grade": 3, "unit": "math-gym", "title": "Math Gym", "emoji": "🏋️",
+        "description": "Multiplication facts from the 2 times table up to the 12s, drilled one at a time until they come back without thinking.",
+        "available": True,
+    },
+    {
         "grade": 3, "unit": "coming-soon", "title": "Coming soon", "emoji": "🧮",
         "description": "More Grade 3 units are on the way.", "available": False,
     },

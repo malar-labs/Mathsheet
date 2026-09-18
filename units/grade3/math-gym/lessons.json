@@ -1,0 +1,230 @@
+{
+  "meta": {
+    "grade": 3,
+    "unit": "math-gym",
+    "title": "Math Gym",
+    "emoji": "🏋️",
+    "description": "Multiplication facts from the 2 times table up to the 12s, drilled one at a time until they come back without thinking.",
+    "sections": [
+      {
+        "id": "warmup",
+        "title": "Warm-Up: 2s, 5s and 10s",
+        "emoji": "🏃",
+        "question_count": 33
+      },
+      {
+        "id": "x3-x4",
+        "title": "3s and 4s",
+        "emoji": "🔁",
+        "question_count": 22
+      },
+      {
+        "id": "x6-x7",
+        "title": "6s and 7s",
+        "emoji": "🎯",
+        "question_count": 22
+      },
+      {
+        "id": "x8-x9",
+        "title": "8s and 9s",
+        "emoji": "💪",
+        "question_count": 22
+      },
+      {
+        "id": "x11-x12",
+        "title": "11s and 12s",
+        "emoji": "🚀",
+        "question_count": 22
+      },
+      {
+        "id": "missing",
+        "title": "Find the Missing Number",
+        "emoji": "🔍",
+        "question_count": 22
+      },
+      {
+        "id": "mixed",
+        "title": "Mixed Workout",
+        "emoji": "🏆",
+        "question_count": 26
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "warmup",
+      "title": "Warm-Up: 2s, 5s and 10s",
+      "emoji": "🏃",
+      "color": "#4ECDC4",
+      "blurb": "Start here even if you think you know them. The 2, 5 and 10 tables are what every other fact is built out of — the 6 table leans on the 5 table, the 9 table leans on the 10 table. Make these three automatic and the hard tables stop being hard.",
+      "key_concepts": [
+        "Times {2} is just doubling. 2 x 7 is 7 + 7.",
+        "Times {10} moves every digit up one place: 7 becomes 70, 12 becomes 120.",
+        "Times {5} is half of times 10. Ten 8s is 80, so five 8s is 40. Every answer in the 5 table ends in 5 or 0.",
+        "Order never changes the answer: 3 x 8 and 8 x 3 are both 24. That roughly halves how many facts there are to learn."
+      ],
+      "examples": [
+        {
+          "prompt": "5 x 9",
+          "steps": "Ten 9s is 90. Five is half of ten, so halve 90.",
+          "answer_display": "45"
+        },
+        {
+          "prompt": "10 x 12",
+          "steps": "Every digit moves up one place, so 12 becomes 120.",
+          "answer_display": "120"
+        }
+      ]
+    },
+    {
+      "id": "x3-x4",
+      "title": "3s and 4s",
+      "emoji": "🔁",
+      "color": "#6C63FF",
+      "blurb": "Both of these come straight out of doubling, so with the warm-up solid they follow close behind. Three of something is two of it plus one more. Four of something is just double, twice.",
+      "key_concepts": [
+        "Times {3}: double it, then add one more. 3 x 7 is 14 + 7 = 21.",
+        "Times {4}: double, then double again. 4 x 7 goes 7 to 14 to 28.",
+        "Every answer in the 4 table is even, and each is double the matching answer in the 2 table.",
+        "A check for the 3 table: add up the digits of the answer and you always land on 3, 6 or 9. For 24, that's 2 + 4 = 6."
+      ],
+      "examples": [
+        {
+          "prompt": "3 x 8",
+          "steps": "Double 8 to get 16, then add one more 8: 16 + 8.",
+          "answer_display": "24"
+        },
+        {
+          "prompt": "4 x 9",
+          "steps": "9 doubles to 18, and 18 doubles to 36.",
+          "answer_display": "36"
+        }
+      ]
+    },
+    {
+      "id": "x6-x7",
+      "title": "6s and 7s",
+      "emoji": "🎯",
+      "color": "#FF9F43",
+      "blurb": "This is where guessing usually starts, because no single trick covers the whole table. The way through is to land on the 5 fact first and step up from there — and 5 facts you already own.",
+      "key_concepts": [
+        "Times {6}: take the 5 fact and add one more. Five 8s is 40, so six 8s is 48.",
+        "Times {7}: split the 7 into 5 and 2. Five 6s is 30, two 6s is 12, and 30 + 12 = 42.",
+        "6 x 7 = 42 is the single most-missed fact there is. Worth memorising on its own rather than rebuilding it every time.",
+        "Every answer in the 6 table is even, so landing on an odd number means something has gone wrong."
+      ],
+      "examples": [
+        {
+          "prompt": "6 x 9",
+          "steps": "Five 9s is 45, then add one more 9: 45 + 9.",
+          "answer_display": "54"
+        },
+        {
+          "prompt": "7 x 8",
+          "steps": "Five 8s is 40, two 8s is 16, and 40 + 16 = 56.",
+          "answer_display": "56"
+        }
+      ]
+    },
+    {
+      "id": "x8-x9",
+      "title": "8s and 9s",
+      "emoji": "💪",
+      "color": "#FF6B6B",
+      "blurb": "These two look like the hardest tables and are secretly among the easiest, because both have a shortcut that always works: 8 is doubling three times, and 9 is the 10 fact with one taken back off.",
+      "key_concepts": [
+        "Times {8}: double, double, double. 8 x 6 goes 6 to 12 to 24 to 48.",
+        "Times {9}: do the 10 fact, then subtract the number. 9 x 7 is 70 - 7 = 63.",
+        "The digits of every 9-table answer add up to 9. 63 gives 6 + 3 = 9, and 45 gives 4 + 5 = 9. Use it to check yourself.",
+        "Up to 9 x 10, the tens digit is one less than the number you multiplied by: 9 x 7 = 63, and 6 is one less than 7."
+      ],
+      "examples": [
+        {
+          "prompt": "8 x 7",
+          "steps": "7 to 14 to 28 to 56 — three doubles.",
+          "answer_display": "56"
+        },
+        {
+          "prompt": "9 x 6",
+          "steps": "Ten 6s is 60, take one 6 back off: 60 - 6.",
+          "answer_display": "54"
+        }
+      ]
+    },
+    {
+      "id": "x11-x12",
+      "title": "11s and 12s",
+      "emoji": "🚀",
+      "color": "#0652DD",
+      "blurb": "The 11 table is the easiest one on this page as long as you stay single-digit. The 12 table has no trick of its own, but it doesn't need one: it's the 10 fact and the 2 fact added together.",
+      "key_concepts": [
+        "Times {11} up to 9: write the digit twice. 11 x 4 is 44, 11 x 8 is 88.",
+        "That stops working at 10. From there, do ten of them plus one more: 11 x 12 is 120 + 12 = 132.",
+        "Times {12}: add the 10 fact and the 2 fact. 12 x 7 is 70 + 14 = 84.",
+        "12s turn up constantly outside school — a dozen, hours on a clock, inches in a foot — so they're worth the effort."
+      ],
+      "examples": [
+        {
+          "prompt": "11 x 7",
+          "steps": "Single digit, so write the 7 twice.",
+          "answer_display": "77"
+        },
+        {
+          "prompt": "12 x 9",
+          "steps": "Ten 9s is 90, two 9s is 18, and 90 + 18 = 108.",
+          "answer_display": "108"
+        }
+      ]
+    },
+    {
+      "id": "missing",
+      "title": "Find the Missing Number",
+      "emoji": "🔍",
+      "color": "#10AC84",
+      "blurb": "The same facts, asked backwards. Knowing that 6 x 7 is 42 is one skill; seeing 42 and recognising it as six sevens is another — and it's the one that makes division make sense when you get there.",
+      "key_concepts": [
+        "Read it as a question. For 6 x ? = 42, ask yourself how many 6s make 42.",
+        "If no answer jumps out, divide — dividing undoes multiplying. 42 divided by 6 is 7.",
+        "You can also count up in the number you have: 6, 12, 18, 24, 30, 36, 42. That's seven steps, so the answer is 7. Slower, but it always works.",
+        "Check by multiplying back. Put your answer in and see whether it really makes the number on the right."
+      ],
+      "examples": [
+        {
+          "prompt": "8 x ? = 56",
+          "steps": "How many 8s make 56? 8 x 7 = 56. Check by dividing: 56 / 8 = 7.",
+          "answer_display": "7"
+        },
+        {
+          "prompt": "9 x ? = 108",
+          "steps": "Ten 9s is only 90, so it's more than 10. Twelve 9s is 90 + 18 = 108.",
+          "answer_display": "12"
+        }
+      ]
+    },
+    {
+      "id": "mixed",
+      "title": "Mixed Workout",
+      "emoji": "🏆",
+      "color": "#FF8B94",
+      "blurb": "Every table at once, in no order, weighted towards the facts that get missed most. Drilling one table at a time lets you ride the pattern; this is where you find out which facts you actually know.",
+      "key_concepts": [
+        "Having to stop and work one out isn't a failure — it's that fact telling you it needs another lap.",
+        "Speed is the point. A fact you can rebuild in ten seconds isn't memorised yet, and it will slow you down inside every longer problem later.",
+        "Order still helps: if 7 x 12 feels hard, try it as 12 x 7.",
+        "Come back to this one. Facts fade if you leave them, and a short workout now and then beats one long session."
+      ],
+      "examples": [
+        {
+          "prompt": "7 x 6",
+          "steps": "Five 6s is 30, two 6s is 12, so 30 + 12 = 42. Worth knowing outright — it's the most-missed fact in the tables.",
+          "answer_display": "42"
+        },
+        {
+          "prompt": "12 x 12",
+          "steps": "Ten 12s is 120, two 12s is 24, and 120 + 24 = 144.",
+          "answer_display": "144"
+        }
+      ]
+    }
+  ]
+}

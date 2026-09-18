@@ -358,6 +358,38 @@ class TestGeneratedContentIsUpToDate:
         assert bundle["questions"] == module.QUESTIONS
         assert bundle["lessons"]["sections"] == module.SECTIONS
 
+    def test_math_gym_json_matches_its_generator(self):
+        path = UNITS_DIR / "grade3" / "math-gym" / "_generate.py"
+        spec = importlib.util.spec_from_file_location("gym_generate", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        bundle = load_unit_bundle(3, "math-gym")
+        assert bundle["questions"] == module.QUESTIONS
+        assert bundle["lessons"]["sections"] == module.SECTIONS
+
+    def test_math_gym_covers_every_fact_in_the_tables(self):
+        """A fact the gym never asks is a fact a child never drills, so the
+        2-12 tables have to be covered exhaustively rather than sampled."""
+        import re
+
+        facts = set()
+        for q in load_unit_bundle(3, "math-gym")["questions"]:
+            product = re.fullmatch(r"(\d+) x (\d+) = \?", q["prompt"])
+            missing = re.fullmatch(r"(\d+) x \? = (\d+)", q["prompt"])
+            assert product or missing, q["prompt"]
+            if product:
+                a, b = int(product.group(1)), int(product.group(2))
+                assert a * b == q["answer"]["value"], q["id"]
+            else:
+                a, total = int(missing.group(1)), int(missing.group(2))
+                b = q["answer"]["value"]
+                assert a * b == total, q["id"]
+            facts.add(tuple(sorted((a, b))))
+
+        every_fact = {tuple(sorted((a, b))) for a in range(2, 13) for b in range(2, 13)}
+        assert facts == every_fact
+
 
 # =============================================
 #   API — Generate endpoint (no LLM calls)
