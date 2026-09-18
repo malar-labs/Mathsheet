@@ -728,6 +728,16 @@ function questionMapHTML(qs, currentIdx) {
     }).join('');
 }
 
+// Signed-out learners keep their answers in this browser only. A quiet nudge in
+// the sidebar, not a banner in the way of the question.
+function signInHintHTML() {
+    if (ulSignedIn()) return '';
+    const next = encodeURIComponent(location.pathname);
+    return `<div class="ul-side-card ul-signin-hint">
+                🔐 <a href="/account?next=${next}">Sign in</a> to save your progress and pick up on any device.
+            </div>`;
+}
+
 function questionSidebarHTML(section, qs, currentIdx) {
     const st = sectionStats(section.id);
     return `
@@ -753,6 +763,7 @@ function questionSidebarHTML(section, qs, currentIdx) {
                     <span><i></i>Not yet</span>
                 </div>
             </div>
+            ${signInHintHTML()}
             <div class="ul-side-card ul-side-links">
                 <button class="ul-side-link" data-go="lesson">📖 Review the lesson</button>
                 <button class="ul-side-link" data-go="done">📊 See results</button>
