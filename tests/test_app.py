@@ -241,6 +241,12 @@ class TestTopLevelPages:
     def test_landing_page_is_reachable_from_the_generator(self):
         assert 'href="/"' in client.get("/generator").text
 
+    @pytest.mark.parametrize("path", ["/", "/account", "/units/grade9/rational-numbers"])
+    def test_times_tables_is_one_click_from_every_page(self, path):
+        """It is the one unit a child returns to daily, so it gets a header tab
+        rather than living three clicks down behind a grade."""
+        assert 'href="/units/grade3/times-tables"' in client.get(path).text
+
     def test_old_units_url_still_works(self):
         r = client.get("/units", follow_redirects=False)
         assert r.status_code in (307, 308)
@@ -358,23 +364,23 @@ class TestGeneratedContentIsUpToDate:
         assert bundle["questions"] == module.QUESTIONS
         assert bundle["lessons"]["sections"] == module.SECTIONS
 
-    def test_math_gym_json_matches_its_generator(self):
-        path = UNITS_DIR / "grade3" / "math-gym" / "_generate.py"
-        spec = importlib.util.spec_from_file_location("gym_generate", path)
+    def test_times_tables_json_matches_its_generator(self):
+        path = UNITS_DIR / "grade3" / "times-tables" / "_generate.py"
+        spec = importlib.util.spec_from_file_location("times_tables_generate", path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-        bundle = load_unit_bundle(3, "math-gym")
+        bundle = load_unit_bundle(3, "times-tables")
         assert bundle["questions"] == module.QUESTIONS
         assert bundle["lessons"]["sections"] == module.SECTIONS
 
-    def test_math_gym_covers_every_fact_in_the_tables(self):
-        """A fact the gym never asks is a fact a child never drills, so the
+    def test_times_tables_covers_every_fact(self):
+        """A fact the drill never asks is a fact a child never practises, so the
         2-12 tables have to be covered exhaustively rather than sampled."""
         import re
 
         facts = set()
-        for q in load_unit_bundle(3, "math-gym")["questions"]:
+        for q in load_unit_bundle(3, "times-tables")["questions"]:
             product = re.fullmatch(r"(\d+) x (\d+) = \?", q["prompt"])
             missing = re.fullmatch(r"(\d+) x \? = (\d+)", q["prompt"])
             assert product or missing, q["prompt"]

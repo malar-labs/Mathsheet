@@ -1,5 +1,5 @@
 """
-One-time content generator for the Grade 3 "Math Gym" unit.
+One-time content generator for the Grade 3 "Times Tables" unit.
 
 This script is NOT called by the running app. It writes the static lessons.json
 and questions.json files that ship with the app; the app only ever reads those
@@ -7,7 +7,7 @@ JSON files, and nothing in this feature calls any AI/LLM API.
 
 Re-run with `python _generate.py` from this folder after editing anything below.
 
-Math Gym is a drill, not a lesson unit: the goal is recall fast enough that the
+This is a drill, not a lesson unit: the goal is recall fast enough that the
 fact arrives before the child has time to count it out. So every fact in the
 2-12 tables appears, each question carries the strategy for its own table, and
 every answer is computed here rather than typed — which is what makes shipping
@@ -361,9 +361,9 @@ def main():
     lessons = {
         "meta": {
             "grade": 3,
-            "unit": "math-gym",
-            "title": "Math Gym",
-            "emoji": "🏋️",
+            "unit": "times-tables",
+            "title": "Times Tables",
+            "emoji": "✖️",
             "description": "Multiplication facts from the 2 times table up to the 12s, "
                            "drilled one at a time until they come back without thinking.",
             "sections": [

@@ -23,12 +23,13 @@
             </div>
         </a>
         <div class="header-right">
+            <a href="/units/grade3/times-tables" class="btn-header-tab">✖️ Times Tables</a>
             {% if learner %}
             <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
             {% else %}
             <a href="/account?next={{ request.url.path | urlencode }}" class="btn-header-login">🔐 Sign in</a>
             {% endif %}
-            <a href="/" class="btn-header-login">← All Units</a>
+            <a href="/" class="btn-header-login btn-header-back">← All Units</a>
         </div>
     </div>
 </header>

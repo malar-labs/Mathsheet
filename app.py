@@ -182,7 +182,7 @@ UNITS_CATALOG = [
         "available": False,
     },
     {
-        "grade": 3, "unit": "math-gym", "title": "Math Gym", "emoji": "🏋️",
+        "grade": 3, "unit": "times-tables", "title": "Times Tables", "emoji": "✖️",
         "description": "Multiplication facts from the 2 times table up to the 12s, drilled one at a time until they come back without thinking.",
         "available": True,
     },

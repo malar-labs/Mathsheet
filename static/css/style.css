@@ -327,6 +327,32 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
     transform: translateY(-1px);
 }
 
+/* The one shortcut that shouldn't need hunting for. Solid white against the
+   purple header so it reads as the primary destination, not another chrome
+   button like the translucent ones beside it. */
+.btn-header-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--white);
+    border: 2px solid var(--white);
+    color: var(--purple-dark);
+    padding: 0.45rem 1.1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-main);
+    font-weight: 800;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+.btn-header-tab:hover {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--dark);
+    transform: translateY(-1px);
+}
+
 /* ===== HEADER ===== */
 .app-header {
     background: var(--purple);
@@ -344,6 +370,16 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+}
+
+/* Three pills now sit here. Let them wrap rather than squeeze the logo off
+   the side of a phone. */
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .logo {
@@ -1935,6 +1971,27 @@ h1, h2, h3, h4 { font-family: var(--font-main); }
 
 @media (max-width: 768px) {
     .app-header { padding: 0.7rem 1rem; }
+
+    /* On a phone the logo alone is wider than the space the pills need, so
+       sharing a row clips them off the edge. Give the pills their own centred
+       row underneath instead, drop the strapline, and drop the back pill --
+       the logo already returns to all units. */
+    .header-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.55rem;
+    }
+    .logo-sub { display: none; }
+    .header-right {
+        width: 100%;
+        justify-content: center;
+    }
+    .header-right .btn-header-back { display: none; }
+    .btn-header-tab,
+    .btn-header-login {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
     .logo-title { font-size: 1.2rem; }
     .logo-sub { display: none; }
 
