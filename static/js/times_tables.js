@@ -6,11 +6,13 @@
    5-6 questions is on screen at once, the way a Kumon worksheet page is, so
    a child builds a rhythm instead of waiting for a new page after every fact.
 
-   A table level runs three passes. "skip" is the counting ladder — 7, 14, 21
-   with rungs missing — which is where the chain gets into a child's head and
-   the bridge to multiplication, since the 3rd rung IS 7 x 3. Then "pick"
-   offers four options, which is recognition, and "type" offers nothing, which
-   is recall. Easiest first, every time.
+   A level runs three passes, easiest first. The first is a ladder with rungs
+   missing, running whichever way the unit needs: "skip" counts up in the table,
+   which is where the chain gets into a child's head and the bridge to
+   multiplication, since the 3rd rung IS 7 x 3; "back" counts down from the
+   whole amount to 0, because dividing is taking away until nothing is left and
+   the number of jumps is the answer. Then "pick" offers four options, which is
+   recognition, and "type" offers nothing, which is recall.
 
    Progress lives in ulState.progress via progress.js, shared with the lesson
    engine, so a signed-in learner's drill carries between devices too.
@@ -192,11 +194,19 @@ function ttQuestionHTML(q, index) {
         </li>`;
 }
 
-/** The skip-counting ladder: every rung shown, the blank ones as inputs.
+/** The ladder: every rung shown, the blank ones as inputs.
+ *
  *  Drawn whole rather than as a list of separate questions, because seeing the
- *  chain is the point — a child reads back up it to work out the next rung. */
+ *  chain is the point — a child reads along it to work out the next rung.
+ *
+ *  It runs in whichever direction the unit needs. Multiplication counts up in
+ *  the table, which is how the chain gets learned. Division counts back from
+ *  the whole amount to 0, because dividing is taking away until nothing is
+ *  left, and the number of jumps is the answer. */
 function ttChainHTML(level, set) {
-    const chain = level.skip_chain || [];
+    const ladder = level.ladder || {};
+    const chain = ladder.chain || [];
+    const back = ladder.mode === 'back';
     const byStep = new Map(set.questions.map(q => [q.step, q]));
 
     const rungs = chain.map((value, i) => {
@@ -217,13 +227,19 @@ function ttChainHTML(level, set) {
                            ${ttChecked ? 'disabled' : ''} autocomplete="off">
                     ${reveal}
                 </span>`;
-    }).join('<span class="tt-rung-link" aria-hidden="true">→</span>');
+    }).join(back
+        ? `<span class="tt-rung-link is-minus" aria-hidden="true">−${ladder.step}</span>`
+        : '<span class="tt-rung-link" aria-hidden="true">→</span>');
 
-    const table = level.table;
+    const intro = back
+        ? `Start at <b>${chain[0]}</b> and keep taking away <b>${ladder.step}</b> until
+           you reach 0. Fill in the gaps — and count the jumps, because that is the
+           answer to ${chain[0]} ÷ ${ladder.step}.`
+        : `Start at <b>${ladder.step}</b> and keep adding <b>${ladder.step}</b>.
+           Fill in the gaps.`;
+
     return `
-        <div class="tt-chain-intro">
-            Start at <b>${table}</b> and keep adding <b>${table}</b>. Fill in the gaps.
-        </div>
+        <div class="tt-chain-intro">${intro}</div>
         <div class="tt-chain">${rungs}</div>`;
 }
 
@@ -248,13 +264,16 @@ function ttSetHTML(level, set, sets) {
                    ${here ? 'aria-current="true"' : ''}>${s.number}</a>`;
     }).join('');
 
+    const step = (level.ladder || {}).step;
     const banner = set.mode === 'skip'
-        ? `<div class="tt-mode tt-mode-skip">🪜 Skip counting — count up in ${level.table}s</div>`
+        ? `<div class="tt-mode tt-mode-skip">🪜 Skip counting — count up in ${step}s</div>`
+        : set.mode === 'back'
+        ? `<div class="tt-mode tt-mode-back">➖ Repeated subtraction — take away ${step} each time</div>`
         : set.mode === 'pick'
         ? `<div class="tt-mode tt-mode-pick">👆 Pick the right answer</div>`
         : `<div class="tt-mode tt-mode-type">⌨️ Type the answer — no options this time</div>`;
 
-    const body = set.mode === 'skip'
+    const body = (set.mode === 'skip' || set.mode === 'back')
         ? ttChainHTML(level, set)
         : `<ol class="tt-list">${set.questions.map(ttQuestionHTML).join('')}</ol>`;
 

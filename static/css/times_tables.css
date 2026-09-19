@@ -110,6 +110,7 @@
 }
 .tt-mode-pick { background: var(--purple-light); color: var(--purple-dark); }
 .tt-mode-skip { background: #e6f9f5; color: #0b6b4f; }
+.tt-mode-back { background: #fdecef; color: #9b2242; }
 
 /* ===== the skip-counting ladder ===== */
 .tt-chain-intro {
@@ -141,6 +142,12 @@
     color: var(--green); padding-top: 0.2rem;
 }
 .tt-rung-link { color: var(--light-gray); font-weight: 700; }
+/* The jump between rungs is labelled on a count-back chain, so the
+   repeated subtraction is visible rather than implied. */
+.tt-rung-link.is-minus {
+    font-family: var(--font-main); font-weight: 800; font-size: 0.78rem;
+    color: var(--coral); white-space: nowrap;
+}
 .tt-mode-type { background: #fff4e0; color: #9a5b00; }
 
 .tt-list {

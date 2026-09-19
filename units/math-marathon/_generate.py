@@ -108,9 +108,10 @@ def div_strategy(divisor, quotient):
     if divisor == 10:
         return (f"Dividing by 10 moves every digit down one place, so {dividend} "
                 f"becomes {quotient}.")
-    return (f"Division undoes multiplication. {divisor} x {quotient} = {dividend}, "
-            f"so {dividend} / {divisor} = {quotient}. Counting up in {divisor}s, "
-            f"{dividend} is the {quotient}th step.")
+    return (f"Take {divisor} away from {dividend} again and again and you land on "
+            f"0 after {quotient} jumps, so {dividend} / {divisor} = {quotient}. "
+            f"The times table says the same thing: {divisor} x {quotient} = "
+            f"{dividend}.")
 
 
 MUL_TIP = {
@@ -129,8 +130,8 @@ MUL_TIP = {
 
 
 def div_tip(divisor):
-    return (f"Ask how many {divisor}s make the number. The {divisor} times table "
-            f"has every answer in it — that is why the ladder comes first.")
+    return (f"How many {divisor}s fit? Take {divisor} away again and again and "
+            f"count the jumps, or read the {divisor} times table backwards.")
 
 
 # ---------------------------------------------------------------------------
@@ -180,7 +181,7 @@ class Unit:
         self.questions = []
 
     def add_level(self, level_id, title, emoji, items, tip, difficulty, blurb,
-                  ladder_of=None):
+                  ladder=None):
         section = {
             "id": level_id,
             "title": title,
@@ -193,31 +194,39 @@ class Unit:
         set_index = 0
         number = 0
 
-        if ladder_of is not None:
+        if ladder is not None:
             # The ladder is drawn from the section, not repeated on every blank,
-            # so the page can show the whole chain with the answered rungs in
-            # place. Division gets one too: it IS the answer key for dividing.
-            chain = [ladder_of * step for step in range(1, 13)]
-            section["table"] = ladder_of
-            section["skip_chain"] = chain
+            # so the page can show the whole chain with the answered rungs still
+            # in place.
+            section["ladder"] = ladder
+            chain, mode, step_size = ladder["chain"], ladder["mode"], ladder["step"]
             set_index = 1
             for order, step in enumerate(SKIP_BLANKS, start=1):
                 value = chain[step - 1]
+                before = chain[step - 2]
+                if mode == "skip":
+                    prompt = f"Count by {step_size}s — number {step}"
+                    steps = (f"Keep adding {step_size}. Number {step - 1} is {before}, "
+                             f"so number {step} is {before} + {step_size} = {value}. "
+                             f"That is the same as {step_size} x {step}.")
+                else:
+                    prompt = (f"Count back in {step_size}s from {chain[0]} "
+                              f"— jump {step}")
+                    steps = (f"Keep taking {step_size} away. Jump {step - 1} lands on "
+                             f"{before}, so jump {step} is {before} - {step_size} "
+                             f"= {value}.")
                 self.questions.append({
-                    "id": f"{level_id}-skip-{order:02d}",
+                    "id": f"{level_id}-{mode}-{order:02d}",
                     "section": level_id,
                     "set": 1,
-                    "mode": "skip",
+                    "mode": mode,
                     "step": step,
                     "qtype": "integer",
                     "kind": "number",
                     "difficulty": 1,
-                    "prompt": f"Count by {ladder_of}s — number {step}",
+                    "prompt": prompt,
                     "answer": {"value": value, "display": str(value)},
-                    "steps": (f"Keep adding {ladder_of}. Number {step - 1} is "
-                              f"{chain[step - 2]}, so number {step} is "
-                              f"{chain[step - 2]} + {ladder_of} = {value}. That is "
-                              f"the same as {ladder_of} x {step}."),
+                    "steps": steps,
                     "tip": tip,
                 })
 
@@ -265,6 +274,9 @@ class Unit:
             if q["qtype"] == "choice":
                 assert q["answer"]["choice"] in q["options"], q["id"]
                 assert len(q["options"]) == len(set(q["options"])) == 4, q["id"]
+            elif q["mode"] == "back":
+                # A count-back chain finishes on 0, which is the whole point.
+                assert q["answer"]["value"] >= 0, q["id"]
             else:
                 assert q["answer"]["value"] > 0, q["id"]
 
@@ -326,7 +338,8 @@ def build_multiplication():
             1 if table in (2, 5, 10) else 2 if table in (3, 4, 11) else 3,
             f"Count by {table}s first, then every fact in the {table} times table — "
             f"picked, then typed.",
-            ladder_of=table,
+            ladder={"mode": "skip", "step": table,
+                    "chain": [table * n for n in range(1, 13)]},
         )
 
     mixed = [
@@ -373,8 +386,8 @@ def build_multiplication():
 def build_division():
     unit = Unit(
         "division-facts", "Division Facts", "➗",
-        "The times tables read backwards — how many 7s make 56? Same ladder, same "
-        "facts, asked the other way round.",
+        "How many 7s make 56? Take 7 away again and again, count the jumps, and "
+        "the answer falls out.",
     )
 
     for divisor in TABLE_ORDER:
@@ -393,9 +406,14 @@ def build_division():
             f"d{divisor}", f"Divide by {divisor}", TABLE_EMOJI[divisor], facts,
             div_tip(divisor),
             1 if divisor in (2, 5, 10) else 2 if divisor in (3, 4, 11) else 3,
-            f"Count by {divisor}s first — that ladder is the answer key — then "
-            f"divide by {divisor}, picked and then typed.",
-            ladder_of=divisor,
+            f"Take {divisor} away again and again to see how many fit, then "
+            f"divide by {divisor} — picked, then typed.",
+            # Counting up is the multiplication tool. Dividing is taking away
+            # until nothing is left, so this ladder runs the other way: start at
+            # the whole amount and subtract to 0. The number of jumps IS the
+            # answer, which is the thing worth seeing.
+            ladder={"mode": "back", "step": divisor,
+                    "chain": [divisor * n for n in range(12, -1, -1)]},
         )
 
     mixed = [

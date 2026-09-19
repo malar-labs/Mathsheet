@@ -411,41 +411,49 @@ class TestMathMarathonDrill:
         assert set(sizes.values()) <= {5, 6}, sorted(set(sizes.values()))
 
     def test_each_level_runs_easiest_pass_first(self):
-        """Counting up the ladder, then recognising an answer, then producing
-        one from nothing. A level must never ask for the harder thing first."""
-        order = {"skip": 0, "pick": 1, "type": 2}
+        """The ladder, then recognising an answer, then producing one from
+        nothing. A level must never ask for the harder thing first."""
+        order = {"skip": 0, "back": 0, "pick": 1, "type": 2}
         bundle = self.bundle()
         for section in bundle["lessons"]["sections"]:
             modes = [q["mode"] for q in bundle["questions"]
                      if q["section"] == section["id"]]
-            assert set(modes) <= {"skip", "pick", "type"}, section["id"]
+            assert set(modes) <= {"skip", "back", "pick", "type"}, section["id"]
             assert {"pick", "type"} <= set(modes), section["id"]
             assert modes == sorted(modes, key=lambda m: order[m]), section["id"]
 
-    def test_every_table_starts_with_skip_counting(self):
+    def test_every_table_level_starts_with_its_ladder(self):
         bundle = self.bundle()
         for section in bundle["lessons"]["sections"]:
             questions = [q for q in bundle["questions"] if q["section"] == section["id"]]
-            skips = [q for q in questions if q["mode"] == "skip"]
-            if "table" not in section:
+            rungs = [q for q in questions if q["mode"] in ("skip", "back")]
+            if "ladder" not in section:
                 # Mixed and missing-number levels span every table, so there is
-                # no single chain to count up.
-                assert not skips, section["id"]
+                # no single chain to walk.
+                assert not rungs, section["id"]
                 continue
-            assert skips, section["id"]
-            assert all(q["set"] == 1 for q in skips), section["id"]
+            assert rungs, section["id"]
+            assert all(q["set"] == 1 for q in rungs), section["id"]
+            assert all(q["mode"] == section["ladder"]["mode"] for q in rungs), section["id"]
 
-    def test_the_skip_ladder_is_a_real_chain_with_gaps(self):
+    def test_the_ladder_is_a_real_chain_with_gaps(self):
         bundle = self.bundle()
         for section in bundle["lessons"]["sections"]:
-            if "table" not in section:
+            ladder = section.get("ladder")
+            if not ladder:
                 continue
-            table = section["table"]
-            chain = section["skip_chain"]
-            assert chain == [table * step for step in range(1, len(chain) + 1)], section["id"]
+            step, chain = ladder["step"], ladder["chain"]
+
+            # Every rung is one step from the last, in the ladder's direction.
+            deltas = {b - a for a, b in zip(chain, chain[1:])}
+            assert deltas == {step if ladder["mode"] == "skip" else -step}, section["id"]
+            if ladder["mode"] == "back":
+                # Dividing is taking away until nothing is left, so it has to
+                # finish on 0 or the count of jumps means nothing.
+                assert chain[-1] == 0, section["id"]
 
             blanks = [q for q in bundle["questions"]
-                      if q["section"] == section["id"] and q["mode"] == "skip"]
+                      if q["section"] == section["id"] and q["mode"] == ladder["mode"]]
             steps = [q["step"] for q in blanks]
             assert steps == sorted(steps), section["id"]
             assert len(set(steps)) == len(steps), section["id"]
@@ -456,6 +464,16 @@ class TestMathMarathonDrill:
             assert min(steps) > 2, section["id"]
             for q in blanks:
                 assert q["answer"]["value"] == chain[q["step"] - 1], q["id"]
+
+    def test_multiplication_counts_up_and_division_counts_back(self):
+        """Counting up is the multiplication tool. Dividing is taking away
+        until nothing is left, so its ladder has to run the other way."""
+        modes = {}
+        for slug in ("multiplication-facts", "division-facts"):
+            sections = load_unit_bundle(f"math-marathon/{slug}")["lessons"]["sections"]
+            modes[slug] = {s["ladder"]["mode"] for s in sections if "ladder" in s}
+        assert modes["multiplication-facts"] == {"skip"}
+        assert modes["division-facts"] == {"back"}
 
     def test_every_fact_is_drilled_both_ways(self):
         bundle = self.bundle()
@@ -524,8 +542,8 @@ class TestGeneratedContentIsUpToDate:
 
         facts = set()
         for q in load_unit_bundle("math-marathon/multiplication-facts")["questions"]:
-            if q["mode"] == "skip":
-                continue   # a rung on the counting ladder, not a stated fact
+            if q["mode"] in ("skip", "back"):
+                continue   # a rung on the ladder, not a stated fact
             product = re.fullmatch(r"(\d+) x (\d+) = \?", q["prompt"])
             missing = re.fullmatch(r"(\d+) x \? = (\d+)", q["prompt"])
             assert product or missing, q["prompt"]

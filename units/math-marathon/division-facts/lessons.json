@@ -4,7 +4,7 @@
     "engine": "drill",
     "emoji": "➗",
     "title": "Division Facts",
-    "description": "The times tables read backwards — how many 7s make 56? Same ladder, same facts, asked the other way round.",
+    "description": "How many 7s make 56? Take 7 away again and again, count the jumps, and the answer falls out.",
     "sections": [
       {
         "id": "d2",
@@ -105,22 +105,26 @@
       "title": "Divide by 2",
       "emoji": "✌️",
       "color": "#4ECDC4",
-      "blurb": "Count by 2s first — that ladder is the answer key — then divide by 2, picked and then typed.",
-      "table": 2,
-      "skip_chain": [
-        2,
-        4,
-        6,
-        8,
-        10,
-        12,
-        14,
-        16,
-        18,
-        20,
-        22,
-        24
-      ],
+      "blurb": "Take 2 away again and again to see how many fit, then divide by 2 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 2,
+        "chain": [
+          24,
+          22,
+          20,
+          18,
+          16,
+          14,
+          12,
+          10,
+          8,
+          6,
+          4,
+          2,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -128,22 +132,26 @@
       "title": "Divide by 5",
       "emoji": "🖐️",
       "color": "#6C63FF",
-      "blurb": "Count by 5s first — that ladder is the answer key — then divide by 5, picked and then typed.",
-      "table": 5,
-      "skip_chain": [
-        5,
-        10,
-        15,
-        20,
-        25,
-        30,
-        35,
-        40,
-        45,
-        50,
-        55,
-        60
-      ],
+      "blurb": "Take 5 away again and again to see how many fit, then divide by 5 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 5,
+        "chain": [
+          60,
+          55,
+          50,
+          45,
+          40,
+          35,
+          30,
+          25,
+          20,
+          15,
+          10,
+          5,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -151,22 +159,26 @@
       "title": "Divide by 10",
       "emoji": "🔟",
       "color": "#FF9F43",
-      "blurb": "Count by 10s first — that ladder is the answer key — then divide by 10, picked and then typed.",
-      "table": 10,
-      "skip_chain": [
-        10,
-        20,
-        30,
-        40,
-        50,
-        60,
-        70,
-        80,
-        90,
-        100,
-        110,
-        120
-      ],
+      "blurb": "Take 10 away again and again to see how many fit, then divide by 10 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 10,
+        "chain": [
+          120,
+          110,
+          100,
+          90,
+          80,
+          70,
+          60,
+          50,
+          40,
+          30,
+          20,
+          10,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -174,22 +186,26 @@
       "title": "Divide by 3",
       "emoji": "🔺",
       "color": "#FF6B6B",
-      "blurb": "Count by 3s first — that ladder is the answer key — then divide by 3, picked and then typed.",
-      "table": 3,
-      "skip_chain": [
-        3,
-        6,
-        9,
-        12,
-        15,
-        18,
-        21,
-        24,
-        27,
-        30,
-        33,
-        36
-      ],
+      "blurb": "Take 3 away again and again to see how many fit, then divide by 3 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 3,
+        "chain": [
+          36,
+          33,
+          30,
+          27,
+          24,
+          21,
+          18,
+          15,
+          12,
+          9,
+          6,
+          3,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -197,22 +213,26 @@
       "title": "Divide by 4",
       "emoji": "🟦",
       "color": "#10AC84",
-      "blurb": "Count by 4s first — that ladder is the answer key — then divide by 4, picked and then typed.",
-      "table": 4,
-      "skip_chain": [
-        4,
-        8,
-        12,
-        16,
-        20,
-        24,
-        28,
-        32,
-        36,
-        40,
-        44,
-        48
-      ],
+      "blurb": "Take 4 away again and again to see how many fit, then divide by 4 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 4,
+        "chain": [
+          48,
+          44,
+          40,
+          36,
+          32,
+          28,
+          24,
+          20,
+          16,
+          12,
+          8,
+          4,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -220,22 +240,26 @@
       "title": "Divide by 6",
       "emoji": "🎲",
       "color": "#0652DD",
-      "blurb": "Count by 6s first — that ladder is the answer key — then divide by 6, picked and then typed.",
-      "table": 6,
-      "skip_chain": [
-        6,
-        12,
-        18,
-        24,
-        30,
-        36,
-        42,
-        48,
-        54,
-        60,
-        66,
-        72
-      ],
+      "blurb": "Take 6 away again and again to see how many fit, then divide by 6 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 6,
+        "chain": [
+          72,
+          66,
+          60,
+          54,
+          48,
+          42,
+          36,
+          30,
+          24,
+          18,
+          12,
+          6,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -243,22 +267,26 @@
       "title": "Divide by 7",
       "emoji": "🌈",
       "color": "#FF8B94",
-      "blurb": "Count by 7s first — that ladder is the answer key — then divide by 7, picked and then typed.",
-      "table": 7,
-      "skip_chain": [
-        7,
-        14,
-        21,
-        28,
-        35,
-        42,
-        49,
-        56,
-        63,
-        70,
-        77,
-        84
-      ],
+      "blurb": "Take 7 away again and again to see how many fit, then divide by 7 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 7,
+        "chain": [
+          84,
+          77,
+          70,
+          63,
+          56,
+          49,
+          42,
+          35,
+          28,
+          21,
+          14,
+          7,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -266,22 +294,26 @@
       "title": "Divide by 8",
       "emoji": "🎱",
       "color": "#4ECDC4",
-      "blurb": "Count by 8s first — that ladder is the answer key — then divide by 8, picked and then typed.",
-      "table": 8,
-      "skip_chain": [
-        8,
-        16,
-        24,
-        32,
-        40,
-        48,
-        56,
-        64,
-        72,
-        80,
-        88,
-        96
-      ],
+      "blurb": "Take 8 away again and again to see how many fit, then divide by 8 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 8,
+        "chain": [
+          96,
+          88,
+          80,
+          72,
+          64,
+          56,
+          48,
+          40,
+          32,
+          24,
+          16,
+          8,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -289,22 +321,26 @@
       "title": "Divide by 9",
       "emoji": "🐈",
       "color": "#6C63FF",
-      "blurb": "Count by 9s first — that ladder is the answer key — then divide by 9, picked and then typed.",
-      "table": 9,
-      "skip_chain": [
-        9,
-        18,
-        27,
-        36,
-        45,
-        54,
-        63,
-        72,
-        81,
-        90,
-        99,
-        108
-      ],
+      "blurb": "Take 9 away again and again to see how many fit, then divide by 9 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 9,
+        "chain": [
+          108,
+          99,
+          90,
+          81,
+          72,
+          63,
+          54,
+          45,
+          36,
+          27,
+          18,
+          9,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -312,22 +348,26 @@
       "title": "Divide by 11",
       "emoji": "🎏",
       "color": "#FF9F43",
-      "blurb": "Count by 11s first — that ladder is the answer key — then divide by 11, picked and then typed.",
-      "table": 11,
-      "skip_chain": [
-        11,
-        22,
-        33,
-        44,
-        55,
-        66,
-        77,
-        88,
-        99,
-        110,
-        121,
-        132
-      ],
+      "blurb": "Take 11 away again and again to see how many fit, then divide by 11 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 11,
+        "chain": [
+          132,
+          121,
+          110,
+          99,
+          88,
+          77,
+          66,
+          55,
+          44,
+          33,
+          22,
+          11,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
@@ -335,22 +375,26 @@
       "title": "Divide by 12",
       "emoji": "🕛",
       "color": "#FF6B6B",
-      "blurb": "Count by 12s first — that ladder is the answer key — then divide by 12, picked and then typed.",
-      "table": 12,
-      "skip_chain": [
-        12,
-        24,
-        36,
-        48,
-        60,
-        72,
-        84,
-        96,
-        108,
-        120,
-        132,
-        144
-      ],
+      "blurb": "Take 12 away again and again to see how many fit, then divide by 12 — picked, then typed.",
+      "ladder": {
+        "mode": "back",
+        "step": 12,
+        "chain": [
+          144,
+          132,
+          120,
+          108,
+          96,
+          84,
+          72,
+          60,
+          48,
+          36,
+          24,
+          12,
+          0
+        ]
+      },
       "set_count": 5
     },
     {
