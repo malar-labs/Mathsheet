@@ -182,10 +182,6 @@ UNITS_CATALOG = [
         "description": "Powers with integral exponents, and the exponent laws for multiplying, dividing and raising powers.",
         "available": False,
     },
-    {
-        "grade": 3, "unit": "coming-soon", "title": "Coming soon", "emoji": "🧮",
-        "description": "More Grade 3 units are on the way.", "available": False,
-    },
 ]
 
 # Math Marathon belongs to no grade. Fact fluency isn't something a child
@@ -197,9 +193,6 @@ MARATHON = {
     "slug": "math-marathon",
     "title": "Math Marathon",
     "emoji": "🏃",
-    "description": "Fact drills that build muscle memory. Count up the ladder, pick "
-                   "the answer, then type it — one short page at a time, until it "
-                   "comes back without thinking.",
 }
 
 MARATHON_UNITS = [
