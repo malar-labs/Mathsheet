@@ -247,16 +247,25 @@ class TestTopLevelPages:
     def test_landing_page_is_reachable_from_the_generator(self):
         assert 'href="/"' in client.get("/generator").text
 
-    @pytest.mark.parametrize("path", ["/", "/account", "/units/grade9/rational-numbers"])
-    def test_math_marathon_is_one_click_from_every_page(self, path):
-        """It is what a child returns to daily, so it is never more than one
-        click away — from the pill row on the landing page, and from the header
-        everywhere else."""
-        assert 'href="/math-marathon"' in client.get(path).text
+    def test_math_marathon_is_reached_from_the_landing_page(self):
+        """It sits with the grades, as one of the things you can start on."""
+        assert 'href="/math-marathon"' in client.get("/").text
+
+    @pytest.mark.parametrize("path", ["/account", "/units/grade9/rational-numbers"])
+    def test_no_page_carries_a_math_marathon_button_in_its_header(self, path):
+        """Deliberate: the header is for getting back out, not for a shortcut
+        into one particular unit."""
+        assert "btn-header-tab" not in client.get(path).text
+
+    @pytest.mark.parametrize("path", ["/", "/account", "/units/grade9/rational-numbers",
+                                      "/math-marathon"])
+    def test_the_way_back_is_called_grades_not_units(self, path):
+        page = client.get(path).text
+        assert "All Units" not in page
 
     def test_the_marathon_pill_sits_with_the_grades_not_in_the_header(self):
-        """Asked for on the landing page specifically: it belongs beside the
-        grades there, and repeating it in the header would say it twice."""
+        """It belongs beside the grades, as one of the things you can start
+        on — not as a button in the chrome."""
         page = client.get("/").text
         assert "ul-marathon-pill" in page
         assert "btn-header-tab" not in page

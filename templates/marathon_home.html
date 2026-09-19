@@ -23,20 +23,19 @@
             </div>
         </a>
         <div class="header-right">
-            <a href="/math-marathon" class="btn-header-tab">🏃 Math Marathon</a>
             {% if learner %}
             <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
             {% else %}
             <a href="/account?next=/math-marathon" class="btn-header-login">🔐 Sign in</a>
             {% endif %}
-            <a href="/" class="btn-header-login btn-header-back">← All Units</a>
+            <a href="/" class="btn-header-login btn-header-back">← All Grades</a>
         </div>
     </div>
 </header>
 
 <main class="main">
     <nav class="ul-crumbs" aria-label="Breadcrumb">
-        <a href="/">Units</a>
+        <a href="/">Grades</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page">{{ marathon.title }}</span>
     </nav>
