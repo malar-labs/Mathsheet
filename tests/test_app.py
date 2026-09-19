@@ -249,9 +249,27 @@ class TestTopLevelPages:
 
     @pytest.mark.parametrize("path", ["/", "/account", "/units/grade9/rational-numbers"])
     def test_math_marathon_is_one_click_from_every_page(self, path):
-        """It is the one unit a child returns to daily, so it gets a header tab
-        rather than living three clicks down behind a grade."""
+        """It is what a child returns to daily, so it is never more than one
+        click away — from the pill row on the landing page, and from the header
+        everywhere else."""
         assert 'href="/math-marathon"' in client.get(path).text
+
+    def test_the_marathon_pill_sits_with_the_grades_not_in_the_header(self):
+        """Asked for on the landing page specifically: it belongs beside the
+        grades there, and repeating it in the header would say it twice."""
+        page = client.get("/").text
+        assert "ul-marathon-pill" in page
+        assert "btn-header-tab" not in page
+
+    def test_the_marathon_pill_is_not_mistaken_for_a_grade(self):
+        """The grade-tab script drives every pill carrying data-grade. This one
+        navigates away instead, so it must not carry one or its click would be
+        intercepted and swallowed."""
+        page = client.get("/").text
+        pill = page[page.index("ul-marathon-pill"):]
+        pill = pill[:pill.index("</a>")]
+        assert "data-grade" not in pill
+        assert 'href="/math-marathon"' in pill
 
     def test_math_marathon_is_not_under_a_grade(self):
         """It belongs to no grade, so its URL must not claim one."""

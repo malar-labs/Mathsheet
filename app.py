@@ -139,7 +139,8 @@ async def home(request: Request):
     return templates.TemplateResponse(
         request,
         "units_home.html",
-        {"grades": catalog_by_grade(), "learner": current_learner(request)}
+        {"grades": catalog_by_grade(), "marathon": MARATHON,
+         "learner": current_learner(request)}
     )
 
 

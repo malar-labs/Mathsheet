@@ -41,6 +41,17 @@
 .ul-grade-pill.is-active {
     background: var(--purple); border-color: var(--purple); color: var(--white);
 }
+/* Shares the row with the grade pills but does something else: it leaves the
+   page instead of filtering it, so it gets its own colour rather than passing
+   as a fourth grade. */
+.ul-marathon-pill {
+    background: var(--green); border-color: var(--green); color: var(--white);
+    margin-left: 0.4rem;
+}
+.ul-marathon-pill:hover, .ul-marathon-pill:focus-visible {
+    background: #0c8f6f; border-color: #0c8f6f; color: var(--white);
+}
+
 .ul-grade-block { margin-bottom: 2rem; }
 .ul-grade-heading {
     display: flex; align-items: center; gap: 0.9rem;

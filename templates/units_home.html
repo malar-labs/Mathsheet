@@ -23,7 +23,6 @@
             </div>
         </a>
         <div class="header-right">
-            <a href="/math-marathon" class="btn-header-tab">🏃 Math Marathon</a>
             {% if learner %}
             <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
             {% else %}
@@ -43,12 +42,17 @@
     <div class="ul-notice">That unit isn't available yet — pick one below.</div>
     {% endif %}
 
-    {% if grades | length > 1 %}
+    {% if grades | length > 1 or marathon %}
     <nav class="ul-grade-nav" aria-label="Choose a grade">
         {% for group in grades %}
         <a class="ul-grade-pill{% if loop.first %} is-active{% endif %}" href="#grade-{{ group.grade }}"
            data-grade="{{ group.grade }}"{% if loop.first %} aria-current="true"{% endif %}>Grade {{ group.grade }}</a>
         {% endfor %}
+        {% if marathon %}
+        {# Not a grade and not a filter: this one leaves the page, so it is
+           coloured differently rather than sitting in the row in disguise. #}
+        <a class="ul-grade-pill ul-marathon-pill" href="/{{ marathon.slug }}">{{ marathon.emoji }} {{ marathon.title }}</a>
+        {% endif %}
     </nav>
     {% endif %}
 
@@ -68,7 +72,9 @@
 // Grade tabs: show one grade at a time. Without JS every grade stays visible
 // and the pills fall back to plain jump links.
 (function () {
-    const pills = document.querySelectorAll('.ul-grade-pill');
+    // Only the pills that stand for a grade. The Math Marathon pill shares the
+    // row but navigates away, so intercepting its click would break the link.
+    const pills = document.querySelectorAll('.ul-grade-pill[data-grade]');
     // Only the blocks that belong to a grade. The "Any grade" section carries
     // no id and stays visible whichever grade tab is chosen.
     const blocks = document.querySelectorAll('.ul-grade-block[id]');
