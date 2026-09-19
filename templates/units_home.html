@@ -43,18 +43,6 @@
     <div class="ul-notice">That unit isn't available yet — pick one below.</div>
     {% endif %}
 
-    {% if standalone %}
-    <section class="ul-grade-block ul-anygrade">
-        <h3 class="ul-grade-heading"><span>Any grade</span></h3>
-        <p class="ul-anygrade-note">Fact practice isn't finished in one year — open this from any grade.</p>
-        <div class="ul-catalog-grid">
-            {% for item in standalone %}
-            {% include "partials/unit_card.html" %}
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
     {% if grades | length > 1 %}
     <nav class="ul-grade-nav" aria-label="Choose a grade">
         {% for group in grades %}

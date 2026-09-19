@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ marathon.title }} — MathSheet Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/unit_learning.css') }}">
+</head>
+<body>
+
+<header class="app-header no-print">
+    <div class="header-inner">
+        <a class="logo" href="/" style="text-decoration:none">
+            <div class="logo-icon-wrap">📐</div>
+            <div>
+                <div class="logo-title">MathSheet <span>Pro</span></div>
+                <div class="logo-sub">BC Curriculum · Math Worksheet Generator</div>
+            </div>
+        </a>
+        <div class="header-right">
+            <a href="/math-marathon" class="btn-header-tab">🏃 Math Marathon</a>
+            {% if learner %}
+            <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
+            {% else %}
+            <a href="/account?next=/math-marathon" class="btn-header-login">🔐 Sign in</a>
+            {% endif %}
+            <a href="/" class="btn-header-login btn-header-back">← All Units</a>
+        </div>
+    </div>
+</header>
+
+<main class="main">
+    <nav class="ul-crumbs" aria-label="Breadcrumb">
+        <a href="/">Units</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">{{ marathon.title }}</span>
+    </nav>
+
+    <div class="section-header">
+        <h2>{{ marathon.emoji }} {{ marathon.title }}</h2>
+        <p>{{ marathon.description }}</p>
+    </div>
+
+    <div class="ul-catalog-grid">
+        {% for item in units %}
+        {% include "partials/unit_card.html" %}
+        {% endfor %}
+    </div>
+</main>
+
+{% include "partials/analytics.html" %}
+</body>
+</html>

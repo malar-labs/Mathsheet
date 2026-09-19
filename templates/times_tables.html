@@ -30,7 +30,7 @@
             {% else %}
             <a href="/account?next={{ request.url.path | urlencode }}" class="btn-header-login">🔐 Sign in</a>
             {% endif %}
-            <a href="/" class="btn-header-login btn-header-back">← All Units</a>
+            <a href="{% if parent %}/{{ parent.slug }}{% else %}/{% endif %}" class="btn-header-login btn-header-back">← {% if parent %}{{ parent.title }}{% else %}All Units{% endif %}</a>
         </div>
     </div>
 </header>
@@ -39,6 +39,10 @@
     <nav class="ul-crumbs" aria-label="Breadcrumb">
         <a href="/">Units</a>
         <span aria-hidden="true">›</span>
+        {% if parent %}
+        <a href="/{{ parent.slug }}">{{ parent.title }}</a>
+        <span aria-hidden="true">›</span>
+        {% endif %}
         {% if focus %}
         <a href="{{ base_url }}">{{ meta.title }}</a>
         <span aria-hidden="true">›</span>
@@ -64,6 +68,7 @@
 <script>
     const UNIT_SECTIONS  = {{ sections | tojson }};
     const UNIT_QUESTIONS = {{ questions | tojson }};
+    const UNIT_TITLE = {{ meta.title | tojson }};
     const UNIT_KEY = {{ unit_key | tojson }};
     const UNIT_BASE_URL = {{ base_url | tojson }};
     // the level this page shows; null on the list of levels

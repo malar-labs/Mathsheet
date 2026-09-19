@@ -18,16 +18,18 @@ os.environ["GEMINI_API_KEY"] = ""
 os.environ["GROQ_API_KEY"] = ""
 os.environ["OPENROUTER_API_KEY"] = ""
 
-from app import (app, UNITS_CATALOG, STANDALONE_UNITS, UNITS_DIR, extract_json,
-                 load_unit_bundle, unit_url)
+from app import (app, UNITS_CATALOG, MARATHON_UNITS, UNITS_DIR, extract_json,
+                 load_unit_bundle, unit_path, unit_url)
 from curriculum import CURRICULUM, build_system_prompt
 
 client = TestClient(app)
 
-# Standalone units are listed too, so the per-question contract checks below
-# keep covering Math Marathon now that it no longer sits under a grade.
-AVAILABLE_UNITS = [(u["grade"], u["unit"])
-                   for u in UNITS_CATALOG + STANDALONE_UNITS if u["available"]]
+# Marathon units are listed too, so the per-question contract checks below
+# keep covering them now that they no longer sit under a grade.
+AVAILABLE_UNITS = (
+    [dict(u) for u in UNITS_CATALOG if u["available"]]
+    + [dict(u, marathon=True) for u in MARATHON_UNITS if u["available"]]
+)
 
 
 # =============================================
@@ -259,7 +261,7 @@ class TestTopLevelPages:
 
     @pytest.mark.parametrize("old,new", [
         ("/units/grade3/math-marathon", "/math-marathon"),
-        ("/units/grade3/math-marathon/t7", "/math-marathon/t7"),
+        ("/units/grade3/math-marathon/t7", "/math-marathon/multiplication-facts/t7"),
     ])
     def test_the_old_grade_3_url_redirects(self, old, new):
         r = client.get(old, follow_redirects=False)
@@ -274,34 +276,35 @@ class TestTopLevelPages:
 
 
 class TestUnitPages:
-    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
-    def test_unit_page_is_overview(self, grade, unit):
-        r = client.get(unit_url(grade, unit))
+    @pytest.mark.parametrize("item", AVAILABLE_UNITS, ids=lambda i: i["unit"])
+    def test_unit_page_is_overview(self, item):
+        r = client.get(unit_url(item))
         assert r.status_code == 200
         assert "const UNIT_FOCUS_SECTION = null" in r.text
 
-    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
-    def test_every_topic_has_its_own_page(self, grade, unit):
-        sections = load_unit_bundle(grade, unit)["lessons"]["sections"]
+    @pytest.mark.parametrize("item", AVAILABLE_UNITS, ids=lambda i: i["unit"])
+    def test_every_topic_has_its_own_page(self, item):
+        sections = load_unit_bundle(unit_path(item))["lessons"]["sections"]
         assert len(sections) >= 3
         for section in sections:
-            page = client.get(f"{unit_url(grade, unit)}/{section['id']}")
+            page = client.get(f"{unit_url(item)}/{section['id']}")
             assert page.status_code == 200
             assert section["title"] in page.text
             assert f'const UNIT_FOCUS_SECTION = "{section["id"]}"' in page.text
 
-    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
-    def test_unknown_topic_returns_404(self, grade, unit):
-        r = client.get(f"{unit_url(grade, unit)}/nope")
+    @pytest.mark.parametrize("item", AVAILABLE_UNITS, ids=lambda i: i["unit"])
+    def test_unknown_topic_returns_404(self, item):
+        r = client.get(f"{unit_url(item)}/nope")
         assert r.status_code == 404
 
     def test_catalog_entries_that_claim_to_be_available_really_are(self):
-        for item in UNITS_CATALOG + STANDALONE_UNITS:
-            bundle = load_unit_bundle(item["grade"], item["unit"])
+        for item in ([dict(u) for u in UNITS_CATALOG]
+                     + [dict(u, marathon=True) for u in MARATHON_UNITS]):
+            bundle = load_unit_bundle(unit_path(item))
             assert (bundle is not None) == item["available"], item
 
     def test_compare_has_10_number_and_5_word_problems(self):
-        questions = [q for q in load_unit_bundle(8, "fractions")["questions"]
+        questions = [q for q in load_unit_bundle("grade8/fractions")["questions"]
                      if q["section"] == "compare"]
         kinds = [q["kind"] for q in questions]
         assert kinds == ["number"] * 10 + ["word"] * 5
@@ -315,40 +318,40 @@ class TestUnitPages:
 # =============================================
 
 ALL_UNIT_QUESTIONS = [
-    pytest.param(grade, unit, q, id=f"grade{grade}-{unit}-{q['id']}")
-    for grade, unit in AVAILABLE_UNITS
-    for q in load_unit_bundle(grade, unit)["questions"]
+    pytest.param(item, q, id=f"{item['unit']}-{q['id']}")
+    for item in AVAILABLE_UNITS
+    for q in load_unit_bundle(unit_path(item))["questions"]
 ]
 
 
 class TestUnitQuestions:
-    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
-    def test_question_ids_are_unique_and_sections_exist(self, grade, unit):
-        bundle = load_unit_bundle(grade, unit)
+    @pytest.mark.parametrize("item", AVAILABLE_UNITS, ids=lambda i: i["unit"])
+    def test_question_ids_are_unique_and_sections_exist(self, item):
+        bundle = load_unit_bundle(unit_path(item))
         ids = [q["id"] for q in bundle["questions"]]
         assert len(ids) == len(set(ids))
         section_ids = {s["id"] for s in bundle["lessons"]["sections"]}
         assert {q["section"] for q in bundle["questions"]} <= section_ids
 
-    @pytest.mark.parametrize("grade,unit", AVAILABLE_UNITS)
-    def test_number_problems_come_before_word_problems(self, grade, unit):
+    @pytest.mark.parametrize("item", AVAILABLE_UNITS, ids=lambda i: i["unit"])
+    def test_number_problems_come_before_word_problems(self, item):
         """The topic page prints a 'word problems start here' banner at the
         changeover, so a word problem must never be followed by a number one."""
-        bundle = load_unit_bundle(grade, unit)
+        bundle = load_unit_bundle(unit_path(item))
         for section in bundle["lessons"]["sections"]:
             kinds = [q.get("kind", "number") for q in bundle["questions"]
                      if q["section"] == section["id"]]
             assert kinds == sorted(kinds, key=lambda k: k != "number"), (section["id"], kinds)
 
-    @pytest.mark.parametrize("grade,unit,q", ALL_UNIT_QUESTIONS)
-    def test_question_has_the_fields_the_engine_reads(self, grade, unit, q):
+    @pytest.mark.parametrize("item,q", ALL_UNIT_QUESTIONS)
+    def test_question_has_the_fields_the_engine_reads(self, item, q):
         for field in ("id", "section", "qtype", "difficulty", "prompt", "answer", "steps", "tip"):
             assert q.get(field) not in (None, ""), field
         assert q["difficulty"] in (1, 2, 3)
         assert q["answer"].get("display")
 
-    @pytest.mark.parametrize("grade,unit,q", ALL_UNIT_QUESTIONS)
-    def test_answer_shape_matches_question_type(self, grade, unit, q):
+    @pytest.mark.parametrize("item,q", ALL_UNIT_QUESTIONS)
+    def test_answer_shape_matches_question_type(self, item, q):
         answer, qtype = q["answer"], q["qtype"]
         if qtype == "fraction":
             assert answer["den"] > 0
@@ -374,10 +377,10 @@ class TestMathMarathonDrill:
     a page of questions at a time, and recognition before recall."""
 
     def bundle(self):
-        return load_unit_bundle(None, "math-marathon")
+        return load_unit_bundle("math-marathon/multiplication-facts")
 
     def test_it_uses_the_drill_engine_not_the_lesson_one(self):
-        page = client.get("/math-marathon").text
+        page = client.get("/math-marathon/multiplication-facts").text
         assert "js/times_tables.js" in page
         assert "js/unit_learning.js" not in page
 
@@ -466,7 +469,7 @@ class TestMathMarathonDrill:
         assert min(spread.values()) >= len(spread) * 0.05
 
     def test_a_level_page_renders_without_a_lesson(self):
-        page = client.get("/math-marathon/t7").text
+        page = client.get("/math-marathon/multiplication-facts/t7").text
         assert 'const UNIT_FOCUS_SECTION = "t7"' in page
         assert "Learn" not in page or "ul-choice" not in page
 
@@ -481,19 +484,20 @@ class TestGeneratedContentIsUpToDate:
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-        bundle = load_unit_bundle(9, "rational-numbers")
+        bundle = load_unit_bundle("grade9/rational-numbers")
         assert bundle["questions"] == module.QUESTIONS
         assert bundle["lessons"]["sections"] == module.SECTIONS
 
-    def test_math_marathon_json_matches_its_generator(self):
+    @pytest.mark.parametrize("slug", ["multiplication-facts", "division-facts"])
+    def test_math_marathon_json_matches_its_generator(self, slug):
         path = UNITS_DIR / "math-marathon" / "_generate.py"
         spec = importlib.util.spec_from_file_location("math_marathon_generate", path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-        bundle = load_unit_bundle(None, "math-marathon")
-        assert bundle["questions"] == module.QUESTIONS
-        assert bundle["lessons"]["sections"] == module.SECTIONS
+        bundle = load_unit_bundle(f"math-marathon/{slug}")
+        assert bundle["questions"] == module.UNITS[slug].questions
+        assert bundle["lessons"]["sections"] == module.UNITS[slug].sections
 
     def test_math_marathon_covers_every_fact(self):
         """A fact the drill never asks is a fact a child never practises, so the
@@ -501,7 +505,7 @@ class TestGeneratedContentIsUpToDate:
         import re
 
         facts = set()
-        for q in load_unit_bundle(None, "math-marathon")["questions"]:
+        for q in load_unit_bundle("math-marathon/multiplication-facts")["questions"]:
             if q["mode"] == "skip":
                 continue   # a rung on the counting ladder, not a stated fact
             product = re.fullmatch(r"(\d+) x (\d+) = \?", q["prompt"])

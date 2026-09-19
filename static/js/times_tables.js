@@ -125,8 +125,8 @@ function ttOverviewHTML() {
                 <header class="tt-tile-head">
                     <span class="tt-tile-emoji" aria-hidden="true">${ttEsc(group.emoji || '✖️')}</span>
                     <span>
-                        <span class="tt-tile-kicker">Fact group</span>
-                        <h2 class="tt-tile-title">${ttEsc(group.name || 'Levels')}</h2>
+                        <span class="tt-tile-kicker">Unit</span>
+                        <h2 class="tt-tile-title">${ttEsc(group.name || UNIT_TITLE)}</h2>
                     </span>
                 </header>
                 <div class="tt-tile-meta">
