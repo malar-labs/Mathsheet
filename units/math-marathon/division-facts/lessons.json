@@ -105,7 +105,6 @@
       "title": "Divide by 2",
       "emoji": "✌️",
       "color": "#4ECDC4",
-      "blurb": "Take 2 away again and again to see how many fit, then divide by 2 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 2,
@@ -132,7 +131,6 @@
       "title": "Divide by 5",
       "emoji": "🖐️",
       "color": "#6C63FF",
-      "blurb": "Take 5 away again and again to see how many fit, then divide by 5 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 5,
@@ -159,7 +157,6 @@
       "title": "Divide by 10",
       "emoji": "🔟",
       "color": "#FF9F43",
-      "blurb": "Take 10 away again and again to see how many fit, then divide by 10 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 10,
@@ -186,7 +183,6 @@
       "title": "Divide by 3",
       "emoji": "🔺",
       "color": "#FF6B6B",
-      "blurb": "Take 3 away again and again to see how many fit, then divide by 3 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 3,
@@ -213,7 +209,6 @@
       "title": "Divide by 4",
       "emoji": "🟦",
       "color": "#10AC84",
-      "blurb": "Take 4 away again and again to see how many fit, then divide by 4 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 4,
@@ -240,7 +235,6 @@
       "title": "Divide by 6",
       "emoji": "🎲",
       "color": "#0652DD",
-      "blurb": "Take 6 away again and again to see how many fit, then divide by 6 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 6,
@@ -267,7 +261,6 @@
       "title": "Divide by 7",
       "emoji": "🌈",
       "color": "#FF8B94",
-      "blurb": "Take 7 away again and again to see how many fit, then divide by 7 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 7,
@@ -294,7 +287,6 @@
       "title": "Divide by 8",
       "emoji": "🎱",
       "color": "#4ECDC4",
-      "blurb": "Take 8 away again and again to see how many fit, then divide by 8 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 8,
@@ -321,7 +313,6 @@
       "title": "Divide by 9",
       "emoji": "🐈",
       "color": "#6C63FF",
-      "blurb": "Take 9 away again and again to see how many fit, then divide by 9 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 9,
@@ -348,7 +339,6 @@
       "title": "Divide by 11",
       "emoji": "🎏",
       "color": "#FF9F43",
-      "blurb": "Take 11 away again and again to see how many fit, then divide by 11 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 11,
@@ -375,7 +365,6 @@
       "title": "Divide by 12",
       "emoji": "🕛",
       "color": "#FF6B6B",
-      "blurb": "Take 12 away again and again to see how many fit, then divide by 12 — picked, then typed.",
       "ladder": {
         "mode": "back",
         "step": 12,
@@ -402,7 +391,6 @@
       "title": "Mixed Review",
       "emoji": "🏆",
       "color": "#10AC84",
-      "blurb": "Every divisor at once, in no order, weighted to the facts that get missed most.",
       "set_count": 10
     },
     {
@@ -410,7 +398,6 @@
       "title": "Find the Missing Number",
       "emoji": "🔍",
       "color": "#0652DD",
-      "blurb": "The blank moves around: sometimes the number being divided, sometimes what you divide it by.",
       "set_count": 8
     }
   ]

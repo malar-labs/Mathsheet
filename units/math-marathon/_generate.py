@@ -180,14 +180,13 @@ class Unit:
         self.sections = []
         self.questions = []
 
-    def add_level(self, level_id, title, emoji, items, tip, difficulty, blurb,
+    def add_level(self, level_id, title, emoji, items, tip, difficulty,
                   ladder=None):
         section = {
             "id": level_id,
             "title": title,
             "emoji": emoji,
             "color": PALETTE[len(self.sections) % len(PALETTE)],
-            "blurb": blurb,
         }
         self.sections.append(section)
 
@@ -336,8 +335,6 @@ def build_multiplication():
             f"t{table}", f"{table} Times Table", TABLE_EMOJI[table], facts,
             MUL_TIP[table],
             1 if table in (2, 5, 10) else 2 if table in (3, 4, 11) else 3,
-            f"Count by {table}s first, then every fact in the {table} times table — "
-            f"picked, then typed.",
             ladder={"mode": "skip", "step": table,
                     "chain": [table * n for n in range(1, 13)]},
         )
@@ -356,7 +353,6 @@ def build_multiplication():
         "No pattern to lean on here. If you have to work one out, that fact needs "
         "another lap.",
         3,
-        "Every table at once, in no order, weighted to the facts that get missed most.",
     )
 
     missing = [
@@ -374,7 +370,6 @@ def build_multiplication():
         "Read it as a question: how many of this make that? If nothing comes to "
         "mind, divide — dividing undoes multiplying.",
         3,
-        "The same facts asked backwards, which is what makes division make sense later.",
     )
     return unit.finish()
 
@@ -406,8 +401,6 @@ def build_division():
             f"d{divisor}", f"Divide by {divisor}", TABLE_EMOJI[divisor], facts,
             div_tip(divisor),
             1 if divisor in (2, 5, 10) else 2 if divisor in (3, 4, 11) else 3,
-            f"Take {divisor} away again and again to see how many fit, then "
-            f"divide by {divisor} — picked, then typed.",
             # Counting up is the multiplication tool. Dividing is taking away
             # until nothing is left, so this ladder runs the other way: start at
             # the whole amount and subtract to 0. The number of jumps IS the
@@ -431,7 +424,6 @@ def build_division():
         "No single table to lean on here. If you have to work one out, that fact "
         "needs another lap.",
         3,
-        "Every divisor at once, in no order, weighted to the facts that get missed most.",
     )
 
     # Both blanks a division sentence can have. Finding the dividend is the one
@@ -463,8 +455,6 @@ def build_division():
         "missing", "Find the Missing Number", "🔍", items,
         "Multiply to check. Whatever you put in, the sentence has to come out true.",
         3,
-        "The blank moves around: sometimes the number being divided, sometimes what "
-        "you divide it by.",
     )
     return unit.finish()
 
