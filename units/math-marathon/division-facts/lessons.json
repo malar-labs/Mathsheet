@@ -1,0 +1,404 @@
+{
+  "meta": {
+    "unit": "division-facts",
+    "engine": "drill",
+    "emoji": "➗",
+    "title": "Division Facts",
+    "description": "How many 7s make 56? Take 7 away again and again, count the jumps, and the answer falls out.",
+    "sections": [
+      {
+        "id": "d2",
+        "title": "Divide by 2",
+        "emoji": "✌️",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d5",
+        "title": "Divide by 5",
+        "emoji": "🖐️",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d10",
+        "title": "Divide by 10",
+        "emoji": "🔟",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d3",
+        "title": "Divide by 3",
+        "emoji": "🔺",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d4",
+        "title": "Divide by 4",
+        "emoji": "🟦",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d6",
+        "title": "Divide by 6",
+        "emoji": "🎲",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d7",
+        "title": "Divide by 7",
+        "emoji": "🌈",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d8",
+        "title": "Divide by 8",
+        "emoji": "🎱",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d9",
+        "title": "Divide by 9",
+        "emoji": "🐈",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d11",
+        "title": "Divide by 11",
+        "emoji": "🎏",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "d12",
+        "title": "Divide by 12",
+        "emoji": "🕛",
+        "question_count": 28,
+        "set_count": 5
+      },
+      {
+        "id": "mixed",
+        "title": "Mixed Review",
+        "emoji": "🏆",
+        "question_count": 60,
+        "set_count": 10
+      },
+      {
+        "id": "missing",
+        "title": "Find the Missing Number",
+        "emoji": "🔍",
+        "question_count": 48,
+        "set_count": 8
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "d2",
+      "title": "Divide by 2",
+      "emoji": "✌️",
+      "color": "#4ECDC4",
+      "ladder": {
+        "mode": "back",
+        "step": 2,
+        "chain": [
+          24,
+          22,
+          20,
+          18,
+          16,
+          14,
+          12,
+          10,
+          8,
+          6,
+          4,
+          2,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d5",
+      "title": "Divide by 5",
+      "emoji": "🖐️",
+      "color": "#6C63FF",
+      "ladder": {
+        "mode": "back",
+        "step": 5,
+        "chain": [
+          60,
+          55,
+          50,
+          45,
+          40,
+          35,
+          30,
+          25,
+          20,
+          15,
+          10,
+          5,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d10",
+      "title": "Divide by 10",
+      "emoji": "🔟",
+      "color": "#FF9F43",
+      "ladder": {
+        "mode": "back",
+        "step": 10,
+        "chain": [
+          120,
+          110,
+          100,
+          90,
+          80,
+          70,
+          60,
+          50,
+          40,
+          30,
+          20,
+          10,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d3",
+      "title": "Divide by 3",
+      "emoji": "🔺",
+      "color": "#FF6B6B",
+      "ladder": {
+        "mode": "back",
+        "step": 3,
+        "chain": [
+          36,
+          33,
+          30,
+          27,
+          24,
+          21,
+          18,
+          15,
+          12,
+          9,
+          6,
+          3,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d4",
+      "title": "Divide by 4",
+      "emoji": "🟦",
+      "color": "#10AC84",
+      "ladder": {
+        "mode": "back",
+        "step": 4,
+        "chain": [
+          48,
+          44,
+          40,
+          36,
+          32,
+          28,
+          24,
+          20,
+          16,
+          12,
+          8,
+          4,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d6",
+      "title": "Divide by 6",
+      "emoji": "🎲",
+      "color": "#0652DD",
+      "ladder": {
+        "mode": "back",
+        "step": 6,
+        "chain": [
+          72,
+          66,
+          60,
+          54,
+          48,
+          42,
+          36,
+          30,
+          24,
+          18,
+          12,
+          6,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d7",
+      "title": "Divide by 7",
+      "emoji": "🌈",
+      "color": "#FF8B94",
+      "ladder": {
+        "mode": "back",
+        "step": 7,
+        "chain": [
+          84,
+          77,
+          70,
+          63,
+          56,
+          49,
+          42,
+          35,
+          28,
+          21,
+          14,
+          7,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d8",
+      "title": "Divide by 8",
+      "emoji": "🎱",
+      "color": "#4ECDC4",
+      "ladder": {
+        "mode": "back",
+        "step": 8,
+        "chain": [
+          96,
+          88,
+          80,
+          72,
+          64,
+          56,
+          48,
+          40,
+          32,
+          24,
+          16,
+          8,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d9",
+      "title": "Divide by 9",
+      "emoji": "🐈",
+      "color": "#6C63FF",
+      "ladder": {
+        "mode": "back",
+        "step": 9,
+        "chain": [
+          108,
+          99,
+          90,
+          81,
+          72,
+          63,
+          54,
+          45,
+          36,
+          27,
+          18,
+          9,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d11",
+      "title": "Divide by 11",
+      "emoji": "🎏",
+      "color": "#FF9F43",
+      "ladder": {
+        "mode": "back",
+        "step": 11,
+        "chain": [
+          132,
+          121,
+          110,
+          99,
+          88,
+          77,
+          66,
+          55,
+          44,
+          33,
+          22,
+          11,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "d12",
+      "title": "Divide by 12",
+      "emoji": "🕛",
+      "color": "#FF6B6B",
+      "ladder": {
+        "mode": "back",
+        "step": 12,
+        "chain": [
+          144,
+          132,
+          120,
+          108,
+          96,
+          84,
+          72,
+          60,
+          48,
+          36,
+          24,
+          12,
+          0
+        ]
+      },
+      "set_count": 5
+    },
+    {
+      "id": "mixed",
+      "title": "Mixed Review",
+      "emoji": "🏆",
+      "color": "#10AC84",
+      "set_count": 10
+    },
+    {
+      "id": "missing",
+      "title": "Find the Missing Number",
+      "emoji": "🔍",
+      "color": "#0652DD",
+      "set_count": 8
+    }
+  ]
+}

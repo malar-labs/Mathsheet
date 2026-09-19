@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if focus %}{{ focus.title }} — {% endif %}{{ meta.title }} — Grade {{ meta.grade }} Unit Learning — MathSheet Pro</title>
+    <title>{% if focus %}{{ focus.title }} — {% endif %}{{ meta.title }} — MathSheet Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
     <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset_url('css/unit_learning.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/times_tables.css') }}">
 </head>
 <body>
 
 <header class="app-header no-print">
-    <div class="header-inner ul-wide">
+    <div class="header-inner">
         <a class="logo" href="/" style="text-decoration:none">
             <div class="logo-icon-wrap">📐</div>
             <div>
@@ -28,7 +29,7 @@
             {% else %}
             <a href="/account?next={{ request.url.path | urlencode }}" class="btn-header-login">🔐 Sign in</a>
             {% endif %}
-            <a href="/" class="btn-header-login btn-header-back">← All Grades</a>
+            <a href="{% if parent %}/{{ parent.slug }}{% else %}/{% endif %}" class="btn-header-login btn-header-back">← {% if parent %}{{ parent.title }}{% else %}All Grades{% endif %}</a>
         </div>
     </div>
 </header>
@@ -37,22 +38,25 @@
     <nav class="ul-crumbs" aria-label="Breadcrumb">
         <a href="/">Grades</a>
         <span aria-hidden="true">›</span>
+        {% if parent %}
+        <a href="/{{ parent.slug }}">{{ parent.title }}</a>
+        <span aria-hidden="true">›</span>
+        {% endif %}
         {% if focus %}
-        <a href="/units/grade{{ meta.grade }}/{{ meta.unit }}">Grade {{ meta.grade }} {{ meta.title }}</a>
+        <a href="{{ base_url }}">{{ meta.title }}</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page">{{ focus.title }}</span>
         {% else %}
-        <span aria-current="page">Grade {{ meta.grade }} {{ meta.title }}</span>
+        <span aria-current="page">{{ meta.title }}</span>
         {% endif %}
     </nav>
 
     <div class="ul-page-head">
         {% if focus %}
         <h1>{{ focus.emoji }} {{ focus.title }}</h1>
-        <p>{% for s in sections %}{% if s.id == focus.id %}Topic {{ loop.index }} of {{ sections | length }}{% endif %}{% endfor %} · Grade {{ meta.grade }} {{ meta.title }}</p>
         {% else %}
-        <h1>{{ meta.emoji }} Grade {{ meta.grade }} · {{ meta.title }}</h1>
-        <p>{{ meta.description }} Pick a topic: read the lesson, then practise one question at a time.</p>
+        <h1>{{ meta.emoji }} {{ meta.title }}</h1>
+        <p>{{ meta.description }}</p>
         {% endif %}
     </div>
 
@@ -62,9 +66,10 @@
 <script>
     const UNIT_SECTIONS  = {{ sections | tojson }};
     const UNIT_QUESTIONS = {{ questions | tojson }};
+    const UNIT_TITLE = {{ meta.title | tojson }};
     const UNIT_KEY = {{ unit_key | tojson }};
     const UNIT_BASE_URL = {{ base_url | tojson }};
-    // the topic this page shows; null on the unit overview
+    // the level this page shows; null on the list of levels
     const UNIT_FOCUS_SECTION = {{ (focus.id if focus else none) | tojson }};
     // null when nobody is signed in — progress then stays in this browser only
     const UL_LEARNER = {{ learner | tojson }};
@@ -72,7 +77,7 @@
     const UNIT_PROGRESS = {{ saved_progress | tojson }};
 </script>
 <script src="{{ asset_url('js/progress.js') }}"></script>
-<script src="{{ asset_url('js/unit_learning.js') }}"></script>
+<script src="{{ asset_url('js/times_tables.js') }}"></script>
 {% include "partials/analytics.html" %}
 </body>
 </html>

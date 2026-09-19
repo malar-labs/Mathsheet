@@ -42,12 +42,17 @@
     <div class="ul-notice">That unit isn't available yet — pick one below.</div>
     {% endif %}
 
-    {% if grades | length > 1 %}
+    {% if grades | length > 1 or marathon %}
     <nav class="ul-grade-nav" aria-label="Choose a grade">
         {% for group in grades %}
         <a class="ul-grade-pill{% if loop.first %} is-active{% endif %}" href="#grade-{{ group.grade }}"
            data-grade="{{ group.grade }}"{% if loop.first %} aria-current="true"{% endif %}>Grade {{ group.grade }}</a>
         {% endfor %}
+        {% if marathon %}
+        {# Not a grade and not a filter: this one leaves the page, so it is
+           coloured differently rather than sitting in the row in disguise. #}
+        <a class="ul-grade-pill ul-marathon-pill" href="/{{ marathon.slug }}">{{ marathon.emoji }} {{ marathon.title }}</a>
+        {% endif %}
     </nav>
     {% endif %}
 
@@ -56,34 +61,7 @@
         <h3 class="ul-grade-heading"><span>Grade {{ group.grade }}</span></h3>
         <div class="ul-catalog-grid">
             {% for item in group.units %}
-            {% set unit_url = "/units/grade" ~ item.grade ~ "/" ~ item.unit %}
-            <div class="ul-catalog-card{% if not item.available %} ul-catalog-card-disabled{% endif %}">
-                <div class="ul-catalog-head">
-                    <span class="ul-catalog-emoji">{{ item.emoji }}</span>
-                    <span>
-                        {% if item.available %}<span class="ul-catalog-kicker">Unit</span>{% endif %}
-                        {% if item.available %}
-                        <a class="ul-catalog-title" href="{{ unit_url }}">{{ item.title }}</a>
-                        {% else %}
-                        <span class="ul-catalog-title">{{ item.title }}</span>
-                        {% endif %}
-                    </span>
-                </div>
-                {% if item.available %}
-                <div class="ul-catalog-topics">
-                    <div class="ul-catalog-topics-label">{{ item.topics | length }} topics · {{ item.question_count }} questions</div>
-                    <ol class="ul-catalog-topic-list">
-                        {% for topic in item.topics %}
-                        <li><a href="{{ unit_url }}/{{ topic.id }}">{{ topic.title }}</a></li>
-                        {% endfor %}
-                    </ol>
-                </div>
-                <a class="ul-catalog-cta" href="{{ unit_url }}">Open unit →</a>
-                {% else %}
-                <div class="ul-catalog-desc">{{ item.description }}</div>
-                <div class="ul-catalog-badge">Coming soon</div>
-                {% endif %}
-            </div>
+            {% include "partials/unit_card.html" %}
             {% endfor %}
         </div>
     </section>
@@ -94,8 +72,12 @@
 // Grade tabs: show one grade at a time. Without JS every grade stays visible
 // and the pills fall back to plain jump links.
 (function () {
-    const pills = document.querySelectorAll('.ul-grade-pill');
-    const blocks = document.querySelectorAll('.ul-grade-block');
+    // Only the pills that stand for a grade. The Math Marathon pill shares the
+    // row but navigates away, so intercepting its click would break the link.
+    const pills = document.querySelectorAll('.ul-grade-pill[data-grade]');
+    // Only the blocks that belong to a grade. The "Any grade" section carries
+    // no id and stays visible whichever grade tab is chosen.
+    const blocks = document.querySelectorAll('.ul-grade-block[id]');
     if (pills.length < 2) return;
 
     function show(grade, updateUrl) {

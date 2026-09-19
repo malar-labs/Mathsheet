@@ -41,6 +41,17 @@
 .ul-grade-pill.is-active {
     background: var(--purple); border-color: var(--purple); color: var(--white);
 }
+/* Shares the row with the grade pills but does something else: it leaves the
+   page instead of filtering it, so it gets its own colour rather than passing
+   as a fourth grade. */
+.ul-marathon-pill {
+    background: var(--green); border-color: var(--green); color: var(--white);
+    margin-left: 0.4rem;
+}
+.ul-marathon-pill:hover, .ul-marathon-pill:focus-visible {
+    background: #0c8f6f; border-color: #0c8f6f; color: var(--white);
+}
+
 .ul-grade-block { margin-bottom: 2rem; }
 .ul-grade-heading {
     display: flex; align-items: center; gap: 0.9rem;
@@ -49,6 +60,13 @@
 }
 .ul-grade-heading::after {
     content: ''; flex: 1; height: 3px; border-radius: 2px; background: var(--border);
+}
+
+/* Sits above the grade tabs and stays put whichever grade is chosen, because
+   it isn't one of them. */
+.ul-anygrade-note {
+    font-family: var(--font-body); font-size: 0.88rem; color: var(--gray);
+    margin: -0.6rem 0 0.9rem;
 }
 
 .ul-catalog-grid {
@@ -631,6 +649,21 @@ a.ul-catalog-title::after { content: ''; position: absolute; inset: 0; z-index: 
 .ul-sl-point-low .ul-sl-label::after {
     content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: 28px;
     background: var(--border); transform: translateX(-50%);
+}
+
+/* A unit's topics bundled under a group heading. With thirteen of them a flat
+   list reads as one long run of links, so the heading names what they are and
+   the list splits into columns rather than pushing the card metres tall. */
+.ul-catalog-group + .ul-catalog-group { margin-top: 0.7rem; }
+.ul-catalog-group-name {
+    font-family: var(--font-main); font-weight: 800; font-size: 0.82rem;
+    color: var(--dark); margin-bottom: 0.35rem;
+}
+.ul-catalog-topic-list.is-split { columns: 2; column-gap: 1.1rem; }
+.ul-catalog-topic-list.is-split li { break-inside: avoid; }
+
+@media (max-width: 420px) {
+    .ul-catalog-topic-list.is-split { columns: 1; }
 }
 
 /* ===== sign in / sign up ===== */
