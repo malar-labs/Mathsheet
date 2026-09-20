@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ person.display_name }} — Class progress — MathSheet Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/unit_learning.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/admin.css') }}">
+</head>
+<body>
+
+<header class="app-header no-print">
+    <div class="header-inner ul-wide">
+        <a class="logo" href="/" style="text-decoration:none">
+            <div class="logo-icon-wrap">📐</div>
+            <div>
+                <div class="logo-title">MathSheet <span>Pro</span></div>
+                <div class="logo-sub">BC Curriculum · Math Worksheet Generator</div>
+            </div>
+        </a>
+        <div class="header-right">
+            <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
+            <a href="/admin" class="btn-header-login btn-header-back">← Class progress</a>
+        </div>
+    </div>
+</header>
+
+<main class="main ul-main">
+    <nav class="ul-crumbs" aria-label="Breadcrumb">
+        <a href="/admin">Class progress</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">{{ person.display_name }}</span>
+    </nav>
+
+    <div class="ul-page-head">
+        <h1>🧑‍🎓 {{ person.display_name }}</h1>
+        <p>
+            @{{ person.username }}{% if person.grade %} · Grade {{ person.grade }}{% endif %}
+            · joined {{ (person.created_at or '')[:10] }}
+            {% if last_answer %}· last answered {{ last_answer[:10] }}{% endif %}
+        </p>
+    </div>
+
+    <div class="ul-ov-bar">
+        <div class="ul-ov-stat"><span class="ul-ov-num">{{ rollup.overall.answered }}</span><span>answered</span></div>
+        <div class="ul-ov-stat"><span class="ul-ov-num">{{ rollup.overall.correct }}</span><span>correct</span></div>
+        <div class="ul-ov-stat"><span class="ul-ov-num">{{ rollup.overall.close }}</span><span>almost</span></div>
+        <div class="ul-ov-stat"><span class="ul-ov-num">{{ rollup.overall.wrong }}</span><span>to review</span></div>
+        <div class="ul-ov-stat"><span class="ul-ov-num">{{ rollup.overall.accuracy }}</span><span>score</span></div>
+    </div>
+
+    {% if weakest %}
+    <section class="adm-panel adm-weak">
+        <h2>🎯 Worth another look</h2>
+        <p class="ul-muted">The topics where the most answers came back less than right.</p>
+        <ul class="adm-weak-list">
+        {% for topic in weakest %}
+            <li>
+                <span class="adm-weak-topic">{{ topic.emoji }} {{ topic.title }}</span>
+                <span class="adm-weak-unit">{{ topic.unit }}</span>
+                <span class="adm-weak-count">{{ topic.missed }} of {{ topic.answered }} need work</span>
+                <span class="adm-weak-score">score {{ topic.accuracy }}</span>
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% for unit in rollup.units %}
+    <section class="adm-panel">
+        <h2>{{ unit.emoji }} {{ unit.title }}</h2>
+        <p class="ul-muted">
+            {{ unit.stats.answered }} of {{ unit.total }} questions answered
+            ({{ unit.stats.coverage }}% covered) · score {{ unit.stats.accuracy }}
+        </p>
+        <div class="adm-table-wrap">
+            <table class="adm-table">
+                <thead>
+                    <tr>
+                        <th>Topic</th>
+                        <th class="adm-num">Answered</th>
+                        <th class="adm-num">Correct</th>
+                        <th class="adm-num">Almost</th>
+                        <th class="adm-num">To review</th>
+                        <th class="adm-num">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for topic in unit.topics %}
+                    <tr>
+                        <th scope="row" class="adm-who">
+                            <a href="{{ unit.url }}/{{ topic.id }}">{{ topic.emoji }} {{ topic.title }}</a>
+                        </th>
+                        <td class="adm-num">
+                            {{ topic.answered }}<span class="adm-quiet">/{{ topic.total }}</span>
+                            <span class="adm-bar" title="{{ topic.coverage }}% of this topic">
+                                <span class="adm-bar-fill" style="width:{{ topic.coverage }}%"></span>
+                            </span>
+                        </td>
+                        <td class="adm-num adm-correct">{{ topic.correct }}</td>
+                        <td class="adm-num adm-close">{{ topic.close }}</td>
+                        <td class="adm-num adm-wrong">{{ topic.wrong }}</td>
+                        <td class="adm-num"><strong>{{ topic.accuracy }}</strong></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {% else %}
+    <div class="ul-notice">{{ person.display_name }} hasn't answered anything yet.</div>
+    {% endfor %}
+</main>
+
+{% include "partials/analytics.html" %}
+</body>
+</html>

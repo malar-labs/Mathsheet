@@ -443,11 +443,15 @@ def current_learner(request: Request) -> dict | None:
 
 @app.get("/account")
 async def account_page(request: Request, next: str = "/"):
+    # The admin link is shown here and nowhere else — it is the page a
+    # signed-in person already goes to. Showing it is all this flag does;
+    # /admin re-checks for itself before it hands over any data.
     return templates.TemplateResponse(
         request,
         "account.html",
         {
             "learner": current_learner(request),
+            "is_admin": await require_admin(request) is not None,
             "accounts_enabled": store.enabled(),
             "next_url": next if next.startswith("/") else "/",
         },
@@ -568,6 +572,232 @@ async def post_progress_clear(body: ClearProgressBody, request: Request):
         return JSONResponse({"success": False, "error": "Couldn't clear that topic."}, status_code=502)
     return JSONResponse({"success": True})
 
+
+
+# ===== ADMIN — one teacher's view of everybody's progress =====
+# Who counts as an admin is a flag on the learner row, set by hand in Supabase,
+# never something the app grants. Registering the username "admin" therefore
+# buys nothing. The flag is re-read on every request rather than trusted from
+# the session, so taking admin away takes effect immediately instead of
+# whenever that person next happens to sign out.
+
+# What a verdict is worth when a score is worked out — the same weighting the
+# learning pages show, so a teacher and a learner never see different numbers.
+VERDICT_SCORE = {"correct": 1.0, "close": 0.5, "wrong": 0.0}
+
+
+def progress_catalog() -> dict:
+    """Every available unit, keyed the way progress rows are keyed.
+
+    Carries enough of each unit's contents to turn a pile of verdicts into
+    "8 of 14 in Adding Fractions". Rebuilt per request like the rest of the
+    catalogue reads, so editing a unit's JSON shows up without a restart.
+    """
+    catalog: dict = {}
+    items = ([dict(u) for u in UNITS_CATALOG if u["available"]]
+             + [dict(u, marathon=True) for u in MARATHON_UNITS if u["available"]])
+    for item in items:
+        bundle = load_unit_bundle(unit_path(item))
+        if not bundle:
+            continue
+        questions = bundle["questions"]
+        totals: dict[str, int] = {}
+        for question in questions:
+            totals[question["section"]] = totals.get(question["section"], 0) + 1
+        catalog[unit_key(item)] = {
+            "title": item["title"],
+            "emoji": item.get("emoji", "📘"),
+            "url": unit_url(item),
+            "grade": None if item.get("marathon") else item.get("grade"),
+            "total": len(questions),
+            "section_of": {q["id"]: q["section"] for q in questions},
+            "sections": [
+                {"id": s["id"], "title": s["title"], "emoji": s.get("emoji", ""),
+                 "total": totals.get(s["id"], 0)}
+                for s in bundle["lessons"]["sections"] if totals.get(s["id"])
+            ],
+        }
+    return catalog
+
+
+def tally(rows) -> dict:
+    """Count a bundle of verdicts and score them."""
+    counts = {"correct": 0, "close": 0, "wrong": 0}
+    for verdict in rows:
+        if verdict in counts:
+            counts[verdict] += 1
+    answered = sum(counts.values())
+    earned = sum(VERDICT_SCORE[v] * n for v, n in counts.items())
+    return {
+        **counts,
+        "answered": answered,
+        # Accuracy is out of what they attempted; coverage is added by the
+        # caller, which is the one that knows how many questions exist.
+        "accuracy": round(earned / answered * 100) if answered else 0,
+        "earned": earned,
+    }
+
+
+def learner_rollup(rows, catalog) -> dict:
+    """One learner's answers, broken down by unit and by topic within it."""
+    by_unit: dict[str, list] = {}
+    for row in rows:
+        by_unit.setdefault(row["unit_key"], []).append(row)
+
+    units = []
+    for key, unit in catalog.items():
+        mine = by_unit.get(key, [])
+        if not mine:
+            continue
+        by_section: dict[str, list] = {}
+        for row in mine:
+            section = unit["section_of"].get(row["question_id"])
+            if section:
+                by_section.setdefault(section, []).append(row["verdict"])
+        sections = []
+        for section in unit["sections"]:
+            verdicts = by_section.get(section["id"], [])
+            if not verdicts:
+                continue
+            stats = tally(verdicts)
+            stats.update(section)
+            stats["coverage"] = round(stats["answered"] / section["total"] * 100)
+            sections.append(stats)
+        stats = tally([row["verdict"] for row in mine])
+        stats["coverage"] = round(stats["answered"] / unit["total"] * 100) if unit["total"] else 0
+        units.append({**unit, "stats": stats, "topics": sections})
+
+    # Busiest unit first: that is the one a teacher wants to read.
+    units.sort(key=lambda u: -u["stats"]["answered"])
+    overall = tally([row["verdict"] for row in rows])
+    total_available = sum(u["total"] for u in catalog.values())
+    overall["coverage"] = round(overall["answered"] / total_available * 100) if total_available else 0
+    return {"overall": overall, "units": units}
+
+
+def weakest_topics(rollup, limit=5) -> list:
+    """Where the marks are actually going missing.
+
+    Ranked by how many answers were less than right rather than by percentage,
+    so one bad question in a topic somebody barely started doesn't outrank a
+    topic they have worked through and are still getting wrong.
+    """
+    topics = []
+    for unit in rollup["units"]:
+        for topic in unit["topics"]:
+            missed = topic["wrong"] + topic["close"]
+            if missed:
+                topics.append({**topic, "unit": unit["title"], "unit_url": unit["url"],
+                               "missed": missed})
+    topics.sort(key=lambda t: (-t["missed"], t["accuracy"]))
+    return topics[:limit]
+
+
+async def require_admin(request: Request):
+    """The signed-in admin, or None — and None always means a 404.
+
+    Answering 404 rather than 403 keeps the existence of these pages to
+    ourselves: someone poking at /admin learns nothing they didn't already know.
+    """
+    learner = current_learner(request)
+    if not learner or not store.enabled():
+        return None
+    try:
+        return learner if await store.is_admin(learner["id"]) else None
+    except store.StoreError as exc:
+        logger.warning("ADMIN   | %s", exc)
+        return None
+
+
+def admin_not_found(request: Request):
+    return templates.TemplateResponse(
+        request, "units_home.html",
+        {"grades": catalog_by_grade(), "not_found": True,
+         "learner": current_learner(request)},
+        status_code=404,
+    )
+
+
+@app.get("/admin")
+async def admin_home(request: Request):
+    admin = await require_admin(request)
+    if not admin:
+        return admin_not_found(request)
+
+    try:
+        learners = await store.list_learners()
+        rows = await store.progress_rows()
+    except store.StoreError as exc:
+        logger.warning("ADMIN   | %s", exc)
+        return templates.TemplateResponse(
+            request, "admin.html",
+            {"learner": admin, "learners": [], "totals": None,
+             "error": "Couldn't reach the progress server — try again in a moment."},
+        )
+
+    catalog = progress_catalog()
+    by_learner: dict[int, list] = {}
+    for row in rows:
+        by_learner.setdefault(row["learner_id"], []).append(row)
+
+    total_available = sum(u["total"] for u in catalog.values())
+    roster = []
+    for person in learners:
+        mine = by_learner.get(person["id"], [])
+        stats = tally([row["verdict"] for row in mine])
+        stats["coverage"] = round(stats["answered"] / total_available * 100) if total_available else 0
+        stats["last_answer"] = max((row["updated_at"] for row in mine), default=None)
+        roster.append({**person, "stats": stats})
+
+    # Whoever has done the most comes first; nobody who has started anything is
+    # pushed below a row of zeroes.
+    roster.sort(key=lambda r: (-r["stats"]["answered"], r["display_name"].lower()))
+    answered = sum(r["stats"]["answered"] for r in roster)
+    return templates.TemplateResponse(
+        request, "admin.html",
+        {
+            "learner": admin,
+            "learners": roster,
+            "error": None,
+            "totals": {
+                "learners": len(roster),
+                "active": sum(1 for r in roster if r["stats"]["answered"]),
+                "answered": answered,
+                "questions": total_available,
+                "accuracy": round(
+                    sum(r["stats"]["earned"] for r in roster) / answered * 100
+                ) if answered else 0,
+            },
+        },
+    )
+
+
+@app.get("/admin/learner/{learner_id}")
+async def admin_learner(request: Request, learner_id: int):
+    admin = await require_admin(request)
+    if not admin:
+        return admin_not_found(request)
+
+    try:
+        person = await store.get_learner(learner_id)
+        rows = await store.progress_rows(learner_id) if person else []
+    except store.StoreError as exc:
+        logger.warning("ADMIN   | %s", exc)
+        return admin_not_found(request)
+    if not person:
+        return admin_not_found(request)
+
+    rollup = learner_rollup(rows, progress_catalog())
+    return templates.TemplateResponse(
+        request, "admin_learner.html",
+        {
+            "learner": admin,
+            "person": person,
+            "rollup": rollup,
+            "weakest": weakest_topics(rollup),
+            "last_answer": max((row["updated_at"] for row in rows), default=None),
+        },
+    )
 
 def get_client_ip(request: Request) -> str:
     forwarded = request.headers.get("x-forwarded-for")
