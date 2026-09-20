@@ -981,9 +981,15 @@ def B(*items):
     return ("()", list(items))
 
 
-def P(term, power):
-    """A term raised to a power."""
-    return ("^", term, power)
+def P(leaf, power):
+    """A single fraction raised to a power.
+
+    Only a leaf, never a whole sub-expression: the prompt writes it as the
+    token {a/b}^2 and the page draws the brackets around it, which is what lets
+    them grow to the height of the fraction.
+    """
+    assert leaf[0] in ("v", "m"), leaf
+    return ("^", leaf, power)
 
 
 def leaf_value(leaf):
@@ -1003,7 +1009,7 @@ def oop_tok(item):
         return "{%d_%d/%d}" % (item[1], item[2], item[3])
     if item[0] == "()":
         return "(" + " ".join(oop_tok(x) for x in item[1]) + ")"
-    return oop_tok(item[1]) + "²"
+    return f"{oop_tok(item[1])}^{item[2]}"
 
 
 def oop_plain(value):
@@ -1053,7 +1059,8 @@ def oop_term(item, stages):
         value = base ** item[2]
         stages.append({
             "label": "Exponent", "note": "exponents come after brackets, before × and ÷",
-            "work": f"({oop_plain(base)})² = {oop_plain(value)}", "value": value})
+            "work": f"({oop_plain(base)}) to the power {item[2]} = {oop_plain(value)}",
+            "value": value})
         return value
     return leaf_value(item)
 
@@ -1141,7 +1148,7 @@ oop_add(10, 3, M(1, 2, 5), "×", M(2, 1, 2), "÷", B(V(9, 8), "-", V(2, 3)), qse
 # --- On your own: no worked example above these ------------------------------
 oop_add(11, 3, V(3, 4), "÷", B(V(3, 10), "-", V(1, 4), "×", V(1, 5)))
 oop_add(12, 3, B(V(3, 4), "+", V(2, 9), "-", V(8, 9), "×", V(7, 8)), "÷", V(1, 6))
-oop_add(13, 3, P(B(V(2, 3)), 2), "×", V(-7, 8), "+", V(-2, 5))
+oop_add(13, 3, P(V(2, 3), 2), "×", V(-7, 8), "+", V(-2, 5))
 
 
 # --- Where do the brackets go? ----------------------------------------------

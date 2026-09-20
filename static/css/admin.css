@@ -1,0 +1,82 @@
+/* =============================================
+   Class progress — the teacher's view.
+
+   A table, deliberately. Everything else in the app is built to be inviting to
+   a child; this page is built to be read down a column by an adult who wants
+   to know who is stuck, so it borrows the shared cards and colours and stops
+   there.
+   ============================================= */
+
+.adm-panel {
+    background: var(--white); border: 2px solid var(--border);
+    border-radius: var(--radius); padding: 1.2rem 1.4rem; margin-bottom: 1.2rem;
+}
+.adm-panel h2 {
+    font-family: var(--font-main); font-weight: 800; font-size: 1.15rem;
+    color: var(--dark); margin: 0 0 0.2rem;
+}
+.adm-panel .ul-muted { margin: 0 0 0.9rem; }
+
+.adm-table-wrap { overflow-x: auto; }
+.adm-table {
+    width: 100%; border-collapse: collapse;
+    font-family: var(--font-body); font-size: 0.92rem; color: var(--dark);
+}
+.adm-table th, .adm-table td {
+    padding: 0.6rem 0.7rem; text-align: left; border-bottom: 1.5px solid var(--border);
+    white-space: nowrap;
+}
+.adm-table thead th {
+    font-family: var(--font-main); font-weight: 800; font-size: 0.74rem;
+    text-transform: uppercase; letter-spacing: 0.4px; color: var(--gray);
+    border-bottom-width: 2px;
+}
+.adm-table tbody tr:last-child th, .adm-table tbody tr:last-child td { border-bottom: none; }
+.adm-table tbody tr:hover { background: var(--bg); }
+.adm-num { text-align: right; font-variant-numeric: tabular-nums; }
+.adm-quiet { color: var(--light-gray); font-weight: 400; }
+
+/* The name column carries the username underneath, so one row identifies a
+   learner without a second lookup. */
+.adm-who { font-weight: 700; white-space: normal; }
+.adm-who a { color: var(--purple); text-decoration: none; }
+.adm-who a:hover { text-decoration: underline; }
+.adm-username {
+    display: block; font-family: var(--font-body); font-weight: 400;
+    font-size: 0.78rem; color: var(--gray); margin-top: 0.1rem;
+}
+
+.adm-correct { color: #1b6b3a; font-weight: 700; }
+.adm-close   { color: #8a6500; font-weight: 700; }
+.adm-wrong   { color: #b3261e; font-weight: 700; }
+.adm-when { color: var(--gray); font-size: 0.85rem; }
+
+/* How far through they are, under the count it belongs to. */
+.adm-bar {
+    display: block; width: 84px; height: 5px; margin: 0.3rem 0 0 auto;
+    background: var(--border); border-radius: 3px; overflow: hidden;
+}
+.adm-bar-fill { display: block; height: 100%; background: var(--purple); }
+
+.adm-weak { border-color: #ffd4d4; background: #fffafa; }
+.adm-weak-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+.adm-weak-list li {
+    display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr) auto auto;
+    gap: 0.3rem 1rem; align-items: baseline;
+    background: var(--white); border: 1.5px solid #ffd4d4; border-radius: 10px;
+    padding: 0.55rem 0.8rem;
+}
+.adm-weak-topic { font-family: var(--font-main); font-weight: 800; }
+.adm-weak-unit { color: var(--gray); font-size: 0.85rem; }
+.adm-weak-count { color: #b3261e; font-weight: 700; font-size: 0.85rem; }
+.adm-weak-score { color: var(--gray); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+
+.adm-foot { margin-top: 0.9rem; max-width: 70ch; }
+
+@media (max-width: 640px) {
+    .adm-panel { padding: 0.9rem; }
+    .adm-table { font-size: 0.85rem; }
+    .adm-table th, .adm-table td { padding: 0.45rem 0.4rem; }
+    .adm-bar { width: 54px; }
+    .adm-weak-list li { grid-template-columns: minmax(0, 1fr); }
+}

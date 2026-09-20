@@ -166,6 +166,25 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+# PostgREST answers with at most its configured maximum rows — 1000 by default
+# — and says nothing when it truncates. A silent truncation here would quietly
+# under-report a whole class, so anything that reads a table in full walks the
+# pages until one comes back short.
+PAGE_SIZE = 1000
+
+
+async def _get_all(path: str, params: dict) -> list[dict]:
+    rows: list[dict] = []
+    offset = 0
+    while True:
+        page = (await _request("GET", path, params={
+            **params, "limit": str(PAGE_SIZE), "offset": str(offset)})).json()
+        rows.extend(page)
+        if len(page) < PAGE_SIZE:
+            return rows
+        offset += PAGE_SIZE
+
+
 # ===== learners =====
 
 async def find_learner(username: str) -> dict | None:
@@ -174,6 +193,33 @@ async def find_learner(username: str) -> dict | None:
     )
     rows = response.json()
     return rows[0] if rows else None
+
+
+async def get_learner(learner_id: int) -> dict | None:
+    response = await _request(
+        "GET", "/learners", params={"id": f"eq.{learner_id}", "select": "*", "limit": "1"}
+    )
+    rows = response.json()
+    return rows[0] if rows else None
+
+
+async def list_learners() -> list[dict]:
+    """Everyone, most recently seen first — the teacher's roster."""
+    return await _get_all("/learners", {
+        "select": "id,username,display_name,grade,created_at,last_seen,is_admin",
+        "order": "last_seen.desc",
+    })
+
+
+async def is_admin(learner_id: int) -> bool:
+    """Read the flag fresh on every check.
+
+    Caching it in the session would mean taking admin away from someone only
+    took effect once they happened to sign out, which is not what anyone
+    revoking access expects.
+    """
+    learner = await get_learner(learner_id)
+    return bool(learner and learner.get("is_admin"))
 
 
 async def create_learner(username: str, display_name: str, pin: str, grade: int | None) -> dict:
@@ -241,6 +287,19 @@ async def load_progress(learner_id: int, unit_key: str | None = None) -> dict[st
     for row in rows:
         out.setdefault(row["unit_key"], {})[row["question_id"]] = row["verdict"]
     return out
+
+
+async def progress_rows(learner_id: int | None = None) -> list[dict]:
+    """Raw answers — one learner's, or the whole school's, for the admin pages.
+
+    Returned as rows rather than the nested shape load_progress() gives, because
+    the roster needs to count across units and the detail page needs to know
+    which question each verdict belongs to.
+    """
+    params = {"select": "learner_id,unit_key,question_id,verdict,updated_at"}
+    if learner_id is not None:
+        params["learner_id"] = f"eq.{learner_id}"
+    return await _get_all("/progress", params)
 
 
 async def save_progress(learner_id: int, unit_key: str, verdicts: dict[str, str]) -> dict[str, str]:

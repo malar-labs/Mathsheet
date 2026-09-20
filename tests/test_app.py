@@ -360,8 +360,8 @@ PROMPT_RE = re.compile(
 PROMPT_PIECE = re.compile(
     r"\{(?P<mw>-?\d+)_(?P<mn>\d+)/(?P<md>\d+)\}"     # {1_2/5}
     r"|\{(?P<fn>-?\d+)/(?P<fd>\d+)\}"                  # {3/5}
-    r"|(?P<whole>\d+)"                                   # a bare whole number
-    r"|(?P<sq>\u00b2)"
+    r"|\^(?P<power>\d+)"                                 # {a/b}^2
+    r"|(?P<whole>\d+)"
     r"|(?P<mul>\u00d7)|(?P<div>\u00f7)"
     r"|(?P<op>[-+()])"
     r"|(?P<space>\s+)")
@@ -391,8 +391,8 @@ def eval_prompt(prompt):
             pieces.append("Fraction(%s, %s)" % (m.group("fn"), m.group("fd")))
         elif m.group("whole") is not None:
             pieces.append("Fraction(%s)" % m.group("whole"))
-        elif m.group("sq"):
-            pieces.append("**2")
+        elif m.group("power") is not None:
+            pieces.append("**%s" % m.group("power"))
         elif m.group("mul"):
             pieces.append("*")
         elif m.group("div"):

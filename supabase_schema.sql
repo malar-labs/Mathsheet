@@ -20,6 +20,12 @@ create table if not exists learners (
     locked_until    timestamptz
 );
 
+-- Who can see the admin pages. Off for everyone by default, including anyone
+-- who registers the username "admin" — being a teacher is something you are
+-- granted here, not something you can claim by picking the right name:
+--     update learners set is_admin = true where username = 'your-username';
+alter table learners add column if not exists is_admin boolean not null default false;
+
 create table if not exists progress (
     learner_id  bigint      not null references learners(id) on delete cascade,
     unit_key    text        not null,   -- "grade9_rational-numbers"

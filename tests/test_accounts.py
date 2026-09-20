@@ -260,6 +260,143 @@ class TestAccountRoutes:
 #   accounts never gate the learning content
 # =============================================
 
+class TestAdminPages:
+    """Who can see the class-progress pages, and what they say.
+
+    The access rule is the part worth being paranoid about: everything else on
+    this page is a table, but getting this wrong hands one learner's record to
+    another learner.
+    """
+
+    UNIT = "grade8_fractions"
+
+    def as_learner(self, monkeypatch, learner_id=7, name="Teacher", admin=False):
+        """Sign someone in for real, then say whether they are an admin."""
+        monkeypatch.setattr(store, "enabled", lambda: True)
+
+        async def find(username):
+            return {"id": learner_id, "username": username, "display_name": name,
+                    "pin_hash": store.hash_pin("1111"), "is_admin": admin}
+
+        async def noop(*a, **k):
+            return None
+
+        monkeypatch.setattr(store, "find_learner", find)
+        monkeypatch.setattr(store, "note_signed_in", noop)
+        monkeypatch.setattr(store, "is_admin", lambda lid: _async(admin))
+        assert client.post("/api/account/login",
+                           json={"username": name.lower(), "pin": "1111"}).status_code == 200
+
+    def test_a_signed_out_visitor_gets_nothing(self):
+        client.post("/api/account/logout")
+        assert client.get("/admin").status_code == 404
+        assert client.get("/admin/learner/1").status_code == 404
+
+    def test_an_ordinary_learner_gets_nothing(self, monkeypatch):
+        self.as_learner(monkeypatch, admin=False)
+        assert client.get("/admin").status_code == 404
+        assert client.get("/admin/learner/1").status_code == 404
+
+    def test_it_is_a_404_not_a_403(self, monkeypatch):
+        """A 403 would confirm the page exists to anyone who pokes at it."""
+        self.as_learner(monkeypatch, admin=False)
+        response = client.get("/admin")
+        assert response.status_code == 404
+        assert "Class progress" not in response.text
+
+    def test_the_username_admin_grants_nothing_by_itself(self, monkeypatch):
+        """Being a teacher is granted in the database, not claimed by picking
+        the right name — otherwise the first person to register `admin` owns
+        everybody's data."""
+        self.as_learner(monkeypatch, name="admin", admin=False)
+        assert client.get("/admin").status_code == 404
+
+    def test_an_admin_sees_the_roster(self, monkeypatch):
+        self.as_learner(monkeypatch, admin=True)
+        monkeypatch.setattr(store, "list_learners", lambda: _async([
+            {"id": 1, "username": "ava", "display_name": "Ava", "grade": 8,
+             "created_at": "2026-01-02T00:00:00Z", "last_seen": "2026-02-03T00:00:00Z",
+             "is_admin": False},
+            {"id": 2, "username": "ben", "display_name": "Ben", "grade": 9,
+             "created_at": "2026-01-02T00:00:00Z", "last_seen": "2026-02-03T00:00:00Z",
+             "is_admin": False},
+        ]))
+        monkeypatch.setattr(store, "progress_rows", lambda learner_id=None: _async([
+            {"learner_id": 1, "unit_key": self.UNIT, "question_id": "add-01",
+             "verdict": "correct", "updated_at": "2026-02-03T00:00:00Z"},
+            {"learner_id": 1, "unit_key": self.UNIT, "question_id": "add-02",
+             "verdict": "wrong", "updated_at": "2026-02-03T00:00:00Z"},
+        ]))
+        page = client.get("/admin")
+        assert page.status_code == 200
+        assert "Ava" in page.text and "Ben" in page.text
+        # Ava answered two, one right: a score of 50.
+        assert ">50<" in page.text.replace("</strong>", "<")
+
+    def test_the_admin_flag_is_read_fresh_every_time(self, monkeypatch):
+        """Taking admin away should take effect at once, not whenever that
+        person next happens to sign out."""
+        self.as_learner(monkeypatch, admin=True)
+        monkeypatch.setattr(store, "list_learners", lambda: _async([]))
+        monkeypatch.setattr(store, "progress_rows", lambda learner_id=None: _async([]))
+        assert client.get("/admin").status_code == 200
+
+        monkeypatch.setattr(store, "is_admin", lambda lid: _async(False))
+        assert client.get("/admin").status_code == 404
+
+    def test_an_unknown_learner_is_a_404(self, monkeypatch):
+        self.as_learner(monkeypatch, admin=True)
+        monkeypatch.setattr(store, "get_learner", lambda lid: _async(None))
+        assert client.get("/admin/learner/999").status_code == 404
+
+    def test_a_learner_page_breaks_progress_down_by_topic(self, monkeypatch):
+        self.as_learner(monkeypatch, admin=True)
+        monkeypatch.setattr(store, "get_learner", lambda lid: _async(
+            {"id": 1, "username": "ava", "display_name": "Ava", "grade": 8,
+             "created_at": "2026-01-02T00:00:00Z", "last_seen": "2026-02-03T00:00:00Z"}))
+        monkeypatch.setattr(store, "progress_rows", lambda learner_id=None: _async([
+            {"learner_id": 1, "unit_key": self.UNIT, "question_id": "add-01",
+             "verdict": "correct", "updated_at": "2026-02-03T00:00:00Z"},
+            {"learner_id": 1, "unit_key": self.UNIT, "question_id": "divide-01",
+             "verdict": "wrong", "updated_at": "2026-02-03T00:00:00Z"},
+        ]))
+        page = client.get("/admin/learner/1")
+        assert page.status_code == 200
+        assert "Ava" in page.text
+        # The two answers belong to different topics, and both are named.
+        assert "Adding Fractions" in page.text
+        assert "Dividing Fractions" in page.text
+        # The wrong one is what "worth another look" is for.
+        assert "Worth another look" in page.text
+
+    def test_the_page_survives_the_progress_server_being_down(self, monkeypatch):
+        """A teacher should get a message, not a stack trace."""
+        self.as_learner(monkeypatch, admin=True)
+
+        async def down(*a, **k):
+            raise store.StoreError("nope")
+
+        monkeypatch.setattr(store, "list_learners", down)
+        monkeypatch.setattr(store, "progress_rows", down)
+        page = client.get("/admin")
+        assert page.status_code == 200
+        # (the apostrophe in the real message comes back HTML-escaped)
+        assert "reach the progress server" in page.text
+
+    def test_admin_is_off_entirely_when_accounts_are_off(self, monkeypatch):
+        """No Supabase means no accounts, so there is nobody to be an admin."""
+        self.as_learner(monkeypatch, admin=True)
+        monkeypatch.setattr(store, "enabled", lambda: False)
+        assert client.get("/admin").status_code == 404
+
+
+def _async(value):
+    """A coroutine that just returns `value`, for stubbing store calls."""
+    async def run():
+        return value
+    return run()
+
+
 class TestLearningStaysOpen:
     def test_the_landing_page_works_signed_out(self):
         assert client.get("/").status_code == 200

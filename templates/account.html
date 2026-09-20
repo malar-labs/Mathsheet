@@ -37,6 +37,7 @@
             <p>Your progress saves automatically. Sign in with this username and PIN on any other device to pick up where you left off.</p>
             <div class="ul-account-actions">
                 <a class="ul-account-btn" href="/">Keep learning →</a>
+                {% if is_admin %}<a class="ul-account-btn ul-account-btn-alt" href="/admin">👩‍🏫 Class progress</a>{% endif %}
                 <button type="button" class="ul-account-link" id="ul-signout">Sign out</button>
             </div>
         </section>

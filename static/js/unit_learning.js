@@ -75,11 +75,19 @@ function parseFractionInput(str) {
 
 // ===== fraction token rendering =====
 // Prompt text uses {a/b} for a fraction, {w_a/b} for a mixed number,
-// and {n} for a plain number that should just print normally.
+// {a/b}^2 for one raised to a power, and {n} for a plain number that should
+// just print normally.
 function renderMath(text) {
     if (!text) return '';
     const esc = escHTML(text);
-    return esc.replace(/\{(-?\d+)_(\d+)\/(\d+)\}/g, (_, w, n, d) =>
+    return esc.replace(/\{(-?\d+)\/(\d+)\}\^(\d+)/g, (_, n, d, power) =>
+        // Brackets drawn here rather than typed into the prompt, so they can
+        // grow with the fraction — a full-height fraction inside text-sized
+        // brackets with a baseline "2" after it reads as (2/3)2, not squared.
+        `<span class="ul-pow-group"><span class="ul-pow-paren">(</span>` +
+        `<span class="ul-frac"><span class="ul-frac-stack"><span class="ul-frac-num">${n}</span><span class="ul-frac-den">${d}</span></span></span>` +
+        `<span class="ul-pow-paren">)</span><sup class="ul-pow">${power}</sup></span>`
+    ).replace(/\{(-?\d+)_(\d+)\/(\d+)\}/g, (_, w, n, d) =>
         `<span class="ul-frac"><span class="ul-frac-whole">${w}</span><span class="ul-frac-stack"><span class="ul-frac-num">${n}</span><span class="ul-frac-den">${d}</span></span></span>`
     ).replace(/\{(-?\d+)\/(\d+)\}/g, (_, n, d) =>
         `<span class="ul-frac"><span class="ul-frac-stack"><span class="ul-frac-num">${n}</span><span class="ul-frac-den">${d}</span></span></span>`

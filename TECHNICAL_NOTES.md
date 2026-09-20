@@ -61,6 +61,14 @@ NOTE: Teacher instructions modify topic/type selection only. Curriculum difficul
 - Wrong-form is diagnosed rather than just flagged: not reduced yet, needs to be over 12, still has to be a mixed number. Each is a different mistake and gets its own sentence.
 - A question nobody has typed into is not marked wrong for being untouched — submitting an entirely blank row returns a nudge instead.
 
+### The Admin Page, and Who Gets to See It
+**Problem:** A teacher can see one learner's progress only by signing in as them. There was no way to look at a class.
+**Fix:** `/admin` lists every account with what they have answered and how they scored; `/admin/learner/<id>` breaks one learner down by unit and topic and names the topics where the most answers came back less than right.
+**Who is an admin:** a flag on the learner row (`is_admin`, added by the schema file, default false), set by hand in Supabase. Deliberately **not** a username check — registering the username `admin` has to buy nothing, or the first person to think of it owns everybody's data. There is a test for exactly that.
+**The flag is re-read on every request**, never trusted from the session. Caching it would mean revoking someone's admin only took effect once they happened to sign out. The session copy exists solely to decide whether to draw the link on the account page; it authorises nothing.
+**404, not 403.** A 403 confirms the page exists to anyone who pokes at it. Signed out, ordinary learner, accounts switched off entirely — all get the same not-found page.
+**Gotcha:** PostgREST caps a response at 1000 rows and says nothing when it truncates, which here would silently under-report a class. Anything that reads a table in full goes through `_get_all()`, which walks pages until one comes back short.
+
 ### Two Kinds of Worked Chain
 **Problem:** Grade 8's Order of Operations topic wanted the same row-of-boxes treatment as the arithmetic topics, but a chain there means something different. In `3/4 + 1/6`, every line is another way of writing one number. In `1/4 x 5/6 - 1/6`, the lines are deliberately *different* numbers: each is the expression with one more operation taken out of it. The existing chain contract — "no line changes the value" — is exactly wrong for the second kind.
 **Fix:** Both still ship as `steps`; the prompt says which kind it is (two operands means a rewrite). Value-invariance is asserted only for rewrite chains; stage chains get their own contract — one field per line, values strictly changing, last line equal to the answer.

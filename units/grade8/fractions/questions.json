@@ -2732,7 +2732,7 @@
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 3,
-      "prompt": "({2/3})² × {-7/8} + {-2/5} =",
+      "prompt": "{2/3}^2 × {-7/8} + {-2/5} =",
       "answer": {
         "steps": [
           {
@@ -2759,7 +2759,7 @@
         ],
         "display": "-71/90"
       },
-      "steps": "Exponent: (2/3)² = 4/9. Multiply: 4/9 × -7/8 = -7/18. Add: -7/18 + -2/5 = -71/90.",
+      "steps": "Exponent: (2/3) to the power 2 = 4/9. Multiply: 4/9 × -7/8 = -7/18. Add: -7/18 + -2/5 = -71/90.",
       "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term."
     },
     {
