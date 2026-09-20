@@ -434,6 +434,11 @@ class TestUnitQuestions:
         elif qtype == "order":
             assert sorted(answer["order"]) == sorted(q["options"])
             assert len(set(q["options"])) == len(q["options"])
+        elif qtype == "equivalent":
+            # Deliberately NOT reduced: which equivalent form comes next IS the
+            # question, so 4/8 is the answer and 1/2 would be the wrong one.
+            assert answer["den"] > 0 and answer["num"] > 0
+            assert answer["display"] == f"{answer['num']}/{answer['den']}"
         elif qtype == "steps":
             assert answer["steps"], q["id"]
             for row in answer["steps"]:
@@ -697,7 +702,7 @@ class TestFractionAdditionDrill:
         assert set(sizes.values()) <= {3, 4, 5, 6}, sorted(set(sizes.values()))
 
     def test_every_level_runs_easiest_pass_first(self):
-        order = {"equiv": 0, "pick": 1, "type": 2}
+        order = {"equiv": 0, "equivpair": 1, "pick": 2, "type": 3}
         for section in self.SECTIONS:
             modes = [q["mode"] for q in self.QS if q["section"] == section["id"]]
             assert set(modes) <= set(order), section["id"]
@@ -734,14 +739,40 @@ class TestFractionAdditionDrill:
             for q in blanks:
                 assert q["answer"]["value"] == chain[q["step"] - 1][0], q["id"]
 
-    def test_a_ladder_blank_only_ever_asks_for_the_top(self):
+    def test_the_first_ladder_pass_only_asks_for_the_top(self):
         """The bottom is printed. "How many of THESE make it?" is the question
-        worth asking; "write a fraction" is a different skill."""
+        worth asking first; producing a whole fraction is the pass after."""
         for q in self.QS:
             if q["mode"] != "equiv":
                 continue
             assert q["qtype"] == "integer", q["id"]
             assert re.fullmatch(r"\{\d+/\d+\} = \?/\d+", q["prompt"]), q["prompt"]
+
+    def test_the_second_ladder_pass_asks_for_the_whole_fraction(self):
+        """With the bottom given you only count the top up; with both gone you
+        have to know what size piece comes next as well."""
+        pairs = [q for q in self.QS if q["mode"] == "equivpair"]
+        assert pairs, "the second pass is the point of this change"
+        laddered = {s["id"] for s in self.SECTIONS if "ladder" in s}
+        assert {q["section"] for q in pairs} == laddered
+        for q in pairs:
+            assert q["qtype"] == "equivalent", q["id"]
+            assert q["answer"]["num"] > 0 and q["answer"]["den"] > 0, q["id"]
+            base = next(s["ladder"]["base"] for s in self.SECTIONS
+                        if s["id"] == q["section"])
+            assert (Fraction(q["answer"]["num"], q["answer"]["den"])
+                    == Fraction(*base)), q["id"]
+
+    def test_the_two_ladder_passes_blank_different_rungs(self):
+        """Otherwise the second page is the first one again with more typing."""
+        for section in self.SECTIONS:
+            if "ladder" not in section:
+                continue
+            tops = {q["step"] for q in self.QS
+                    if q["section"] == section["id"] and q["mode"] == "equiv"}
+            both = {q["step"] for q in self.QS
+                    if q["section"] == section["id"] and q["mode"] == "equivpair"}
+            assert both and not (tops & both), section["id"]
 
     def test_fraction_answers_are_always_tidied(self):
         """The drill marks an untidy answer wrong, so the key had better not
@@ -752,6 +783,26 @@ class TestFractionAdditionDrill:
             num, den = q["answer"]["num"], q["answer"]["den"]
             assert gcd(num, den) == 1, q["id"]
             assert q["answer"]["display"] == f"{num}/{den}", q["id"]
+
+    def test_a_page_of_equivalences_starts_every_question_the_same_way(self):
+        """Not just the same amount — the same fraction, written the same way.
+        A page that asks about 1/3 and then about 2/6 makes a child who is still
+        learning what a third looks like read two of them at once, and they are
+        the same amount, so "same value" is not a strong enough rule to catch
+        it."""
+        from collections import defaultdict
+        pages = defaultdict(set)
+        for q in self.QS:
+            # Mixed Review is the one lap where jumbling them up IS the point.
+            if q["mode"] not in ("pick", "type") or q["section"] == "mixed":
+                continue
+            m = re.match(r"\{(\d+)/(\d+)\} = \?/(\d+)", q["prompt"])
+            if not m:
+                continue
+            pages[(q["section"], q["set"])].add((int(m.group(1)), int(m.group(2))))
+        assert pages
+        for key, written in pages.items():
+            assert len(written) == 1, (key, sorted(written))
 
     def test_the_sums_are_ones_a_child_can_hold_in_their_head(self):
         """Fraction fluency, not arithmetic with big numbers."""

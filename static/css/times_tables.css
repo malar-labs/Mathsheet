@@ -240,6 +240,16 @@
     width: 3rem; padding: 0.25rem 0.2rem; font-size: 1rem; margin-bottom: 3px;
 }
 .tt-chain-equiv .tt-frac { margin: 0; }
+/* Second pass: the rung is two boxes, one over the other, so it still reads as
+   a fraction while both halves are being asked for. */
+/* The bar has to sit clear of both boxes, or two inputs in a column just look
+   like two inputs in a column rather than a fraction. */
+.tt-chain-equiv .tt-rung.is-pair .tt-frac-n {
+    border-bottom: 2.5px solid var(--dark); padding: 0 0.35em 5px;
+}
+.tt-chain-equiv .tt-rung.is-pair .tt-frac-d { padding: 5px 0.35em 0; }
+.tt-chain-equiv .tt-rung.is-pair .tt-rung-input { margin-bottom: 0; }
+
 .tt-rung-link.is-equals {
     font-family: var(--font-main); font-weight: 800; font-size: 1.1rem;
     color: var(--light-gray);
@@ -346,6 +356,7 @@
     .tt-rung-input { width: 3.4rem; }
     .tt-chain-equiv .tt-rung-input { width: 2.5rem; font-size: 0.95rem; }
     .tt-chain-equiv .tt-rung { padding: 0.3rem 0.3rem; font-size: 0.95rem; }
+    .tt-chain-equiv .tt-rung.is-pair .tt-rung-input { width: 2.3rem; }
     .tt-rung-link { font-size: 0.8rem; }
     /* Four options genuinely do need the full width, so those drop to a row
        of their own. */

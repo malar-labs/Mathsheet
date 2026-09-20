@@ -29,6 +29,8 @@ time to count. Every level runs three passes, easiest first:
            and the answer key for both times-table units
     equiv  the equivalence ladder, 1/2 = 2/4 = __/6 = 4/8 — the same exercise
            for fractions, where "same amount, more pieces" gets into the hand
+    equivpair  the same ladder with the bottom taken away too, __/__ — now you
+           have to know what size piece comes next, not just how many
     pick   four options — recognition
     type   nothing to choose from — recall
 """
@@ -219,8 +221,7 @@ class Unit:
             chain, mode = ladder["chain"], ladder["mode"]
             step_size = ladder.get("step")
             set_index = 1
-            blanks = (SKIP_BLANKS if mode != "equiv"
-                      else [b for b in EQUIV_BLANKS if b <= len(chain)])
+            blanks = SKIP_BLANKS if mode != "equiv" else ladder_blanks(len(chain))
             for order, step in enumerate(blanks, start=1):
                 if mode == "equiv":
                     # The denominator is printed and only the top is asked for,
@@ -269,6 +270,30 @@ class Unit:
                     "prompt": prompt,
                     "answer": {"value": value, "display": str(value)},
                     "steps": steps,
+                    "tip": tip,
+                })
+
+        # Second pass over the same ladder: the whole rung is blank now.
+        if ladder is not None and ladder["mode"] == "equiv":
+            set_index = 2
+            base_n, base_d = ladder["base"]
+            for order, step in enumerate(ladder_blanks(len(chain), second=True),
+                                         start=1):
+                num, den = chain[step - 1]
+                self.questions.append({
+                    "id": f"{level_id}-pair-{order:02d}",
+                    "section": level_id,
+                    "set": 2,
+                    "mode": "equivpair",
+                    "step": step,
+                    "qtype": "equivalent",
+                    "kind": "number",
+                    "difficulty": 2,
+                    "prompt": "{%d/%d} = ?/? — rung %d of the chain" % (base_n, base_d, step),
+                    "answer": {"num": num, "den": den, "display": f"{num}/{den}"},
+                    "steps": (f"Rung {step} means {base_n}/{base_d} with the top and the "
+                              f"bottom both multiplied by {step}: {base_n} x {step} = {num} "
+                              f"and {base_d} x {step} = {den}, so {num}/{den}."),
                     "tip": tip,
                 })
 
@@ -325,6 +350,9 @@ class Unit:
             elif q["qtype"] == "fraction":
                 assert q["answer"]["den"] > 0 and q["answer"]["num"] > 0, q["id"]
                 assert gcd(q["answer"]["num"], q["answer"]["den"]) == 1, q["id"]
+            elif q["qtype"] == "equivalent":
+                # 4/8 is the whole point here, so this one is NOT reduced.
+                assert q["answer"]["den"] > 0 and q["answer"]["num"] > 0, q["id"]
             elif q["mode"] == "back":
                 # A count-back chain finishes on 0, which is the whole point.
                 assert q["answer"]["value"] >= 0, q["id"]
@@ -535,9 +563,16 @@ def build_division():
 # the drill stays on the one move being practised. Only stages 4 and 5 ask for a
 # whole fraction, because by then writing one IS the skill.
 
-# Which rungs of an equivalence ladder are blank. Same idea as SKIP_BLANKS: the
-# first two are given so the pattern is visible before anything is asked.
-EQUIV_BLANKS = [3, 5, 6, 8]
+def ladder_blanks(rungs, second=False):
+    """Which rungs of an equivalence ladder are blank.
+
+    The first two are always given, the way SKIP_BLANKS gives them, so the
+    pattern is visible before anything is asked. After that the two passes take
+    alternate rungs — the second page is a different question, not the first one
+    again with more typing.
+    """
+    rest = list(range(3, rungs + 1))
+    return rest[1::2] if second else rest[0::2]
 
 
 def ftok(pair):
@@ -605,28 +640,38 @@ def build_fraction_addition():
     )
 
     # --- 1. equivalence ladders --------------------------------------------
+    # One written fraction to a page, all the way down. A page that starts some
+    # questions from 1/3 and others from 2/6 is asking a child who is still
+    # learning what a third looks like to read two of them at once — even though
+    # they are the same amount. Reading a fraction backwards (3/9 is a third) is
+    # the Tidy It Up level's job, not this one's.
     equiv_level(
         unit, "eq-half", "Halves", "🌗", (1, 2), 8,
-        [((1, 2), 4, 2), ((1, 2), 6, 3), ((1, 2), 8, 4), ((1, 2), 10, 5),
-         ((1, 2), 12, 6), ((1, 2), 14, 7), ((2, 4), 8, 4), ((3, 6), 12, 6),
-         ((4, 8), 16, 8), ((5, 10), 2, 1), ((6, 12), 4, 2), ((1, 2), 16, 8)],
+        [((1, 2), 4, 2), ((1, 2), 6, 3), ((1, 2), 8, 4),
+         ((1, 2), 10, 5), ((1, 2), 12, 6), ((1, 2), 14, 7),
+         ((1, 2), 16, 8), ((1, 2), 18, 9), ((1, 2), 20, 10),
+         ((1, 2), 22, 11), ((1, 2), 24, 12), ((1, 2), 26, 13)],
         "Half is always the top being exactly half the bottom. If the bottom "
         "doubles, so does the top.",
         1,
     )
     equiv_level(
         unit, "eq-third", "Thirds", "🥧", (1, 3), 8,
-        [((1, 3), 6, 2), ((1, 3), 9, 3), ((1, 3), 12, 4), ((2, 3), 6, 4),
-         ((2, 3), 9, 6), ((2, 3), 12, 8), ((2, 6), 3, 1), ((3, 9), 12, 4),
-         ((4, 12), 3, 1), ((1, 3), 15, 5), ((2, 3), 15, 10), ((1, 3), 18, 6)],
+        # A page of 1/3, then a page of 2/3.
+        [((1, 3), 6, 2), ((1, 3), 9, 3), ((1, 3), 12, 4),
+         ((1, 3), 15, 5), ((1, 3), 18, 6), ((1, 3), 21, 7),
+         ((2, 3), 6, 4), ((2, 3), 9, 6), ((2, 3), 12, 8),
+         ((2, 3), 15, 10), ((2, 3), 18, 12), ((2, 3), 21, 14)],
         "Thirds live in every bottom number that 3 divides into: 6, 9, 12, 15, 18.",
         2,
     )
     equiv_level(
-        unit, "eq-quarter", "Quarters", "🍰", (1, 4), 6,
-        [((1, 4), 8, 2), ((1, 4), 12, 3), ((1, 4), 16, 4), ((3, 4), 8, 6),
-         ((3, 4), 12, 9), ((3, 4), 16, 12), ((2, 8), 4, 1), ((3, 12), 4, 1),
-         ((1, 4), 20, 5), ((3, 4), 20, 15), ((2, 4), 8, 4), ((6, 8), 4, 3)],
+        unit, "eq-quarter", "Quarters", "🍰", (1, 4), 8,
+        # A page of 1/4, then a page of 3/4. (2/4 is left out — that is a half.)
+        [((1, 4), 8, 2), ((1, 4), 12, 3), ((1, 4), 16, 4),
+         ((1, 4), 20, 5), ((1, 4), 24, 6), ((1, 4), 28, 7),
+         ((3, 4), 8, 6), ((3, 4), 12, 9), ((3, 4), 16, 12),
+         ((3, 4), 20, 15), ((3, 4), 24, 18), ((3, 4), 28, 21)],
         "Quarters are halves halved. Every quarter bottom — 8, 12, 16, 20 — is 4 "
         "times something.",
         2,

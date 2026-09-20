@@ -10,22 +10,22 @@
         "id": "eq-half",
         "title": "Halves",
         "emoji": "🌗",
-        "question_count": 28,
-        "set_count": 5
+        "question_count": 30,
+        "set_count": 6
       },
       {
         "id": "eq-third",
         "title": "Thirds",
         "emoji": "🥧",
-        "question_count": 28,
-        "set_count": 5
+        "question_count": 30,
+        "set_count": 6
       },
       {
         "id": "eq-quarter",
         "title": "Quarters",
         "emoji": "🍰",
-        "question_count": 27,
-        "set_count": 5
+        "question_count": 30,
+        "set_count": 6
       },
       {
         "id": "match-fit",
@@ -118,7 +118,7 @@
           ]
         ]
       },
-      "set_count": 5
+      "set_count": 6
     },
     {
       "id": "eq-third",
@@ -166,7 +166,7 @@
           ]
         ]
       },
-      "set_count": 5
+      "set_count": 6
     },
     {
       "id": "eq-quarter",
@@ -203,10 +203,18 @@
           [
             6,
             24
+          ],
+          [
+            7,
+            28
+          ],
+          [
+            8,
+            32
           ]
         ]
       },
-      "set_count": 5
+      "set_count": 6
     },
     {
       "id": "match-fit",

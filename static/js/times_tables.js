@@ -13,9 +13,9 @@
    whole amount to 0, because dividing is taking away until nothing is left and
    the number of jumps is the answer; "equiv" runs along one fraction's
    equivalents, 1/2 = 2/4 = __/6, because seeing that they are one amount cut
-   differently is the move every fraction sum is built on. Then "pick" offers
-   four options, which is recognition, and "type" offers nothing, which is
-   recall.
+   differently is the move every fraction sum is built on, and "equivpair" runs
+   it again with the bottom taken away as well. Then "pick" offers four options,
+   which is recognition, and "type" offers nothing, which is recall.
 
    Progress lives in ulState.progress via progress.js, shared with the lesson
    engine, so a signed-in learner's drill carries between devices too.
@@ -54,9 +54,23 @@ function ttMath(str) {
         (_, n, d) => ttFracHTML(n, d));
 }
 
-function ttFracHTML(num, den, numHTML) {
+function ttFracHTML(num, den, numHTML, denHTML) {
     return `<span class="tt-frac"><span class="tt-frac-n">${numHTML || num}</span>` +
-           `<span class="tt-frac-d">${den}</span></span>`;
+           `<span class="tt-frac-d">${denHTML || den}</span></span>`;
+}
+
+/** Has this question been answered enough to check?
+ *
+ *  A rung with both halves blank needs both of them: half a fraction is not an
+ *  answer, and letting it through would mark the page wrong for being unfinished. */
+function ttFilled(q) {
+    const value = ttDraft[q.id];
+    if (value === undefined || value === '') return false;
+    if (q.mode === 'equivpair') {
+        const [num, den] = String(value).split('/');
+        return !!(num && den);
+    }
+    return true;
 }
 
 function ttQuestions(levelId) {
@@ -231,6 +245,7 @@ function ttChainHTML(level, set) {
     const byStep = new Map(set.questions.map(q => [q.step, q]));
     if (ladder.mode === 'equiv') return ttEquivChainHTML(ladder, chain, byStep);
 
+
     const rungs = chain.map((value, i) => {
         const step = i + 1;
         const q = byStep.get(step);
@@ -273,6 +288,14 @@ function ttChainHTML(level, set) {
 function ttEquivChainHTML(ladder, chain, byStep) {
     const [baseN, baseD] = ladder.base || chain[0];
 
+    const boxFor = (q, part, value) =>
+        `<input class="tt-input tt-rung-input" type="text" inputmode="numeric"
+                aria-label="${ttEsc(q.prompt)}${part ? `, ${part === 'num' ? 'top' : 'bottom'}` : ''}"
+                data-qid="${ttEsc(q.id)}" data-kind="number"
+                ${part ? `data-part="${part}"` : ''}
+                value="${ttEsc(value || '')}"
+                ${ttChecked ? 'disabled' : ''} autocomplete="off">`;
+
     const rungs = chain.map((pair, i) => {
         const [num, den] = pair;
         const q = byStep.get(i + 1);
@@ -282,20 +305,30 @@ function ttEquivChainHTML(ladder, chain, byStep) {
         const marked = ttChecked && draft !== undefined;
         const right = marked && ttIsRight(q, draft);
         const state = !marked ? '' : right ? ' is-right' : ' is-wrong';
-        const box = `<input class="tt-input tt-rung-input" type="text" inputmode="numeric"
-                           aria-label="${ttEsc(q.prompt)}" data-qid="${ttEsc(q.id)}"
-                           data-kind="number"
-                           value="${draft === undefined ? '' : ttEsc(draft)}"
-                           ${ttChecked ? 'disabled' : ''} autocomplete="off">`;
         const reveal = marked && !right
             ? `<span class="tt-rung-answer">${ttEsc(q.answer.display)}</span>` : '';
-        return `<span class="tt-rung is-blank${state}">${ttFracHTML(null, den, box)}${reveal}</span>`;
+
+        // The second pass takes the bottom away too, so the rung is two boxes
+        // and the answer is a whole fraction rather than a count.
+        if (q.mode === 'equivpair') {
+            const [dn, dd] = String(draft === undefined ? '' : draft).split('/');
+            return `<span class="tt-rung is-blank is-pair${state}">
+                        ${ttFracHTML(null, null, boxFor(q, 'num', dn), boxFor(q, 'den', dd))}
+                        ${reveal}
+                    </span>`;
+        }
+        return `<span class="tt-rung is-blank${state}">
+                    ${ttFracHTML(null, den, boxFor(q, null, draft))}${reveal}
+                </span>`;
     }).join('<span class="tt-rung-link is-equals" aria-hidden="true">=</span>');
 
+    const pairs = [...byStep.values()].some(q => q.mode === 'equivpair');
     return `
         <div class="tt-chain-intro">
             Every one of these is ${ttFracHTML(baseN, baseD)} — the same amount, just
-            cut into more pieces. Fill in the tops.
+            cut into more pieces. ${pairs
+                ? 'This time the bottoms are missing too — fill in both halves.'
+                : 'Fill in the tops.'}
         </div>
         <div class="tt-chain tt-chain-equiv">${rungs}</div>`;
 }
@@ -303,6 +336,13 @@ function ttEquivChainHTML(ladder, chain, byStep) {
 function ttIsRight(q, value) {
     if (q.mode === 'pick') return value === q.answer.choice;
     const typed = String(value === undefined ? '' : value).trim();
+    if (q.qtype === 'equivalent') {
+        // 4/8, not 1/2: the whole question is which equivalent form comes next,
+        // so tidying it up here would be the wrong answer.
+        const parts = typed.match(/^(\d+)\s*\/\s*(\d+)$/);
+        return !!parts && parseInt(parts[1], 10) === q.answer.num
+            && parseInt(parts[2], 10) === q.answer.den;
+    }
     if (q.qtype === 'fraction') {
         // Tidying up is half the skill, so only the tidied form counts. The
         // help line shows what the untidy one reduces to.
@@ -320,7 +360,7 @@ function ttIsRight(q, value) {
 function ttSetHTML(level, set, sets) {
     const position = sets.findIndex(s => s.number === set.number);
     const isLast = position === sets.length - 1;
-    const answeredAll = set.questions.every(q => ttDraft[q.id] !== undefined && ttDraft[q.id] !== '');
+    const answeredAll = set.questions.every(ttFilled);
     const score = ttChecked
         ? set.questions.filter(q => ttIsRight(q, ttDraft[q.id])).length : 0;
 
@@ -337,13 +377,15 @@ function ttSetHTML(level, set, sets) {
         ? `<div class="tt-mode tt-mode-skip">🪜 Skip counting — count up in ${step}s</div>`
         : set.mode === 'equiv'
         ? `<div class="tt-mode tt-mode-skip">🧩 Equivalent fractions — same amount, more pieces</div>`
+        : set.mode === 'equivpair'
+        ? `<div class="tt-mode tt-mode-skip">🧩 Same chain, both halves missing — top AND bottom</div>`
         : set.mode === 'back'
         ? `<div class="tt-mode tt-mode-back">➖ Repeated subtraction — take away ${step} each time</div>`
         : set.mode === 'pick'
         ? `<div class="tt-mode tt-mode-pick">👆 Pick the right answer</div>`
         : `<div class="tt-mode tt-mode-type">⌨️ Type the answer — no options this time</div>`;
 
-    const body = (set.mode === 'skip' || set.mode === 'back' || set.mode === 'equiv')
+    const body = ['skip', 'back', 'equiv', 'equivpair'].includes(set.mode)
         ? ttChainHTML(level, set)
         : `<ol class="tt-list">${set.questions.map(ttQuestionHTML).join('')}</ol>`;
 
@@ -425,10 +467,20 @@ function ttWire(level, set, sets) {
             // A stray letter would just fail the check later.
             const allowed = input.dataset.kind === 'fraction' ? /[^\d/]/g : /[^\d]/g;
             input.value = input.value.replace(allowed, '');
-            ttDraft[input.dataset.qid] = input.value;
+            if (input.dataset.part) {
+                // Two boxes, one answer: keep them as "top/bottom" so the rest
+                // of the engine sees a fraction like any other.
+                const other = ttRoot.querySelector(
+                    `[data-qid="${CSS.escape(input.dataset.qid)}"]` +
+                    `[data-part="${input.dataset.part === 'num' ? 'den' : 'num'}"]`);
+                const mate = other ? other.value : '';
+                ttDraft[input.dataset.qid] = input.dataset.part === 'num'
+                    ? `${input.value}/${mate}` : `${mate}/${input.value}`;
+            } else {
+                ttDraft[input.dataset.qid] = input.value;
+            }
             const check = document.getElementById('tt-check');
-            const ready = set.questions.every(q => (ttDraft[q.id] || '') !== '');
-            if (check) check.disabled = !ready;
+            if (check) check.disabled = !set.questions.every(ttFilled);
         });
         // Enter moves to the next box, so a whole page can be typed without
         // reaching for the mouse.
