@@ -206,6 +206,11 @@ MARATHON_UNITS = [
         "description": "The same tables read backwards — how many 7s make 56?",
         "available": True,
     },
+    {
+        "unit": "fraction-addition", "title": "Fraction Addition", "emoji": "🍕",
+        "description": "Halves into sixths without stopping to think, then adding them up.",
+        "available": True,
+    },
 ]
 
 

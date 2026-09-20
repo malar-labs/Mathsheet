@@ -128,6 +128,150 @@ def qid(section, n):
     return f"{section}-{n:02d}"
 
 
+
+# ---------------------------------------------------------------------------
+# Worked chains — the row of blanks a worksheet asks for
+# ---------------------------------------------------------------------------
+#
+# A single answer box only ever shows whether a student arrived; it says nothing
+# about the route. These questions ask for the whole row — convert, common
+# denominator, solve, simplify — and mark each box on its own, so a right answer
+# reached the wrong way and a wrong answer with three right lines in front of it
+# stop looking the same.
+#
+# Every expected value is derived from the same numbers as the answer, so a box
+# can never disagree with the answer key.
+
+G8_SAMPLES = {}
+
+
+def step_row(label, note, fields, join=None):
+    row = {"label": label, "note": note, "fields": list(fields)}
+    if join:
+        row["join"] = join
+    return row
+
+
+def is_mixed(w, n):
+    return w != 0 and n != 0
+
+
+def chain_rows(op, left, right):
+    """The chain for `left op right`, each a (whole, num, den) triple.
+
+    Rows only appear when they have work to do: Convert when a mixed number is
+    in play, Simplify when the raw answer still reduces, and the final Convert
+    when it comes out improper.
+    """
+    rows = []
+    a_n, a_d = to_improper(*left)
+    b_n, b_d = to_improper(*right)
+
+    if is_mixed(left[0], left[1]) or is_mixed(right[0], right[1]):
+        rows.append(step_row(
+            "Convert", "a mixed number becomes an improper fraction: whole x bottom, "
+                       "plus the top",
+            [f"{a_n}/{a_d}", f"{b_n}/{b_d}"], op))
+
+    if op == "÷":
+        b_n, b_d = b_d, b_n
+        rows.append(step_row(
+            "Invert", "keep, change, flip — dividing by a fraction is multiplying by "
+                      "the fraction turned upside down",
+            [f"{a_n}/{a_d}", f"{b_n}/{b_d}"], "×"))
+
+    if op in "+-":
+        L = lcm(a_d, b_d)
+        f1, f2 = a_n * (L // a_d), b_n * (L // b_d)
+        rows.append(step_row(
+            "Common denominator",
+            f"both denominators are already {L}, so nothing changes" if a_d == b_d
+            else f"the LCM of {a_d} and {b_d} is {L}",
+            [f"{f1}/{L}", f"{f2}/{L}"], op))
+        raw_n, raw_d = (f1 + f2 if op == "+" else f1 - f2), L
+        note = "combine the numerators and keep the denominator"
+    else:
+        raw_n, raw_d = a_n * b_n, a_d * b_d
+        note = "multiply straight across: tops times tops, bottoms times bottoms"
+
+    # 15/1 is a fraction nobody writes; at that point it is just 15.
+    rows.append(step_row("Solve", note,
+                         [str(raw_n) if raw_d == 1 else f"{raw_n}/{raw_d}"]))
+
+    a = analyze(raw_n, raw_d)
+    g = gcd(raw_n, raw_d) if raw_n else raw_d
+    red_n, red_d = raw_n // g, raw_d // g
+    if g != 1:
+        rows.append(step_row(
+            "Simplify", f"GCD({raw_n}, {raw_d}) = {g}, so divide the top and the "
+                        f"bottom by {g}",
+            [str(red_n) if red_d == 1 else f"{red_n}/{red_d}"]))
+    if red_d != 1 and red_n > red_d:
+        rows.append(step_row(
+            "Convert", "the answer came out improper, so write it as a mixed number",
+            [a["display"]]))
+
+    # The last box IS the answer. If those two ever drift apart the topic marks
+    # a correct final line wrong, so it is worth failing the build over.
+    assert rows[-1]["fields"] == [a["display"]], (op, left, right, rows[-1], a)
+    return rows, a
+
+
+def chain_prose(op, left, right, a):
+    """The worked solution in words, shown when a line comes back wrong."""
+    a_n, a_d = to_improper(*left)
+    b_n, b_d = to_improper(*right)
+    lead = ""
+    if is_mixed(left[0], left[1]) or is_mixed(right[0], right[1]):
+        lead = (f"Convert to improper fractions first: "
+                f"{mixed_plain(*left)} = {a_n}/{a_d} and "
+                f"{mixed_plain(*right)} = {b_n}/{b_d}. ")
+    if op in "+-":
+        return lead + combine(op, a_n, a_d, b_n, b_d)[2] + " " + a["tip"]
+    if op == "×":
+        return (lead + f"Multiply straight across: ({a_n}x{b_n})/({a_d}x{b_d}) = "
+                f"{a_n * b_n}/{a_d * b_d}. " + a["tip"])
+    return (lead + f"Keep, change, flip: {a_n}/{a_d} ÷ {b_n}/{b_d} = "
+            f"{a_n}/{a_d} × {b_d}/{b_n} = {a_n * b_d}/{a_d * b_n}. " + a["tip"])
+
+
+def mixed_plain(w, n, d):
+    """'1 1/4' — how a mixed number reads inside a sentence."""
+    if w == 0:
+        return f"{n}/{d}" if d != 1 else str(n)
+    return str(w) if n == 0 else f"{w} {n}/{d}"
+
+
+def add_chain(bucket, section, n, stars, op, left, right, qset=None):
+    """One worked-chain question. `qset` picks the sample shown above it; the
+    last few questions of a topic leave it off, so the scaffold comes away
+    before the topic ends."""
+    rows, a = chain_rows(op, left, right)
+    question = {
+        "id": qid(section, n), "section": section, "qtype": "steps",
+        "difficulty": stars,
+        "prompt": f"{mixed_tok(*left)} {op} {mixed_tok(*right)} =",
+        "answer": {"steps": rows, "display": a["display"]},
+        "steps": chain_prose(op, left, right, a),
+        "tip": a["tip"],
+    }
+    if qset is not None:
+        question["set"] = qset
+    bucket.append(question)
+
+
+def add_chain_sample(section, qset, op, left, right):
+    """The filled-in example at the top of the page — built by the same code as
+    the questions, so it can never model a different method."""
+    rows, _ = chain_rows(op, left, right)
+    G8_SAMPLES.setdefault(section, []).append({
+        "set": qset,
+        "prompt": f"{mixed_tok(*left)} {op} {mixed_tok(*right)} =",
+        "steps": rows,
+    })
+
+
+
 # ---------------------------------------------------------------------------
 # Question bank
 # ---------------------------------------------------------------------------
@@ -136,11 +280,14 @@ sections = []
 
 
 def add_section(sid, title, emoji, color, blurb, key_concepts, examples, questions):
-    sections.append({
+    section = {
         "id": sid, "title": title, "emoji": emoji, "color": color,
         "blurb": blurb, "key_concepts": key_concepts, "examples": examples,
         "questions": questions,
-    })
+    }
+    if G8_SAMPLES.get(sid):
+        section["samples"] = G8_SAMPLES[sid]
+    sections.append(section)
 
 
 # ===== 1. INTRO — What is a fraction? ======================================
@@ -565,32 +712,32 @@ def add_compute(bucket, section, n, stars, op, prompt, operands, raw_n, raw_d, c
     })
 
 
-# same denominator
-raw, L, st = combine("+", 1, 5, 2, 5)
-add_compute(add_q, "add", 1, 1, "+", f"{frac_tok(1,5)} + {frac_tok(2,5)} =", {"steps": st}, raw, L, "sum")
-raw, L, st = combine("+", 2, 9, 5, 9)
-add_compute(add_q, "add", 2, 1, "+", f"{frac_tok(2,9)} + {frac_tok(5,9)} =", {"steps": st}, raw, L, "sum")
-raw, L, st = combine("+", 3, 8, 5, 8)
-add_compute(add_q, "add", 3, 1, "+", f"{frac_tok(3,8)} + {frac_tok(5,8)} =", {"steps": st}, raw, L, "sum")
-# unlike denominators
-raw, L, st = combine("+", 1, 4, 1, 6)
-add_compute(add_q, "add", 4, 2, "+", f"{frac_tok(1,4)} + {frac_tok(1,6)} =", {"steps": st}, raw, L, "sum")
-raw, L, st = combine("+", 1, 7, 2, 3)
-add_compute(add_q, "add", 5, 2, "+", f"{frac_tok(1,7)} + {frac_tok(2,3)} =", {"steps": st}, raw, L, "sum")
-raw, L, st = combine("+", 5, 6, 3, 4)
-add_compute(add_q, "add", 6, 2, "+", f"{frac_tok(5,6)} + {frac_tok(3,4)} =", {"steps": st}, raw, L, "sum")
-# mixed numbers
-i1 = to_improper(1, 1, 4); i2 = to_improper(0, 2, 5)
-raw, L, st = combine("+", i1[0], i1[1], i2[0], i2[1])
-st = f"Convert to improper fractions: 1 1/4 = 5/4, 2/5 stays 2/5. " + st
-add_compute(add_q, "add", 7, 3, "+", f"{mixed_tok(1,1,4)} + {frac_tok(2,5)} =", {"steps": st}, raw, L, "sum")
-i1 = to_improper(2, 1, 3); i2 = to_improper(1, 3, 4)
-raw, L, st = combine("+", i1[0], i1[1], i2[0], i2[1])
-st = f"Convert to improper fractions: 2 1/3 = 7/3, 1 3/4 = 7/4. " + st
-add_compute(add_q, "add", 8, 3, "+", f"{mixed_tok(2,1,3)} + {mixed_tok(1,3,4)} =", {"steps": st}, raw, L, "sum")
+# Three pages, each opening with one worked example of its own kind, then a
+# short tail with no example at all — the scaffold comes away before the topic
+# does. The word problem is last and has never had one: working out WHICH sum to
+# do is the question there.
+add_chain_sample("add", 1, "+", (0, 2, 7), (0, 3, 7))
+add_chain(add_q, "add", 1, 1, "+", (0, 1, 5), (0, 2, 5), qset=1)
+add_chain(add_q, "add", 2, 1, "+", (0, 2, 9), (0, 5, 9), qset=1)
+add_chain(add_q, "add", 3, 1, "+", (0, 3, 8), (0, 5, 8), qset=1)
+
+add_chain_sample("add", 2, "+", (0, 1, 2), (0, 1, 3))
+add_chain(add_q, "add", 4, 2, "+", (0, 1, 4), (0, 1, 6), qset=2)
+add_chain(add_q, "add", 5, 2, "+", (0, 1, 7), (0, 2, 3), qset=2)
+add_chain(add_q, "add", 6, 2, "+", (0, 5, 6), (0, 3, 4), qset=2)
+
+add_chain_sample("add", 3, "+", (1, 1, 2), (2, 1, 3))
+add_chain(add_q, "add", 7, 3, "+", (1, 1, 4), (0, 2, 5), qset=3)
+add_chain(add_q, "add", 8, 3, "+", (2, 1, 3), (1, 3, 4), qset=3)
+
+# on your own — no example above these
+add_chain(add_q, "add", 9, 2, "+", (0, 2, 5), (0, 1, 4))
+add_chain(add_q, "add", 10, 2, "+", (0, 3, 8), (0, 1, 6))
+add_chain(add_q, "add", 11, 3, "+", (1, 2, 3), (0, 3, 4))
+
 # word problem
 raw, L, st = combine("+", 3, 4, 5, 8)
-add_compute(add_q, "add", 9, 3, "+", "You jog {3/4} km in the morning and {5/8} km in the evening. How many km did you jog in total?", {"steps": st}, raw, L, "total distance")
+add_compute(add_q, "add", 12, 3, "+", "You jog {3/4} km in the morning and {5/8} km in the evening. How many km did you jog in total?", {"steps": st}, raw, L, "total distance")
 
 add_section(
     "add", "Adding Fractions", "➕", "#7EC8E3",
@@ -619,28 +766,27 @@ add_section(
 
 # ===== 6. SUBTRACT ============================================================
 sub_q = []
-raw, L, st = combine("-", 5, 7, 2, 7)
-add_compute(sub_q, "subtract", 1, 1, "-", f"{frac_tok(5,7)} - {frac_tok(2,7)} =", {"steps": st}, raw, L, "difference")
-raw, L, st = combine("-", 8, 9, 3, 9)
-add_compute(sub_q, "subtract", 2, 1, "-", f"{frac_tok(8,9)} - {frac_tok(3,9)} =", {"steps": st}, raw, L, "difference")
-raw, L, st = combine("-", 7, 10, 3, 10)
-add_compute(sub_q, "subtract", 3, 1, "-", f"{frac_tok(7,10)} - {frac_tok(3,10)} =", {"steps": st}, raw, L, "difference")
-raw, L, st = combine("-", 5, 6, 3, 4)
-add_compute(sub_q, "subtract", 4, 2, "-", f"{frac_tok(5,6)} - {frac_tok(3,4)} =", {"steps": st}, raw, L, "difference")
-raw, L, st = combine("-", 3, 4, 1, 6)
-add_compute(sub_q, "subtract", 5, 2, "-", f"{frac_tok(3,4)} - {frac_tok(1,6)} =", {"steps": st}, raw, L, "difference")
-raw, L, st = combine("-", 7, 8, 2, 5)
-add_compute(sub_q, "subtract", 6, 2, "-", f"{frac_tok(7,8)} - {frac_tok(2,5)} =", {"steps": st}, raw, L, "difference")
-i1 = to_improper(3, 1, 6); i2 = to_improper(1, 2, 3)
-raw, L, st = combine("-", i1[0], i1[1], i2[0], i2[1])
-st = f"Convert to improper fractions: 3 1/6 = 19/6, 1 2/3 = 5/3. " + st
-add_compute(sub_q, "subtract", 7, 3, "-", f"{mixed_tok(3,1,6)} - {mixed_tok(1,2,3)} =", {"steps": st}, raw, L, "difference")
-i1 = to_improper(4, 1, 5); i2 = to_improper(2, 3, 10)
-raw, L, st = combine("-", i1[0], i1[1], i2[0], i2[1])
-st = f"Convert to improper fractions: 4 1/5 = 21/5, 2 3/10 = 23/10. " + st
-add_compute(sub_q, "subtract", 8, 3, "-", f"{mixed_tok(4,1,5)} - {mixed_tok(2,3,10)} =", {"steps": st}, raw, L, "difference")
+add_chain_sample("subtract", 1, "-", (0, 5, 8), (0, 3, 8))
+add_chain(sub_q, "subtract", 1, 1, "-", (0, 5, 7), (0, 2, 7), qset=1)
+add_chain(sub_q, "subtract", 2, 1, "-", (0, 8, 9), (0, 3, 9), qset=1)
+add_chain(sub_q, "subtract", 3, 1, "-", (0, 7, 10), (0, 3, 10), qset=1)
+
+add_chain_sample("subtract", 2, "-", (0, 2, 3), (0, 1, 4))
+add_chain(sub_q, "subtract", 4, 2, "-", (0, 5, 6), (0, 3, 4), qset=2)
+add_chain(sub_q, "subtract", 5, 2, "-", (0, 3, 4), (0, 1, 6), qset=2)
+add_chain(sub_q, "subtract", 6, 2, "-", (0, 7, 8), (0, 2, 5), qset=2)
+
+add_chain_sample("subtract", 3, "-", (2, 1, 4), (1, 1, 2))
+add_chain(sub_q, "subtract", 7, 3, "-", (3, 1, 6), (1, 2, 3), qset=3)
+add_chain(sub_q, "subtract", 8, 3, "-", (4, 1, 5), (2, 3, 10), qset=3)
+
+# on your own
+add_chain(sub_q, "subtract", 9, 2, "-", (0, 5, 6), (0, 1, 4))
+add_chain(sub_q, "subtract", 10, 2, "-", (0, 9, 10), (0, 2, 5))
+add_chain(sub_q, "subtract", 11, 3, "-", (2, 1, 2), (1, 3, 4))
+
 raw, L, st = combine("-", 7, 8, 1, 4)
-add_compute(sub_q, "subtract", 9, 3, "-", "A ribbon is {7/8} m long. You cut off {1/4} m to make a bow. How much ribbon is left?", {"steps": st}, raw, L, "remaining length")
+add_compute(sub_q, "subtract", 12, 3, "-", "A ribbon is {7/8} m long. You cut off {1/4} m to make a bow. How much ribbon is left?", {"steps": st}, raw, L, "remaining length")
 
 add_section(
     "subtract", "Subtracting Fractions", "➖", "#FF8B94",
@@ -686,20 +832,28 @@ def add_multiply(n, stars, prompt, n1, d1, n2, d2, context="product"):
     })
 
 
-add_multiply(1, 1, f"{frac_tok(1,7)} × {frac_tok(3,4)} =", 1, 7, 3, 4)
-add_multiply(2, 1, f"{frac_tok(2,5)} × {frac_tok(7,9)} =", 2, 5, 7, 9)
-add_multiply(3, 1, f"{3} × {frac_tok(2,11)} =", 3, 1, 2, 11)
-add_multiply(4, 2, f"{frac_tok(5,30)} × {frac_tok(9,5)} =", 5, 30, 9, 5)
-add_multiply(5, 2, f"{frac_tok(7,12)} × {frac_tok(8,13)} =", 7, 12, 8, 13)
-add_multiply(6, 2, f"{frac_tok(11,25)} × {75} =", 11, 25, 75, 1)
-i1 = to_improper(1, 1, 5)
-add_multiply(7, 3, f"{frac_tok(3,4)} × {mixed_tok(1,1,5)} =", 3, 4, i1[0], i1[1])
-i1 = to_improper(3, 1, 4)
-add_multiply(8, 3, f"{mixed_tok(3,1,4)} × {frac_tok(3,8)} =", i1[0], i1[1], 3, 8)
-i1 = to_improper(1, 10, 11); i2 = to_improper(1, 1, 3)
-add_multiply(9, 3, f"{mixed_tok(1,10,11)} × {mixed_tok(1,1,3)} =", i1[0], i1[1], i2[0], i2[1])
+add_chain_sample("multiply", 1, "×", (0, 2, 3), (0, 4, 5))
+add_chain(mul_q, "multiply", 1, 1, "×", (0, 1, 7), (0, 3, 4), qset=1)
+add_chain(mul_q, "multiply", 2, 1, "×", (0, 2, 5), (0, 7, 9), qset=1)
+add_chain(mul_q, "multiply", 3, 2, "×", (0, 5, 30), (0, 9, 5), qset=1)
+add_chain(mul_q, "multiply", 4, 2, "×", (0, 7, 12), (0, 8, 13), qset=1)
+
+add_chain_sample("multiply", 2, "×", (5, 0, 1), (0, 2, 7))
+add_chain(mul_q, "multiply", 5, 1, "×", (3, 0, 1), (0, 2, 11), qset=2)
+add_chain(mul_q, "multiply", 6, 2, "×", (0, 11, 25), (75, 0, 1), qset=2)
+
+add_chain_sample("multiply", 3, "×", (1, 1, 2), (0, 2, 3))
+add_chain(mul_q, "multiply", 7, 3, "×", (0, 3, 4), (1, 1, 5), qset=3)
+add_chain(mul_q, "multiply", 8, 3, "×", (3, 1, 4), (0, 3, 8), qset=3)
+add_chain(mul_q, "multiply", 9, 3, "×", (1, 10, 11), (1, 1, 3), qset=3)
+
+# on your own
+add_chain(mul_q, "multiply", 10, 2, "×", (0, 2, 3), (0, 5, 8))
+add_chain(mul_q, "multiply", 11, 2, "×", (4, 0, 1), (0, 3, 10))
+add_chain(mul_q, "multiply", 12, 3, "×", (2, 1, 2), (0, 2, 5))
+
 i1 = to_improper(1, 1, 2)
-add_multiply(10, 3, "A recipe needs {2/3} cup of sugar per batch. How much sugar do you need for {1_1/2} batches?", 2, 3, i1[0], i1[1], context="amount of sugar")
+add_multiply(13, 3, "A recipe needs {2/3} cup of sugar per batch. How much sugar do you need for {1_1/2} batches?", 2, 3, i1[0], i1[1], context="amount of sugar")
 
 add_section(
     "multiply", "Multiplying Fractions", "✖️", "#6C63FF",
@@ -745,17 +899,26 @@ def add_divide(n, stars, prompt, n1, d1, n2, d2, context="quotient"):
     })
 
 
-add_divide(1, 1, f"{frac_tok(1,2)} ÷ {frac_tok(1,4)} =", 1, 2, 1, 4)
-add_divide(2, 1, f"{frac_tok(3,5)} ÷ {frac_tok(2,5)} =", 3, 5, 2, 5)
-add_divide(3, 1, f"{frac_tok(2,3)} ÷ {4} =", 2, 3, 4, 1)
-add_divide(4, 2, f"{frac_tok(5,6)} ÷ {frac_tok(2,3)} =", 5, 6, 2, 3)
-add_divide(5, 2, f"{frac_tok(7,8)} ÷ {frac_tok(3,4)} =", 7, 8, 3, 4)
-add_divide(6, 2, f"{4} ÷ {frac_tok(2,5)} =", 4, 1, 2, 5)
-i1 = to_improper(1, 1, 2)
-add_divide(7, 3, f"{mixed_tok(1,1,2)} ÷ {frac_tok(1,3)} =", i1[0], i1[1], 1, 3)
-i1 = to_improper(2, 1, 4); i2 = to_improper(1, 1, 2)
-add_divide(8, 3, f"{mixed_tok(2,1,4)} ÷ {mixed_tok(1,1,2)} =", i1[0], i1[1], i2[0], i2[1])
-add_divide(9, 3, "You have {3/4} of a pizza left and want to split it evenly among {3} friends. What fraction of a WHOLE pizza does each friend get?", 3, 4, 3, 1, context="each share")
+add_chain_sample("divide", 1, "÷", (0, 2, 3), (0, 1, 6))
+add_chain(div_q, "divide", 1, 1, "÷", (0, 1, 2), (0, 1, 4), qset=1)
+add_chain(div_q, "divide", 2, 1, "÷", (0, 3, 5), (0, 2, 5), qset=1)
+add_chain(div_q, "divide", 3, 2, "÷", (0, 5, 6), (0, 2, 3), qset=1)
+add_chain(div_q, "divide", 4, 2, "÷", (0, 7, 8), (0, 3, 4), qset=1)
+
+add_chain_sample("divide", 2, "÷", (0, 3, 4), (2, 0, 1))
+add_chain(div_q, "divide", 5, 1, "÷", (0, 2, 3), (4, 0, 1), qset=2)
+add_chain(div_q, "divide", 6, 2, "÷", (4, 0, 1), (0, 2, 5), qset=2)
+
+add_chain_sample("divide", 3, "÷", (1, 1, 2), (0, 3, 4))
+add_chain(div_q, "divide", 7, 3, "÷", (1, 1, 2), (0, 1, 3), qset=3)
+add_chain(div_q, "divide", 8, 3, "÷", (2, 1, 4), (1, 1, 2), qset=3)
+
+# on your own
+add_chain(div_q, "divide", 9, 2, "÷", (0, 3, 4), (0, 1, 2))
+add_chain(div_q, "divide", 10, 2, "÷", (5, 0, 1), (0, 1, 3))
+add_chain(div_q, "divide", 11, 3, "÷", (1, 1, 3), (0, 2, 3))
+
+add_divide(12, 3, "You have {3/4} of a pizza left and want to split it evenly among {3} friends. What fraction of a WHOLE pizza does each friend get?", 3, 4, 3, 1, context="each share")
 
 add_section(
     "divide", "Dividing Fractions", "➗", "#FF9F43",

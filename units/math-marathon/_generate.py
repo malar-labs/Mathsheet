@@ -14,22 +14,26 @@ finishes in Grade 3 and never needs again — a Grade 8 student still counting o
 their fingers for 7 x 8 is slowed down in every fraction question — so it sits
 outside the grade list and anyone can open it.
 
-Two units so far, built the same way because they are the same skill from two
-directions:
+Three units so far. The first two are the same skill from two directions; the
+third is the skill they exist to make possible:
 
     multiplication-facts   7 x 8
     division-facts         56 / 7
+    fraction-addition      1/2 + 1/4
 
 Each is a drill, not a lesson: one table at a time, a page of questions at a
 time, the same facts coming round until the answer arrives before the child has
 time to count. Every level runs three passes, easiest first:
 
     skip   the counting ladder, 7, 14, __, 28 — where the chain is learned,
-           and the answer key for both units
+           and the answer key for both times-table units
+    equiv  the equivalence ladder, 1/2 = 2/4 = __/6 = 4/8 — the same exercise
+           for fractions, where "same amount, more pieces" gets into the hand
     pick   four options — recognition
     type   nothing to choose from — recall
 """
 import json
+from math import gcd
 from pathlib import Path
 
 # Each table is drilled against these. 0 and 1 are left out: they are rules
@@ -138,15 +142,26 @@ def div_tip(divisor):
 # Multiple choice — wrong options a child might actually pick
 # ---------------------------------------------------------------------------
 
+def as_number(value):
+    """An option's size, whether it is a whole number or an (n, d) fraction."""
+    return value if isinstance(value, int) else value[0] / value[1]
+
+
+def is_usable(value):
+    return value[0] > 0 and value[1] > 0 if isinstance(value, tuple) else value > 0
+
+
 def distractors(answer, near, slot):
     """Three wrong options for `answer`, drawn from the mistakes that actually
-    happen — off by one step of either factor, or a neighbouring fact — rather
-    than random numbers, which a child can rule out without knowing the fact."""
+    happen — off by one step of either factor, a neighbouring fact, or (for
+    fractions) the bottoms added together — rather than random numbers, which a
+    child can rule out without knowing the fact."""
     candidates = []
     for value in near:
-        if value > 0 and value != answer and value not in candidates:
+        if is_usable(value) and value != answer and value not in candidates:
             candidates.append(value)
-    candidates.sort(key=lambda v: (abs(v - answer), v))
+    size = as_number(answer)
+    candidates.sort(key=lambda v: (abs(as_number(v) - size), as_number(v)))
     rotated = candidates[slot % 3:] + candidates[:slot % 3]
     assert len(rotated) >= 3, (answer, near)
     return rotated[:3]
@@ -160,9 +175,12 @@ def choice_options(answer, near, slot):
     in the middle almost every time and a child would learn to never pick the
     ends."""
     wrong = distractors(answer, near, slot)
-    options = sorted(wrong)
+    options = sorted(wrong, key=as_number)
     options.insert(slot % 4, answer)
-    return [str(v) for v in options], str(answer)
+    # A fraction option carries its {a/b} token so the drill stacks it, the same
+    # way the prompt is written.
+    show = (lambda v: str(v)) if isinstance(answer, int) else ftok
+    return [show(v) for v in options], show(answer)
 
 
 # ---------------------------------------------------------------------------
@@ -198,9 +216,34 @@ class Unit:
             # so the page can show the whole chain with the answered rungs still
             # in place.
             section["ladder"] = ladder
-            chain, mode, step_size = ladder["chain"], ladder["mode"], ladder["step"]
+            chain, mode = ladder["chain"], ladder["mode"]
+            step_size = ladder.get("step")
             set_index = 1
-            for order, step in enumerate(SKIP_BLANKS, start=1):
+            blanks = (SKIP_BLANKS if mode != "equiv"
+                      else [b for b in EQUIV_BLANKS if b <= len(chain)])
+            for order, step in enumerate(blanks, start=1):
+                if mode == "equiv":
+                    # The denominator is printed and only the top is asked for,
+                    # so the question is exactly "how many of THESE make it?"
+                    base_n, base_d = ladder["base"]
+                    num, den = chain[step - 1]
+                    times = den // base_d
+                    self.questions.append({
+                        "id": f"{level_id}-{mode}-{order:02d}",
+                        "section": level_id,
+                        "set": 1,
+                        "mode": mode,
+                        "step": step,
+                        "qtype": "integer",
+                        "kind": "number",
+                        "difficulty": 1,
+                        "prompt": "{%d/%d} = ?/%d" % (base_n, base_d, den),
+                        "answer": {"value": num, "display": str(num)},
+                        "steps": (f"{base_d} goes into {den} {times} times, so the "
+                                  f"top does the same: {base_n} x {times} = {num}."),
+                        "tip": tip,
+                    })
+                    continue
                 value = chain[step - 1]
                 before = chain[step - 2]
                 if mode == "skip":
@@ -251,6 +294,12 @@ class Unit:
                         question["qtype"] = "choice"
                         question["options"] = options
                         question["answer"] = {"choice": correct, "display": correct}
+                    elif isinstance(answer, tuple):
+                        num, den = answer
+                        assert gcd(num, den) == 1, (question["id"], answer)
+                        question["qtype"] = "fraction"
+                        question["answer"] = {"num": num, "den": den, "whole": 0,
+                                              "display": fdisp(answer)}
                     else:
                         question["qtype"] = "integer"
                         question["answer"] = {"value": answer, "display": str(answer)}
@@ -273,6 +322,9 @@ class Unit:
             if q["qtype"] == "choice":
                 assert q["answer"]["choice"] in q["options"], q["id"]
                 assert len(q["options"]) == len(set(q["options"])) == 4, q["id"]
+            elif q["qtype"] == "fraction":
+                assert q["answer"]["den"] > 0 and q["answer"]["num"] > 0, q["id"]
+                assert gcd(q["answer"]["num"], q["answer"]["den"]) == 1, q["id"]
             elif q["mode"] == "back":
                 # A count-back chain finishes on 0, which is the whole point.
                 assert q["answer"]["value"] >= 0, q["id"]
@@ -459,16 +511,311 @@ def build_division():
     return unit.finish()
 
 
+# ---------------------------------------------------------------------------
+# Fraction addition
+# ---------------------------------------------------------------------------
+#
+# Skip counting is the gym exercise behind multiplication. The one behind adding
+# fractions is equivalence: seeing instantly that 1/2 and 3/6 are the same
+# amount cut differently. Everything else in a fraction sum is bookkeeping.
+#
+# So this unit drills the sequence in the order the muscle actually builds:
+#
+#   1  equivalence   1/2 = 2/4 = 3/6 = 4/8 ...   the ladder, same as skip counting
+#   2  make them match   1/3 + 1/6 -> thirds into sixths
+#   3  add the tops      2/6 + 1/6 = 3/6          once the pieces are one size
+#   4  tidy up           3/6 -> 1/2
+#   5  all four at once  1/2 + 1/4 = ?
+#
+# That sequence is carried by the order the levels are declared in, not by
+# headings over them: the unit reads as one flat list of levels, the same as the
+# two times-table units beside it.
+#
+# Stages 1-3 ask for a single number with the denominator already printed, so
+# the drill stays on the one move being practised. Only stages 4 and 5 ask for a
+# whole fraction, because by then writing one IS the skill.
+
+# Which rungs of an equivalence ladder are blank. Same idea as SKIP_BLANKS: the
+# first two are given so the pattern is visible before anything is asked.
+EQUIV_BLANKS = [3, 5, 6, 8]
+
+
+def ftok(pair):
+    """{a/b} — the token the drill renders as a stacked fraction."""
+    return "{%d/%d}" % pair
+
+
+def fdisp(pair):
+    n, d = pair
+    return str(n) if d == 1 else f"{n}/{d}"
+
+
+def lcm(a, b):
+    return a * b // gcd(a, b)
+
+
+def near_num(answer, den):
+    """Plausible wrong numerators: a step either way, or the denominator itself
+    — which is what a child writes when they lose track of what they are
+    counting."""
+    return [answer - 1, answer + 1, answer + 2, answer - 2, answer + 3,
+            den, den - answer, answer * 2, den + answer, 2 * answer + 1]
+
+
+# ---------------------------------------------------------------------------
+# Level 1-3 — equivalence ladders
+# ---------------------------------------------------------------------------
+
+def equiv_items(rows):
+    """`rows` are (from_pair, to_den, answer) — "3/6 = ?/12" and its 6."""
+    items = []
+    for pair, den, answer in rows:
+        n, d = pair
+        times = den // d
+        items.append((
+            f"{ftok(pair)} = ?/{den}",
+            answer,
+            near_num(answer, den),
+            f"{d} goes into {den} {times} times, so multiply the top by {times} "
+            f"as well: {n} x {times} = {answer}. {n}/{d} = {answer}/{den} — the "
+            f"same amount, cut into more pieces.",
+        ))
+    return items
+
+
+def equiv_level(unit, level_id, title, emoji, base, rungs, rows, tip, difficulty):
+    n, d = base
+    unit.add_level(
+        level_id, title, emoji, equiv_items(rows), tip, difficulty,
+        ladder={"mode": "equiv", "base": [n, d],
+                "chain": [[n * k, d * k] for k in range(1, rungs + 1)]},
+    )
+
+
+# ---------------------------------------------------------------------------
+# The unit
+# ---------------------------------------------------------------------------
+
+def build_fraction_addition():
+    unit = Unit(
+        "fraction-addition", "Fraction Addition", "🍕",
+        "Halves into sixths without stopping to think. Equivalence first, then "
+        "matching the bottoms, adding the tops, and tidying up — one short page "
+        "at a time.",
+    )
+
+    # --- 1. equivalence ladders --------------------------------------------
+    equiv_level(
+        unit, "eq-half", "Halves", "🌗", (1, 2), 8,
+        [((1, 2), 4, 2), ((1, 2), 6, 3), ((1, 2), 8, 4), ((1, 2), 10, 5),
+         ((1, 2), 12, 6), ((1, 2), 14, 7), ((2, 4), 8, 4), ((3, 6), 12, 6),
+         ((4, 8), 16, 8), ((5, 10), 2, 1), ((6, 12), 4, 2), ((1, 2), 16, 8)],
+        "Half is always the top being exactly half the bottom. If the bottom "
+        "doubles, so does the top.",
+        1,
+    )
+    equiv_level(
+        unit, "eq-third", "Thirds", "🥧", (1, 3), 8,
+        [((1, 3), 6, 2), ((1, 3), 9, 3), ((1, 3), 12, 4), ((2, 3), 6, 4),
+         ((2, 3), 9, 6), ((2, 3), 12, 8), ((2, 6), 3, 1), ((3, 9), 12, 4),
+         ((4, 12), 3, 1), ((1, 3), 15, 5), ((2, 3), 15, 10), ((1, 3), 18, 6)],
+        "Thirds live in every bottom number that 3 divides into: 6, 9, 12, 15, 18.",
+        2,
+    )
+    equiv_level(
+        unit, "eq-quarter", "Quarters", "🍰", (1, 4), 6,
+        [((1, 4), 8, 2), ((1, 4), 12, 3), ((1, 4), 16, 4), ((3, 4), 8, 6),
+         ((3, 4), 12, 9), ((3, 4), 16, 12), ((2, 8), 4, 1), ((3, 12), 4, 1),
+         ((1, 4), 20, 5), ((3, 4), 20, 15), ((2, 4), 8, 4), ((6, 8), 4, 3)],
+        "Quarters are halves halved. Every quarter bottom — 8, 12, 16, 20 — is 4 "
+        "times something.",
+        2,
+    )
+
+    # --- 2. make the bottoms match -----------------------------------------
+    fits = [((1, 2), (1, 4)), ((1, 3), (1, 6)), ((1, 2), (1, 6)), ((1, 4), (1, 8)),
+            ((2, 3), (1, 6)), ((1, 2), (3, 8)), ((1, 5), (3, 10)), ((3, 4), (1, 8)),
+            ((1, 2), (1, 10)), ((2, 5), (1, 10)), ((1, 3), (1, 12)), ((1, 6), (1, 12))]
+    items = []
+    for (a, b), (c, d) in fits:
+        times = d // b
+        answer = a * times
+        items.append((
+            f"{ftok((a, b))} + {ftok((c, d))} — write {ftok((a, b))} as ?/{d}",
+            answer,
+            near_num(answer, d),
+            f"{b} fits into {d} {times} times, so the top goes up by the same "
+            f"{times}: {a} x {times} = {answer}. Now it reads "
+            f"{answer}/{d} + {c}/{d}, two piles of the same size piece.",
+        ))
+    unit.add_level(
+        "match-fit", "One Bottom Fits the Other", "🔁", items,
+        "Check the bigger bottom first: if the smaller one divides into it, that "
+        "is the size you want, and only one fraction has to change.",
+        2,
+    )
+
+    pairs = [((1, 2), (1, 3)), ((1, 3), (1, 4)), ((1, 2), (1, 5)), ((1, 4), (1, 6)),
+             ((1, 6), (1, 8)), ((1, 3), (1, 5)), ((1, 4), (1, 5)), ((1, 6), (1, 9)),
+             ((1, 2), (1, 7)), ((1, 3), (1, 8)), ((1, 4), (1, 10)), ((1, 2), (1, 9))]
+    items = []
+    for (a, b), (c, d) in pairs:
+        answer = lcm(b, d)
+        items.append((
+            f"{ftok((a, b))} + {ftok((c, d))} — what bottom do they both fit into?",
+            answer,
+            # b + d is the answer to the question a child asks instead: the
+            # bottoms get added, which is the mistake worth showing.
+            [b * d, b + d, answer + 2, answer - 2, answer + 1, answer - 1, d * 2, b * 2],
+            f"Count up in {b}s and in {d}s until both land on the same number: "
+            f"{answer} is the first one they share. Bottoms are never added — "
+            f"{b} + {d} would be {b + d}, which is not a size either fraction is "
+            f"cut into.",
+        ))
+    unit.add_level(
+        "match-lcm", "Find the Common Bottom", "🎯", items,
+        "Count up in the bigger bottom — 8, 16, 24 — until you hit a number the "
+        "smaller one divides into. That is the first one they share.",
+        3,
+    )
+
+    # --- 3. add the tops ----------------------------------------------------
+    sums = [(2, 1, 6), (1, 1, 4), (3, 1, 8), (3, 2, 10), (1, 5, 12), (2, 4, 9),
+            (5, 4, 12), (1, 4, 6), (3, 1, 5), (2, 5, 8), (7, 2, 12), (1, 1, 3)]
+    items = []
+    for a, c, d in sums:
+        answer = a + c
+        items.append((
+            f"{ftok((a, d))} + {ftok((c, d))} = ?/{d}",
+            answer,
+            near_num(answer, d),
+            f"The pieces are already the same size, so only the tops are counted: "
+            f"{a} + {c} = {answer}. The bottom stays {d} — you are still counting "
+            f"the same size piece, just more of them.",
+        ))
+    unit.add_level(
+        "same-bottom", "Same Bottom, Add the Tops", "➕", items,
+        "Once the bottoms match, the bottom is finished. Add the tops and leave "
+        "it alone.",
+        1,
+    )
+
+    # --- 4. tidy up ---------------------------------------------------------
+    raws = [(3, 6), (2, 4), (6, 8), (2, 6), (4, 6), (6, 9),
+            (3, 9), (4, 12), (8, 12), (5, 10), (2, 10), (9, 12)]
+    items = []
+    for n, d in raws:
+        g = gcd(n, d)
+        answer = (n // g, d // g)
+        near = [(n, d), (d // g, n // g), (answer[0] + 1, answer[1]),
+                (answer[0], answer[1] + 1)]
+        if n % 2 == 0 and d % 2 == 0 and g > 2:
+            near.insert(1, (n // 2, d // 2))
+        items.append((
+            f"{ftok((n, d))} = ?",
+            answer,
+            near,
+            f"{g} divides into both {n} and {d}, so cut both by {g}: "
+            f"{n} / {g} = {answer[0]} and {d} / {g} = {answer[1]}. "
+            f"{n}/{d} and {fdisp(answer)} are the same amount.",
+        ))
+    unit.add_level(
+        "simplify", "Tidy It Up", "✂️", items,
+        "Look for the biggest number that divides into the top AND the bottom, "
+        "then cut both by it. Type the tidied fraction, like 1/2.",
+        2,
+    )
+
+    # --- 5. all four moves at once -----------------------------------------
+    adds = [((1, 2), (1, 4)), ((1, 3), (1, 6)), ((2, 3), (1, 6)), ((1, 4), (3, 8)),
+            ((1, 2), (1, 3)), ((1, 2), (1, 6)), ((1, 4), (1, 8)), ((2, 5), (1, 10)),
+            ((1, 2), (3, 8)), ((1, 3), (1, 4)), ((3, 4), (1, 8)), ((1, 5), (3, 10))]
+    unit.add_level(
+        "make-them-match", "Make Them Match", "🏁", [add_item(x, y) for x, y in adds],
+        "Same bottom? Add the tops. Different bottoms? Make them match first. "
+        "Then tidy up. Type the answer as a fraction, like 3/4.",
+        3,
+    )
+
+    # A lap with no pattern to lean on: any of the four moves, in any order.
+    mixed = (
+        [("equiv", ((1, 2), 6, 3)), ("equiv", ((2, 3), 12, 8)), ("equiv", ((3, 4), 8, 6))]
+        + [("simplify", (4, 8)), ("simplify", (6, 9)), ("simplify", (10, 12))]
+        + [("tops", (3, 2, 8)), ("tops", (1, 4, 10)), ("tops", (5, 1, 12))]
+        + [("add", ((1, 2), (1, 4))), ("add", ((1, 6), (1, 3))), ("add", ((1, 4), (1, 6)))]
+    )
+    items = []
+    for kind, payload in mixed:
+        if kind == "equiv":
+            items += equiv_items([payload])
+        elif kind == "simplify":
+            n, d = payload
+            g = gcd(n, d)
+            answer = (n // g, d // g)
+            items.append((
+                f"{ftok((n, d))} = ?", answer,
+                [(n, d), (d // g, n // g), (answer[0] + 1, answer[1]),
+                 (answer[0], answer[1] + 1)],
+                f"Cut the top and the bottom by {g}: {n}/{d} = {fdisp(answer)}.",
+            ))
+        elif kind == "tops":
+            a, c, d = payload
+            answer = a + c
+            items.append((
+                f"{ftok((a, d))} + {ftok((c, d))} = ?/{d}", answer, near_num(answer, d),
+                f"Same size pieces already, so add the tops: {a} + {c} = {answer}, "
+                f"over {d}.",
+            ))
+        else:
+            items.append(add_item(*payload))
+    unit.add_level(
+        "mixed", "Mixed Review", "🏆", items,
+        "Every move in one lap. Read what the question is actually asking for "
+        "before you start writing.",
+        3,
+    )
+    return unit.finish()
+
+
+def add_item(left, right):
+    """One whole sum: match the bottoms, add the tops, tidy up."""
+    a, b = left
+    c, d = right
+    low = lcm(b, d)
+    raw = a * (low // b) + c * (low // d)
+    g = gcd(raw, low)
+    answer = (raw // g, low // g)
+
+    # The wrong answers are the two mistakes that actually happen: adding the
+    # bottoms as well as the tops, and stopping before tidying up.
+    near = [(a + c, b + d)]
+    if (raw, low) != answer:
+        near.append((raw, low))
+    near += [(answer[0] + 1, answer[1]), (a + c, low), (answer[0], answer[1] + 1)]
+
+    if b == d:
+        working = f"The bottoms already match, so add the tops: {a} + {c} = {raw}, over {low}."
+    else:
+        working = (f"The first bottom they share is {low}, so {a}/{b} = "
+                   f"{a * (low // b)}/{low} and {c}/{d} = {c * (low // d)}/{low}. "
+                   f"Add the tops: {a * (low // b)} + {c * (low // d)} = {raw}, over {low}.")
+    tidy = (f" {raw}/{low} tidies to {fdisp(answer)}." if (raw, low) != answer
+            else f" {fdisp(answer)} is already as tidy as it goes.")
+    return (f"{ftok(left)} + {ftok(right)} = ?", answer, near, working + tidy)
+
+
 def main():
     here = Path(__file__).parent
     print("Math Marathon:")
-    for unit in (MULTIPLICATION, DIVISION):
+    for unit in (MULTIPLICATION, DIVISION, FRACTION_ADDITION):
         unit.write(here)
 
 
 MULTIPLICATION = build_multiplication()
 DIVISION = build_division()
-UNITS = {unit.slug: unit for unit in (MULTIPLICATION, DIVISION)}
+FRACTION_ADDITION = build_fraction_addition()
+UNITS = {unit.slug: unit
+         for unit in (MULTIPLICATION, DIVISION, FRACTION_ADDITION)}
 
 
 if __name__ == "__main__":

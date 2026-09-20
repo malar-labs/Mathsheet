@@ -13,11 +13,17 @@
 
 const ulState = {
     activeSection: null,
-    page: 'lesson',          // 'lesson', a 0-based question index, or 'done'
+    page: 'lesson',          // 'lesson', a 0-based page index, or 'done'
     questionsBySection: {},
+    pagesBySection: {},      // { [sectionId]: [{ key, questions }] } — built on first use
     progress: {},            // { [questionId]: 'correct' | 'close' | 'wrong' }
-    lastResult: null,        // the answer just checked: { qid, verdict, message, picked, fresh }
+    lastResults: {},         // { [questionId]: { qid, verdict, message, picked, fresh } }
     streak: 0,               // correct answers in a row during this visit
+
+    // Kept so that checking one question never throws away what has been typed
+    // into another on the same page — every render reads its boxes from here.
+    stepState: {},           // { [questionId]: ... } — shape lives in ulStepState()
+    draft: {},               // { [questionId]: whatever is half-typed in the box }
 };
 
 // ===== progress persistence =====
