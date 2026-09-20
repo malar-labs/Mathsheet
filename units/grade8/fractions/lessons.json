@@ -4,7 +4,7 @@
     "unit": "fractions",
     "title": "Fractions",
     "emoji": "🍕",
-    "description": "Learn fractions step by step: what they are, comparing, common multiples, simplifying, and the four operations.",
+    "description": "Learn fractions step by step: what they are, comparing, common multiples, simplifying, the four operations, and putting them in the right order.",
     "sections": [
       {
         "id": "intro",
@@ -53,6 +53,12 @@
         "title": "Dividing Fractions",
         "emoji": "➗",
         "question_count": 12
+      },
+      {
+        "id": "order-ops",
+        "title": "Order of Operations",
+        "emoji": "🧮",
+        "question_count": 24
       }
     ]
   },
@@ -655,6 +661,106 @@
               "note": "GCD(12, 6) = 6, so divide the top and the bottom by 6",
               "fields": [
                 "2"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "order-ops",
+      "title": "Order of Operations",
+      "emoji": "🧮",
+      "color": "#B39DDB",
+      "blurb": "Three operations in one line, and the order you do them in changes the answer. Brackets first, then exponents, then × and ÷ left to right, then + and − left to right. The fraction work is the same as ever — the new skill is choosing what to do next.",
+      "key_concepts": [
+        "Work down this ladder every time: Brackets, Exponents, Divide and Multiply (left to right), Add and Subtract (left to right). Division and multiplication share a rung, so whichever is written first goes first — and the same is true of adding and subtracting.",
+        "{1/4} × {5/6} - {1/6} is not {1/4} × ({5/6} - {1/6}). Multiplying comes first, so it is {5/24} - {1/6} = {1/24}. Doing the subtraction first would give {1/6}, which is four times too big.",
+        "Brackets are the one thing that beats the ladder. ({2/5} + {8/9}) × {1/2} adds first because the brackets say so, giving {58/45} × {1/2} = {29/45}.",
+        "Rewrite the WHOLE line after each step, not just the part you changed. Most lost marks in this topic are a term that got left behind.",
+        "Turn mixed numbers into improper fractions before you start, and turn the final answer back if it comes out improper."
+      ],
+      "examples": [
+        {
+          "prompt": "{1/2} - {3/4} × {1/5} =",
+          "steps": "Multiplying comes before subtracting: 3/4 × 1/5 = 3/20. Now 1/2 - 3/20. The LCM of 2 and 20 is 20, so 10/20 - 3/20 = 7/20.",
+          "answer_display": "7/20"
+        },
+        {
+          "prompt": "({2/9} + {1/9}) × ({1/3} - {1/4}) =",
+          "steps": "Both brackets first. Left: 2/9 + 1/9 = 3/9 = 1/3. Right: the LCM of 3 and 4 is 12, so 4/12 - 3/12 = 1/12. Then multiply: 1/3 × 1/12 = 1/36.",
+          "answer_display": "1/36"
+        },
+        {
+          "prompt": "{3/5} × ({1/4} + {3/4} × 5) =",
+          "steps": "Inside the brackets, multiplying goes first: 3/4 × 5 = 15/4. Then 1/4 + 15/4 = 16/4 = 4. Finally 3/5 × 4 = 12/5, which is 2 2/5.",
+          "answer_display": "2 2/5"
+        }
+      ],
+      "samples": [
+        {
+          "set": 1,
+          "prompt": "{2/3} × {3/4} + {1/6} =",
+          "steps": [
+            {
+              "label": "Multiply",
+              "note": "× and ÷ are done before + and −, left to right",
+              "fields": [
+                "1/2"
+              ]
+            },
+            {
+              "label": "Add",
+              "note": "+ and − come last, left to right",
+              "fields": [
+                "2/3"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 2,
+          "prompt": "({1/2} + {1/4}) ÷ {3/8} =",
+          "steps": [
+            {
+              "label": "Brackets",
+              "note": "brackets are always worked out first",
+              "fields": [
+                "3/4"
+              ]
+            },
+            {
+              "label": "Divide",
+              "note": "× and ÷ are done before + and −, left to right",
+              "fields": [
+                "2"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 3,
+          "prompt": "{1_1/2} × ({2/3} - {1/6}) ÷ {3/4} =",
+          "steps": [
+            {
+              "label": "Brackets",
+              "note": "brackets are always worked out first",
+              "fields": [
+                "1/2"
+              ]
+            },
+            {
+              "label": "Multiply",
+              "note": "× and ÷ are done before + and −, left to right",
+              "fields": [
+                "3/4"
+              ]
+            },
+            {
+              "label": "Divide",
+              "note": "× and ÷ are done before + and −, left to right",
+              "fields": [
+                "1"
               ]
             }
           ]
