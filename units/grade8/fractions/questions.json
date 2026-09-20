@@ -2317,6 +2317,35 @@
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 1,
+      "prompt": "{2/3} + {1/2} × {1/5} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "1/10"
+            ]
+          },
+          {
+            "label": "Add",
+            "note": "+ and − come last, left to right",
+            "fields": [
+              "23/30"
+            ]
+          }
+        ],
+        "display": "23/30"
+      },
+      "steps": "Multiply: 1/2 × 1/5 = 1/10. Add: 2/3 + 1/10 = 23/30.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "set": 1
+    },
+    {
+      "id": "order-ops-03",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 1,
       "prompt": "{1/5} + {3/6} ÷ {5/6} =",
       "answer": {
         "steps": [
@@ -2342,7 +2371,36 @@
       "set": 1
     },
     {
-      "id": "order-ops-03",
+      "id": "order-ops-04",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 1,
+      "prompt": "{5/6} - {1/3} ÷ 2 =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Divide",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "1/6"
+            ]
+          },
+          {
+            "label": "Subtract",
+            "note": "+ and − come last, left to right",
+            "fields": [
+              "2/3"
+            ]
+          }
+        ],
+        "display": "2/3"
+      },
+      "steps": "Divide: 1/3 ÷ 2 = 1/6. Subtract: 5/6 - 1/6 = 2/3.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "set": 1
+    },
+    {
+      "id": "order-ops-05",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 1,
@@ -2371,7 +2429,36 @@
       "set": 1
     },
     {
-      "id": "order-ops-04",
+      "id": "order-ops-06",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 1,
+      "prompt": "{3/8} × {2/3} + {1/4} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "1/4"
+            ]
+          },
+          {
+            "label": "Add",
+            "note": "+ and − come last, left to right",
+            "fields": [
+              "1/2"
+            ]
+          }
+        ],
+        "display": "1/2"
+      },
+      "steps": "Multiply: 3/8 × 2/3 = 1/4. Add: 1/4 + 1/4 = 1/2.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "set": 1
+    },
+    {
+      "id": "order-ops-07",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 2,
@@ -2400,7 +2487,36 @@
       "set": 2
     },
     {
-      "id": "order-ops-05",
+      "id": "order-ops-08",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "({1/2} + {1/6}) × {3/4} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "2/3"
+            ]
+          },
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "1/2"
+            ]
+          }
+        ],
+        "display": "1/2"
+      },
+      "steps": "Brackets: 1/2 + 1/6 = 2/3. Multiply: 2/3 × 3/4 = 1/2.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "set": 2
+    },
+    {
+      "id": "order-ops-09",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 2,
@@ -2443,7 +2559,36 @@
       "set": 2
     },
     {
-      "id": "order-ops-06",
+      "id": "order-ops-10",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "({7/8} - {1/2}) ÷ {3/8} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "3/8"
+            ]
+          },
+          {
+            "label": "Divide",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "1"
+            ]
+          }
+        ],
+        "display": "1"
+      },
+      "steps": "Brackets: 7/8 - 1/2 = 3/8. Divide: 3/8 ÷ 3/8 = 1.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "set": 2
+    },
+    {
+      "id": "order-ops-11",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 2,
@@ -2479,7 +2624,43 @@
       "set": 2
     },
     {
-      "id": "order-ops-07",
+      "id": "order-ops-12",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "({1/3} + {1/4}) × ({1/2} - {1/5}) =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "7/12"
+            ]
+          },
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "3/10"
+            ]
+          },
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "7/40"
+            ]
+          }
+        ],
+        "display": "7/40"
+      },
+      "steps": "Brackets: 1/3 + 1/4 = 7/12. Brackets: 1/2 - 1/5 = 3/10. Multiply: 7/12 × 3/10 = 7/40.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "set": 2
+    },
+    {
+      "id": "order-ops-13",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 2,
@@ -2515,7 +2696,50 @@
       "set": 2
     },
     {
-      "id": "order-ops-08",
+      "id": "order-ops-14",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "{2/3} × ({1/2} + {1/4} × 8) =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "2"
+            ]
+          },
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "5/2"
+            ]
+          },
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "5/3"
+            ]
+          },
+          {
+            "label": "Mixed number",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 2/3"
+            ]
+          }
+        ],
+        "display": "1 2/3"
+      },
+      "steps": "Brackets: 1/4 × 8 = 2. Brackets: 1/2 + 2 = 5/2. Multiply: 2/3 × 5/2 = 5/3. 5/3 is improper, so the answer is 1 2/3.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "set": 3
+    },
+    {
+      "id": "order-ops-15",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 3,
@@ -2558,7 +2782,50 @@
       "set": 3
     },
     {
-      "id": "order-ops-09",
+      "id": "order-ops-16",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "{1_1/3} + {2/5} ÷ {1/5} × {3/4} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Divide",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "2"
+            ]
+          },
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "3/2"
+            ]
+          },
+          {
+            "label": "Add",
+            "note": "+ and − come last, left to right",
+            "fields": [
+              "17/6"
+            ]
+          },
+          {
+            "label": "Mixed number",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "2 5/6"
+            ]
+          }
+        ],
+        "display": "2 5/6"
+      },
+      "steps": "Divide: 2/5 ÷ 1/5 = 2. Multiply: 2 × 3/4 = 3/2. Add: 4/3 + 3/2 = 17/6. 17/6 is improper, so the answer is 2 5/6.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "set": 3
+    },
+    {
+      "id": "order-ops-17",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 3,
@@ -2601,7 +2868,50 @@
       "set": 3
     },
     {
-      "id": "order-ops-10",
+      "id": "order-ops-18",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "{2_1/4} ÷ ({5/6} - {1/3}) × {1/3} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "1/2"
+            ]
+          },
+          {
+            "label": "Divide",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "9/2"
+            ]
+          },
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "3/2"
+            ]
+          },
+          {
+            "label": "Mixed number",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/2"
+            ]
+          }
+        ],
+        "display": "1 1/2"
+      },
+      "steps": "Brackets: 5/6 - 1/3 = 1/2. Divide: 9/4 ÷ 1/2 = 9/2. Multiply: 9/2 × 1/3 = 3/2. 3/2 is improper, so the answer is 1 1/2.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "set": 3
+    },
+    {
+      "id": "order-ops-19",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 3,
@@ -2644,7 +2954,50 @@
       "set": 3
     },
     {
-      "id": "order-ops-11",
+      "id": "order-ops-20",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "{1/2}^2 + {3/4} × ({2/3} - {1/6}) =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Exponent",
+            "note": "exponents come after brackets, before × and ÷",
+            "fields": [
+              "1/4"
+            ]
+          },
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "1/2"
+            ]
+          },
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "3/8"
+            ]
+          },
+          {
+            "label": "Add",
+            "note": "+ and − come last, left to right",
+            "fields": [
+              "5/8"
+            ]
+          }
+        ],
+        "display": "5/8"
+      },
+      "steps": "Exponent: (1/2) to the power 2 = 1/4. Brackets: 2/3 - 1/6 = 1/2. Multiply: 3/4 × 1/2 = 3/8. Add: 1/4 + 3/8 = 5/8.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "hide_labels": true
+    },
+    {
+      "id": "order-ops-21",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 3,
@@ -2676,10 +3029,61 @@
         "display": "3"
       },
       "steps": "Brackets: 1/4 × 1/5 = 1/20. Brackets: 3/10 - 1/20 = 1/4. Divide: 3/4 ÷ 1/4 = 3.",
-      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term."
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "hide_labels": true
     },
     {
-      "id": "order-ops-12",
+      "id": "order-ops-22",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "({5/6} - {1/3}) ÷ ({1/4} + {1/2}) × {2_1/2} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "1/2"
+            ]
+          },
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "3/4"
+            ]
+          },
+          {
+            "label": "Divide",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "2/3"
+            ]
+          },
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "5/3"
+            ]
+          },
+          {
+            "label": "Mixed number",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 2/3"
+            ]
+          }
+        ],
+        "display": "1 2/3"
+      },
+      "steps": "Brackets: 5/6 - 1/3 = 1/2. Brackets: 1/4 + 1/2 = 3/4. Divide: 1/2 ÷ 3/4 = 2/3. Multiply: 2/3 × 5/2 = 5/3. 5/3 is improper, so the answer is 1 2/3.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "hide_labels": true
+    },
+    {
+      "id": "order-ops-23",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 3,
@@ -2725,10 +3129,61 @@
         "display": "1 1/6"
       },
       "steps": "Brackets: 8/9 × 7/8 = 7/9. Brackets: 3/4 + 2/9 = 35/36. Brackets: 35/36 - 7/9 = 7/36. Divide: 7/36 ÷ 1/6 = 7/6. 7/6 is improper, so the answer is 1 1/6.",
-      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term."
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "hide_labels": true
     },
     {
-      "id": "order-ops-13",
+      "id": "order-ops-24",
+      "section": "order-ops",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "{2/3} × {3/4}^2 ÷ ({1/2} - {1/4}) =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Exponent",
+            "note": "exponents come after brackets, before × and ÷",
+            "fields": [
+              "9/16"
+            ]
+          },
+          {
+            "label": "Brackets",
+            "note": "brackets are always worked out first",
+            "fields": [
+              "1/4"
+            ]
+          },
+          {
+            "label": "Multiply",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "3/8"
+            ]
+          },
+          {
+            "label": "Divide",
+            "note": "× and ÷ are done before + and −, left to right",
+            "fields": [
+              "3/2"
+            ]
+          },
+          {
+            "label": "Mixed number",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/2"
+            ]
+          }
+        ],
+        "display": "1 1/2"
+      },
+      "steps": "Exponent: (3/4) to the power 2 = 9/16. Brackets: 1/2 - 1/4 = 1/4. Multiply: 2/3 × 9/16 = 3/8. Divide: 3/8 ÷ 1/4 = 3/2. 3/2 is improper, so the answer is 1 1/2.",
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "hide_labels": true
+    },
+    {
+      "id": "order-ops-25",
       "section": "order-ops",
       "qtype": "steps",
       "difficulty": 3,
@@ -2760,10 +3215,11 @@
         "display": "-71/90"
       },
       "steps": "Exponent: (2/3) to the power 2 = 4/9. Multiply: 4/9 × -7/8 = -7/18. Add: -7/18 + -2/5 = -71/90.",
-      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term."
+      "tip": "Brackets first, then exponents, then × and ÷ left to right, and only then + and − left to right. Write the whole expression again after each step — that is what stops you losing a term.",
+      "hide_labels": true
     },
     {
-      "id": "order-ops-14",
+      "id": "order-ops-26",
       "section": "order-ops",
       "qtype": "choice",
       "difficulty": 3,
@@ -2782,7 +3238,26 @@
       "tip": "Try each one. Brackets force whatever is inside them to happen first, so ask which grouping would change the answer to the one you want."
     },
     {
-      "id": "order-ops-15",
+      "id": "order-ops-27",
+      "section": "order-ops",
+      "qtype": "choice",
+      "difficulty": 3,
+      "prompt": "Where does one pair of brackets go to make this true?  {1/2} + {1/4} × {2/3} - {1/6} = {1/3}",
+      "options": [
+        "(1/2 + 1/4)",
+        "(1/4 × 2/3)",
+        "(2/3 - 1/6)",
+        "(1/4 × 2/3 - 1/6)"
+      ],
+      "answer": {
+        "choice": "(1/2 + 1/4)",
+        "display": "(1/2 + 1/4)"
+      },
+      "steps": "Left alone this comes to 1/2, because 1/4 × 2/3 = 1/6 cancels the 1/6 at the end. Group the addition: 1/2 + 1/4 = 3/4, then 3/4 × 2/3 = 1/2, and 1/2 - 1/6 = 1/3.",
+      "tip": "Try each one. Brackets force whatever is inside them to happen first, so ask which grouping would change the answer to the one you want."
+    },
+    {
+      "id": "order-ops-28",
       "section": "order-ops",
       "qtype": "choice",
       "difficulty": 3,
@@ -2801,132 +3276,132 @@
       "tip": "Try each one. Brackets force whatever is inside them to happen first, so ask which grouping would change the answer to the one you want."
     },
     {
-      "id": "order-ops-16",
+      "id": "order-ops-29",
       "section": "order-ops",
       "qtype": "fraction",
       "difficulty": 2,
-      "prompt": "A school fair sells {5_1/3} trays of veggie pizza, {6_3/4} trays of pepperoni and {4_5/6} trays of cheese. How many trays were sold altogether?",
+      "prompt": "A school fair sells {4_1/2} trays of veggie pizza, {5_2/3} trays of pepperoni and {3_3/4} trays of cheese. How many trays were sold altogether?",
       "answer": {
         "num": 11,
         "den": 12,
-        "whole": 16,
-        "display": "16 11/12"
+        "whole": 13,
+        "display": "13 11/12"
       },
-      "steps": "Add all three: 16/3 + 27/4 + 29/6. The LCM of 3, 4 and 6 is 12, so that is 64/12 + 81/12 + 58/12 = 203/12. Check for reducing: GCD(203, 12) = 1, so 203/12 is already in simplest form. Check for improper form: 203/12 is improper (top ≥ bottom), so convert it to the mixed number 16 11/12.",
+      "steps": "Add all three: 9/2 + 17/3 + 15/4. The LCM of 2, 3 and 4 is 12, so that is 54/12 + 68/12 + 45/12 = 167/12. Check for reducing: GCD(167, 12) = 1, so 167/12 is already in simplest form. Check for improper form: 167/12 is improper (top ≥ bottom), so convert it to the mixed number 13 11/12.",
       "tip": "Work out what each sentence is asking you to do, write the whole calculation down before you start, then follow the order of operations through it."
     },
     {
-      "id": "order-ops-17",
+      "id": "order-ops-30",
       "section": "order-ops",
       "qtype": "integer",
       "difficulty": 2,
-      "prompt": "The fair sold {203/12} trays of pizza in total and makes $12 on every tray. What is the total profit, in dollars?",
+      "prompt": "The fair sold {167/12} trays of pizza in total and makes $12 on every tray. What is the total profit, in dollars?",
       "answer": {
-        "value": 203,
-        "display": "203"
+        "value": 167,
+        "display": "167"
       },
-      "steps": "Multiply the total by the profit per tray: 203/12 × 12. The 12s cancel, so the profit is $203. Notice the multiplying is done last, after the trays have been added up.",
+      "steps": "Multiply the total by the profit per tray: 167/12 × 12. The 12s cancel, so the profit is $167. Notice the multiplying is done last, after the trays have been added up.",
       "tip": "Write the whole calculation down before you start, then follow the order of operations through it."
     },
     {
-      "id": "order-ops-18",
+      "id": "order-ops-31",
       "section": "order-ops",
       "qtype": "fraction",
       "difficulty": 2,
-      "prompt": "A box is {2_1/2} ft wide, {7/8} ft long and {3/4} ft high. What is its volume, in cubic feet?",
+      "prompt": "A box is {3_1/2} ft wide, {5/8} ft long and {2/3} ft high. What is its volume, in cubic feet?",
       "answer": {
-        "num": 41,
-        "den": 64,
+        "num": 11,
+        "den": 24,
         "whole": 1,
-        "display": "1 41/64"
+        "display": "1 11/24"
       },
-      "steps": "Volume is width × length × height, so 5/2 × 7/8 × 3/4. Multiply straight across: (5 × 7 × 3)/(2 × 8 × 4) = 105/64. Check for reducing: GCD(105, 64) = 1, so 105/64 is already in simplest form. Check for improper form: 105/64 is improper (top ≥ bottom), so convert it to the mixed number 1 41/64.",
+      "steps": "Volume is width × length × height, so 7/2 × 5/8 × 2/3. Multiply straight across: (7 × 5 × 2)/(2 × 8 × 3) = 70/48. Check for reducing: GCD(35, 24) = 1, so 35/24 is already in simplest form. Check for improper form: 35/24 is improper (top ≥ bottom), so convert it to the mixed number 1 11/24.",
       "tip": "Work out what each sentence is asking you to do, write the whole calculation down before you start, then follow the order of operations through it."
     },
     {
-      "id": "order-ops-19",
+      "id": "order-ops-32",
       "section": "order-ops",
       "qtype": "integer",
       "difficulty": 3,
-      "prompt": "Golf balls come 12 to a box. A family takes {2_2/3} boxes on a trip. Cara uses {1/2} a box, her mum uses a whole box, and her brother uses 4 balls. How many golf balls did the family use altogether?",
+      "prompt": "Golf balls come 8 to a box. A family takes {3_1/4} boxes on a trip. Cara uses {1/2} a box, her mum uses a whole box, and her brother uses 3 balls. How many golf balls did the family use altogether?",
+      "answer": {
+        "value": 15,
+        "display": "15"
+      },
+      "steps": "Half a box is 8 × 1/2 = 4 balls and a whole box is 8. Add the three amounts: 4 + 8 + 3 = 15 balls.",
+      "tip": "Write the whole calculation down before you start, then follow the order of operations through it."
+    },
+    {
+      "id": "order-ops-33",
+      "section": "order-ops",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "The family took {3_1/4} boxes of 8 golf balls and used 15 of them. What fraction of the golf balls they brought was left?",
+      "answer": {
+        "num": 11,
+        "den": 26,
+        "whole": 0,
+        "display": "11/26"
+      },
+      "steps": "They brought 13/4 × 8 = 26 balls and used 15, so 26 - 15 = 11 are left. That is 11 out of 26. Check for reducing: GCD(11, 26) = 1, so 11/26 is already in simplest form. Check for improper form: 11/26 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Work out what each sentence is asking you to do, write the whole calculation down before you start, then follow the order of operations through it."
+    },
+    {
+      "id": "order-ops-34",
+      "section": "order-ops",
+      "qtype": "integer",
+      "difficulty": 3,
+      "prompt": "A laptop costs {5_1/2} times what Priya earns in a week. She saves {1/4} of her earnings and spends the rest. How many weeks of saving will the laptop take?",
       "answer": {
         "value": 22,
         "display": "22"
       },
-      "steps": "Half a box is 12 × 1/2 = 6 balls and a whole box is 12. Add the three amounts: 6 + 12 + 4 = 22 balls.",
+      "steps": "Each week she puts away 1/4 of a week's pay, and she needs 11/2 weeks' worth. So 11/2 ÷ 1/4 = 11/2 × 4 = 22 weeks.",
       "tip": "Write the whole calculation down before you start, then follow the order of operations through it."
     },
     {
-      "id": "order-ops-20",
+      "id": "order-ops-35",
       "section": "order-ops",
       "qtype": "fraction",
       "difficulty": 3,
-      "prompt": "The family took {2_2/3} boxes of 12 golf balls and used 22 of them. What fraction of the golf balls they brought was left?",
+      "prompt": "Put 2, 3, 5 and 8 into the four boxes of  ?/? + ?/?  — each number used once. What is the largest sum you can make?",
       "answer": {
-        "num": 5,
-        "den": 16,
-        "whole": 0,
-        "display": "5/16"
+        "num": 2,
+        "den": 3,
+        "whole": 5,
+        "display": "5 2/3"
       },
-      "steps": "They brought 8/3 × 12 = 32 balls and used 22, so 32 - 22 = 10 are left. That is 10 out of 32. Reduce first: your raw fraction left is 10/32. GCD(10, 32) = 2, so divide top and bottom by 2 to get 5/16. Check for improper form: 5/16 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "steps": "A fraction is biggest when its top is big and its bottom is small, so put the two large numbers on top and the two small ones underneath: 8/2 + 5/3 = 4 + 5/3 = 17/3. Check for reducing: GCD(17, 3) = 1, so 17/3 is already in simplest form. Check for improper form: 17/3 is improper (top ≥ bottom), so convert it to the mixed number 5 2/3.",
       "tip": "Work out what each sentence is asking you to do, write the whole calculation down before you start, then follow the order of operations through it."
     },
     {
-      "id": "order-ops-21",
-      "section": "order-ops",
-      "qtype": "integer",
-      "difficulty": 3,
-      "prompt": "A laptop costs {3_1/2} times what Priya earns in a week. She saves {1/4} of her earnings and spends the rest. How many weeks of saving will the laptop take?",
-      "answer": {
-        "value": 14,
-        "display": "14"
-      },
-      "steps": "Each week she puts away 1/4 of a week's pay, and she needs 7/2 weeks' worth. So 7/2 ÷ 1/4 = 7/2 × 4 = 14 weeks.",
-      "tip": "Write the whole calculation down before you start, then follow the order of operations through it."
-    },
-    {
-      "id": "order-ops-22",
+      "id": "order-ops-36",
       "section": "order-ops",
       "qtype": "fraction",
       "difficulty": 3,
-      "prompt": "Leah ate {1/4} of a pie and Mira ate {3/10} of the same pie. The next day Nina ate {2/3} of what was still left. What fraction of the pie was never eaten?",
-      "answer": {
-        "num": 3,
-        "den": 20,
-        "whole": 0,
-        "display": "3/20"
-      },
-      "steps": "Day one: 1/4 + 3/10 = 5/20 + 6/20 = 11/20 eaten, leaving 9/20. Nina ate 2/3 × 9/20 = 6/20 of the whole pie. What is left is 9/20 - 6/20 = 3/20. Check for reducing: GCD(3, 20) = 1, so 3/20 is already in simplest form. Check for improper form: 3/20 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Work out what each sentence is asking you to do, write the whole calculation down before you start, then follow the order of operations through it."
-    },
-    {
-      "id": "order-ops-23",
-      "section": "order-ops",
-      "qtype": "fraction",
-      "difficulty": 3,
-      "prompt": "Put 3, 4, 6 and 7 into the four boxes of  ?/? + ?/?  — each number used once. What is the largest sum you can make?",
-      "answer": {
-        "num": 5,
-        "den": 6,
-        "whole": 3,
-        "display": "3 5/6"
-      },
-      "steps": "A fraction is biggest when its top is big and its bottom is small, so put the two large numbers on top: 7/3 + 6/4 = 14/6 + 9/6 = 23/6. Check for reducing: GCD(23, 6) = 1, so 23/6 is already in simplest form. Check for improper form: 23/6 is improper (top ≥ bottom), so convert it to the mixed number 3 5/6.",
-      "tip": "Work out what each sentence is asking you to do, write the whole calculation down before you start, then follow the order of operations through it."
-    },
-    {
-      "id": "order-ops-24",
-      "section": "order-ops",
-      "qtype": "fraction",
-      "difficulty": 3,
-      "prompt": "A ball bounces back to {3/4} of the height it fell from, every time. It is dropped from 64 cm. How high is the 4th bounce, in cm?",
+      "prompt": "Leah ate {1/3} of a pie and Mira ate {1/4} of the same pie. The next day Nina ate {3/5} of what was still left. What fraction of the pie was never eaten?",
       "answer": {
         "num": 1,
-        "den": 4,
-        "whole": 20,
-        "display": "20 1/4"
+        "den": 6,
+        "whole": 0,
+        "display": "1/6"
       },
-      "steps": "Each bounce multiplies the height by 3/4, so after four bounces it is 64 × (3/4)⁴ = 64 × 81/256. The exponent is worked out before the multiplying: 64 × 81/256 = 81/4. Check for reducing: GCD(81, 4) = 1, so 81/4 is already in simplest form. Check for improper form: 81/4 is improper (top ≥ bottom), so convert it to the mixed number 20 1/4.",
+      "steps": "Day one: 1/3 + 1/4 = 4/12 + 3/12 = 7/12 eaten, leaving 5/12. Nina ate 3/5 × 5/12 = 3/12 of the whole pie. What is left is 5/12 - 3/12 = 2/12. Reduce first: your raw fraction never eaten is 2/12. GCD(2, 12) = 2, so divide top and bottom by 2 to get 1/6. Check for improper form: 1/6 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Work out what each sentence is asking you to do, write the whole calculation down before you start, then follow the order of operations through it."
+    },
+    {
+      "id": "order-ops-37",
+      "section": "order-ops",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "A ball bounces back to {2/3} of the height it fell from, every time. It is dropped from 81 cm. How high is the 4th bounce, in cm?",
+      "answer": {
+        "num": 0,
+        "den": 1,
+        "whole": 16,
+        "display": "16"
+      },
+      "steps": "Each bounce multiplies the height by 2/3, so after four bounces it is 81 × (2/3)⁴ = 81 × 16/81. The exponent is worked out before the multiplying, and then the 81s cancel. Check for reducing: GCD(16, 1) = 1, so 16/1 is already in simplest form. It actually simplifies all the way down to a whole number.",
       "tip": "Work out what each sentence is asking you to do, write the whole calculation down before you start, then follow the order of operations through it."
     }
   ]

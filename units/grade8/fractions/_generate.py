@@ -1113,7 +1113,13 @@ def oop_sample(qset, *expr):
         {"set": qset, "prompt": prompt, "steps": rows})
 
 
-def oop_add(n, stars, *expr, qset=None):
+def oop_add(n, stars, *expr, qset=None, blind=False):
+    """One order-of-operations question.
+
+    `blind` takes the labels off the boxes. On the last few, naming the next
+    operation is most of the answer, so printing "Multiply" under the box hands
+    it over — by then the student should be choosing it.
+    """
     prompt, rows, value, prose = oop_chain(expr)
     question = {
         "id": qid("order-ops", n), "section": "order-ops", "qtype": "steps",
@@ -1123,32 +1129,52 @@ def oop_add(n, stars, *expr, qset=None):
     }
     if qset is not None:
         question["set"] = qset
+    if blind:
+        question["hide_labels"] = True
     oop_q.append(question)
 
 
 # --- Easy: two operations, nothing in brackets -----------------------------
+# The teacher's own problems are in here, but never two in a row: a student who
+# has already done the paper sheet meets a new one between each familiar one,
+# so the page is practice rather than a re-run.
 oop_sample(1, V(2, 3), "×", V(3, 4), "+", V(1, 6))
 oop_add(1, 1, V(1, 4), "×", V(5, 6), "-", V(1, 6), qset=1)
-oop_add(2, 1, V(1, 5), "+", V(3, 6), "÷", V(5, 6), qset=1)
-oop_add(3, 1, V(1, 2), "-", V(3, 4), "×", V(1, 5), qset=1)
+oop_add(2, 1, V(2, 3), "+", V(1, 2), "×", V(1, 5), qset=1)
+oop_add(3, 1, V(1, 5), "+", V(3, 6), "÷", V(5, 6), qset=1)
+oop_add(4, 1, V(5, 6), "-", V(1, 3), "÷", V(2), qset=1)
+oop_add(5, 1, V(1, 2), "-", V(3, 4), "×", V(1, 5), qset=1)
+oop_add(6, 1, V(3, 8), "×", V(2, 3), "+", V(1, 4), qset=1)
 
 # --- Brackets change which operation comes first ----------------------------
 oop_sample(2, B(V(1, 2), "+", V(1, 4)), "÷", V(3, 8))
-oop_add(4, 2, B(V(2, 5), "+", V(8, 9)), "×", V(1, 2), qset=2)
-oop_add(5, 2, B(V(3, 5), "-", V(2, 5), "+", V(1, 4)), "÷", V(1, 6), qset=2)
-oop_add(6, 2, B(V(1, 4), "+", V(1, 8), "-", V(1, 5)), "×", V(4, 9), qset=2)
-oop_add(7, 2, B(V(2, 9), "+", V(1, 9)), "×", B(V(1, 3), "-", V(1, 4)), qset=2)
+oop_add(7, 2, B(V(2, 5), "+", V(8, 9)), "×", V(1, 2), qset=2)
+oop_add(8, 2, B(V(1, 2), "+", V(1, 6)), "×", V(3, 4), qset=2)
+oop_add(9, 2, B(V(3, 5), "-", V(2, 5), "+", V(1, 4)), "÷", V(1, 6), qset=2)
+oop_add(10, 2, B(V(7, 8), "-", V(1, 2)), "÷", V(3, 8), qset=2)
+oop_add(11, 2, B(V(1, 4), "+", V(1, 8), "-", V(1, 5)), "×", V(4, 9), qset=2)
+oop_add(12, 2, B(V(1, 3), "+", V(1, 4)), "×", B(V(1, 2), "-", V(1, 5)), qset=2)
+oop_add(13, 2, B(V(2, 9), "+", V(1, 9)), "×", B(V(1, 3), "-", V(1, 4)), qset=2)
 
 # --- Longer chains, and mixed numbers in the middle of them -----------------
 oop_sample(3, M(1, 1, 2), "×", B(V(2, 3), "-", V(1, 6)), "÷", V(3, 4))
-oop_add(8, 3, V(3, 5), "×", B(V(1, 4), "+", V(3, 4), "×", V(5)), qset=3)
-oop_add(9, 3, V(1, 2), "+", V(3, 5), "÷", V(3, 4), "÷", V(2, 5), qset=3)
-oop_add(10, 3, M(1, 2, 5), "×", M(2, 1, 2), "÷", B(V(9, 8), "-", V(2, 3)), qset=3)
+oop_add(14, 3, V(2, 3), "×", B(V(1, 2), "+", V(1, 4), "×", V(8)), qset=3)
+oop_add(15, 3, V(3, 5), "×", B(V(1, 4), "+", V(3, 4), "×", V(5)), qset=3)
+oop_add(16, 3, M(1, 1, 3), "+", V(2, 5), "÷", V(1, 5), "×", V(3, 4), qset=3)
+oop_add(17, 3, V(1, 2), "+", V(3, 5), "÷", V(3, 4), "÷", V(2, 5), qset=3)
+oop_add(18, 3, M(2, 1, 4), "÷", B(V(5, 6), "-", V(1, 3)), "×", V(1, 3), qset=3)
+oop_add(19, 3, M(1, 2, 5), "×", M(2, 1, 2), "÷", B(V(9, 8), "-", V(2, 3)), qset=3)
 
-# --- On your own: no worked example above these ------------------------------
-oop_add(11, 3, V(3, 4), "÷", B(V(3, 10), "-", V(1, 4), "×", V(1, 5)))
-oop_add(12, 3, B(V(3, 4), "+", V(2, 9), "-", V(8, 9), "×", V(7, 8)), "÷", V(1, 6))
-oop_add(13, 3, P(V(2, 3), 2), "×", V(-7, 8), "+", V(-2, 5))
+# --- On your own: no worked example, and no labels under the boxes ----------
+# By this point naming the next operation IS most of the answer, so the topic
+# stops naming it. These also run longer than anything above them — two
+# brackets, or a power sitting in the middle of a chain.
+oop_add(20, 3, P(V(1, 2), 2), "+", V(3, 4), "×", B(V(2, 3), "-", V(1, 6)), blind=True)
+oop_add(21, 3, V(3, 4), "÷", B(V(3, 10), "-", V(1, 4), "×", V(1, 5)), blind=True)
+oop_add(22, 3, B(V(5, 6), "-", V(1, 3)), "÷", B(V(1, 4), "+", V(1, 2)), "×", M(2, 1, 2), blind=True)
+oop_add(23, 3, B(V(3, 4), "+", V(2, 9), "-", V(8, 9), "×", V(7, 8)), "÷", V(1, 6), blind=True)
+oop_add(24, 3, V(2, 3), "×", P(V(3, 4), 2), "÷", B(V(1, 2), "-", V(1, 4)), blind=True)
+oop_add(25, 3, P(V(2, 3), 2), "×", V(-7, 8), "+", V(-2, 5), blind=True)
 
 
 # --- Where do the brackets go? ----------------------------------------------
@@ -1169,7 +1195,7 @@ def oop_brackets(n, stars, prompt, options, answer, steps):
 
 
 oop_brackets(
-    14, 3,
+    26, 3,
     "Where does one pair of brackets go to make this true?  "
     "{5/2} × {3/5} - {2/5} + {1/2} = 1",
     ["(5/2 × 3/5)", "(3/5 - 2/5)", "(2/5 + 1/2)", "(3/5 - 2/5 + 1/2)"],
@@ -1179,7 +1205,17 @@ oop_brackets(
     "5/2 × 1/5 = 1/2, and 1/2 + 1/2 = 1.",
 )
 oop_brackets(
-    15, 3,
+    27, 3,
+    "Where does one pair of brackets go to make this true?  "
+    "{1/2} + {1/4} × {2/3} - {1/6} = {1/3}",
+    ["(1/2 + 1/4)", "(1/4 × 2/3)", "(2/3 - 1/6)", "(1/4 × 2/3 - 1/6)"],
+    "(1/2 + 1/4)",
+    "Left alone this comes to 1/2, because 1/4 × 2/3 = 1/6 cancels the 1/6 at "
+    "the end. Group the addition: 1/2 + 1/4 = 3/4, then 3/4 × 2/3 = 1/2, and "
+    "1/2 - 1/6 = 1/3.",
+)
+oop_brackets(
+    28, 3,
     "Where does one pair of brackets go to make this true?  "
     "{1_1/2} + {2_1/2} ÷ {3/4} - {1/8} = {5_1/2}",
     ["(1 1/2 + 2 1/2)", "(3/4 - 1/8)", "(2 1/2 ÷ 3/4)", "(2 1/2 ÷ 3/4 - 1/8)"],
@@ -1187,7 +1223,6 @@ oop_brackets(
     "Group the subtraction so the division happens last: 3/4 - 1/8 = 5/8, then "
     "5/2 ÷ 5/8 = 4, and 3/2 + 4 = 11/2, which is 5 1/2.",
 )
-
 
 # --- Word problems: decide the operations, then order them -------------------
 def oop_word(n, stars, prompt, raw_n, raw_d, steps, context="answer"):
@@ -1216,86 +1251,87 @@ def oop_word_int(n, stars, prompt, value, steps):
 
 
 oop_word(
-    16, 2,
-    "A school fair sells {5_1/3} trays of veggie pizza, {6_3/4} trays of pepperoni "
-    "and {4_5/6} trays of cheese. How many trays were sold altogether?",
-    203, 12,
-    "Add all three: 16/3 + 27/4 + 29/6. The LCM of 3, 4 and 6 is 12, so that is "
-    "64/12 + 81/12 + 58/12 = 203/12.",
+    29, 2,
+    "A school fair sells {4_1/2} trays of veggie pizza, {5_2/3} trays of "
+    "pepperoni and {3_3/4} trays of cheese. How many trays were sold altogether?",
+    167, 12,
+    "Add all three: 9/2 + 17/3 + 15/4. The LCM of 2, 3 and 4 is 12, so that is "
+    "54/12 + 68/12 + 45/12 = 167/12.",
     context="total trays",
 )
 oop_word_int(
-    17, 2,
-    "The fair sold {203/12} trays of pizza in total and makes $12 on every tray. "
+    30, 2,
+    "The fair sold {167/12} trays of pizza in total and makes $12 on every tray. "
     "What is the total profit, in dollars?",
-    203,
-    "Multiply the total by the profit per tray: 203/12 × 12. The 12s cancel, so "
-    "the profit is $203. Notice the multiplying is done last, after the trays "
+    167,
+    "Multiply the total by the profit per tray: 167/12 × 12. The 12s cancel, so "
+    "the profit is $167. Notice the multiplying is done last, after the trays "
     "have been added up.",
 )
 oop_word(
-    18, 2,
-    "A box is {2_1/2} ft wide, {7/8} ft long and {3/4} ft high. What is its "
+    31, 2,
+    "A box is {3_1/2} ft wide, {5/8} ft long and {2/3} ft high. What is its "
     "volume, in cubic feet?",
-    105, 64,
-    "Volume is width × length × height, so 5/2 × 7/8 × 3/4. Multiply straight "
-    "across: (5 × 7 × 3)/(2 × 8 × 4) = 105/64.",
+    35, 24,
+    "Volume is width × length × height, so 7/2 × 5/8 × 2/3. Multiply straight "
+    "across: (7 × 5 × 2)/(2 × 8 × 3) = 70/48.",
     context="volume",
 )
 oop_word_int(
-    19, 3,
-    "Golf balls come 12 to a box. A family takes {2_2/3} boxes on a trip. Cara "
-    "uses {1/2} a box, her mum uses a whole box, and her brother uses 4 balls. "
+    32, 3,
+    "Golf balls come 8 to a box. A family takes {3_1/4} boxes on a trip. Cara "
+    "uses {1/2} a box, her mum uses a whole box, and her brother uses 3 balls. "
     "How many golf balls did the family use altogether?",
-    22,
-    "Half a box is 12 × 1/2 = 6 balls and a whole box is 12. Add the three "
-    "amounts: 6 + 12 + 4 = 22 balls.",
+    15,
+    "Half a box is 8 × 1/2 = 4 balls and a whole box is 8. Add the three "
+    "amounts: 4 + 8 + 3 = 15 balls.",
 )
 oop_word(
-    20, 3,
-    "The family took {2_2/3} boxes of 12 golf balls and used 22 of them. What "
+    33, 3,
+    "The family took {3_1/4} boxes of 8 golf balls and used 15 of them. What "
     "fraction of the golf balls they brought was left?",
-    10, 32,
-    "They brought 8/3 × 12 = 32 balls and used 22, so 32 - 22 = 10 are left. "
-    "That is 10 out of 32.",
+    11, 26,
+    "They brought 13/4 × 8 = 26 balls and used 15, so 26 - 15 = 11 are left. "
+    "That is 11 out of 26.",
     context="fraction left",
 )
 oop_word_int(
-    21, 3,
-    "A laptop costs {3_1/2} times what Priya earns in a week. She saves {1/4} of "
+    34, 3,
+    "A laptop costs {5_1/2} times what Priya earns in a week. She saves {1/4} of "
     "her earnings and spends the rest. How many weeks of saving will the laptop "
     "take?",
-    14,
-    "Each week she puts away 1/4 of a week's pay, and she needs 7/2 weeks' worth. "
-    "So 7/2 ÷ 1/4 = 7/2 × 4 = 14 weeks.",
+    22,
+    "Each week she puts away 1/4 of a week's pay, and she needs 11/2 weeks' "
+    "worth. So 11/2 ÷ 1/4 = 11/2 × 4 = 22 weeks.",
 )
 oop_word(
-    22, 3,
-    "Leah ate {1/4} of a pie and Mira ate {3/10} of the same pie. The next day "
-    "Nina ate {2/3} of what was still left. What fraction of the pie was never "
-    "eaten?",
-    3, 20,
-    "Day one: 1/4 + 3/10 = 5/20 + 6/20 = 11/20 eaten, leaving 9/20. Nina ate "
-    "2/3 × 9/20 = 6/20 of the whole pie. What is left is 9/20 - 6/20 = 3/20.",
-    context="fraction never eaten",
-)
-oop_word(
-    23, 3,
-    "Put 3, 4, 6 and 7 into the four boxes of  ?/? + ?/?  — each number used "
+    35, 3,
+    "Put 2, 3, 5 and 8 into the four boxes of  ?/? + ?/?  — each number used "
     "once. What is the largest sum you can make?",
-    23, 6,
+    17, 3,
     "A fraction is biggest when its top is big and its bottom is small, so put "
-    "the two large numbers on top: 7/3 + 6/4 = 14/6 + 9/6 = 23/6.",
+    "the two large numbers on top and the two small ones underneath: "
+    "8/2 + 5/3 = 4 + 5/3 = 17/3.",
     context="largest sum",
 )
 oop_word(
-    24, 3,
-    "A ball bounces back to {3/4} of the height it fell from, every time. It is "
-    "dropped from 64 cm. How high is the 4th bounce, in cm?",
-    81, 4,
-    "Each bounce multiplies the height by 3/4, so after four bounces it is "
-    "64 × (3/4)⁴ = 64 × 81/256. The exponent is worked out before the "
-    "multiplying: 64 × 81/256 = 81/4.",
+    36, 3,
+    "Leah ate {1/3} of a pie and Mira ate {1/4} of the same pie. The next day "
+    "Nina ate {3/5} of what was still left. What fraction of the pie was never "
+    "eaten?",
+    2, 12,
+    "Day one: 1/3 + 1/4 = 4/12 + 3/12 = 7/12 eaten, leaving 5/12. Nina ate "
+    "3/5 × 5/12 = 3/12 of the whole pie. What is left is 5/12 - 3/12 = 2/12.",
+    context="fraction never eaten",
+)
+oop_word(
+    37, 3,
+    "A ball bounces back to {2/3} of the height it fell from, every time. It is "
+    "dropped from 81 cm. How high is the 4th bounce, in cm?",
+    16, 1,
+    "Each bounce multiplies the height by 2/3, so after four bounces it is "
+    "81 × (2/3)⁴ = 81 × 16/81. The exponent is worked out before the "
+    "multiplying, and then the 81s cancel.",
     context="height of the 4th bounce",
 )
 
