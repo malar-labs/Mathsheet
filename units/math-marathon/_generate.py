@@ -640,32 +640,38 @@ def build_fraction_addition():
     )
 
     # --- 1. equivalence ladders --------------------------------------------
+    # One written fraction to a page, all the way down. A page that starts some
+    # questions from 1/3 and others from 2/6 is asking a child who is still
+    # learning what a third looks like to read two of them at once — even though
+    # they are the same amount. Reading a fraction backwards (3/9 is a third) is
+    # the Tidy It Up level's job, not this one's.
     equiv_level(
         unit, "eq-half", "Halves", "🌗", (1, 2), 8,
-        [((1, 2), 4, 2), ((1, 2), 6, 3), ((1, 2), 8, 4), ((1, 2), 10, 5),
-         ((1, 2), 12, 6), ((1, 2), 14, 7), ((2, 4), 8, 4), ((3, 6), 12, 6),
-         ((4, 8), 16, 8), ((5, 10), 2, 1), ((6, 12), 4, 2), ((1, 2), 16, 8)],
+        [((1, 2), 4, 2), ((1, 2), 6, 3), ((1, 2), 8, 4),
+         ((1, 2), 10, 5), ((1, 2), 12, 6), ((1, 2), 14, 7),
+         ((1, 2), 16, 8), ((1, 2), 18, 9), ((1, 2), 20, 10),
+         ((1, 2), 22, 11), ((1, 2), 24, 12), ((1, 2), 26, 13)],
         "Half is always the top being exactly half the bottom. If the bottom "
         "doubles, so does the top.",
         1,
     )
     equiv_level(
         unit, "eq-third", "Thirds", "🥧", (1, 3), 8,
-        # One amount to a page: six ways of writing 1/3, then six of writing 2/3.
-        [((1, 3), 6, 2), ((1, 3), 9, 3), ((1, 3), 12, 4), ((2, 6), 3, 1),
-         ((3, 9), 12, 4), ((1, 3), 15, 5),
-         ((2, 3), 6, 4), ((2, 3), 9, 6), ((2, 3), 12, 8), ((4, 6), 3, 2),
-         ((6, 9), 12, 8), ((2, 3), 15, 10)],
+        # A page of 1/3, then a page of 2/3.
+        [((1, 3), 6, 2), ((1, 3), 9, 3), ((1, 3), 12, 4),
+         ((1, 3), 15, 5), ((1, 3), 18, 6), ((1, 3), 21, 7),
+         ((2, 3), 6, 4), ((2, 3), 9, 6), ((2, 3), 12, 8),
+         ((2, 3), 15, 10), ((2, 3), 18, 12), ((2, 3), 21, 14)],
         "Thirds live in every bottom number that 3 divides into: 6, 9, 12, 15, 18.",
         2,
     )
     equiv_level(
         unit, "eq-quarter", "Quarters", "🍰", (1, 4), 8,
-        # Six ways of writing 1/4, then six of writing 3/4.
-        [((1, 4), 8, 2), ((1, 4), 12, 3), ((1, 4), 16, 4), ((2, 8), 4, 1),
-         ((3, 12), 16, 4), ((1, 4), 20, 5),
-         ((3, 4), 8, 6), ((3, 4), 12, 9), ((3, 4), 16, 12), ((6, 8), 4, 3),
-         ((9, 12), 16, 12), ((3, 4), 20, 15)],
+        # A page of 1/4, then a page of 3/4. (2/4 is left out — that is a half.)
+        [((1, 4), 8, 2), ((1, 4), 12, 3), ((1, 4), 16, 4),
+         ((1, 4), 20, 5), ((1, 4), 24, 6), ((1, 4), 28, 7),
+         ((3, 4), 8, 6), ((3, 4), 12, 9), ((3, 4), 16, 12),
+         ((3, 4), 20, 15), ((3, 4), 24, 18), ((3, 4), 28, 21)],
         "Quarters are halves halved. Every quarter bottom — 8, 12, 16, 20 — is 4 "
         "times something.",
         2,

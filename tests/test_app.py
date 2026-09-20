@@ -784,12 +784,14 @@ class TestFractionAdditionDrill:
             assert gcd(num, den) == 1, q["id"]
             assert q["answer"]["display"] == f"{num}/{den}", q["id"]
 
-    def test_a_page_of_equivalences_only_ever_shows_one_amount(self):
-        """1/3 and 2/3 are different amounts. Putting both on one page asks a
-        child who is still learning what a third IS to hold two of them at
-        once."""
+    def test_a_page_of_equivalences_starts_every_question_the_same_way(self):
+        """Not just the same amount — the same fraction, written the same way.
+        A page that asks about 1/3 and then about 2/6 makes a child who is still
+        learning what a third looks like read two of them at once, and they are
+        the same amount, so "same value" is not a strong enough rule to catch
+        it."""
         from collections import defaultdict
-        pages = defaultdict(list)
+        pages = defaultdict(set)
         for q in self.QS:
             # Mixed Review is the one lap where jumbling them up IS the point.
             if q["mode"] not in ("pick", "type") or q["section"] == "mixed":
@@ -797,11 +799,10 @@ class TestFractionAdditionDrill:
             m = re.match(r"\{(\d+)/(\d+)\} = \?/(\d+)", q["prompt"])
             if not m:
                 continue
-            pages[(q["section"], q["set"])].append(
-                Fraction(int(m.group(1)), int(m.group(2))))
+            pages[(q["section"], q["set"])].add((int(m.group(1)), int(m.group(2))))
         assert pages
-        for key, amounts in pages.items():
-            assert len(set(amounts)) == 1, (key, sorted(set(amounts)))
+        for key, written in pages.items():
+            assert len(written) == 1, (key, sorted(written))
 
     def test_the_sums_are_ones_a_child_can_hold_in_their_head(self):
         """Fraction fluency, not arithmetic with big numbers."""
