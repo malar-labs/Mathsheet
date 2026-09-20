@@ -11,8 +11,11 @@
    which is where the chain gets into a child's head and the bridge to
    multiplication, since the 3rd rung IS 7 x 3; "back" counts down from the
    whole amount to 0, because dividing is taking away until nothing is left and
-   the number of jumps is the answer. Then "pick" offers four options, which is
-   recognition, and "type" offers nothing, which is recall.
+   the number of jumps is the answer; "equiv" runs along one fraction's
+   equivalents, 1/2 = 2/4 = __/6, because seeing that they are one amount cut
+   differently is the move every fraction sum is built on. Then "pick" offers
+   four options, which is recognition, and "type" offers nothing, which is
+   recall.
 
    Progress lives in ulState.progress via progress.js, shared with the lesson
    engine, so a signed-in learner's drill carries between devices too.
@@ -40,6 +43,20 @@ function ttEsc(str) {
     return String(str)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+/** Escaped text with {a/b} rendered as a stacked fraction.
+ *
+ *  A fraction drill that prints "1/2" asks a child to parse a sum before they
+ *  can start it; stacked, the size of the pieces is the thing you see first. */
+function ttMath(str) {
+    return ttEsc(str).replace(/\{(-?\d+)\/(\d+)\}/g,
+        (_, n, d) => ttFracHTML(n, d));
+}
+
+function ttFracHTML(num, den, numHTML) {
+    return `<span class="tt-frac"><span class="tt-frac-n">${numHTML || num}</span>` +
+           `<span class="tt-frac-d">${den}</span></span>`;
 }
 
 function ttQuestions(levelId) {
@@ -158,6 +175,7 @@ function ttQuestionHTML(q, index) {
     const right = marked && ttIsRight(q, draft);
     const mark = !marked ? '' : right ? 'tt-q-right' : 'tt-q-wrong';
 
+    const wantsFraction = q.qtype === 'fraction';
     let input;
     if (q.mode === 'pick') {
         input = `<div class="tt-options" role="group" aria-label="${ttEsc(q.prompt)}">` +
@@ -169,11 +187,14 @@ function ttQuestionHTML(q, index) {
                 if (marked && option === q.answer.choice) classes.push('is-answer');
                 return `<button type="button" class="${classes.join(' ')}"
                           data-qid="${ttEsc(q.id)}" data-value="${ttEsc(option)}"
-                          ${ttChecked ? 'disabled' : ''}>${ttEsc(option)}</button>`;
+                          ${ttChecked ? 'disabled' : ''}>${ttMath(option)}</button>`;
             }).join('') + `</div>`;
     } else {
-        input = `<input class="tt-input" type="text" inputmode="numeric"
+        input = `<input class="tt-input${wantsFraction ? ' tt-input-frac' : ''}" type="text"
+                    inputmode="${wantsFraction ? 'text' : 'numeric'}"
+                    placeholder="${wantsFraction ? '3/4' : ''}"
                     aria-label="${ttEsc(q.prompt)}" data-qid="${ttEsc(q.id)}"
+                    data-kind="${wantsFraction ? 'fraction' : 'number'}"
                     value="${draft === undefined ? '' : ttEsc(draft)}"
                     ${ttChecked ? 'disabled' : ''} autocomplete="off">`;
     }
@@ -187,7 +208,7 @@ function ttQuestionHTML(q, index) {
     return `
         <li class="tt-q ${mark}" data-qid="${ttEsc(q.id)}">
             <span class="tt-q-num">${index + 1}</span>
-            <span class="tt-q-prompt">${ttEsc(q.prompt)}</span>
+            <span class="tt-q-prompt">${ttMath(q.prompt)}</span>
             ${input}
             <span class="tt-q-mark" aria-hidden="true">${marked ? (right ? '✓' : '✗') : (solved === 'correct' ? '·' : '')}</span>
             ${help}
@@ -208,6 +229,7 @@ function ttChainHTML(level, set) {
     const chain = ladder.chain || [];
     const back = ladder.mode === 'back';
     const byStep = new Map(set.questions.map(q => [q.step, q]));
+    if (ladder.mode === 'equiv') return ttEquivChainHTML(ladder, chain, byStep);
 
     const rungs = chain.map((value, i) => {
         const step = i + 1;
@@ -243,9 +265,55 @@ function ttChainHTML(level, set) {
         <div class="tt-chain">${rungs}</div>`;
 }
 
+/** The same ladder, run along one fraction's equivalents instead of a table.
+ *
+ *  Only the top of each rung is ever blank: the bottom is printed, so the
+ *  question is always the one worth asking — how many of THESE pieces make the
+ *  same amount? — and never "write a fraction". */
+function ttEquivChainHTML(ladder, chain, byStep) {
+    const [baseN, baseD] = ladder.base || chain[0];
+
+    const rungs = chain.map((pair, i) => {
+        const [num, den] = pair;
+        const q = byStep.get(i + 1);
+        if (!q) return `<span class="tt-rung is-given">${ttFracHTML(num, den)}</span>`;
+
+        const draft = ttDraft[q.id];
+        const marked = ttChecked && draft !== undefined;
+        const right = marked && ttIsRight(q, draft);
+        const state = !marked ? '' : right ? ' is-right' : ' is-wrong';
+        const box = `<input class="tt-input tt-rung-input" type="text" inputmode="numeric"
+                           aria-label="${ttEsc(q.prompt)}" data-qid="${ttEsc(q.id)}"
+                           data-kind="number"
+                           value="${draft === undefined ? '' : ttEsc(draft)}"
+                           ${ttChecked ? 'disabled' : ''} autocomplete="off">`;
+        const reveal = marked && !right
+            ? `<span class="tt-rung-answer">${ttEsc(q.answer.display)}</span>` : '';
+        return `<span class="tt-rung is-blank${state}">${ttFracHTML(null, den, box)}${reveal}</span>`;
+    }).join('<span class="tt-rung-link is-equals" aria-hidden="true">=</span>');
+
+    return `
+        <div class="tt-chain-intro">
+            Every one of these is ${ttFracHTML(baseN, baseD)} — the same amount, just
+            cut into more pieces. Fill in the tops.
+        </div>
+        <div class="tt-chain tt-chain-equiv">${rungs}</div>`;
+}
+
 function ttIsRight(q, value) {
     if (q.mode === 'pick') return value === q.answer.choice;
     const typed = String(value === undefined ? '' : value).trim();
+    if (q.qtype === 'fraction') {
+        // Tidying up is half the skill, so only the tidied form counts. The
+        // help line shows what the untidy one reduces to.
+        const parts = typed.match(/^(\d+)\s*\/\s*(\d+)$/);
+        if (parts) {
+            return parseInt(parts[1], 10) === q.answer.num
+                && parseInt(parts[2], 10) === q.answer.den;
+        }
+        return q.answer.den === 1 && /^\d+$/.test(typed)
+            && parseInt(typed, 10) === q.answer.num;
+    }
     return /^\d+$/.test(typed) && parseInt(typed, 10) === q.answer.value;
 }
 
@@ -267,13 +335,15 @@ function ttSetHTML(level, set, sets) {
     const step = (level.ladder || {}).step;
     const banner = set.mode === 'skip'
         ? `<div class="tt-mode tt-mode-skip">🪜 Skip counting — count up in ${step}s</div>`
+        : set.mode === 'equiv'
+        ? `<div class="tt-mode tt-mode-skip">🧩 Equivalent fractions — same amount, more pieces</div>`
         : set.mode === 'back'
         ? `<div class="tt-mode tt-mode-back">➖ Repeated subtraction — take away ${step} each time</div>`
         : set.mode === 'pick'
         ? `<div class="tt-mode tt-mode-pick">👆 Pick the right answer</div>`
         : `<div class="tt-mode tt-mode-type">⌨️ Type the answer — no options this time</div>`;
 
-    const body = (set.mode === 'skip' || set.mode === 'back')
+    const body = (set.mode === 'skip' || set.mode === 'back' || set.mode === 'equiv')
         ? ttChainHTML(level, set)
         : `<ol class="tt-list">${set.questions.map(ttQuestionHTML).join('')}</ol>`;
 
@@ -329,7 +399,7 @@ function ttDoneHTML(level) {
             <p class="tt-done-score">${st.correct} of ${st.total} right${st.answered < st.total
                 ? ` · ${st.total - st.answered} still to do` : ''}</p>
             ${unique.length ? `<div class="tt-done-weak">
-                <b>Worth another lap:</b> ${unique.slice(0, 12).map(ttEsc).join(' · ')}
+                <b>Worth another lap:</b> ${unique.slice(0, 12).map(ttMath).join(' · ')}
             </div>` : ''}
             <div class="tt-done-actions">
                 <button type="button" class="tt-btn tt-btn-ghost" id="tt-restart">🔄 Start this level over</button>
@@ -351,8 +421,10 @@ function ttWire(level, set, sets) {
 
     ttRoot.querySelectorAll('.tt-input').forEach(input => {
         input.addEventListener('input', () => {
-            // Keep digits only: a stray letter would just fail the check later.
-            input.value = input.value.replace(/[^\d]/g, '');
+            // Keep digits only — plus the slash where a fraction is wanted.
+            // A stray letter would just fail the check later.
+            const allowed = input.dataset.kind === 'fraction' ? /[^\d/]/g : /[^\d]/g;
+            input.value = input.value.replace(allowed, '');
             ttDraft[input.dataset.qid] = input.value;
             const check = document.getElementById('tt-check');
             const ready = set.questions.every(q => (ttDraft[q.id] || '') !== '');

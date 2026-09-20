@@ -1160,6 +1160,1439 @@
       "tip": "Descending makes the change negative. Convert 2 2/3 to the improper fraction 8/3, then multiply straight across."
     },
     {
+      "id": "frac-ops-01",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{5/9} + {2/9} =",
+      "set": 1,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 9, so nothing changes",
+            "fields": [
+              "5/9",
+              "2/9"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "7/9"
+            ]
+          }
+        ],
+        "display": "7/9"
+      },
+      "steps": "Add the numerators and keep the denominator: 5 + 2 = 7, so 7/9. GCD(7, 9) = 1, so 7/9 is already fully reduced.",
+      "tip": "The denominators already match, so there is nothing to rewrite — combine the numerators and leave the denominator exactly as it is. Then check whether the answer still reduces."
+    },
+    {
+      "id": "frac-ops-02",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{7/8} - {3/8} =",
+      "set": 1,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 8, so nothing changes",
+            "fields": [
+              "7/8",
+              "3/8"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "4/8"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(4, 8) = 4, so divide the top and the bottom by 4",
+            "fields": [
+              "1/2"
+            ]
+          }
+        ],
+        "display": "1/2"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 7/8 - 3/8 = 7/8 + (-3/8). Add the numerators and keep the denominator: 7 + (-3) = 4, so 4/8. Reduce: GCD(4, 8) = 4, so divide top and bottom by 4 to get 1/2.",
+      "tip": "The denominators already match, so there is nothing to rewrite — combine the numerators and leave the denominator exactly as it is. Then check whether the answer still reduces."
+    },
+    {
+      "id": "frac-ops-03",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{1/6} + {1/6} =",
+      "set": 1,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 6, so nothing changes",
+            "fields": [
+              "1/6",
+              "1/6"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "2/6"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(2, 6) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "1/3"
+            ]
+          }
+        ],
+        "display": "1/3"
+      },
+      "steps": "Add the numerators and keep the denominator: 1 + 1 = 2, so 2/6. Reduce: GCD(2, 6) = 2, so divide top and bottom by 2 to get 1/3.",
+      "tip": "The denominators already match, so there is nothing to rewrite — combine the numerators and leave the denominator exactly as it is. Then check whether the answer still reduces."
+    },
+    {
+      "id": "frac-ops-04",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{9/10} - {3/10} =",
+      "set": 1,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 10, so nothing changes",
+            "fields": [
+              "9/10",
+              "3/10"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "6/10"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(6, 10) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "3/5"
+            ]
+          }
+        ],
+        "display": "3/5"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 9/10 - 3/10 = 9/10 + (-3/10). Add the numerators and keep the denominator: 9 + (-3) = 6, so 6/10. Reduce: GCD(6, 10) = 2, so divide top and bottom by 2 to get 3/5.",
+      "tip": "The denominators already match, so there is nothing to rewrite — combine the numerators and leave the denominator exactly as it is. Then check whether the answer still reduces."
+    },
+    {
+      "id": "frac-ops-05",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{2/7} + {3/7} =",
+      "set": 1,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 7, so nothing changes",
+            "fields": [
+              "2/7",
+              "3/7"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "5/7"
+            ]
+          }
+        ],
+        "display": "5/7"
+      },
+      "steps": "Add the numerators and keep the denominator: 2 + 3 = 5, so 5/7. GCD(5, 7) = 1, so 5/7 is already fully reduced.",
+      "tip": "The denominators already match, so there is nothing to rewrite — combine the numerators and leave the denominator exactly as it is. Then check whether the answer still reduces."
+    },
+    {
+      "id": "frac-ops-06",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "({-5/8}) + {1/8} =",
+      "set": 2,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 8, so nothing changes",
+            "fields": [
+              "-5/8",
+              "1/8"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-4/8"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(4, 8) = 4, so divide the top and the bottom by 4",
+            "fields": [
+              "-1/2"
+            ]
+          }
+        ],
+        "display": "-1/2"
+      },
+      "steps": "Add the numerators and keep the denominator: -5 + 1 = -4, so -4/8. Reduce: GCD(4, 8) = 4, so divide top and bottom by 4 to get -1/2.",
+      "tip": "Same signs: add the sizes and keep that sign. Different signs: take the smaller size away from the bigger one, and the answer keeps the sign of the bigger one."
+    },
+    {
+      "id": "frac-ops-07",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "({-3/10}) - {1/10} =",
+      "set": 2,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 10, so nothing changes",
+            "fields": [
+              "-3/10",
+              "1/10"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-4/10"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(4, 10) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "-2/5"
+            ]
+          }
+        ],
+        "display": "-2/5"
+      },
+      "steps": "Subtracting is the same as adding the opposite: -3/10 - 1/10 = -3/10 + (-1/10). Add the numerators and keep the denominator: -3 + (-1) = -4, so -4/10. Reduce: GCD(4, 10) = 2, so divide top and bottom by 2 to get -2/5.",
+      "tip": "Same signs: add the sizes and keep that sign. Different signs: take the smaller size away from the bigger one, and the answer keeps the sign of the bigger one."
+    },
+    {
+      "id": "frac-ops-08",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "({-1/6}) + ({-1/6}) =",
+      "set": 2,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 6, so nothing changes",
+            "fields": [
+              "-1/6",
+              "-1/6"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-2/6"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(2, 6) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "-1/3"
+            ]
+          }
+        ],
+        "display": "-1/3"
+      },
+      "steps": "Add the numerators and keep the denominator: -1 + (-1) = -2, so -2/6. Reduce: GCD(2, 6) = 2, so divide top and bottom by 2 to get -1/3.",
+      "tip": "Same signs: add the sizes and keep that sign. Different signs: take the smaller size away from the bigger one, and the answer keeps the sign of the bigger one."
+    },
+    {
+      "id": "frac-ops-09",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "({-2/9}) + {7/9} =",
+      "set": 2,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 9, so nothing changes",
+            "fields": [
+              "-2/9",
+              "7/9"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "5/9"
+            ]
+          }
+        ],
+        "display": "5/9"
+      },
+      "steps": "Add the numerators and keep the denominator: -2 + 7 = 5, so 5/9. GCD(5, 9) = 1, so 5/9 is already fully reduced.",
+      "tip": "Same signs: add the sizes and keep that sign. Different signs: take the smaller size away from the bigger one, and the answer keeps the sign of the bigger one."
+    },
+    {
+      "id": "frac-ops-10",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 1,
+      "prompt": "{1/7} - {5/7} =",
+      "set": 2,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 7, so nothing changes",
+            "fields": [
+              "1/7",
+              "5/7"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-4/7"
+            ]
+          }
+        ],
+        "display": "-4/7"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 1/7 - 5/7 = 1/7 + (-5/7). Add the numerators and keep the denominator: 1 + (-5) = -4, so -4/7. GCD(4, 7) = 1, so -4/7 is already fully reduced.",
+      "tip": "Same signs: add the sizes and keep that sign. Different signs: take the smaller size away from the bigger one, and the answer keeps the sign of the bigger one."
+    },
+    {
+      "id": "frac-ops-11",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{1/3} + {1/4} =",
+      "set": 3,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 3 and 4 is 12",
+            "fields": [
+              "4/12",
+              "3/12"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "7/12"
+            ]
+          }
+        ],
+        "display": "7/12"
+      },
+      "steps": "The LCM of the denominators 3 and 4 is 12. Rewrite both: 1/3 = 4/12 and 1/4 = 3/12. Add the numerators and keep the denominator: 4 + 3 = 7, so 7/12. GCD(7, 12) = 1, so 7/12 is already fully reduced.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-12",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{5/6} - {1/12} =",
+      "set": 3,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 6 and 12 is 12",
+            "fields": [
+              "10/12",
+              "1/12"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "9/12"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(9, 12) = 3, so divide the top and the bottom by 3",
+            "fields": [
+              "3/4"
+            ]
+          }
+        ],
+        "display": "3/4"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 5/6 - 1/12 = 5/6 + (-1/12). The LCM of the denominators 6 and 12 is 12. Rewrite both: 5/6 = 10/12 and -1/12 = -1/12. Add the numerators and keep the denominator: 10 + (-1) = 9, so 9/12. Reduce: GCD(9, 12) = 3, so divide top and bottom by 3 to get 3/4.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-13",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "({-1/3}) + {3/4} =",
+      "set": 3,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 3 and 4 is 12",
+            "fields": [
+              "-4/12",
+              "9/12"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "5/12"
+            ]
+          }
+        ],
+        "display": "5/12"
+      },
+      "steps": "The LCM of the denominators 3 and 4 is 12. Rewrite both: -1/3 = -4/12 and 3/4 = 9/12. Add the numerators and keep the denominator: -4 + 9 = 5, so 5/12. GCD(5, 12) = 1, so 5/12 is already fully reduced.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-14",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{7/12} - {5/6} =",
+      "set": 3,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 12 and 6 is 12",
+            "fields": [
+              "7/12",
+              "10/12"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-3/12"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(3, 12) = 3, so divide the top and the bottom by 3",
+            "fields": [
+              "-1/4"
+            ]
+          }
+        ],
+        "display": "-1/4"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 7/12 - 5/6 = 7/12 + (-5/6). The LCM of the denominators 12 and 6 is 12. Rewrite both: 7/12 = 7/12 and -5/6 = -10/12. Add the numerators and keep the denominator: 7 + (-10) = -3, so -3/12. Reduce: GCD(3, 12) = 3, so divide top and bottom by 3 to get -1/4.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-15",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{1/4} + {2/3} =",
+      "set": 3,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 4 and 3 is 12",
+            "fields": [
+              "3/12",
+              "8/12"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "11/12"
+            ]
+          }
+        ],
+        "display": "11/12"
+      },
+      "steps": "The LCM of the denominators 4 and 3 is 12. Rewrite both: 1/4 = 3/12 and 2/3 = 8/12. Add the numerators and keep the denominator: 3 + 8 = 11, so 11/12. GCD(11, 12) = 1, so 11/12 is already fully reduced.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-16",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{3/4} - {2/5} =",
+      "set": 4,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 4 and 5 is 20",
+            "fields": [
+              "15/20",
+              "8/20"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "7/20"
+            ]
+          }
+        ],
+        "display": "7/20"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 3/4 - 2/5 = 3/4 + (-2/5). The LCM of the denominators 4 and 5 is 20. Rewrite both: 3/4 = 15/20 and -2/5 = -8/20. Add the numerators and keep the denominator: 15 + (-8) = 7, so 7/20. GCD(7, 20) = 1, so 7/20 is already fully reduced.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-17",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{1/2} + {1/5} =",
+      "set": 4,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 2 and 5 is 10",
+            "fields": [
+              "5/10",
+              "2/10"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "7/10"
+            ]
+          }
+        ],
+        "display": "7/10"
+      },
+      "steps": "The LCM of the denominators 2 and 5 is 10. Rewrite both: 1/2 = 5/10 and 1/5 = 2/10. Add the numerators and keep the denominator: 5 + 2 = 7, so 7/10. GCD(7, 10) = 1, so 7/10 is already fully reduced.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-18",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{2/3} - {1/2} =",
+      "set": 4,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 3 and 2 is 6",
+            "fields": [
+              "4/6",
+              "3/6"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "1/6"
+            ]
+          }
+        ],
+        "display": "1/6"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 2/3 - 1/2 = 2/3 + (-1/2). The LCM of the denominators 3 and 2 is 6. Rewrite both: 2/3 = 4/6 and -1/2 = -3/6. Add the numerators and keep the denominator: 4 + (-3) = 1, so 1/6. GCD(1, 6) = 1, so 1/6 is already fully reduced.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-19",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{3/5} + {1/6} =",
+      "set": 4,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 5 and 6 is 30",
+            "fields": [
+              "18/30",
+              "5/30"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "23/30"
+            ]
+          }
+        ],
+        "display": "23/30"
+      },
+      "steps": "The LCM of the denominators 5 and 6 is 30. Rewrite both: 3/5 = 18/30 and 1/6 = 5/30. Add the numerators and keep the denominator: 18 + 5 = 23, so 23/30. GCD(23, 30) = 1, so 23/30 is already fully reduced.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-20",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 2,
+      "prompt": "{5/6} - {1/4} =",
+      "set": 4,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 6 and 4 is 12",
+            "fields": [
+              "10/12",
+              "3/12"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "7/12"
+            ]
+          }
+        ],
+        "display": "7/12"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 5/6 - 1/4 = 5/6 + (-1/4). The LCM of the denominators 6 and 4 is 12. Rewrite both: 5/6 = 10/12 and -1/4 = -3/12. Add the numerators and keep the denominator: 10 + (-3) = 7, so 7/12. GCD(7, 12) = 1, so 7/12 is already fully reduced.",
+      "tip": "Find the LCM of the two denominators, then rewrite BOTH fractions over it by multiplying top and bottom by the same number. Never add denominators."
+    },
+    {
+      "id": "frac-ops-21",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-2/5}) + ({-1/2}) =",
+      "set": 5,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 5 and 2 is 10",
+            "fields": [
+              "-4/10",
+              "-5/10"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-9/10"
+            ]
+          }
+        ],
+        "display": "-9/10"
+      },
+      "steps": "The LCM of the denominators 5 and 2 is 10. Rewrite both: -2/5 = -4/10 and -1/2 = -5/10. Add the numerators and keep the denominator: -4 + (-5) = -9, so -9/10. GCD(9, 10) = 1, so -9/10 is already fully reduced.",
+      "tip": "Same signs: add the sizes and keep that sign. Different signs: take the smaller size away from the bigger one, and the answer keeps the sign of the bigger one."
+    },
+    {
+      "id": "frac-ops-22",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-1/2}) - ({-1/3}) =",
+      "set": 5,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 2 and 3 is 6",
+            "fields": [
+              "-3/6",
+              "-2/6"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-1/6"
+            ]
+          }
+        ],
+        "display": "-1/6"
+      },
+      "steps": "Subtracting is the same as adding the opposite: -1/2 - (-1/3) = -1/2 + 1/3. The LCM of the denominators 2 and 3 is 6. Rewrite both: -1/2 = -3/6 and 1/3 = 2/6. Add the numerators and keep the denominator: -3 + 2 = -1, so -1/6. GCD(1, 6) = 1, so -1/6 is already fully reduced.",
+      "tip": "Subtracting a negative is adding a positive. Rewrite both fractions over the LCM first, then read the double minus carefully: -3/6 - (-2/6) is -3 + 2 on top."
+    },
+    {
+      "id": "frac-ops-23",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-3/5}) - ({-1/6}) =",
+      "set": 5,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 5 and 6 is 30",
+            "fields": [
+              "-18/30",
+              "-5/30"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-13/30"
+            ]
+          }
+        ],
+        "display": "-13/30"
+      },
+      "steps": "Subtracting is the same as adding the opposite: -3/5 - (-1/6) = -3/5 + 1/6. The LCM of the denominators 5 and 6 is 30. Rewrite both: -3/5 = -18/30 and 1/6 = 5/30. Add the numerators and keep the denominator: -18 + 5 = -13, so -13/30. GCD(13, 30) = 1, so -13/30 is already fully reduced.",
+      "tip": "Subtracting a negative is adding a positive. Rewrite both fractions over the LCM first, then read the double minus carefully: -3/6 - (-2/6) is -3 + 2 on top."
+    },
+    {
+      "id": "frac-ops-24",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-1/4}) + {2/3} =",
+      "set": 5,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 4 and 3 is 12",
+            "fields": [
+              "-3/12",
+              "8/12"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "5/12"
+            ]
+          }
+        ],
+        "display": "5/12"
+      },
+      "steps": "The LCM of the denominators 4 and 3 is 12. Rewrite both: -1/4 = -3/12 and 2/3 = 8/12. Add the numerators and keep the denominator: -3 + 8 = 5, so 5/12. GCD(5, 12) = 1, so 5/12 is already fully reduced.",
+      "tip": "Same signs: add the sizes and keep that sign. Different signs: take the smaller size away from the bigger one, and the answer keeps the sign of the bigger one."
+    },
+    {
+      "id": "frac-ops-25",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-1/3}) - {1/6} =",
+      "set": 5,
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 3 and 6 is 6",
+            "fields": [
+              "-2/6",
+              "1/6"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-3/6"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(3, 6) = 3, so divide the top and the bottom by 3",
+            "fields": [
+              "-1/2"
+            ]
+          }
+        ],
+        "display": "-1/2"
+      },
+      "steps": "Subtracting is the same as adding the opposite: -1/3 - 1/6 = -1/3 + (-1/6). The LCM of the denominators 3 and 6 is 6. Rewrite both: -1/3 = -2/6 and -1/6 = -1/6. Add the numerators and keep the denominator: -2 + (-1) = -3, so -3/6. Reduce: GCD(3, 6) = 3, so divide top and bottom by 3 to get -1/2.",
+      "tip": "Same signs: add the sizes and keep that sign. Different signs: take the smaller size away from the bigger one, and the answer keeps the sign of the bigger one."
+    },
+    {
+      "id": "frac-ops-26",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-2_1/2}) + {1_1/4} =",
+      "set": 6,
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction — the minus belongs to the whole thing, not just the whole number",
+            "fields": [
+              "-5/2",
+              "5/4"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 2 and 4 is 4",
+            "fields": [
+              "-10/4",
+              "5/4"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-5/4"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "-1 1/4"
+            ]
+          }
+        ],
+        "display": "-1 1/4"
+      },
+      "steps": "The LCM of the denominators 2 and 4 is 4. Rewrite both: -5/2 = -10/4 and 5/4 = 5/4. Add the numerators and keep the denominator: -10 + 5 = -5, so -5/4. GCD(5, 4) = 1, so -5/4 is already fully reduced.",
+      "tip": "Convert each mixed number first: multiply the whole number by the denominator and add the numerator. -1 1/4 is -(4+1)/4 = -5/4 — the minus covers the whole number AND the fraction."
+    },
+    {
+      "id": "frac-ops-27",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "{1_1/2} + {2_1/3} =",
+      "set": 6,
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction — the minus belongs to the whole thing, not just the whole number",
+            "fields": [
+              "3/2",
+              "7/3"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 2 and 3 is 6",
+            "fields": [
+              "9/6",
+              "14/6"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "23/6"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "3 5/6"
+            ]
+          }
+        ],
+        "display": "3 5/6"
+      },
+      "steps": "The LCM of the denominators 2 and 3 is 6. Rewrite both: 3/2 = 9/6 and 7/3 = 14/6. Add the numerators and keep the denominator: 9 + 14 = 23, so 23/6. GCD(23, 6) = 1, so 23/6 is already fully reduced.",
+      "tip": "Convert each mixed number first: multiply the whole number by the denominator and add the numerator. -1 1/4 is -(4+1)/4 = -5/4 — the minus covers the whole number AND the fraction."
+    },
+    {
+      "id": "frac-ops-28",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-1_1/2}) + ({-2_1/4}) =",
+      "set": 6,
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction — the minus belongs to the whole thing, not just the whole number",
+            "fields": [
+              "-3/2",
+              "-9/4"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 2 and 4 is 4",
+            "fields": [
+              "-6/4",
+              "-9/4"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-15/4"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "-3 3/4"
+            ]
+          }
+        ],
+        "display": "-3 3/4"
+      },
+      "steps": "The LCM of the denominators 2 and 4 is 4. Rewrite both: -3/2 = -6/4 and -9/4 = -9/4. Add the numerators and keep the denominator: -6 + (-9) = -15, so -15/4. GCD(15, 4) = 1, so -15/4 is already fully reduced.",
+      "tip": "Convert each mixed number first: multiply the whole number by the denominator and add the numerator. -1 1/4 is -(4+1)/4 = -5/4 — the minus covers the whole number AND the fraction."
+    },
+    {
+      "id": "frac-ops-29",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "{2_1/3} - {1_1/2} =",
+      "set": 6,
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction — the minus belongs to the whole thing, not just the whole number",
+            "fields": [
+              "7/3",
+              "3/2"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 3 and 2 is 6",
+            "fields": [
+              "14/6",
+              "9/6"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "5/6"
+            ]
+          }
+        ],
+        "display": "5/6"
+      },
+      "steps": "Subtracting is the same as adding the opposite: 7/3 - 3/2 = 7/3 + (-3/2). The LCM of the denominators 3 and 2 is 6. Rewrite both: 7/3 = 14/6 and -3/2 = -9/6. Add the numerators and keep the denominator: 14 + (-9) = 5, so 5/6. GCD(5, 6) = 1, so 5/6 is already fully reduced.",
+      "tip": "Convert each mixed number first: multiply the whole number by the denominator and add the numerator. -1 1/4 is -(4+1)/4 = -5/4 — the minus covers the whole number AND the fraction."
+    },
+    {
+      "id": "frac-ops-30",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-3_1/4}) + {1_1/2} =",
+      "set": 6,
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction — the minus belongs to the whole thing, not just the whole number",
+            "fields": [
+              "-13/4",
+              "3/2"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 4 and 2 is 4",
+            "fields": [
+              "-13/4",
+              "6/4"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-7/4"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "-1 3/4"
+            ]
+          }
+        ],
+        "display": "-1 3/4"
+      },
+      "steps": "The LCM of the denominators 4 and 2 is 4. Rewrite both: -13/4 = -13/4 and 3/2 = 6/4. Add the numerators and keep the denominator: -13 + 6 = -7, so -7/4. GCD(7, 4) = 1, so -7/4 is already fully reduced.",
+      "tip": "Convert each mixed number first: multiply the whole number by the denominator and add the numerator. -1 1/4 is -(4+1)/4 = -5/4 — the minus covers the whole number AND the fraction."
+    },
+    {
+      "id": "frac-ops-31",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "{3/4} × ({-2/5}) =",
+      "set": 7,
+      "answer": {
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across — the signs are different, so the answer is negative",
+            "fields": [
+              "-6/20"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(6, 20) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "-3/10"
+            ]
+          }
+        ],
+        "display": "-3/10"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Multiply straight across: (3 × -2) / (4 × 5) = -6/20. Reduce: GCD(6, 20) = 2, so divide top and bottom by 2 to get -3/10.",
+      "tip": "Multiplying needs no common denominator: multiply the tops, multiply the bottoms. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-ops-32",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-1/2}) × ({-3/5}) =",
+      "set": 7,
+      "answer": {
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across — the signs are the same, so the answer is positive",
+            "fields": [
+              "3/10"
+            ]
+          }
+        ],
+        "display": "3/10"
+      },
+      "steps": "The two numbers have the same sign, so the answer is positive. Multiply straight across: (-1 × -3) / (2 × 5) = 3/10. GCD(3, 10) = 1, so 3/10 is already fully reduced.",
+      "tip": "Multiplying needs no common denominator: multiply the tops, multiply the bottoms. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-ops-33",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-2/3}) × {1/2} =",
+      "set": 7,
+      "answer": {
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across — the signs are different, so the answer is negative",
+            "fields": [
+              "-2/6"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(2, 6) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "-1/3"
+            ]
+          }
+        ],
+        "display": "-1/3"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Multiply straight across: (-2 × 1) / (3 × 2) = -2/6. Reduce: GCD(2, 6) = 2, so divide top and bottom by 2 to get -1/3.",
+      "tip": "Multiplying needs no common denominator: multiply the tops, multiply the bottoms. Same signs give a positive answer, different signs give a negative one."
+    },
+    {
+      "id": "frac-ops-34",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-3/5}) ÷ ({-2/5}) =",
+      "set": 7,
+      "answer": {
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "-3/5",
+              "-5/2"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across — the signs are the same, so the answer is positive",
+            "fields": [
+              "15/10"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(15, 10) = 5, so divide the top and the bottom by 5",
+            "fields": [
+              "3/2"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/2"
+            ]
+          }
+        ],
+        "display": "1 1/2"
+      },
+      "steps": "Keep-change-flip: -3/5 ÷ (-2/5) = -3/5 × (-5/2). The two numbers have the same sign, so the answer is positive. Multiply straight across: (-3 × -5) / (5 × 2) = 15/10. Reduce: GCD(15, 10) = 5, so divide top and bottom by 5 to get 3/2.",
+      "tip": "Keep, change, flip: keep the first fraction, change ÷ to ×, and flip the second fraction upside down. Then it is an ordinary multiplication."
+    },
+    {
+      "id": "frac-ops-35",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "{1/2} ÷ ({-1/4}) =",
+      "set": 7,
+      "answer": {
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "1/2",
+              "-4/1"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across — the signs are different, so the answer is negative",
+            "fields": [
+              "-4/2"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(4, 2) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "-2"
+            ]
+          }
+        ],
+        "display": "-2"
+      },
+      "steps": "Keep-change-flip: 1/2 ÷ (-1/4) = 1/2 × (-4). The two numbers have different signs, so the answer is negative. Multiply straight across: (1 × -4) / (2 × 1) = -4/2. Reduce: GCD(4, 2) = 2, so divide top and bottom by 2 to get -2.",
+      "tip": "Keep, change, flip: keep the first fraction, change ÷ to ×, and flip the second fraction upside down. Then it is an ordinary multiplication."
+    },
+    {
+      "id": "frac-ops-36",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "{1/3} + {1/4} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 3 and 4 is 12",
+            "fields": [
+              "4/12",
+              "3/12"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "7/12"
+            ]
+          }
+        ],
+        "display": "7/12"
+      },
+      "steps": "The LCM of the denominators 3 and 4 is 12. Rewrite both: 1/3 = 4/12 and 1/4 = 3/12. Add the numerators and keep the denominator: 4 + 3 = 7, so 7/12. GCD(7, 12) = 1, so 7/12 is already fully reduced.",
+      "tip": "No example this time. Ask yourself first which kind it is: mixed numbers get converted, + and - need a common denominator, × and ÷ never do. Then reduce, and turn improper into mixed."
+    },
+    {
+      "id": "frac-ops-37",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-2/5}) + ({-3/10}) =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 5 and 10 is 10",
+            "fields": [
+              "-4/10",
+              "-3/10"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "-7/10"
+            ]
+          }
+        ],
+        "display": "-7/10"
+      },
+      "steps": "The LCM of the denominators 5 and 10 is 10. Rewrite both: -2/5 = -4/10 and -3/10 = -3/10. Add the numerators and keep the denominator: -4 + (-3) = -7, so -7/10. GCD(7, 10) = 1, so -7/10 is already fully reduced.",
+      "tip": "No example this time. Ask yourself first which kind it is: mixed numbers get converted, + and - need a common denominator, × and ÷ never do. Then reduce, and turn improper into mixed."
+    },
+    {
+      "id": "frac-ops-38",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-1_1/2}) + {2_1/4} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction — the minus belongs to the whole thing, not just the whole number",
+            "fields": [
+              "-3/2",
+              "9/4"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 2 and 4 is 4",
+            "fields": [
+              "-6/4",
+              "9/4"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "3/4"
+            ]
+          }
+        ],
+        "display": "3/4"
+      },
+      "steps": "The LCM of the denominators 2 and 4 is 4. Rewrite both: -3/2 = -6/4 and 9/4 = 9/4. Add the numerators and keep the denominator: -6 + 9 = 3, so 3/4. GCD(3, 4) = 1, so 3/4 is already fully reduced.",
+      "tip": "No example this time. Ask yourself first which kind it is: mixed numbers get converted, + and - need a common denominator, × and ÷ never do. Then reduce, and turn improper into mixed."
+    },
+    {
+      "id": "frac-ops-39",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "({-3/4}) × {2/5} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across — the signs are different, so the answer is negative",
+            "fields": [
+              "-6/20"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(6, 20) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "-3/10"
+            ]
+          }
+        ],
+        "display": "-3/10"
+      },
+      "steps": "The two numbers have different signs, so the answer is negative. Multiply straight across: (-3 × 2) / (4 × 5) = -6/20. Reduce: GCD(6, 20) = 2, so divide top and bottom by 2 to get -3/10.",
+      "tip": "No example this time. Ask yourself first which kind it is: mixed numbers get converted, + and - need a common denominator, × and ÷ never do. Then reduce, and turn improper into mixed."
+    },
+    {
+      "id": "frac-ops-40",
+      "section": "frac-ops",
+      "qtype": "steps",
+      "kind": "number",
+      "difficulty": 3,
+      "prompt": "{1/2} ÷ ({-3/4}) =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "1/2",
+              "-4/3"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across — the signs are different, so the answer is negative",
+            "fields": [
+              "-4/6"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(4, 6) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "-2/3"
+            ]
+          }
+        ],
+        "display": "-2/3"
+      },
+      "steps": "Keep-change-flip: 1/2 ÷ (-3/4) = 1/2 × (-4/3). The two numbers have different signs, so the answer is negative. Multiply straight across: (1 × -4) / (2 × 3) = -4/6. Reduce: GCD(4, 6) = 2, so divide top and bottom by 2 to get -2/3.",
+      "tip": "No example this time. Ask yourself first which kind it is: mixed numbers get converted, + and - need a common denominator, × and ÷ never do. Then reduce, and turn improper into mixed."
+    },
+    {
       "id": "order-ops-01",
       "section": "order-ops",
       "qtype": "decimal",

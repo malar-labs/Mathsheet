@@ -43,6 +43,12 @@
         "question_count": 12
       },
       {
+        "id": "frac-ops",
+        "title": "Basic Operations with Fractions",
+        "emoji": "🧱",
+        "question_count": 40
+      },
+      {
         "id": "order-ops",
         "title": "Order of Operations",
         "emoji": "🧮",
@@ -439,6 +445,278 @@
           "prompt": "{3/4} ÷ ({-6/7}) =",
           "steps": "Keep-change-flip: 3/4 × (-7/6). Different signs, so negative. Multiply across: 21/24, and GCD(21, 24) = 3, so -7/8.",
           "answer_display": "-7/8"
+        }
+      ]
+    },
+    {
+      "id": "frac-ops",
+      "title": "Basic Operations with Fractions",
+      "emoji": "🧱",
+      "color": "#10AC84",
+      "blurb": "Same four operations as the last two topics — but here you write out every step and each one is marked on its own, the way the worksheets do it. Convert, find the common denominator, solve, simplify. Two problems to a page, and every number is small enough to do in your head.",
+      "samples": [
+        {
+          "set": 1,
+          "prompt": "{3/8} + {1/8} =",
+          "steps": [
+            {
+              "label": "Common denominator",
+              "note": "both denominators are already 8, so nothing changes",
+              "fields": [
+                "3/8",
+                "1/8"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "4/8"
+              ]
+            },
+            {
+              "label": "Simplify",
+              "note": "GCD(4, 8) = 4, so divide the top and the bottom by 4",
+              "fields": [
+                "1/2"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 2,
+          "prompt": "({-7/12}) + {5/12} =",
+          "steps": [
+            {
+              "label": "Common denominator",
+              "note": "both denominators are already 12, so nothing changes",
+              "fields": [
+                "-7/12",
+                "5/12"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "-2/12"
+              ]
+            },
+            {
+              "label": "Simplify",
+              "note": "GCD(2, 12) = 2, so divide the top and the bottom by 2",
+              "fields": [
+                "-1/6"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 3,
+          "prompt": "{1/4} + {1/6} =",
+          "steps": [
+            {
+              "label": "Common denominator",
+              "note": "the LCM of 4 and 6 is 12",
+              "fields": [
+                "3/12",
+                "2/12"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "5/12"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 4,
+          "prompt": "{1/5} + {2/3} =",
+          "steps": [
+            {
+              "label": "Common denominator",
+              "note": "the LCM of 5 and 3 is 15",
+              "fields": [
+                "3/15",
+                "10/15"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "13/15"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 5,
+          "prompt": "({-1/2}) + ({-1/3}) =",
+          "steps": [
+            {
+              "label": "Common denominator",
+              "note": "the LCM of 2 and 3 is 6",
+              "fields": [
+                "-3/6",
+                "-2/6"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "-5/6"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 6,
+          "prompt": "({-1_1/4}) + ({-1_1/3}) =",
+          "steps": [
+            {
+              "label": "Convert",
+              "note": "a mixed number becomes an improper fraction — the minus belongs to the whole thing, not just the whole number",
+              "fields": [
+                "-5/4",
+                "-4/3"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Common denominator",
+              "note": "the LCM of 4 and 3 is 12",
+              "fields": [
+                "-15/12",
+                "-16/12"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "-31/12"
+              ]
+            },
+            {
+              "label": "Convert",
+              "note": "the answer came out improper, so write it as a mixed number",
+              "fields": [
+                "-2 7/12"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 7,
+          "prompt": "{2/3} × ({-3/4}) =",
+          "steps": [
+            {
+              "label": "Solve",
+              "note": "multiply straight across — the signs are different, so the answer is negative",
+              "fields": [
+                "-6/12"
+              ]
+            },
+            {
+              "label": "Simplify",
+              "note": "GCD(6, 12) = 6, so divide the top and the bottom by 6",
+              "fields": [
+                "-1/2"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 7,
+          "prompt": "({-2/3}) ÷ {1/2} =",
+          "steps": [
+            {
+              "label": "Invert",
+              "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+              "fields": [
+                "-2/3",
+                "2/1"
+              ],
+              "join": "×"
+            },
+            {
+              "label": "Solve",
+              "note": "multiply straight across — the signs are different, so the answer is negative",
+              "fields": [
+                "-4/3"
+              ]
+            },
+            {
+              "label": "Convert",
+              "note": "the answer came out improper, so write it as a mixed number",
+              "fields": [
+                "-1 1/3"
+              ]
+            }
+          ]
+        }
+      ],
+      "key_concepts": [
+        "Work the chain in this order every time: Convert mixed numbers → Common denominator → Solve → Simplify → Convert back. Skipping a line is where most marks are lost, so write each one down even when it feels obvious.",
+        {
+          "text": "The sign rules never change, no matter how big the fractions get. These are the four you need.",
+          "visual": {
+            "type": "rules",
+            "items": [
+              {
+                "expr": "(-) + (-)",
+                "result": " - ",
+                "note": "add the sizes, keep the minus"
+              },
+              {
+                "expr": "(-) + (+)",
+                "result": " ? ",
+                "note": "subtract the sizes; the bigger size wins the sign"
+              },
+              {
+                "expr": "(-) × (-)",
+                "result": " + ",
+                "note": "same signs make a positive"
+              },
+              {
+                "expr": "(-) × (+)",
+                "result": " - ",
+                "note": "different signs make a negative"
+              }
+            ]
+          }
+        },
+        "A common denominator is only for + and -. You are cutting both fractions into the same size pieces so the numerators can be counted together: {1/4} + {1/6} becomes {3/12} + {2/12} = {5/12}. The bottom number is the piece size, so it never gets added.",
+        "Multiplying and dividing need no common denominator at all. {2/3} × {-3/4} is just (2 × -3) over (3 × 4) = {-6/12}, and {-6/12} reduces to {-1/2}.",
+        "Dividing is multiplying by the reciprocal — keep, change, flip. {-2/3} ÷ {1/2} = {-2/3} × {2/1} = {-4/3}, which is {-1_1/3} as a mixed number.",
+        "An answer is not finished until it is reduced AND written as a mixed number if it is improper. {15/10} reduces to {3/2}, and {3/2} is {1_1/2}."
+      ],
+      "examples": [
+        {
+          "prompt": "{-7/12} + {5/12} =",
+          "steps": "Common denominator: both are already twelfths, so nothing is rewritten. Solve: the signs are different, so take 5 from 7 and keep the minus of the bigger size, giving -2/12. Simplify: GCD(2, 12) = 2, so -2/12 = -1/6.",
+          "answer_display": "-1/6"
+        },
+        {
+          "prompt": "({-1_1/4}) + ({-1_1/3}) =",
+          "steps": "Convert: -1 1/4 = -5/4 and -1 1/3 = -4/3. Common denominator: the LCM of 4 and 3 is 12, so -15/12 + -16/12. Solve: both are negative, so add the sizes and keep the minus, giving -31/12. Convert: -31/12 is improper, so it is -2 7/12.",
+          "answer_display": "-2 7/12"
+        },
+        {
+          "prompt": "({-2/3}) ÷ {1/2} =",
+          "steps": "Invert: keep, change, flip gives -2/3 × 2/1. Solve: multiply straight across, (-2 × 2)/(3 × 1) = -4/3 — different signs, so the answer is negative. Convert: -4/3 is improper, so it is -1 1/3.",
+          "answer_display": "-1 1/3"
         }
       ]
     },

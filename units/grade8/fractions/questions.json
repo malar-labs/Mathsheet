@@ -582,125 +582,405 @@
     {
       "id": "add-01",
       "section": "add",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{1/5} + {2/5} =",
       "answer": {
-        "num": 3,
-        "den": 5,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 5, so nothing changes",
+            "fields": [
+              "1/5",
+              "2/5"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "3/5"
+            ]
+          }
+        ],
         "display": "3/5"
       },
       "steps": "Same denominator (5) — just add the numerators: 1 + 2 = 3, keep the denominator: 3/5. Check for reducing: GCD(3, 5) = 1, so 3/5 is already in simplest form. Check for improper form: 3/5 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(3, 5) = 1, so 3/5 is already in simplest form. Check for improper form: 3/5 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "tip": "Check for reducing: GCD(3, 5) = 1, so 3/5 is already in simplest form. Check for improper form: 3/5 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 1
     },
     {
       "id": "add-02",
       "section": "add",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{2/9} + {5/9} =",
       "answer": {
-        "num": 7,
-        "den": 9,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 9, so nothing changes",
+            "fields": [
+              "2/9",
+              "5/9"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "7/9"
+            ]
+          }
+        ],
         "display": "7/9"
       },
       "steps": "Same denominator (9) — just add the numerators: 2 + 5 = 7, keep the denominator: 7/9. Check for reducing: GCD(7, 9) = 1, so 7/9 is already in simplest form. Check for improper form: 7/9 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(7, 9) = 1, so 7/9 is already in simplest form. Check for improper form: 7/9 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "tip": "Check for reducing: GCD(7, 9) = 1, so 7/9 is already in simplest form. Check for improper form: 7/9 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 1
     },
     {
       "id": "add-03",
       "section": "add",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{3/8} + {5/8} =",
       "answer": {
-        "num": 0,
-        "den": 1,
-        "whole": 1,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 8, so nothing changes",
+            "fields": [
+              "3/8",
+              "5/8"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "8/8"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(8, 8) = 8, so divide the top and the bottom by 8",
+            "fields": [
+              "1"
+            ]
+          }
+        ],
         "display": "1"
       },
-      "steps": "Same denominator (8) — just add the numerators: 3 + 5 = 8, keep the denominator: 8/8. Reduce first: your raw sum is 8/8. GCD(8, 8) = 8, so divide top and bottom by 8 to get 1/1. It actually simplifies all the way down to a whole number.",
-      "tip": "Reduce first: your raw sum is 8/8. GCD(8, 8) = 8, so divide top and bottom by 8 to get 1/1. It actually simplifies all the way down to a whole number."
+      "steps": "Same denominator (8) — just add the numerators: 3 + 5 = 8, keep the denominator: 8/8. Reduce first: your raw answer is 8/8. GCD(8, 8) = 8, so divide top and bottom by 8 to get 1/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw answer is 8/8. GCD(8, 8) = 8, so divide top and bottom by 8 to get 1/1. It actually simplifies all the way down to a whole number.",
+      "set": 1
     },
     {
       "id": "add-04",
       "section": "add",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
       "prompt": "{1/4} + {1/6} =",
       "answer": {
-        "num": 5,
-        "den": 12,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 4 and 6 is 12",
+            "fields": [
+              "3/12",
+              "2/12"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "5/12"
+            ]
+          }
+        ],
         "display": "5/12"
       },
       "steps": "Find the LCM of the denominators 4 and 6 → 12. Rewrite: 1/4 = 3/12 and 1/6 = 2/12. Add: 3 + 2 = 5 → 5/12. Check for reducing: GCD(5, 12) = 1, so 5/12 is already in simplest form. Check for improper form: 5/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(5, 12) = 1, so 5/12 is already in simplest form. Check for improper form: 5/12 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "tip": "Check for reducing: GCD(5, 12) = 1, so 5/12 is already in simplest form. Check for improper form: 5/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 2
     },
     {
       "id": "add-05",
       "section": "add",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
       "prompt": "{1/7} + {2/3} =",
       "answer": {
-        "num": 17,
-        "den": 21,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 7 and 3 is 21",
+            "fields": [
+              "3/21",
+              "14/21"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "17/21"
+            ]
+          }
+        ],
         "display": "17/21"
       },
       "steps": "Find the LCM of the denominators 7 and 3 → 21. Rewrite: 1/7 = 3/21 and 2/3 = 14/21. Add: 3 + 14 = 17 → 17/21. Check for reducing: GCD(17, 21) = 1, so 17/21 is already in simplest form. Check for improper form: 17/21 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(17, 21) = 1, so 17/21 is already in simplest form. Check for improper form: 17/21 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "tip": "Check for reducing: GCD(17, 21) = 1, so 17/21 is already in simplest form. Check for improper form: 17/21 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 2
     },
     {
       "id": "add-06",
       "section": "add",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
       "prompt": "{5/6} + {3/4} =",
       "answer": {
-        "num": 7,
-        "den": 12,
-        "whole": 1,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 6 and 4 is 12",
+            "fields": [
+              "10/12",
+              "9/12"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "19/12"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 7/12"
+            ]
+          }
+        ],
         "display": "1 7/12"
       },
       "steps": "Find the LCM of the denominators 6 and 4 → 12. Rewrite: 5/6 = 10/12 and 3/4 = 9/12. Add: 10 + 9 = 19 → 19/12. Check for reducing: GCD(19, 12) = 1, so 19/12 is already in simplest form. Check for improper form: 19/12 is improper (top ≥ bottom), so convert it to the mixed number 1 7/12.",
-      "tip": "Check for reducing: GCD(19, 12) = 1, so 19/12 is already in simplest form. Check for improper form: 19/12 is improper (top ≥ bottom), so convert it to the mixed number 1 7/12."
+      "tip": "Check for reducing: GCD(19, 12) = 1, so 19/12 is already in simplest form. Check for improper form: 19/12 is improper (top ≥ bottom), so convert it to the mixed number 1 7/12.",
+      "set": 2
     },
     {
       "id": "add-07",
       "section": "add",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 3,
       "prompt": "{1_1/4} + {2/5} =",
       "answer": {
-        "num": 13,
-        "den": 20,
-        "whole": 1,
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "5/4",
+              "2/5"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 4 and 5 is 20",
+            "fields": [
+              "25/20",
+              "8/20"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "33/20"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 13/20"
+            ]
+          }
+        ],
         "display": "1 13/20"
       },
-      "steps": "Convert to improper fractions: 1 1/4 = 5/4, 2/5 stays 2/5. Find the LCM of the denominators 4 and 5 → 20. Rewrite: 5/4 = 25/20 and 2/5 = 8/20. Add: 25 + 8 = 33 → 33/20. Check for reducing: GCD(33, 20) = 1, so 33/20 is already in simplest form. Check for improper form: 33/20 is improper (top ≥ bottom), so convert it to the mixed number 1 13/20.",
-      "tip": "Check for reducing: GCD(33, 20) = 1, so 33/20 is already in simplest form. Check for improper form: 33/20 is improper (top ≥ bottom), so convert it to the mixed number 1 13/20."
+      "steps": "Convert to improper fractions first: 1 1/4 = 5/4 and 2/5 = 2/5. Find the LCM of the denominators 4 and 5 → 20. Rewrite: 5/4 = 25/20 and 2/5 = 8/20. Add: 25 + 8 = 33 → 33/20. Check for reducing: GCD(33, 20) = 1, so 33/20 is already in simplest form. Check for improper form: 33/20 is improper (top ≥ bottom), so convert it to the mixed number 1 13/20.",
+      "tip": "Check for reducing: GCD(33, 20) = 1, so 33/20 is already in simplest form. Check for improper form: 33/20 is improper (top ≥ bottom), so convert it to the mixed number 1 13/20.",
+      "set": 3
     },
     {
       "id": "add-08",
       "section": "add",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 3,
       "prompt": "{2_1/3} + {1_3/4} =",
       "answer": {
-        "num": 1,
-        "den": 12,
-        "whole": 4,
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "7/3",
+              "7/4"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 3 and 4 is 12",
+            "fields": [
+              "28/12",
+              "21/12"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "49/12"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "4 1/12"
+            ]
+          }
+        ],
         "display": "4 1/12"
       },
-      "steps": "Convert to improper fractions: 2 1/3 = 7/3, 1 3/4 = 7/4. Find the LCM of the denominators 3 and 4 → 12. Rewrite: 7/3 = 28/12 and 7/4 = 21/12. Add: 28 + 21 = 49 → 49/12. Check for reducing: GCD(49, 12) = 1, so 49/12 is already in simplest form. Check for improper form: 49/12 is improper (top ≥ bottom), so convert it to the mixed number 4 1/12.",
-      "tip": "Check for reducing: GCD(49, 12) = 1, so 49/12 is already in simplest form. Check for improper form: 49/12 is improper (top ≥ bottom), so convert it to the mixed number 4 1/12."
+      "steps": "Convert to improper fractions first: 2 1/3 = 7/3 and 1 3/4 = 7/4. Find the LCM of the denominators 3 and 4 → 12. Rewrite: 7/3 = 28/12 and 7/4 = 21/12. Add: 28 + 21 = 49 → 49/12. Check for reducing: GCD(49, 12) = 1, so 49/12 is already in simplest form. Check for improper form: 49/12 is improper (top ≥ bottom), so convert it to the mixed number 4 1/12.",
+      "tip": "Check for reducing: GCD(49, 12) = 1, so 49/12 is already in simplest form. Check for improper form: 49/12 is improper (top ≥ bottom), so convert it to the mixed number 4 1/12.",
+      "set": 3
     },
     {
       "id": "add-09",
+      "section": "add",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "{2/5} + {1/4} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 5 and 4 is 20",
+            "fields": [
+              "8/20",
+              "5/20"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "13/20"
+            ]
+          }
+        ],
+        "display": "13/20"
+      },
+      "steps": "Find the LCM of the denominators 5 and 4 → 20. Rewrite: 2/5 = 8/20 and 1/4 = 5/20. Add: 8 + 5 = 13 → 13/20. Check for reducing: GCD(13, 20) = 1, so 13/20 is already in simplest form. Check for improper form: 13/20 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(13, 20) = 1, so 13/20 is already in simplest form. Check for improper form: 13/20 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "add-10",
+      "section": "add",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "{3/8} + {1/6} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 8 and 6 is 24",
+            "fields": [
+              "9/24",
+              "4/24"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "13/24"
+            ]
+          }
+        ],
+        "display": "13/24"
+      },
+      "steps": "Find the LCM of the denominators 8 and 6 → 24. Rewrite: 3/8 = 9/24 and 1/6 = 4/24. Add: 9 + 4 = 13 → 13/24. Check for reducing: GCD(13, 24) = 1, so 13/24 is already in simplest form. Check for improper form: 13/24 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(13, 24) = 1, so 13/24 is already in simplest form. Check for improper form: 13/24 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "add-11",
+      "section": "add",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "{1_2/3} + {3/4} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "5/3",
+              "3/4"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 3 and 4 is 12",
+            "fields": [
+              "20/12",
+              "9/12"
+            ],
+            "join": "+"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "29/12"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "2 5/12"
+            ]
+          }
+        ],
+        "display": "2 5/12"
+      },
+      "steps": "Convert to improper fractions first: 1 2/3 = 5/3 and 3/4 = 3/4. Find the LCM of the denominators 3 and 4 → 12. Rewrite: 5/3 = 20/12 and 3/4 = 9/12. Add: 20 + 9 = 29 → 29/12. Check for reducing: GCD(29, 12) = 1, so 29/12 is already in simplest form. Check for improper form: 29/12 is improper (top ≥ bottom), so convert it to the mixed number 2 5/12.",
+      "tip": "Check for reducing: GCD(29, 12) = 1, so 29/12 is already in simplest form. Check for improper form: 29/12 is improper (top ≥ bottom), so convert it to the mixed number 2 5/12."
+    },
+    {
+      "id": "add-12",
       "section": "add",
       "qtype": "fraction",
       "difficulty": 3,
@@ -717,125 +997,405 @@
     {
       "id": "subtract-01",
       "section": "subtract",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{5/7} - {2/7} =",
       "answer": {
-        "num": 3,
-        "den": 7,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 7, so nothing changes",
+            "fields": [
+              "5/7",
+              "2/7"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "3/7"
+            ]
+          }
+        ],
         "display": "3/7"
       },
       "steps": "Same denominator (7) — just subtract the numerators: 5 - 2 = 3, keep the denominator: 3/7. Check for reducing: GCD(3, 7) = 1, so 3/7 is already in simplest form. Check for improper form: 3/7 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(3, 7) = 1, so 3/7 is already in simplest form. Check for improper form: 3/7 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "tip": "Check for reducing: GCD(3, 7) = 1, so 3/7 is already in simplest form. Check for improper form: 3/7 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 1
     },
     {
       "id": "subtract-02",
       "section": "subtract",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{8/9} - {3/9} =",
       "answer": {
-        "num": 5,
-        "den": 9,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 9, so nothing changes",
+            "fields": [
+              "8/9",
+              "3/9"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "5/9"
+            ]
+          }
+        ],
         "display": "5/9"
       },
       "steps": "Same denominator (9) — just subtract the numerators: 8 - 3 = 5, keep the denominator: 5/9. Check for reducing: GCD(5, 9) = 1, so 5/9 is already in simplest form. Check for improper form: 5/9 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(5, 9) = 1, so 5/9 is already in simplest form. Check for improper form: 5/9 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "tip": "Check for reducing: GCD(5, 9) = 1, so 5/9 is already in simplest form. Check for improper form: 5/9 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 1
     },
     {
       "id": "subtract-03",
       "section": "subtract",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{7/10} - {3/10} =",
       "answer": {
-        "num": 2,
-        "den": 5,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "both denominators are already 10, so nothing changes",
+            "fields": [
+              "7/10",
+              "3/10"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "4/10"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(4, 10) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "2/5"
+            ]
+          }
+        ],
         "display": "2/5"
       },
-      "steps": "Same denominator (10) — just subtract the numerators: 7 - 3 = 4, keep the denominator: 4/10. Reduce first: your raw difference is 4/10. GCD(4, 10) = 2, so divide top and bottom by 2 to get 2/5. Check for improper form: 2/5 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Reduce first: your raw difference is 4/10. GCD(4, 10) = 2, so divide top and bottom by 2 to get 2/5. Check for improper form: 2/5 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "steps": "Same denominator (10) — just subtract the numerators: 7 - 3 = 4, keep the denominator: 4/10. Reduce first: your raw answer is 4/10. GCD(4, 10) = 2, so divide top and bottom by 2 to get 2/5. Check for improper form: 2/5 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw answer is 4/10. GCD(4, 10) = 2, so divide top and bottom by 2 to get 2/5. Check for improper form: 2/5 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 1
     },
     {
       "id": "subtract-04",
       "section": "subtract",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
       "prompt": "{5/6} - {3/4} =",
       "answer": {
-        "num": 1,
-        "den": 12,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 6 and 4 is 12",
+            "fields": [
+              "10/12",
+              "9/12"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "1/12"
+            ]
+          }
+        ],
         "display": "1/12"
       },
       "steps": "Find the LCM of the denominators 6 and 4 → 12. Rewrite: 5/6 = 10/12 and 3/4 = 9/12. Subtract: 10 - 9 = 1 → 1/12. Check for reducing: GCD(1, 12) = 1, so 1/12 is already in simplest form. Check for improper form: 1/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(1, 12) = 1, so 1/12 is already in simplest form. Check for improper form: 1/12 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "tip": "Check for reducing: GCD(1, 12) = 1, so 1/12 is already in simplest form. Check for improper form: 1/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 2
     },
     {
       "id": "subtract-05",
       "section": "subtract",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
       "prompt": "{3/4} - {1/6} =",
       "answer": {
-        "num": 7,
-        "den": 12,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 4 and 6 is 12",
+            "fields": [
+              "9/12",
+              "2/12"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "7/12"
+            ]
+          }
+        ],
         "display": "7/12"
       },
       "steps": "Find the LCM of the denominators 4 and 6 → 12. Rewrite: 3/4 = 9/12 and 1/6 = 2/12. Subtract: 9 - 2 = 7 → 7/12. Check for reducing: GCD(7, 12) = 1, so 7/12 is already in simplest form. Check for improper form: 7/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(7, 12) = 1, so 7/12 is already in simplest form. Check for improper form: 7/12 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "tip": "Check for reducing: GCD(7, 12) = 1, so 7/12 is already in simplest form. Check for improper form: 7/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 2
     },
     {
       "id": "subtract-06",
       "section": "subtract",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
       "prompt": "{7/8} - {2/5} =",
       "answer": {
-        "num": 19,
-        "den": 40,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 8 and 5 is 40",
+            "fields": [
+              "35/40",
+              "16/40"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "19/40"
+            ]
+          }
+        ],
         "display": "19/40"
       },
       "steps": "Find the LCM of the denominators 8 and 5 → 40. Rewrite: 7/8 = 35/40 and 2/5 = 16/40. Subtract: 35 - 16 = 19 → 19/40. Check for reducing: GCD(19, 40) = 1, so 19/40 is already in simplest form. Check for improper form: 19/40 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(19, 40) = 1, so 19/40 is already in simplest form. Check for improper form: 19/40 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "tip": "Check for reducing: GCD(19, 40) = 1, so 19/40 is already in simplest form. Check for improper form: 19/40 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 2
     },
     {
       "id": "subtract-07",
       "section": "subtract",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 3,
       "prompt": "{3_1/6} - {1_2/3} =",
       "answer": {
-        "num": 1,
-        "den": 2,
-        "whole": 1,
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "19/6",
+              "5/3"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 6 and 3 is 6",
+            "fields": [
+              "19/6",
+              "10/6"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "9/6"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(9, 6) = 3, so divide the top and the bottom by 3",
+            "fields": [
+              "3/2"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/2"
+            ]
+          }
+        ],
         "display": "1 1/2"
       },
-      "steps": "Convert to improper fractions: 3 1/6 = 19/6, 1 2/3 = 5/3. Find the LCM of the denominators 6 and 3 → 6. Rewrite: 19/6 = 19/6 and 5/3 = 10/6. Subtract: 19 - 10 = 9 → 9/6. Reduce first: your raw difference is 9/6. GCD(9, 6) = 3, so divide top and bottom by 3 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
-      "tip": "Reduce first: your raw difference is 9/6. GCD(9, 6) = 3, so divide top and bottom by 3 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2."
+      "steps": "Convert to improper fractions first: 3 1/6 = 19/6 and 1 2/3 = 5/3. Find the LCM of the denominators 6 and 3 → 6. Rewrite: 19/6 = 19/6 and 5/3 = 10/6. Subtract: 19 - 10 = 9 → 9/6. Reduce first: your raw answer is 9/6. GCD(9, 6) = 3, so divide top and bottom by 3 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "tip": "Reduce first: your raw answer is 9/6. GCD(9, 6) = 3, so divide top and bottom by 3 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "set": 3
     },
     {
       "id": "subtract-08",
       "section": "subtract",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 3,
       "prompt": "{4_1/5} - {2_3/10} =",
       "answer": {
-        "num": 9,
-        "den": 10,
-        "whole": 1,
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "21/5",
+              "23/10"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 5 and 10 is 10",
+            "fields": [
+              "42/10",
+              "23/10"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "19/10"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 9/10"
+            ]
+          }
+        ],
         "display": "1 9/10"
       },
-      "steps": "Convert to improper fractions: 4 1/5 = 21/5, 2 3/10 = 23/10. Find the LCM of the denominators 5 and 10 → 10. Rewrite: 21/5 = 42/10 and 23/10 = 23/10. Subtract: 42 - 23 = 19 → 19/10. Check for reducing: GCD(19, 10) = 1, so 19/10 is already in simplest form. Check for improper form: 19/10 is improper (top ≥ bottom), so convert it to the mixed number 1 9/10.",
-      "tip": "Check for reducing: GCD(19, 10) = 1, so 19/10 is already in simplest form. Check for improper form: 19/10 is improper (top ≥ bottom), so convert it to the mixed number 1 9/10."
+      "steps": "Convert to improper fractions first: 4 1/5 = 21/5 and 2 3/10 = 23/10. Find the LCM of the denominators 5 and 10 → 10. Rewrite: 21/5 = 42/10 and 23/10 = 23/10. Subtract: 42 - 23 = 19 → 19/10. Check for reducing: GCD(19, 10) = 1, so 19/10 is already in simplest form. Check for improper form: 19/10 is improper (top ≥ bottom), so convert it to the mixed number 1 9/10.",
+      "tip": "Check for reducing: GCD(19, 10) = 1, so 19/10 is already in simplest form. Check for improper form: 19/10 is improper (top ≥ bottom), so convert it to the mixed number 1 9/10.",
+      "set": 3
     },
     {
       "id": "subtract-09",
+      "section": "subtract",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "{5/6} - {1/4} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 6 and 4 is 12",
+            "fields": [
+              "10/12",
+              "3/12"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "7/12"
+            ]
+          }
+        ],
+        "display": "7/12"
+      },
+      "steps": "Find the LCM of the denominators 6 and 4 → 12. Rewrite: 5/6 = 10/12 and 1/4 = 3/12. Subtract: 10 - 3 = 7 → 7/12. Check for reducing: GCD(7, 12) = 1, so 7/12 is already in simplest form. Check for improper form: 7/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(7, 12) = 1, so 7/12 is already in simplest form. Check for improper form: 7/12 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "subtract-10",
+      "section": "subtract",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "{9/10} - {2/5} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 10 and 5 is 10",
+            "fields": [
+              "9/10",
+              "4/10"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "5/10"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(5, 10) = 5, so divide the top and the bottom by 5",
+            "fields": [
+              "1/2"
+            ]
+          }
+        ],
+        "display": "1/2"
+      },
+      "steps": "Find the LCM of the denominators 10 and 5 → 10. Rewrite: 9/10 = 9/10 and 2/5 = 4/10. Subtract: 9 - 4 = 5 → 5/10. Reduce first: your raw answer is 5/10. GCD(5, 10) = 5, so divide top and bottom by 5 to get 1/2. Check for improper form: 1/2 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw answer is 5/10. GCD(5, 10) = 5, so divide top and bottom by 5 to get 1/2. Check for improper form: 1/2 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "subtract-11",
+      "section": "subtract",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "{2_1/2} - {1_3/4} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "5/2",
+              "7/4"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Common denominator",
+            "note": "the LCM of 2 and 4 is 4",
+            "fields": [
+              "10/4",
+              "7/4"
+            ],
+            "join": "-"
+          },
+          {
+            "label": "Solve",
+            "note": "combine the numerators and keep the denominator",
+            "fields": [
+              "3/4"
+            ]
+          }
+        ],
+        "display": "3/4"
+      },
+      "steps": "Convert to improper fractions first: 2 1/2 = 5/2 and 1 3/4 = 7/4. Find the LCM of the denominators 2 and 4 → 4. Rewrite: 5/2 = 10/4 and 7/4 = 7/4. Subtract: 10 - 7 = 3 → 3/4. Check for reducing: GCD(3, 4) = 1, so 3/4 is already in simplest form. Check for improper form: 3/4 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(3, 4) = 1, so 3/4 is already in simplest form. Check for improper form: 3/4 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "subtract-12",
       "section": "subtract",
       "qtype": "fraction",
       "difficulty": 3,
@@ -852,140 +1412,379 @@
     {
       "id": "multiply-01",
       "section": "multiply",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{1/7} × {3/4} =",
       "answer": {
-        "num": 3,
-        "den": 28,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "3/28"
+            ]
+          }
+        ],
         "display": "3/28"
       },
-      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (1×3)/(7×4) = 3/28. Check for reducing: GCD(3, 28) = 1, so 3/28 is already in simplest form. Check for improper form: 3/28 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(3, 28) = 1, so 3/28 is already in simplest form. Check for improper form: 3/28 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "steps": "Multiply straight across: (1x3)/(7x4) = 3/28. Check for reducing: GCD(3, 28) = 1, so 3/28 is already in simplest form. Check for improper form: 3/28 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(3, 28) = 1, so 3/28 is already in simplest form. Check for improper form: 3/28 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 1
     },
     {
       "id": "multiply-02",
       "section": "multiply",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{2/5} × {7/9} =",
       "answer": {
-        "num": 14,
-        "den": 45,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "14/45"
+            ]
+          }
+        ],
         "display": "14/45"
       },
-      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (2×7)/(5×9) = 14/45. Check for reducing: GCD(14, 45) = 1, so 14/45 is already in simplest form. Check for improper form: 14/45 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(14, 45) = 1, so 14/45 is already in simplest form. Check for improper form: 14/45 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "steps": "Multiply straight across: (2x7)/(5x9) = 14/45. Check for reducing: GCD(14, 45) = 1, so 14/45 is already in simplest form. Check for improper form: 14/45 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(14, 45) = 1, so 14/45 is already in simplest form. Check for improper form: 14/45 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 1
     },
     {
       "id": "multiply-03",
       "section": "multiply",
-      "qtype": "fraction",
-      "difficulty": 1,
-      "prompt": "3 × {2/11} =",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "{5/30} × {9/5} =",
       "answer": {
-        "num": 6,
-        "den": 11,
-        "whole": 0,
-        "display": "6/11"
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "45/150"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(45, 150) = 15, so divide the top and the bottom by 15",
+            "fields": [
+              "3/10"
+            ]
+          }
+        ],
+        "display": "3/10"
       },
-      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (3×2)/(1×11) = 6/11. Check for reducing: GCD(6, 11) = 1, so 6/11 is already in simplest form. Check for improper form: 6/11 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Check for reducing: GCD(6, 11) = 1, so 6/11 is already in simplest form. Check for improper form: 6/11 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "steps": "Multiply straight across: (5x9)/(30x5) = 45/150. Reduce first: your raw answer is 45/150. GCD(45, 150) = 15, so divide top and bottom by 15 to get 3/10. Check for improper form: 3/10 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw answer is 45/150. GCD(45, 150) = 15, so divide top and bottom by 15 to get 3/10. Check for improper form: 3/10 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 1
     },
     {
       "id": "multiply-04",
       "section": "multiply",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
-      "prompt": "{5/30} × {9/5} =",
+      "prompt": "{7/12} × {8/13} =",
       "answer": {
-        "num": 3,
-        "den": 10,
-        "whole": 0,
-        "display": "3/10"
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "56/156"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(56, 156) = 4, so divide the top and the bottom by 4",
+            "fields": [
+              "14/39"
+            ]
+          }
+        ],
+        "display": "14/39"
       },
-      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (5×9)/(30×5) = 45/150. Reduce first: your raw product is 45/150. GCD(45, 150) = 15, so divide top and bottom by 15 to get 3/10. Check for improper form: 3/10 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Reduce first: your raw product is 45/150. GCD(45, 150) = 15, so divide top and bottom by 15 to get 3/10. Check for improper form: 3/10 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "steps": "Multiply straight across: (7x8)/(12x13) = 56/156. Reduce first: your raw answer is 56/156. GCD(56, 156) = 4, so divide top and bottom by 4 to get 14/39. Check for improper form: 14/39 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw answer is 56/156. GCD(56, 156) = 4, so divide top and bottom by 4 to get 14/39. Check for improper form: 14/39 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 1
     },
     {
       "id": "multiply-05",
       "section": "multiply",
-      "qtype": "fraction",
-      "difficulty": 2,
-      "prompt": "{7/12} × {8/13} =",
+      "qtype": "steps",
+      "difficulty": 1,
+      "prompt": "3 × {2/11} =",
       "answer": {
-        "num": 14,
-        "den": 39,
-        "whole": 0,
-        "display": "14/39"
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "6/11"
+            ]
+          }
+        ],
+        "display": "6/11"
       },
-      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (7×8)/(12×13) = 56/156. Reduce first: your raw product is 56/156. GCD(56, 156) = 4, so divide top and bottom by 4 to get 14/39. Check for improper form: 14/39 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Reduce first: your raw product is 56/156. GCD(56, 156) = 4, so divide top and bottom by 4 to get 14/39. Check for improper form: 14/39 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "steps": "Multiply straight across: (3x2)/(1x11) = 6/11. Check for reducing: GCD(6, 11) = 1, so 6/11 is already in simplest form. Check for improper form: 6/11 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Check for reducing: GCD(6, 11) = 1, so 6/11 is already in simplest form. Check for improper form: 6/11 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 2
     },
     {
       "id": "multiply-06",
       "section": "multiply",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
       "prompt": "{11/25} × 75 =",
       "answer": {
-        "num": 0,
-        "den": 1,
-        "whole": 33,
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "825/25"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(825, 25) = 25, so divide the top and the bottom by 25",
+            "fields": [
+              "33"
+            ]
+          }
+        ],
         "display": "33"
       },
-      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (11×75)/(25×1) = 825/25. Reduce first: your raw product is 825/25. GCD(825, 25) = 25, so divide top and bottom by 25 to get 33/1. It actually simplifies all the way down to a whole number.",
-      "tip": "Reduce first: your raw product is 825/25. GCD(825, 25) = 25, so divide top and bottom by 25 to get 33/1. It actually simplifies all the way down to a whole number."
+      "steps": "Multiply straight across: (11x75)/(25x1) = 825/25. Reduce first: your raw answer is 825/25. GCD(825, 25) = 25, so divide top and bottom by 25 to get 33/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw answer is 825/25. GCD(825, 25) = 25, so divide top and bottom by 25 to get 33/1. It actually simplifies all the way down to a whole number.",
+      "set": 2
     },
     {
       "id": "multiply-07",
       "section": "multiply",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 3,
       "prompt": "{3/4} × {1_1/5} =",
       "answer": {
-        "num": 9,
-        "den": 10,
-        "whole": 0,
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "3/4",
+              "6/5"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "18/20"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(18, 20) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "9/10"
+            ]
+          }
+        ],
         "display": "9/10"
       },
-      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (3×6)/(4×5) = 18/20. Reduce first: your raw product is 18/20. GCD(18, 20) = 2, so divide top and bottom by 2 to get 9/10. Check for improper form: 9/10 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Reduce first: your raw product is 18/20. GCD(18, 20) = 2, so divide top and bottom by 2 to get 9/10. Check for improper form: 9/10 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "steps": "Convert to improper fractions first: 3/4 = 3/4 and 1 1/5 = 6/5. Multiply straight across: (3x6)/(4x5) = 18/20. Reduce first: your raw answer is 18/20. GCD(18, 20) = 2, so divide top and bottom by 2 to get 9/10. Check for improper form: 9/10 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw answer is 18/20. GCD(18, 20) = 2, so divide top and bottom by 2 to get 9/10. Check for improper form: 9/10 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 3
     },
     {
       "id": "multiply-08",
       "section": "multiply",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 3,
       "prompt": "{3_1/4} × {3/8} =",
       "answer": {
-        "num": 7,
-        "den": 32,
-        "whole": 1,
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "13/4",
+              "3/8"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "39/32"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 7/32"
+            ]
+          }
+        ],
         "display": "1 7/32"
       },
-      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (13×3)/(4×8) = 39/32. Check for reducing: GCD(39, 32) = 1, so 39/32 is already in simplest form. Check for improper form: 39/32 is improper (top ≥ bottom), so convert it to the mixed number 1 7/32.",
-      "tip": "Check for reducing: GCD(39, 32) = 1, so 39/32 is already in simplest form. Check for improper form: 39/32 is improper (top ≥ bottom), so convert it to the mixed number 1 7/32."
+      "steps": "Convert to improper fractions first: 3 1/4 = 13/4 and 3/8 = 3/8. Multiply straight across: (13x3)/(4x8) = 39/32. Check for reducing: GCD(39, 32) = 1, so 39/32 is already in simplest form. Check for improper form: 39/32 is improper (top ≥ bottom), so convert it to the mixed number 1 7/32.",
+      "tip": "Check for reducing: GCD(39, 32) = 1, so 39/32 is already in simplest form. Check for improper form: 39/32 is improper (top ≥ bottom), so convert it to the mixed number 1 7/32.",
+      "set": 3
     },
     {
       "id": "multiply-09",
       "section": "multiply",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 3,
       "prompt": "{1_10/11} × {1_1/3} =",
       "answer": {
-        "num": 6,
-        "den": 11,
-        "whole": 2,
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "21/11",
+              "4/3"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "84/33"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(84, 33) = 3, so divide the top and the bottom by 3",
+            "fields": [
+              "28/11"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "2 6/11"
+            ]
+          }
+        ],
         "display": "2 6/11"
       },
-      "steps": "Multiply straight across: numerator × numerator, denominator × denominator: (21×4)/(11×3) = 84/33. Reduce first: your raw product is 84/33. GCD(84, 33) = 3, so divide top and bottom by 3 to get 28/11. Check for improper form: 28/11 is improper (top ≥ bottom), so convert it to the mixed number 2 6/11.",
-      "tip": "Reduce first: your raw product is 84/33. GCD(84, 33) = 3, so divide top and bottom by 3 to get 28/11. Check for improper form: 28/11 is improper (top ≥ bottom), so convert it to the mixed number 2 6/11."
+      "steps": "Convert to improper fractions first: 1 10/11 = 21/11 and 1 1/3 = 4/3. Multiply straight across: (21x4)/(11x3) = 84/33. Reduce first: your raw answer is 84/33. GCD(84, 33) = 3, so divide top and bottom by 3 to get 28/11. Check for improper form: 28/11 is improper (top ≥ bottom), so convert it to the mixed number 2 6/11.",
+      "tip": "Reduce first: your raw answer is 84/33. GCD(84, 33) = 3, so divide top and bottom by 3 to get 28/11. Check for improper form: 28/11 is improper (top ≥ bottom), so convert it to the mixed number 2 6/11.",
+      "set": 3
     },
     {
       "id": "multiply-10",
+      "section": "multiply",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "{2/3} × {5/8} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "10/24"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(10, 24) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "5/12"
+            ]
+          }
+        ],
+        "display": "5/12"
+      },
+      "steps": "Multiply straight across: (2x5)/(3x8) = 10/24. Reduce first: your raw answer is 10/24. GCD(10, 24) = 2, so divide top and bottom by 2 to get 5/12. Check for improper form: 5/12 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw answer is 10/24. GCD(10, 24) = 2, so divide top and bottom by 2 to get 5/12. Check for improper form: 5/12 is proper (top < bottom), so it's already in final form — no mixed number needed."
+    },
+    {
+      "id": "multiply-11",
+      "section": "multiply",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "4 × {3/10} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "12/10"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(12, 10) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "6/5"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/5"
+            ]
+          }
+        ],
+        "display": "1 1/5"
+      },
+      "steps": "Multiply straight across: (4x3)/(1x10) = 12/10. Reduce first: your raw answer is 12/10. GCD(12, 10) = 2, so divide top and bottom by 2 to get 6/5. Check for improper form: 6/5 is improper (top ≥ bottom), so convert it to the mixed number 1 1/5.",
+      "tip": "Reduce first: your raw answer is 12/10. GCD(12, 10) = 2, so divide top and bottom by 2 to get 6/5. Check for improper form: 6/5 is improper (top ≥ bottom), so convert it to the mixed number 1 1/5."
+    },
+    {
+      "id": "multiply-12",
+      "section": "multiply",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "{2_1/2} × {2/5} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "5/2",
+              "2/5"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "10/10"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(10, 10) = 10, so divide the top and the bottom by 10",
+            "fields": [
+              "1"
+            ]
+          }
+        ],
+        "display": "1"
+      },
+      "steps": "Convert to improper fractions first: 2 1/2 = 5/2 and 2/5 = 2/5. Multiply straight across: (5x2)/(2x5) = 10/10. Reduce first: your raw answer is 10/10. GCD(10, 10) = 10, so divide top and bottom by 10 to get 1/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw answer is 10/10. GCD(10, 10) = 10, so divide top and bottom by 10 to get 1/1. It actually simplifies all the way down to a whole number."
+    },
+    {
+      "id": "multiply-13",
       "section": "multiply",
       "qtype": "fraction",
       "difficulty": 3,
@@ -1002,125 +1801,475 @@
     {
       "id": "divide-01",
       "section": "divide",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{1/2} ÷ {1/4} =",
       "answer": {
-        "num": 0,
-        "den": 1,
-        "whole": 2,
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "1/2",
+              "4/1"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "4/2"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(4, 2) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "2"
+            ]
+          }
+        ],
         "display": "2"
       },
-      "steps": "Dividing by a fraction = multiplying by its reciprocal: 1/2 ÷ 1/4 = 1/2 × 4/1 = (1×4)/(2×1) = 4/2. Reduce first: your raw quotient is 4/2. GCD(4, 2) = 2, so divide top and bottom by 2 to get 2/1. It actually simplifies all the way down to a whole number.",
-      "tip": "Reduce first: your raw quotient is 4/2. GCD(4, 2) = 2, so divide top and bottom by 2 to get 2/1. It actually simplifies all the way down to a whole number."
+      "steps": "Keep, change, flip: 1/2 ÷ 1/4 = 1/2 × 4/1 = 4/2. Reduce first: your raw answer is 4/2. GCD(4, 2) = 2, so divide top and bottom by 2 to get 2/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw answer is 4/2. GCD(4, 2) = 2, so divide top and bottom by 2 to get 2/1. It actually simplifies all the way down to a whole number.",
+      "set": 1
     },
     {
       "id": "divide-02",
       "section": "divide",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 1,
       "prompt": "{3/5} ÷ {2/5} =",
       "answer": {
-        "num": 1,
-        "den": 2,
-        "whole": 1,
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "3/5",
+              "5/2"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "15/10"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(15, 10) = 5, so divide the top and the bottom by 5",
+            "fields": [
+              "3/2"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/2"
+            ]
+          }
+        ],
         "display": "1 1/2"
       },
-      "steps": "Dividing by a fraction = multiplying by its reciprocal: 3/5 ÷ 2/5 = 3/5 × 5/2 = (3×5)/(5×2) = 15/10. Reduce first: your raw quotient is 15/10. GCD(15, 10) = 5, so divide top and bottom by 5 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
-      "tip": "Reduce first: your raw quotient is 15/10. GCD(15, 10) = 5, so divide top and bottom by 5 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2."
+      "steps": "Keep, change, flip: 3/5 ÷ 2/5 = 3/5 × 5/2 = 15/10. Reduce first: your raw answer is 15/10. GCD(15, 10) = 5, so divide top and bottom by 5 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "tip": "Reduce first: your raw answer is 15/10. GCD(15, 10) = 5, so divide top and bottom by 5 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "set": 1
     },
     {
       "id": "divide-03",
       "section": "divide",
-      "qtype": "fraction",
-      "difficulty": 1,
-      "prompt": "{2/3} ÷ 4 =",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "{5/6} ÷ {2/3} =",
       "answer": {
-        "num": 1,
-        "den": 6,
-        "whole": 0,
-        "display": "1/6"
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "5/6",
+              "3/2"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "15/12"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(15, 12) = 3, so divide the top and the bottom by 3",
+            "fields": [
+              "5/4"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/4"
+            ]
+          }
+        ],
+        "display": "1 1/4"
       },
-      "steps": "Dividing by a fraction = multiplying by its reciprocal: 2/3 ÷ 4/1 = 2/3 × 1/4 = (2×1)/(3×4) = 2/12. Reduce first: your raw quotient is 2/12. GCD(2, 12) = 2, so divide top and bottom by 2 to get 1/6. Check for improper form: 1/6 is proper (top < bottom), so it's already in final form — no mixed number needed.",
-      "tip": "Reduce first: your raw quotient is 2/12. GCD(2, 12) = 2, so divide top and bottom by 2 to get 1/6. Check for improper form: 1/6 is proper (top < bottom), so it's already in final form — no mixed number needed."
+      "steps": "Keep, change, flip: 5/6 ÷ 2/3 = 5/6 × 3/2 = 15/12. Reduce first: your raw answer is 15/12. GCD(15, 12) = 3, so divide top and bottom by 3 to get 5/4. Check for improper form: 5/4 is improper (top ≥ bottom), so convert it to the mixed number 1 1/4.",
+      "tip": "Reduce first: your raw answer is 15/12. GCD(15, 12) = 3, so divide top and bottom by 3 to get 5/4. Check for improper form: 5/4 is improper (top ≥ bottom), so convert it to the mixed number 1 1/4.",
+      "set": 1
     },
     {
       "id": "divide-04",
       "section": "divide",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
-      "prompt": "{5/6} ÷ {2/3} =",
+      "prompt": "{7/8} ÷ {3/4} =",
       "answer": {
-        "num": 1,
-        "den": 4,
-        "whole": 1,
-        "display": "1 1/4"
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "7/8",
+              "4/3"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "28/24"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(28, 24) = 4, so divide the top and the bottom by 4",
+            "fields": [
+              "7/6"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/6"
+            ]
+          }
+        ],
+        "display": "1 1/6"
       },
-      "steps": "Dividing by a fraction = multiplying by its reciprocal: 5/6 ÷ 2/3 = 5/6 × 3/2 = (5×3)/(6×2) = 15/12. Reduce first: your raw quotient is 15/12. GCD(15, 12) = 3, so divide top and bottom by 3 to get 5/4. Check for improper form: 5/4 is improper (top ≥ bottom), so convert it to the mixed number 1 1/4.",
-      "tip": "Reduce first: your raw quotient is 15/12. GCD(15, 12) = 3, so divide top and bottom by 3 to get 5/4. Check for improper form: 5/4 is improper (top ≥ bottom), so convert it to the mixed number 1 1/4."
+      "steps": "Keep, change, flip: 7/8 ÷ 3/4 = 7/8 × 4/3 = 28/24. Reduce first: your raw answer is 28/24. GCD(28, 24) = 4, so divide top and bottom by 4 to get 7/6. Check for improper form: 7/6 is improper (top ≥ bottom), so convert it to the mixed number 1 1/6.",
+      "tip": "Reduce first: your raw answer is 28/24. GCD(28, 24) = 4, so divide top and bottom by 4 to get 7/6. Check for improper form: 7/6 is improper (top ≥ bottom), so convert it to the mixed number 1 1/6.",
+      "set": 1
     },
     {
       "id": "divide-05",
       "section": "divide",
-      "qtype": "fraction",
-      "difficulty": 2,
-      "prompt": "{7/8} ÷ {3/4} =",
+      "qtype": "steps",
+      "difficulty": 1,
+      "prompt": "{2/3} ÷ 4 =",
       "answer": {
-        "num": 1,
-        "den": 6,
-        "whole": 1,
-        "display": "1 1/6"
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "2/3",
+              "1/4"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "2/12"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(2, 12) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "1/6"
+            ]
+          }
+        ],
+        "display": "1/6"
       },
-      "steps": "Dividing by a fraction = multiplying by its reciprocal: 7/8 ÷ 3/4 = 7/8 × 4/3 = (7×4)/(8×3) = 28/24. Reduce first: your raw quotient is 28/24. GCD(28, 24) = 4, so divide top and bottom by 4 to get 7/6. Check for improper form: 7/6 is improper (top ≥ bottom), so convert it to the mixed number 1 1/6.",
-      "tip": "Reduce first: your raw quotient is 28/24. GCD(28, 24) = 4, so divide top and bottom by 4 to get 7/6. Check for improper form: 7/6 is improper (top ≥ bottom), so convert it to the mixed number 1 1/6."
+      "steps": "Keep, change, flip: 2/3 ÷ 4/1 = 2/3 × 1/4 = 2/12. Reduce first: your raw answer is 2/12. GCD(2, 12) = 2, so divide top and bottom by 2 to get 1/6. Check for improper form: 1/6 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "tip": "Reduce first: your raw answer is 2/12. GCD(2, 12) = 2, so divide top and bottom by 2 to get 1/6. Check for improper form: 1/6 is proper (top < bottom), so it's already in final form — no mixed number needed.",
+      "set": 2
     },
     {
       "id": "divide-06",
       "section": "divide",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 2,
       "prompt": "4 ÷ {2/5} =",
       "answer": {
-        "num": 0,
-        "den": 1,
-        "whole": 10,
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "4/1",
+              "5/2"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "20/2"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(20, 2) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "10"
+            ]
+          }
+        ],
         "display": "10"
       },
-      "steps": "Dividing by a fraction = multiplying by its reciprocal: 4/1 ÷ 2/5 = 4/1 × 5/2 = (4×5)/(1×2) = 20/2. Reduce first: your raw quotient is 20/2. GCD(20, 2) = 2, so divide top and bottom by 2 to get 10/1. It actually simplifies all the way down to a whole number.",
-      "tip": "Reduce first: your raw quotient is 20/2. GCD(20, 2) = 2, so divide top and bottom by 2 to get 10/1. It actually simplifies all the way down to a whole number."
+      "steps": "Keep, change, flip: 4/1 ÷ 2/5 = 4/1 × 5/2 = 20/2. Reduce first: your raw answer is 20/2. GCD(20, 2) = 2, so divide top and bottom by 2 to get 10/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw answer is 20/2. GCD(20, 2) = 2, so divide top and bottom by 2 to get 10/1. It actually simplifies all the way down to a whole number.",
+      "set": 2
     },
     {
       "id": "divide-07",
       "section": "divide",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 3,
       "prompt": "{1_1/2} ÷ {1/3} =",
       "answer": {
-        "num": 1,
-        "den": 2,
-        "whole": 4,
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "3/2",
+              "1/3"
+            ],
+            "join": "÷"
+          },
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "3/2",
+              "3/1"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "9/2"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "4 1/2"
+            ]
+          }
+        ],
         "display": "4 1/2"
       },
-      "steps": "Dividing by a fraction = multiplying by its reciprocal: 3/2 ÷ 1/3 = 3/2 × 3/1 = (3×3)/(2×1) = 9/2. Check for reducing: GCD(9, 2) = 1, so 9/2 is already in simplest form. Check for improper form: 9/2 is improper (top ≥ bottom), so convert it to the mixed number 4 1/2.",
-      "tip": "Check for reducing: GCD(9, 2) = 1, so 9/2 is already in simplest form. Check for improper form: 9/2 is improper (top ≥ bottom), so convert it to the mixed number 4 1/2."
+      "steps": "Convert to improper fractions first: 1 1/2 = 3/2 and 1/3 = 1/3. Keep, change, flip: 3/2 ÷ 1/3 = 3/2 × 3/1 = 9/2. Check for reducing: GCD(9, 2) = 1, so 9/2 is already in simplest form. Check for improper form: 9/2 is improper (top ≥ bottom), so convert it to the mixed number 4 1/2.",
+      "tip": "Check for reducing: GCD(9, 2) = 1, so 9/2 is already in simplest form. Check for improper form: 9/2 is improper (top ≥ bottom), so convert it to the mixed number 4 1/2.",
+      "set": 3
     },
     {
       "id": "divide-08",
       "section": "divide",
-      "qtype": "fraction",
+      "qtype": "steps",
       "difficulty": 3,
       "prompt": "{2_1/4} ÷ {1_1/2} =",
       "answer": {
-        "num": 1,
-        "den": 2,
-        "whole": 1,
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "9/4",
+              "3/2"
+            ],
+            "join": "÷"
+          },
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "9/4",
+              "2/3"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "18/12"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(18, 12) = 6, so divide the top and the bottom by 6",
+            "fields": [
+              "3/2"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/2"
+            ]
+          }
+        ],
         "display": "1 1/2"
       },
-      "steps": "Dividing by a fraction = multiplying by its reciprocal: 9/4 ÷ 3/2 = 9/4 × 2/3 = (9×2)/(4×3) = 18/12. Reduce first: your raw quotient is 18/12. GCD(18, 12) = 6, so divide top and bottom by 6 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
-      "tip": "Reduce first: your raw quotient is 18/12. GCD(18, 12) = 6, so divide top and bottom by 6 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2."
+      "steps": "Convert to improper fractions first: 2 1/4 = 9/4 and 1 1/2 = 3/2. Keep, change, flip: 9/4 ÷ 3/2 = 9/4 × 2/3 = 18/12. Reduce first: your raw answer is 18/12. GCD(18, 12) = 6, so divide top and bottom by 6 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "tip": "Reduce first: your raw answer is 18/12. GCD(18, 12) = 6, so divide top and bottom by 6 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "set": 3
     },
     {
       "id": "divide-09",
+      "section": "divide",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "{3/4} ÷ {1/2} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "3/4",
+              "2/1"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "6/4"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(6, 4) = 2, so divide the top and the bottom by 2",
+            "fields": [
+              "3/2"
+            ]
+          },
+          {
+            "label": "Convert",
+            "note": "the answer came out improper, so write it as a mixed number",
+            "fields": [
+              "1 1/2"
+            ]
+          }
+        ],
+        "display": "1 1/2"
+      },
+      "steps": "Keep, change, flip: 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4. Reduce first: your raw answer is 6/4. GCD(6, 4) = 2, so divide top and bottom by 2 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2.",
+      "tip": "Reduce first: your raw answer is 6/4. GCD(6, 4) = 2, so divide top and bottom by 2 to get 3/2. Check for improper form: 3/2 is improper (top ≥ bottom), so convert it to the mixed number 1 1/2."
+    },
+    {
+      "id": "divide-10",
+      "section": "divide",
+      "qtype": "steps",
+      "difficulty": 2,
+      "prompt": "5 ÷ {1/3} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "5/1",
+              "3/1"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "15"
+            ]
+          }
+        ],
+        "display": "15"
+      },
+      "steps": "Keep, change, flip: 5/1 ÷ 1/3 = 5/1 × 3/1 = 15/1. Check for reducing: GCD(15, 1) = 1, so 15/1 is already in simplest form. It actually simplifies all the way down to a whole number.",
+      "tip": "Check for reducing: GCD(15, 1) = 1, so 15/1 is already in simplest form. It actually simplifies all the way down to a whole number."
+    },
+    {
+      "id": "divide-11",
+      "section": "divide",
+      "qtype": "steps",
+      "difficulty": 3,
+      "prompt": "{1_1/3} ÷ {2/3} =",
+      "answer": {
+        "steps": [
+          {
+            "label": "Convert",
+            "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+            "fields": [
+              "4/3",
+              "2/3"
+            ],
+            "join": "÷"
+          },
+          {
+            "label": "Invert",
+            "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+            "fields": [
+              "4/3",
+              "3/2"
+            ],
+            "join": "×"
+          },
+          {
+            "label": "Solve",
+            "note": "multiply straight across: tops times tops, bottoms times bottoms",
+            "fields": [
+              "12/6"
+            ]
+          },
+          {
+            "label": "Simplify",
+            "note": "GCD(12, 6) = 6, so divide the top and the bottom by 6",
+            "fields": [
+              "2"
+            ]
+          }
+        ],
+        "display": "2"
+      },
+      "steps": "Convert to improper fractions first: 1 1/3 = 4/3 and 2/3 = 2/3. Keep, change, flip: 4/3 ÷ 2/3 = 4/3 × 3/2 = 12/6. Reduce first: your raw answer is 12/6. GCD(12, 6) = 6, so divide top and bottom by 6 to get 2/1. It actually simplifies all the way down to a whole number.",
+      "tip": "Reduce first: your raw answer is 12/6. GCD(12, 6) = 6, so divide top and bottom by 6 to get 2/1. It actually simplifies all the way down to a whole number."
+    },
+    {
+      "id": "divide-12",
       "section": "divide",
       "qtype": "fraction",
       "difficulty": 3,

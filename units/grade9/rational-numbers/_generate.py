@@ -16,7 +16,8 @@ and `decimal.Decimal`, so the math is guaranteed correct rather than hand-typed
 The unit follows the teacher's 9-day unit plan:
     1 Comparing and Evaluating Rational Numbers  -> intro, compare
     2 Basic Operations with Decimals             -> dec-add, dec-mult
-    4 Basic Operations with Fractions            -> frac-add, frac-mult
+    4 Basic Operations with Fractions            -> frac-add, frac-mult,
+                                                    frac-ops
     5 Order of Operations                        -> order-ops
 """
 import json
@@ -675,7 +676,227 @@ ask_fraction("frac-mult", "word", 2,
 
 
 # ===========================================================================
-#   SECTION 7 — order-ops: Order of Operations
+#   SECTION 7 — frac-ops: Basic Operations with Fractions, step by step
+# ===========================================================================
+#
+# Built from the teacher's five Math-Drills worksheets: Operations with Two
+# Fractions, Adding Negative Mixed Fractions, Subtracting Negative Fractions,
+# Multiplying Negative Proper Fractions and Dividing Negative Proper Fractions.
+# On paper every question is a row of blanks — convert, common denominator,
+# solve, simplify — with the labels printed underneath, and the teacher marks
+# each blank. So do these. Numbers stay small enough to do in your head: the
+# whole topic is calculator-free.
+#
+# One problem to a page, each headed by a worked sample of its own kind — the
+# way question 1 is filled in for you at the top of each worksheet. Problems are
+# grouped into "sets" that share a sample: sets 1-2 keep both denominators the
+# same, so the only new thing is the layout; set 3 holds the LCM at 12 for every
+# problem; only then does the LCM start to move.
+
+def mixed_disp(fr):
+    """'-1 1/3' — how a mixed number is typed into an answer box."""
+    if fr.denominator == 1:
+        return str(fr.numerator)
+    whole, num = divmod(abs(fr).numerator, fr.denominator)
+    if whole == 0:
+        return fdisp(fr)
+    return f"{'-' if fr < 0 else ''}{whole} {num}/{fr.denominator}"
+
+
+def step_row(label, note, fields, join=None):
+    """One line of the worked chain: a label, a nudge, and the boxes to fill."""
+    row = {"label": label, "note": note, "fields": list(fields)}
+    if join:
+        row["join"] = join
+    return row
+
+
+def sign_note(x, y):
+    return ("the signs are the same, so the answer is positive"
+            if (x < 0) == (y < 0) else
+            "the signs are different, so the answer is negative")
+
+
+def step_rows(a, b, op, a_mixed=False, b_mixed=False):
+    """The chain of blanks for `a op b`, in the worksheet's own order.
+
+    Rows only appear when they have something to do: a Convert row when a mixed
+    number is in play, Simplify when the raw answer still reduces, and the final
+    Convert when it comes out improper. Every expected value is derived from the
+    same Fractions as the answer, so a box can never disagree with the answer.
+    """
+    rows = []
+    if a_mixed or b_mixed:
+        rows.append(step_row(
+            "Convert", "a mixed number becomes an improper fraction — the minus "
+                       "belongs to the whole thing, not just the whole number",
+            [fdisp(a), fdisp(b)], op))
+
+    left, right = a, b
+    if op == "÷":
+        right = 1 / b
+        rows.append(step_row(
+            "Invert", "keep, change, flip — dividing by a fraction is multiplying "
+                      "by the fraction turned upside down",
+            # written /1 rather than as a whole number, so the flip is visible
+            [fdisp(a), f"{right.numerator}/{right.denominator}"], "×"))
+
+    if op in "+-":
+        low = lcm(a.denominator, b.denominator)
+        an = a.numerator * (low // a.denominator)
+        bn = b.numerator * (low // b.denominator)
+        rows.append(step_row(
+            "Common denominator",
+            f"both denominators are already {low}, so nothing changes"
+            if a.denominator == b.denominator else
+            f"the LCM of {a.denominator} and {b.denominator} is {low}",
+            [f"{an}/{low}", f"{bn}/{low}"], op))
+        raw_num, raw_den = (an + bn if op == "+" else an - bn), low
+        solve = "combine the numerators and keep the denominator"
+    else:
+        raw_num = left.numerator * right.numerator
+        raw_den = left.denominator * right.denominator
+        solve = f"multiply straight across — {sign_note(left, right)}"
+
+    rows.append(step_row("Solve", solve, [f"{raw_num}/{raw_den}"]))
+
+    value = {"+": a + b, "-": a - b, "×": a * b, "÷": a / b}[op]
+    g = gcd(abs(raw_num), raw_den)
+    if g != 1:
+        rows.append(step_row(
+            "Simplify", f"GCD({abs(raw_num)}, {raw_den}) = {g}, so divide the top and "
+                        f"the bottom by {g}", [fdisp(value)]))
+    if value.denominator != 1 and abs(value) > 1:
+        rows.append(step_row(
+            "Convert", "the answer came out improper, so write it as a mixed number",
+            [mixed_disp(value)]))
+    return rows, value
+
+
+def frac_steps(qset, difficulty, a, b, op, tip, a_mixed=False, b_mixed=False):
+    """A worked-chain question: the student fills in every line, not just the end.
+
+    `qset` picks which worked sample heads the page — problems drilling the same
+    move share one. The last few questions pass None and get no sample at all,
+    so the scaffold comes away before the topic does."""
+    a, b = F(a), F(b)
+    rows, value = step_rows(a, b, op, a_mixed, b_mixed)
+    prompt = f"{operand(a, a_mixed)} {op} {operand(b, b_mixed)} ="
+    prose = frac_addsub_steps(a, b, op) if op in "+-" else frac_muldiv_steps(a, b, op)
+    extra = {"set": qset} if qset is not None else {}
+    _add("frac-ops", "number", difficulty, prompt, "steps",
+         {"steps": rows, "display": rows[-1]["fields"][0]}, prose, tip, **extra)
+
+
+# The filled-in example that heads each page, built by the same code as the
+# questions so it can never show a different method from the one being marked.
+FRAC_OPS_SAMPLES = []
+
+
+def frac_sample(qset, a, b, op, a_mixed=False, b_mixed=False):
+    a, b = F(a), F(b)
+    rows, _ = step_rows(a, b, op, a_mixed, b_mixed)
+    FRAC_OPS_SAMPLES.append({
+        "set": qset,
+        "prompt": f"{operand(a, a_mixed)} {op} {operand(b, b_mixed)} =",
+        "steps": rows,
+    })
+
+
+TIP_OPS_SAME = ("The denominators already match, so there is nothing to rewrite — combine "
+                "the numerators and leave the denominator exactly as it is. Then check "
+                "whether the answer still reduces.")
+TIP_OPS_SIGNS = ("Same signs: add the sizes and keep that sign. Different signs: take the "
+                 "smaller size away from the bigger one, and the answer keeps the sign of "
+                 "the bigger one.")
+TIP_OPS_LCM = ("Find the LCM of the two denominators, then rewrite BOTH fractions over it "
+               "by multiplying top and bottom by the same number. Never add denominators.")
+TIP_OPS_SUBNEG = ("Subtracting a negative is adding a positive. Rewrite both fractions over "
+                  "the LCM first, then read the double minus carefully: -3/6 - (-2/6) is "
+                  "-3 + 2 on top.")
+TIP_OPS_MIXED = ("Convert each mixed number first: multiply the whole number by the "
+                 "denominator and add the numerator. -1 1/4 is -(4+1)/4 = -5/4 — the minus "
+                 "covers the whole number AND the fraction.")
+TIP_OPS_MULT = ("Multiplying needs no common denominator: multiply the tops, multiply the "
+                "bottoms. Same signs give a positive answer, different signs give a "
+                "negative one.")
+TIP_OPS_DIV = ("Keep, change, flip: keep the first fraction, change ÷ to ×, and flip the "
+               "second fraction upside down. Then it is an ordinary multiplication.")
+
+# --- Set 1 — the denominators already match, so the layout is the only new thing
+frac_sample(1, F(3, 8), F(1, 8), "+")
+frac_steps(1, 1, F(5, 9), F(2, 9), "+", TIP_OPS_SAME)
+frac_steps(1, 1, F(7, 8), F(3, 8), "-", TIP_OPS_SAME)
+frac_steps(1, 1, F(1, 6), F(1, 6), "+", TIP_OPS_SAME)
+frac_steps(1, 1, F(9, 10), F(3, 10), "-", TIP_OPS_SAME)
+frac_steps(1, 1, F(2, 7), F(3, 7), "+", TIP_OPS_SAME)
+
+# --- Set 2 — same denominators, now with a minus sign in play
+frac_sample(2, F(-7, 12), F(5, 12), "+")
+frac_steps(2, 1, F(-5, 8), F(1, 8), "+", TIP_OPS_SIGNS)
+frac_steps(2, 1, F(-3, 10), F(1, 10), "-", TIP_OPS_SIGNS)
+frac_steps(2, 1, F(-1, 6), F(-1, 6), "+", TIP_OPS_SIGNS)
+frac_steps(2, 1, F(-2, 9), F(7, 9), "+", TIP_OPS_SIGNS)
+frac_steps(2, 1, F(1, 7), F(5, 7), "-", TIP_OPS_SIGNS)
+
+# --- Set 3 — different denominators, but the LCM is 12 every single time
+frac_sample(3, F(1, 4), F(1, 6), "+")
+frac_steps(3, 2, F(1, 3), F(1, 4), "+", TIP_OPS_LCM)
+frac_steps(3, 2, F(5, 6), F(1, 12), "-", TIP_OPS_LCM)
+frac_steps(3, 2, F(-1, 3), F(3, 4), "+", TIP_OPS_LCM)
+frac_steps(3, 2, F(7, 12), F(5, 6), "-", TIP_OPS_LCM)
+frac_steps(3, 2, F(1, 4), F(2, 3), "+", TIP_OPS_LCM)
+
+# --- Set 4 — now the LCM moves from problem to problem
+frac_sample(4, F(1, 5), F(2, 3), "+")
+frac_steps(4, 2, F(3, 4), F(2, 5), "-", TIP_OPS_LCM)
+frac_steps(4, 2, F(1, 2), F(1, 5), "+", TIP_OPS_LCM)
+frac_steps(4, 2, F(2, 3), F(1, 2), "-", TIP_OPS_LCM)
+frac_steps(4, 2, F(3, 5), F(1, 6), "+", TIP_OPS_LCM)
+frac_steps(4, 2, F(5, 6), F(1, 4), "-", TIP_OPS_LCM)
+
+# --- Set 5 — negatives, the way the teacher's sheets 2 and 3 drill them
+frac_sample(5, F(-1, 2), F(-1, 3), "+")
+frac_steps(5, 3, F(-2, 5), F(-1, 2), "+", TIP_OPS_SIGNS)
+frac_steps(5, 3, F(-1, 2), F(-1, 3), "-", TIP_OPS_SUBNEG)
+frac_steps(5, 3, F(-3, 5), F(-1, 6), "-", TIP_OPS_SUBNEG)
+frac_steps(5, 3, F(-1, 4), F(2, 3), "+", TIP_OPS_SIGNS)
+frac_steps(5, 3, F(-1, 3), F(1, 6), "-", TIP_OPS_SIGNS)
+
+# --- Set 6 — mixed numbers: convert up at the start, convert back down at the end
+frac_sample(6, F(-5, 4), F(-4, 3), "+", a_mixed=True, b_mixed=True)
+frac_steps(6, 3, F(-5, 2), F(5, 4), "+", TIP_OPS_MIXED, a_mixed=True, b_mixed=True)
+frac_steps(6, 3, F(3, 2), F(7, 3), "+", TIP_OPS_MIXED, a_mixed=True, b_mixed=True)
+frac_steps(6, 3, F(-3, 2), F(-9, 4), "+", TIP_OPS_MIXED, a_mixed=True, b_mixed=True)
+frac_steps(6, 3, F(7, 3), F(3, 2), "-", TIP_OPS_MIXED, a_mixed=True, b_mixed=True)
+frac_steps(6, 3, F(-13, 4), F(3, 2), "+", TIP_OPS_MIXED, a_mixed=True, b_mixed=True)
+
+# --- Set 7 — multiplying and dividing: no common denominator anywhere.
+# Two samples here, because keep-change-flip is a different move from multiplying.
+frac_sample(7, F(2, 3), F(-3, 4), "×")
+frac_sample(7, F(-2, 3), F(1, 2), "÷")
+frac_steps(7, 3, F(3, 4), F(-2, 5), "×", TIP_OPS_MULT)
+frac_steps(7, 3, F(-1, 2), F(-3, 5), "×", TIP_OPS_MULT)
+frac_steps(7, 3, F(-2, 3), F(1, 2), "×", TIP_OPS_MULT)
+frac_steps(7, 3, F(-3, 5), F(-2, 5), "÷", TIP_OPS_DIV)
+frac_steps(7, 3, F(1, 2), F(-1, 4), "÷", TIP_OPS_DIV)
+
+# --- On your own — no worked sample above these.
+# Every move mixed together, with nothing at the top of the page to copy the
+# shape from. This is the one that says whether the topic stuck.
+TIP_OPS_ALL = ("No example this time. Ask yourself first which kind it is: mixed "
+               "numbers get converted, + and - need a common denominator, × and ÷ "
+               "never do. Then reduce, and turn improper into mixed.")
+
+frac_steps(None, 3, F(1, 3), F(1, 4), "+", TIP_OPS_ALL)
+frac_steps(None, 3, F(-2, 5), F(-3, 10), "+", TIP_OPS_ALL)
+frac_steps(None, 3, F(-3, 2), F(9, 4), "+", TIP_OPS_ALL, a_mixed=True, b_mixed=True)
+frac_steps(None, 3, F(-3, 4), F(2, 5), "×", TIP_OPS_ALL)
+frac_steps(None, 3, F(1, 2), F(-3, 4), "÷", TIP_OPS_ALL)
+
+
+# ===========================================================================
+#   SECTION 8 — order-ops: Order of Operations
 # ===========================================================================
 
 TIP_ORDER = ("BEDMAS: Brackets, then Exponents (and square roots), then Division and "
@@ -1159,6 +1380,76 @@ SECTIONS = [
                 "steps": "Keep-change-flip: 3/4 × (-7/6). Different signs, so negative. "
                          "Multiply across: 21/24, and GCD(21, 24) = 3, so -7/8.",
                 "answer_display": "-7/8",
+            },
+        ],
+    },
+    {
+        "id": "frac-ops",
+        "title": "Basic Operations with Fractions",
+        "emoji": "\U0001F9F1",
+        "color": "#10AC84",
+        "blurb": "Same four operations as the last two topics — but here you write out every "
+                 "step and each one is marked on its own, the way the worksheets do it. "
+                 "Convert, find the common denominator, solve, simplify. Two problems to a "
+                 "page, and every number is small enough to do in your head.",
+        "samples": FRAC_OPS_SAMPLES,
+        "key_concepts": [
+            "Work the chain in this order every time: Convert mixed numbers → Common "
+            "denominator → Solve → Simplify → Convert back. Skipping a line is where most "
+            "marks are lost, so write each one down even when it feels obvious.",
+            {
+                "text": "The sign rules never change, no matter how big the fractions get. "
+                        "These are the four you need.",
+                "visual": {
+                    "type": "rules",
+                    "items": [
+                        {"expr": "(-) + (-)", "result": " - ",
+                         "note": "add the sizes, keep the minus"},
+                        {"expr": "(-) + (+)", "result": " ? ",
+                         "note": "subtract the sizes; the bigger size wins the sign"},
+                        {"expr": "(-) × (-)", "result": " + ",
+                         "note": "same signs make a positive"},
+                        {"expr": "(-) × (+)", "result": " - ",
+                         "note": "different signs make a negative"},
+                    ],
+                },
+            },
+            "A common denominator is only for + and -. You are cutting both fractions into "
+            "the same size pieces so the numerators can be counted together: {1/4} + {1/6} "
+            "becomes {3/12} + {2/12} = {5/12}. The bottom number is the piece size, so it "
+            "never gets added.",
+            "Multiplying and dividing need no common denominator at all. {2/3} × {-3/4} is "
+            "just (2 × -3) over (3 × 4) = {-6/12}, and {-6/12} reduces to {-1/2}.",
+            "Dividing is multiplying by the reciprocal — keep, change, flip. "
+            "{-2/3} ÷ {1/2} = {-2/3} × {2/1} = {-4/3}, which is {-1_1/3} as a mixed number.",
+            "An answer is not finished until it is reduced AND written as a mixed number if "
+            "it is improper. {15/10} reduces to {3/2}, and {3/2} is {1_1/2}.",
+        ],
+        "examples": [
+            {
+                "prompt": "{-7/12} + {5/12} =",
+                "steps": "Common denominator: both are already twelfths, so nothing is "
+                         "rewritten. Solve: the signs are different, so take 5 from 7 and "
+                         "keep the minus of the bigger size, giving -2/12. "
+                         "Simplify: GCD(2, 12) = 2, so -2/12 = -1/6.",
+                "answer_display": "-1/6",
+            },
+            {
+                "prompt": "({-1_1/4}) + ({-1_1/3}) =",
+                "steps": "Convert: -1 1/4 = -5/4 and -1 1/3 = -4/3. "
+                         "Common denominator: the LCM of 4 and 3 is 12, so -15/12 + -16/12. "
+                         "Solve: both are negative, so add the sizes and keep the minus, "
+                         "giving -31/12. "
+                         "Convert: -31/12 is improper, so it is -2 7/12.",
+                "answer_display": "-2 7/12",
+            },
+            {
+                "prompt": "({-2/3}) ÷ {1/2} =",
+                "steps": "Invert: keep, change, flip gives -2/3 × 2/1. "
+                         "Solve: multiply straight across, (-2 × 2)/(3 × 1) = -4/3 — "
+                         "different signs, so the answer is negative. "
+                         "Convert: -4/3 is improper, so it is -1 1/3.",
+                "answer_display": "-1 1/3",
             },
         ],
     },

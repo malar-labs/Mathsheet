@@ -219,6 +219,33 @@
 }
 .tt-input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 4px var(--purple-light); }
 
+/* ===== Fractions =====
+   A drill that prints "1/2" makes a child parse the sum before they can start
+   it. Stacked, the size of the piece is the first thing they see. */
+.tt-frac {
+    display: inline-flex; flex-direction: column; align-items: center;
+    vertical-align: middle; line-height: 1.05; margin: 0 0.12em;
+    font-variant-numeric: tabular-nums;
+}
+.tt-frac-n { border-bottom: 2px solid currentColor; padding: 0 0.22em 1px; }
+.tt-frac-d { padding: 1px 0.22em 0; }
+.tt-input-frac { font-variant-numeric: normal; }
+
+/* The equivalence ladder: the bottoms are printed, the tops are the work, so
+   each blank rung is an input sitting where a numerator goes. */
+.tt-chain-equiv .tt-rung { min-width: 0; padding: 0.4rem 0.5rem; }
+.tt-chain-equiv .tt-rung.is-blank { background: none; padding: 0.2rem 0.3rem; }
+.tt-chain-equiv .tt-frac-n { border-bottom-width: 2px; padding-bottom: 3px; }
+.tt-chain-equiv .tt-rung-input {
+    width: 3rem; padding: 0.25rem 0.2rem; font-size: 1rem; margin-bottom: 3px;
+}
+.tt-chain-equiv .tt-frac { margin: 0; }
+.tt-rung-link.is-equals {
+    font-family: var(--font-main); font-weight: 800; font-size: 1.1rem;
+    color: var(--light-gray);
+}
+.tt-chain-intro .tt-frac { font-size: 0.95rem; color: var(--dark); font-weight: 800; }
+
 /* ===== check / result ===== */
 .tt-btn {
     display: inline-block; cursor: pointer; text-decoration: none; text-align: center;
@@ -317,6 +344,8 @@
     .tt-chain { padding: 0.7rem; gap: 0.3rem; }
     .tt-rung { min-width: 2.9rem; padding: 0.4rem 0.35rem; font-size: 1rem; }
     .tt-rung-input { width: 3.4rem; }
+    .tt-chain-equiv .tt-rung-input { width: 2.5rem; font-size: 0.95rem; }
+    .tt-chain-equiv .tt-rung { padding: 0.3rem 0.3rem; font-size: 0.95rem; }
     .tt-rung-link { font-size: 0.8rem; }
     /* Four options genuinely do need the full width, so those drop to a row
        of their own. */

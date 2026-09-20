@@ -34,25 +34,25 @@
         "id": "add",
         "title": "Adding Fractions",
         "emoji": "➕",
-        "question_count": 9
+        "question_count": 12
       },
       {
         "id": "subtract",
         "title": "Subtracting Fractions",
         "emoji": "➖",
-        "question_count": 9
+        "question_count": 12
       },
       {
         "id": "multiply",
         "title": "Multiplying Fractions",
         "emoji": "✖️",
-        "question_count": 10
+        "question_count": 13
       },
       {
         "id": "divide",
         "title": "Dividing Fractions",
         "emoji": "➗",
-        "question_count": 9
+        "question_count": 12
       }
     ]
   },
@@ -264,6 +264,90 @@
           "steps": "LCM of 3 and 4 is 12. 1/3 = 4/12, 1/4 = 3/12. Add: 4/12 + 3/12 = 7/12.",
           "answer_display": "7/12"
         }
+      ],
+      "samples": [
+        {
+          "set": 1,
+          "prompt": "{2/7} + {3/7} =",
+          "steps": [
+            {
+              "label": "Common denominator",
+              "note": "both denominators are already 7, so nothing changes",
+              "fields": [
+                "2/7",
+                "3/7"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "5/7"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 2,
+          "prompt": "{1/2} + {1/3} =",
+          "steps": [
+            {
+              "label": "Common denominator",
+              "note": "the LCM of 2 and 3 is 6",
+              "fields": [
+                "3/6",
+                "2/6"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "5/6"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 3,
+          "prompt": "{1_1/2} + {2_1/3} =",
+          "steps": [
+            {
+              "label": "Convert",
+              "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+              "fields": [
+                "3/2",
+                "7/3"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Common denominator",
+              "note": "the LCM of 2 and 3 is 6",
+              "fields": [
+                "9/6",
+                "14/6"
+              ],
+              "join": "+"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "23/6"
+              ]
+            },
+            {
+              "label": "Convert",
+              "note": "the answer came out improper, so write it as a mixed number",
+              "fields": [
+                "3 5/6"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -287,6 +371,90 @@
           "prompt": "{3/4} - {1/6} =",
           "steps": "LCM of 4 and 6 is 12. 3/4 = 9/12, 1/6 = 2/12. Subtract: 9/12 - 2/12 = 7/12.",
           "answer_display": "7/12"
+        }
+      ],
+      "samples": [
+        {
+          "set": 1,
+          "prompt": "{5/8} - {3/8} =",
+          "steps": [
+            {
+              "label": "Common denominator",
+              "note": "both denominators are already 8, so nothing changes",
+              "fields": [
+                "5/8",
+                "3/8"
+              ],
+              "join": "-"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "2/8"
+              ]
+            },
+            {
+              "label": "Simplify",
+              "note": "GCD(2, 8) = 2, so divide the top and the bottom by 2",
+              "fields": [
+                "1/4"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 2,
+          "prompt": "{2/3} - {1/4} =",
+          "steps": [
+            {
+              "label": "Common denominator",
+              "note": "the LCM of 3 and 4 is 12",
+              "fields": [
+                "8/12",
+                "3/12"
+              ],
+              "join": "-"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "5/12"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 3,
+          "prompt": "{2_1/4} - {1_1/2} =",
+          "steps": [
+            {
+              "label": "Convert",
+              "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+              "fields": [
+                "9/4",
+                "3/2"
+              ],
+              "join": "-"
+            },
+            {
+              "label": "Common denominator",
+              "note": "the LCM of 4 and 2 is 4",
+              "fields": [
+                "9/4",
+                "6/4"
+              ],
+              "join": "-"
+            },
+            {
+              "label": "Solve",
+              "note": "combine the numerators and keep the denominator",
+              "fields": [
+                "3/4"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -312,6 +480,70 @@
           "steps": "Multiply across: 45/150. GCD(45,150)=15 → 3/10. (You could also cancel the two 5's first!)",
           "answer_display": "3/10"
         }
+      ],
+      "samples": [
+        {
+          "set": 1,
+          "prompt": "{2/3} × {4/5} =",
+          "steps": [
+            {
+              "label": "Solve",
+              "note": "multiply straight across: tops times tops, bottoms times bottoms",
+              "fields": [
+                "8/15"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 2,
+          "prompt": "5 × {2/7} =",
+          "steps": [
+            {
+              "label": "Solve",
+              "note": "multiply straight across: tops times tops, bottoms times bottoms",
+              "fields": [
+                "10/7"
+              ]
+            },
+            {
+              "label": "Convert",
+              "note": "the answer came out improper, so write it as a mixed number",
+              "fields": [
+                "1 3/7"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 3,
+          "prompt": "{1_1/2} × {2/3} =",
+          "steps": [
+            {
+              "label": "Convert",
+              "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+              "fields": [
+                "3/2",
+                "2/3"
+              ],
+              "join": "×"
+            },
+            {
+              "label": "Solve",
+              "note": "multiply straight across: tops times tops, bottoms times bottoms",
+              "fields": [
+                "6/6"
+              ]
+            },
+            {
+              "label": "Simplify",
+              "note": "GCD(6, 6) = 6, so divide the top and the bottom by 6",
+              "fields": [
+                "1"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -335,6 +567,97 @@
           "prompt": "{3/4} ÷ {2/5} =",
           "steps": "Keep-change-flip: 3/4 × 5/2 = 15/8 → improper → mixed 1 7/8.",
           "answer_display": "1 7/8"
+        }
+      ],
+      "samples": [
+        {
+          "set": 1,
+          "prompt": "{2/3} ÷ {1/6} =",
+          "steps": [
+            {
+              "label": "Invert",
+              "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+              "fields": [
+                "2/3",
+                "6/1"
+              ],
+              "join": "×"
+            },
+            {
+              "label": "Solve",
+              "note": "multiply straight across: tops times tops, bottoms times bottoms",
+              "fields": [
+                "12/3"
+              ]
+            },
+            {
+              "label": "Simplify",
+              "note": "GCD(12, 3) = 3, so divide the top and the bottom by 3",
+              "fields": [
+                "4"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 2,
+          "prompt": "{3/4} ÷ 2 =",
+          "steps": [
+            {
+              "label": "Invert",
+              "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+              "fields": [
+                "3/4",
+                "1/2"
+              ],
+              "join": "×"
+            },
+            {
+              "label": "Solve",
+              "note": "multiply straight across: tops times tops, bottoms times bottoms",
+              "fields": [
+                "3/8"
+              ]
+            }
+          ]
+        },
+        {
+          "set": 3,
+          "prompt": "{1_1/2} ÷ {3/4} =",
+          "steps": [
+            {
+              "label": "Convert",
+              "note": "a mixed number becomes an improper fraction: whole x bottom, plus the top",
+              "fields": [
+                "3/2",
+                "3/4"
+              ],
+              "join": "÷"
+            },
+            {
+              "label": "Invert",
+              "note": "keep, change, flip — dividing by a fraction is multiplying by the fraction turned upside down",
+              "fields": [
+                "3/2",
+                "4/3"
+              ],
+              "join": "×"
+            },
+            {
+              "label": "Solve",
+              "note": "multiply straight across: tops times tops, bottoms times bottoms",
+              "fields": [
+                "12/6"
+              ]
+            },
+            {
+              "label": "Simplify",
+              "note": "GCD(12, 6) = 6, so divide the top and the bottom by 6",
+              "fields": [
+                "2"
+              ]
+            }
+          ]
         }
       ]
     }

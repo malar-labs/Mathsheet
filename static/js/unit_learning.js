@@ -11,6 +11,12 @@
      compare   pick one of  <  =  >
      choice    pick one of q.options
      order     click q.options into the right sequence
+     steps     fill in every line of the worked solution, one line at a time
+
+   Pages: questions that carry the same q.page share a page, the way two
+   problems share a line of a paper worksheet. A question with no q.page gets a
+   page to itself, which is how every topic behaved before worked chains
+   existed.
    ============================================= */
 'use strict';
 
@@ -148,6 +154,64 @@ function gradeIntegerAnswer(userInput, answer) {
         : { verdict: 'wrong', message: `The correct answer is ${answer.value}.` };
 }
 
+// A fraction written as text ("-2 7/12") turned back into a prompt token so it
+// renders stacked. Returns null for anything that isn't a number.
+function mathToken(text) {
+    const s = normalizeMinus(String(text)).trim().replace(/\s+/g, ' ');
+    let m = s.match(/^(-?\d+) (\d+)\s*\/\s*(\d+)$/);
+    if (m) return `{${m[1]}_${m[2]}/${m[3]}}`;
+    m = s.match(/^(-?\d+)\s*\/\s*(\d+)$/);
+    if (m) return `{${m[1]}/${m[2]}}`;
+    if (/^-?\d+$/.test(s)) return `{${s}}`;
+    return null;
+}
+
+// A mixed number printed as plain text: HTML would collapse the space in
+// "-1 1/4" and it would read as -11/4.
+function answerText(display) {
+    return escHTML(display).replace(/(\d) +(\d)/g, '$1&nbsp;$2');
+}
+
+function renderValue(text) {
+    const token = mathToken(text);
+    return token ? renderMath(token) : escHTML(text);
+}
+
+// "1 3/4" is a mixed number; "4" and "7/4" are not. A whole number typed beside
+// a zero numerator ("2 0/1") is nobody's idea of a mixed number either.
+function isMixedForm(parsed) {
+    return (parsed.whole || 0) !== 0 && (parsed.num || 0) !== 0;
+}
+
+// Each line of a worked chain asks for one particular FORM, not just one value:
+// the common-denominator line wants 20/30 and the simplify line wants 13/15,
+// even though those are the same number. So a step is right only when the
+// numerator, the denominator and the mixed-or-improper choice all match — with
+// a separate, kinder message when the value was right but the form wasn't.
+function gradeStepField(userInput, expect) {
+    const user = parseFractionInput(userInput);
+    if (!user) {
+        return { invalid: true, message: "That doesn't look like an answer yet. Type a fraction like -3/4, or a mixed number like 1 1/2." };
+    }
+    const want = parseFractionInput(expect);
+    const un = mixedValue(user.whole, user.num, user.den), ud = user.den;
+    const wn = mixedValue(want.whole, want.num, want.den), wd = want.den;
+
+    if (un === wn && ud === wd && isMixedForm(user) === isMixedForm(want)) {
+        return { verdict: 'correct', message: '' };
+    }
+    if (un * wd === wn * ud) {
+        let why;
+        if (isMixedForm(want)) why = 'it still has to be written as a mixed number.';
+        else if (isMixedForm(user)) why = 'this line wants one single fraction, not a mixed number.';
+        else if (wd < ud) why = 'it is not fully reduced yet.';
+        else if (wd > ud) why = `this line wants it written over ${wd}.`;
+        else why = 'it is not in the form this line asks for.';
+        return { verdict: 'wrong', form: true, why, message: `Right value — but ${why}` };
+    }
+    return { verdict: 'wrong', form: false, why: '', message: '' };
+}
+
 // Decimals are compared by value, so 0.50 and 0.5 both pass, and a student who
 // works in fractions can type 3/4 for 0.75.
 function parseDecimalInput(str) {
@@ -194,7 +258,7 @@ function parsePage(sectionId) {
     if (page === 'learn') return 'lesson';
     if (/^\d+$/.test(page)) {
         const i = parseInt(page, 10) - 1;
-        if (i >= 0 && i < questionsFor(sectionId).length) return i;
+        if (i >= 0 && i < pagesFor(sectionId).length) return i;
     }
     return 'menu';
 }
@@ -226,7 +290,10 @@ function ulRoute() {
     const pageChanged = newPage !== ulState.page;
     ulState.activeSection = FOCUS_SECTION;
     ulState.page = newPage;
-    if (pageChanged) ulState.lastResult = null;
+    if (pageChanged) {
+        ulState.lastResults = {};
+        ulFocus = 'first';
+    }
     renderTopic();
     if (pageChanged) window.scrollTo({ top: 0 });
 }
@@ -252,6 +319,39 @@ function usesTiles(q) { return q.qtype === 'compare' || q.qtype === 'choice' || 
 
 function kindOf(q) { return q.kind === 'word' ? 'word' : 'number'; }
 function questionsFor(sectionId) { return ulState.questionsBySection[sectionId] || []; }
+
+// Questions tagged with the same q.page share a page. Anything untagged gets a
+// page of its own, so a topic that never heard of pages behaves as it always did.
+function pagesFor(sectionId) {
+    if (!ulState.pagesBySection[sectionId]) {
+        const pages = [];
+        questionsFor(sectionId).forEach(q => {
+            const last = pages[pages.length - 1];
+            if (q.page && last && last.key === q.page) last.questions.push(q);
+            else pages.push({ key: q.page, questions: [q] });
+        });
+        ulState.pagesBySection[sectionId] = pages;
+    }
+    return ulState.pagesBySection[sectionId];
+}
+
+// "question" reads better than "page" where each page holds exactly one.
+function pageWord(sectionId) {
+    return pagesFor(sectionId).some(p => p.questions.length > 1) ? 'page' : 'question';
+}
+
+function pageIndexOf(sectionId, qid) {
+    return pagesFor(sectionId).findIndex(p => p.questions.some(q => q.id === qid));
+}
+
+// A page is only as good as its worst answered question, and counts for nothing
+// until every question on it has been answered.
+function pageVerdict(page) {
+    const verdicts = page.questions.map(q => ulState.progress[q.id]);
+    if (verdicts.some(v => !v)) return '';
+    if (verdicts.includes('wrong')) return 'wrong';
+    return verdicts.includes('close') ? 'close' : 'correct';
+}
 function stars(n) { return '★'.repeat(n) + '☆'.repeat(3 - n); }
 
 function sectionStats(sectionId) {
@@ -262,14 +362,23 @@ function sectionStats(sectionId) {
         if (v) { st.answered++; st[v]++; }
     });
     st.score = st.total ? Math.round(((st.correct + st.close * 0.5) / st.total) * 100) : 0;
-    st.firstOpen = qs.findIndex(q => !ulState.progress[q.id]);
+    // where "continue" goes: the first PAGE still holding an unanswered question
+    st.firstOpen = pagesFor(sectionId)
+        .findIndex(p => p.questions.some(q => !ulState.progress[q.id]));
     return st;
 }
 
-function practiceCta(st) {
+function practiceCta(st, sectionId) {
     if (st.answered === 0) return { label: 'Start practice', go: 0 };
     if (st.firstOpen === -1) return { label: 'See my results', go: 'done' };
-    return { label: `Continue at question ${st.firstOpen + 1}`, go: st.firstOpen };
+    return { label: `Continue at ${pageWord(sectionId)} ${st.firstOpen + 1}`, go: st.firstOpen };
+}
+
+// "one per page" or "two to a page" — how the practice is laid out.
+function layoutSummary(sectionId) {
+    const most = pagesFor(sectionId).reduce((n, p) => Math.max(n, p.questions.length), 1);
+    if (most === 1) return 'one per page';
+    return most === 2 ? 'two to a page' : `up to ${most} to a page`;
 }
 
 function kindSummary(questions) {
@@ -328,7 +437,11 @@ function wireCommon(root) {
         btn.addEventListener('click', () => {
             if (!window.confirm('Start this topic over? Your answers for this topic will be cleared.')) return;
             const cleared = questionsFor(FOCUS_SECTION).map(q => q.id);
-            cleared.forEach(id => { delete ulState.progress[id]; });
+            cleared.forEach(id => {
+                delete ulState.progress[id];
+                delete ulState.stepState[id];
+                delete ulState.draft[id];
+            });
             ulWriteLocal();
             ulClearProgress(cleared);
             ulState.streak = 0;
@@ -385,20 +498,22 @@ function renderTopic() {
     const content = document.getElementById('ul-content');
     if (!section) { content.innerHTML = ''; return; }
     const qs = questionsFor(section.id);
+    const pages = pagesFor(section.id);
     const page = ulState.page;
     if (page === 'done') content.innerHTML = resultsPageHTML(section, qs);
-    else if (typeof page === 'number') content.innerHTML = questionPageHTML(section, qs, page);
+    else if (typeof page === 'number') content.innerHTML = questionPageHTML(section, pages, page);
     else if (page === 'lesson') content.innerHTML = lessonPageHTML(section, qs);
     else content.innerHTML = menuPageHTML(section, qs);
     wireCommon(content);
-    if (typeof page === 'number') wireQuestion(qs[page]);
+    if (typeof page === 'number') wirePage(section, pages[page].questions);
 }
+
 
 // The landing page for a topic: read the lesson first, or go straight to the
 // questions. The lesson itself lives one click away, under "Learn".
 function menuPageHTML(section, qs) {
     const st = sectionStats(section.id);
-    const cta = practiceCta(st);
+    const cta = practiceCta(st, section.id);
     const concepts = section.key_concepts.length;
     const examples = section.examples.length;
     return `
@@ -415,7 +530,7 @@ function menuPageHTML(section, qs) {
                     <button class="ul-choice ul-choice-practice" data-go="${cta.go}">
                         <span class="ul-choice-emoji" aria-hidden="true">✏️</span>
                         <span class="ul-choice-title">Practice</span>
-                        <span class="ul-choice-desc">${kindSummary(qs)}, one per page, marked as you go.</span>
+                        <span class="ul-choice-desc">${kindSummary(qs)}, ${layoutSummary(section.id)}, marked as you go.</span>
                         <span class="ul-choice-cta">${cta.label} →</span>
                     </button>
                 </div>
@@ -436,7 +551,7 @@ function menuPageHTML(section, qs) {
 
 function lessonPageHTML(section, qs) {
     const st = sectionStats(section.id);
-    const cta = practiceCta(st);
+    const cta = practiceCta(st, section.id);
     const concepts = section.key_concepts.map(k => (typeof k === 'string' ? { text: k } : k));
     const conceptCards = concepts.map((c, i) => `
         <article class="ul-concept ${c.visual ? 'has-visual' : ''}">
@@ -464,7 +579,7 @@ function lessonPageHTML(section, qs) {
                 <h2 class="ul-h2">✍️ Worked examples</h2>
                 <div class="ul-examples">${examples}</div>
                 <div class="ul-lesson-end">
-                    <div><strong>Ready to practise?</strong> ${kindSummary(qs)}, one per page.</div>
+                    <div><strong>Ready to practise?</strong> ${kindSummary(qs)}, ${layoutSummary(section.id)}.</div>
                     <button class="ul-next-btn" data-go="${cta.go}">${cta.label} →</button>
                 </div>
             </div>
@@ -475,7 +590,7 @@ function lessonPageHTML(section, qs) {
                         ${scoreRingHTML(st.score)}
                         <div><div class="ul-big-num">${st.answered}<span>/${st.total}</span></div><div class="ul-muted">answered</div></div>
                     </div>
-                    <p class="ul-muted">${kindSummary(qs)}, one per page.</p>
+                    <p class="ul-muted">${kindSummary(qs)}, ${layoutSummary(section.id)}.</p>
                     <button class="ul-next-btn ul-block" data-go="${cta.go}">${cta.label} →</button>
                     ${st.answered ? '<button class="ul-prev-btn ul-block" data-go="0">Start from question 1</button>' : ''}
                 </div>
@@ -484,44 +599,292 @@ function lessonPageHTML(section, qs) {
         </div>`;
 }
 
-function questionPageHTML(section, qs, idx) {
-    const q = qs[idx];
-    const kind = kindOf(q);
-    const sameKind = qs.filter(x => kindOf(x) === kind);
-    const solved = ulState.progress[q.id];
-    const last = ulState.lastResult && ulState.lastResult.qid === q.id ? ulState.lastResult : null;
-    const isLast = idx === qs.length - 1;
+// The filled-in example at the top of the page, exactly as question 1 is
+// filled in for you at the top of each worksheet: the same chain the problems
+// below ask for, with every blank already written in.
+function sampleHTML(section, q) {
+    const samples = (section.samples || []).filter(s => s.set === q.set);
+    if (!samples.length) return '';
+    const rows = samples.map(sample => {
+        const steps = sample.steps.map(row => {
+            const boxes = row.fields.map((value, f) => {
+                const joiner = f ? `<span class="ul-chain-join">${escHTML(row.join || '')}</span>` : '';
+                return `${joiner}<span class="ul-chain-value">${renderValue(value)}</span>`;
+            }).join('');
+            return `<span class="ul-chain-step">
+                <span class="ul-chain-boxes">${boxes}</span>
+                <span class="ul-chain-label">${escHTML(row.label)}</span>
+            </span>`;
+        }).join('<span class="ul-chain-eq" aria-hidden="true">=</span>');
+        return `<div class="ul-chain ul-chain-sample">
+            <span class="ul-chain-prompt">${renderMath(sample.prompt)}</span>${steps}
+        </div>`;
+    }).join('');
+    return `<section class="ul-sample">
+        <div class="ul-sample-label">✏️ Worked for you — fill in the same lines below</div>
+        ${rows}
+    </section>`;
+}
+
+function questionPageHTML(section, pages, idx) {
+    const qs = questionsFor(section.id);
+    const page = pages[idx];
+    const prev = pages[idx - 1];
+    const shared = page.questions.length > 1;
+    const isLast = idx === pages.length - 1;
     const nextGo = isLast ? 'done' : idx + 1;
-    const isTiles = usesTiles(q);
-    const startsWordPart = kind === 'word' && idx > 0 && kindOf(qs[idx - 1]) !== 'word';
+    const done = page.questions.every(q => ulState.progress[q.id]);
+    const startsWordPart = kindOf(page.questions[0]) === 'word'
+        && !!prev && kindOf(prev.questions[prev.questions.length - 1]) !== 'word';
 
     return `
         <div class="ul-layout">
             <div class="ul-layout-main">
                 ${startsWordPart ? `<div class="ul-part-banner">📝 Word problems start here! Read the story carefully, find the numbers you need, then answer the question.</div>` : ''}
-                <section class="ul-panel ul-q-panel ${solved ? `is-${solved}` : ''}">
-                    <div class="ul-q-top">
-                        <span class="ul-q-count">Question ${idx + 1}<span> of ${qs.length}</span></span>
-                        <span class="ul-chip">${KIND_LABELS[kind].icon} ${KIND_LABELS[kind].name} ${sameKind.indexOf(q) + 1} of ${sameKind.length}</span>
-                        <span class="ul-q-stars" title="Difficulty ${q.difficulty} of 3" aria-label="Difficulty ${q.difficulty} of 3">${stars(q.difficulty)}</span>
-                    </div>
-                    <div class="ul-q-prompt-lg">${renderMath(q.prompt)}</div>
-                    ${answerZoneHTML(q, solved, last)}
-                    <div class="ul-warn" id="ul-warn" hidden></div>
-                    ${solved ? feedbackPanelHTML(q, solved, last, nextGo, isLast) : `
-                    <div class="ul-q-actions">
-                        <button class="ul-check-btn-lg" id="ul-check" ${isTiles ? 'disabled' : ''}>Check answer</button>
-                        <button class="ul-hint-btn" id="ul-hint-toggle" aria-expanded="false" aria-controls="ul-hint">💡 Need a hint?</button>
-                    </div>
-                    <div class="ul-hint-box" id="ul-hint" hidden>${escHTML(q.tip)}</div>`}
-                </section>
+                ${shared ? `<div class="ul-page-label">Page ${idx + 1} of ${pages.length} · ${page.questions.length} problems</div>` : ''}
+                ${sampleHTML(section, page.questions[0])}
+                ${page.questions.map(q => questionCardHTML(q, qs, nextGo, isLast, shared)).join('')}
+                ${shared ? `<div class="ul-page-foot">
+                    ${done ? `<button class="ul-next-btn" data-go="${nextGo}">${isLast ? 'See my results' : 'Next page'} →</button>`
+                           : '<button class="ul-check-btn-lg js-check-page">Check the whole page</button>'}
+                </div>` : ''}
                 <div class="ul-pager-nav">
                     <button class="ul-prev-btn" data-go="${idx === 0 ? 'lesson' : idx - 1}">← ${idx === 0 ? 'Lesson' : 'Previous'}</button>
-                    ${solved ? '' : `<button class="ul-skip-btn" data-go="${nextGo}">${isLast ? 'Skip to results' : 'Skip for now'} →</button>`}
+                    ${done ? '' : `<button class="ul-skip-btn" data-go="${nextGo}">${isLast ? 'Skip to results' : 'Skip for now'} →</button>`}
                 </div>
             </div>
-            ${questionSidebarHTML(section, qs, idx)}
+            ${questionSidebarHTML(section, pages, idx)}
         </div>`;
+}
+
+// One problem, whether it has the page to itself or shares it with another.
+// Everything inside is addressed by class and scoped to the card, so two of
+// these can sit on the same page without fighting over element ids.
+function questionCardHTML(q, qs, nextGo, isLast, shared) {
+    const idx = qs.indexOf(q);
+    const kind = kindOf(q);
+    const sameKind = qs.filter(x => kindOf(x) === kind);
+    const solved = ulState.progress[q.id];
+    const last = ulState.lastResults[q.id] || null;
+    const isTiles = usesTiles(q);
+    const hintId = `ul-hint-${q.id}`;
+    // A chain prints the problem at the head of its own row, so printing it
+    // above as well would just be the same line twice.
+    const chain = q.qtype === 'steps';
+    return `
+        <section class="ul-panel ul-q-panel ${shared ? 'ul-q-shared' : ''} ${solved ? `is-${solved}` : ''}" data-qid="${escHTML(q.id)}">
+            ${shared ? `
+            <div class="ul-q-top ul-q-top-slim">
+                <span class="ul-q-num">${idx + 1}.</span>
+                <span class="ul-q-stars" title="Difficulty ${q.difficulty} of 3" aria-label="Difficulty ${q.difficulty} of 3">${stars(q.difficulty)}</span>
+            </div>` : `
+            <div class="ul-q-top">
+                <span class="ul-q-count">Question ${idx + 1}<span> of ${qs.length}</span></span>
+                <span class="ul-chip">${KIND_LABELS[kind].icon} ${KIND_LABELS[kind].name} ${sameKind.indexOf(q) + 1} of ${sameKind.length}</span>
+                <span class="ul-q-stars" title="Difficulty ${q.difficulty} of 3" aria-label="Difficulty ${q.difficulty} of 3">${stars(q.difficulty)}</span>
+            </div>`}
+            ${chain ? '' : `<div class="ul-q-prompt-lg">${renderMath(q.prompt)}</div>`}
+            ${answerZoneHTML(q, solved, last)}
+            <div class="ul-warn js-warn" hidden></div>
+            ${solved ? feedbackPanelHTML(q, solved, last, nextGo, isLast, shared) : `
+            <div class="ul-q-actions">
+                <button class="ul-check-btn-lg js-check" ${isTiles ? 'disabled' : ''}>Check answer</button>
+                <button class="ul-hint-btn js-hint-toggle" aria-expanded="false" aria-controls="${hintId}">💡 Need a hint?</button>
+            </div>
+            <div class="ul-hint-box js-hint" id="${hintId}" hidden>${escHTML(q.tip)}</div>`}
+        </section>`;
+}
+
+// ===== worked chains =====
+// The paper worksheet gives one long row per question — the problem, then a
+// blank for each line of working, with the labels printed underneath — and the
+// teacher marks every blank at once. So does this: the whole row is open from
+// the start, one "Check answer" submits it, and each blank comes back ticked or
+// crossed with a sentence saying what that line wanted.
+
+function ulStepState(q) {
+    if (!ulState.stepState[q.id]) {
+        ulState.stepState[q.id] = {
+            typed: {},        // "row:field" -> what is in that box
+            marks: null,      // per row, per field: 'correct' | 'form' | 'wrong' | 'blank'
+            attempts: 0,      // submissions so far
+            warn: '',         // why the last submission wasn't accepted at all
+        };
+    }
+    return ulState.stepState[q.id];
+}
+
+function stepValue(st, i, f) { return st.typed[`${i}:${f}`] || ''; }
+
+// ===== grading =====
+// A blank is graded on FORM, not just value: the common-denominator line wants
+// 20/30 and the simplify line wants 13/15, even though those are one number. A
+// right value in the wrong form is its own outcome, so the student is told which
+// mistake they made rather than just "wrong".
+function markStepField(typed, expect) {
+    if (!String(typed).trim()) return 'blank';
+    const result = gradeStepField(typed, expect);
+    if (result.invalid) return 'wrong';
+    if (result.verdict === 'correct') return 'correct';
+    return result.form ? 'form' : 'wrong';
+}
+
+function markChain(q, st) {
+    return q.answer.steps.map((row, i) =>
+        row.fields.map((expect, f) => markStepField(stepValue(st, i, f), expect)));
+}
+
+function flatMarks(marks) { return marks.reduce((all, row) => all.concat(row), []); }
+
+// Every blank right is correct; every blank at least the right NUMBER is almost;
+// anything else is one to review. Same three outcomes as every other question
+// type, so the score and the question map keep meaning what they meant.
+function chainVerdict(marks) {
+    const all = flatMarks(marks);
+    if (all.every(m => m === 'correct')) return 'correct';
+    return all.every(m => m === 'correct' || m === 'form') ? 'close' : 'wrong';
+}
+
+// What went wrong on one line, in words, for the review panel under the chain.
+function stepFaults(q, st, i) {
+    const row = q.answer.steps[i];
+    const faults = [];
+    row.fields.forEach((expect, f) => {
+        const typed = stepValue(st, i, f).trim();
+        const mark = markStepField(typed, expect);
+        if (mark === 'correct') return;
+        const where = row.fields.length > 1 ? `Box ${f + 1}: ` : '';
+        if (mark === 'blank') {
+            faults.push(`${where}left empty — this line needs ${expect}.`);
+            return;
+        }
+        const result = gradeStepField(typed, expect);
+        if (result.invalid) {
+            faults.push(`${where}"${typed}" isn't a number I can read. This line needs ${expect}.`);
+        } else if (result.form) {
+            faults.push(`${where}you wrote ${typed}, which is the right value — but ${result.why} It should be ${expect}.`);
+        } else {
+            faults.push(`${where}you wrote ${typed}, but this line needs ${expect}.`);
+        }
+    });
+    return faults;
+}
+
+// ===== the chain, laid out as the worksheet lays it out =====
+function stepsZoneHTML(q, solved) {
+    const st = ulStepState(q);
+    const marks = solved && st.marks ? st.marks : null;
+    const steps = q.answer.steps
+        .map((row, i) => chainStepHTML(q, row, i, st, marks, solved))
+        .join('<span class="ul-chain-eq" aria-hidden="true">=</span>');
+    return `
+        <div class="ul-chain">
+            <span class="ul-chain-prompt">${renderMath(q.prompt)}</span>
+            ${steps}
+        </div>
+        ${solved && marks ? chainReviewHTML(q, st, marks) : ''}`;
+}
+
+function chainStepHTML(q, row, i, st, marks, solved) {
+    const rowMarks = marks ? marks[i] : null;
+    const worst = rowMarks
+        ? (rowMarks.every(m => m === 'correct') ? 'correct'
+            : rowMarks.some(m => m === 'wrong' || m === 'blank') ? 'wrong' : 'form')
+        : '';
+    // No brackets round a negative box: the worksheets write the working lines
+    // as "-12/5 + -23/6", and the sample above the page does the same.
+    const boxes = row.fields.map((expect, f) => {
+        const typed = stepValue(st, i, f);
+        const mark = rowMarks ? rowMarks[f] : '';
+        const box = solved
+            ? `<span class="ul-chain-value is-${mark}">${typed.trim() ? renderValue(typed) : '—'}</span>`
+            : `<input type="text" class="ul-chain-input" data-step="${i}" data-field="${f}"
+                   autocomplete="off" spellcheck="false" placeholder="?"
+                   aria-label="${escHTML(row.label)}${row.fields.length > 1 ? `, box ${f + 1}` : ''}"
+                   value="${escHTML(typed)}">`;
+        const joiner = f ? `<span class="ul-chain-join">${escHTML(row.join || '')}</span>` : '';
+        return `${joiner}${box}`;
+    }).join('');
+
+    return `
+        <span class="ul-chain-step ${worst ? `is-${worst}` : ''}" data-step="${i}">
+            <span class="ul-chain-boxes">${boxes}</span>
+            <span class="ul-chain-label">
+                ${worst ? `<span class="ul-chain-mark">${worst === 'correct' ? '✓' : '✗'}</span>` : ''}${escHTML(row.label)}
+            </span>
+        </span>`;
+}
+
+// Under the chain: every line that wasn't right, and why. A line that was right
+// says so in one word rather than explaining itself.
+function chainReviewHTML(q, st, marks) {
+    const rows = q.answer.steps.map((row, i) => {
+        const faults = flatMarks([marks[i]]).every(m => m === 'correct') ? [] : stepFaults(q, st, i);
+        if (!faults.length) return '';
+        return `<li class="ul-chain-fault">
+            <span class="ul-chain-fault-step">${escHTML(row.label)}</span>
+            <span class="ul-chain-fault-why">${faults.map(escHTML).join(' ')}
+                ${row.note ? `<em>Remember: ${escHTML(row.note)}.</em>` : ''}</span>
+        </li>`;
+    }).filter(Boolean).join('');
+    if (!rows) return '';
+    return `<ul class="ul-chain-faults">${rows}</ul>`;
+}
+
+// Grades the chain and locks the question in, the same way checking a
+// single-box answer does. Returns false when there was nothing to grade, so the
+// student gets a nudge instead of a question marked wrong for being untouched.
+function submitChain(q) {
+    const st = ulStepState(q);
+    const marks = markChain(q, st);
+    if (flatMarks(marks).every(m => m === 'blank')) {
+        st.warn = 'Fill in the boxes first, then check your answer.';
+        return false;
+    }
+    st.warn = '';
+    st.marks = marks;
+    st.attempts++;
+    const verdict = chainVerdict(marks);
+    ulState.progress[q.id] = verdict;
+    ulSaveProgress({ [q.id]: verdict });
+    ulState.streak = verdict === 'correct' ? ulState.streak + 1 : 0;
+    ulState.lastResults[q.id] = { qid: q.id, verdict, message: '', picked: null, fresh: true };
+    return true;
+}
+
+function wireChain(card, q) {
+    const st = ulStepState(q);
+    const warn = card.querySelector('.js-warn');
+    const inputs = Array.from(card.querySelectorAll('.ul-chain-input'));
+
+    inputs.forEach(input => {
+        // written through to state on every keystroke, so checking another
+        // problem on this page — which re-renders all of them — keeps this one
+        input.addEventListener('input', () => {
+            st.typed[`${input.dataset.step}:${input.dataset.field}`] = input.value;
+            st.warn = '';
+            warn.hidden = true;
+        });
+        input.addEventListener('keydown', e => {
+            if (e.key !== 'Enter') return;
+            // Enter moves to the next box and only submits from the last one,
+            // so a half-filled row is never handed in by accident
+            const next = inputs[inputs.indexOf(input) + 1];
+            if (next) next.focus();
+            else runCheck();
+        });
+    });
+
+    function runCheck() {
+        if (!submitChain(q)) {
+            warn.textContent = st.warn;
+            warn.hidden = false;
+            return;
+        }
+        ulFocus = null;
+        renderTopic();
+    }
+    card.querySelector('.js-check').addEventListener('click', runCheck);
 }
 
 const INPUT_HINTS = {
@@ -554,6 +917,7 @@ function orderZoneHTML(q, solved, last) {
 }
 
 function answerZoneHTML(q, solved, last) {
+    if (q.qtype === 'steps') return stepsZoneHTML(q, solved);
     if (q.qtype === 'order') return orderZoneHTML(q, solved, last);
     if (q.qtype === 'compare' || q.qtype === 'choice') {
         const options = q.qtype === 'compare' ? ['<', '=', '>'] : q.options;
@@ -569,49 +933,57 @@ function answerZoneHTML(q, solved, last) {
     const [placeholder, help] = INPUT_HINTS[q.qtype] || INPUT_HINTS.fraction;
     return `
         <div class="ul-input-row">
-            <label class="ul-input-label" for="ul-answer">Your answer</label>
-            <input type="text" class="ul-answer-input-lg" id="ul-answer" placeholder="${placeholder}"
-                autocomplete="off" spellcheck="false" value="${solved && last ? escHTML(last.picked) : ''}" ${solved ? 'disabled' : ''}>
+            <label class="ul-input-label" for="ul-answer-${escHTML(q.id)}">Your answer</label>
+            <input type="text" class="ul-answer-input-lg js-answer" id="ul-answer-${escHTML(q.id)}" placeholder="${placeholder}"
+                autocomplete="off" spellcheck="false"
+                value="${escHTML(solved && last ? last.picked : (ulState.draft[q.id] || ''))}" ${solved ? 'disabled' : ''}>
         </div>
         ${solved ? '' : `<div class="ul-input-help">${help}</div>`}`;
 }
 
-function feedbackPanelHTML(q, verdict, last, nextGo, isLast) {
-    const titles = {
+function feedbackPanelHTML(q, verdict, last, nextGo, isLast, shared) {
+    const chain = q.qtype === 'steps';
+    const titles = chain ? {
+        correct: '🎉 Every line right.',
+        close: '👍 Every value right — but check how you wrote the marked lines.',
+        wrong: '💭 Not quite — the crossed lines above say what each one needed.',
+    } : {
         correct: '🎉 Correct! Great work.',
         close: '👍 Almost! The value is right.',
         wrong: "💭 Not quite — let's see how to solve it.",
     };
-    const message = verdict === 'close'
+    const message = chain ? ''
+        : verdict === 'close'
         ? (last ? last.message : `Always double-check reducing and improper → mixed. Fully simplified, the answer is ${q.answer.display}.`)
         : '';
-    const steps = verdict === 'correct' ? [] : solutionSteps(q.steps);
+    const steps = (verdict === 'correct' || chain) ? [] : solutionSteps(q.steps);
     return `
         <div class="ul-fb ul-fb-${verdict}" role="status">
             <div class="ul-fb-title">${titles[verdict]}</div>
             ${message ? `<p class="ul-fb-msg">${escHTML(message)}</p>` : ''}
-            ${verdict === 'correct' ? '' : `<div class="ul-fb-answer">Correct answer: <strong>${escHTML(q.answer.display)}</strong></div>`}
+            ${verdict === 'correct' && !chain ? '' : `<div class="ul-fb-answer">Answer: <strong>${answerText(q.answer.display)}</strong></div>`}
             ${steps.length ? `
             <div class="ul-fb-solution">
                 <div class="ul-fb-sol-title">How to solve it</div>
                 <ol>${steps.map(s => `<li>${escHTML(s)}</li>`).join('')}</ol>
             </div>` : ''}
             <div class="ul-fb-actions">
-                <button class="ul-next-btn" id="ul-fb-next" data-go="${nextGo}">${isLast ? 'See my results' : 'Next question'} →</button>
+                ${shared ? '' : `<button class="ul-next-btn js-fb-next" data-go="${nextGo}">${isLast ? 'See my results' : 'Next question'} →</button>`}
                 ${verdict === 'correct' ? '' : '<button class="ul-prev-btn js-retry">🔄 Try again</button>'}
             </div>
         </div>`;
 }
 
-function questionMapHTML(qs, currentIdx) {
-    const hasWords = qs.some(q => kindOf(q) === 'word');
+function questionMapHTML(pages, currentIdx, sectionId) {
+    const word = pageWord(sectionId);
+    const hasWords = pages.some(p => kindOf(p.questions[0]) === 'word');
     return ['number', 'word'].map(kind => {
-        const items = qs.map((q, i) => ({ q, i })).filter(({ q }) => kindOf(q) === kind);
+        const items = pages.map((p, i) => ({ p, i })).filter(({ p }) => kindOf(p.questions[0]) === kind);
         if (!items.length) return '';
-        const dots = items.map(({ q, i }) => {
-            const v = ulState.progress[q.id];
+        const dots = items.map(({ p, i }) => {
+            const v = pageVerdict(p);
             return `<button class="ul-dot ${v ? `ul-dot-${v}` : ''} ${i === currentIdx ? 'current' : ''}"
-                data-go="${i}" aria-label="Question ${i + 1}${v ? `: ${v}` : ''}">${i + 1}</button>`;
+                data-go="${i}" aria-label="${word} ${i + 1}${v ? `: ${v}` : ''}">${i + 1}</button>`;
         }).join('');
         return `<div class="ul-map-group">
             ${hasWords ? `<div class="ul-map-label">${KIND_LABELS[kind].icon} ${KIND_LABELS[kind].heading}</div>` : ''}
@@ -630,7 +1002,7 @@ function signInHintHTML() {
             </div>`;
 }
 
-function questionSidebarHTML(section, qs, currentIdx) {
+function questionSidebarHTML(section, pages, currentIdx) {
     const st = sectionStats(section.id);
     return `
         <aside class="ul-layout-side"><div class="ul-side-sticky">
@@ -646,8 +1018,8 @@ function questionSidebarHTML(section, qs, currentIdx) {
                 </div>
             </div>
             <div class="ul-side-card">
-                <div class="ul-side-title">🗺️ Question map</div>
-                ${questionMapHTML(qs, currentIdx)}
+                <div class="ul-side-title">🗺️ ${pageWord(section.id) === 'page' ? 'Page' : 'Question'} map</div>
+                ${questionMapHTML(pages, currentIdx, section.id)}
                 <div class="ul-legend">
                     <span><i class="ul-dot-correct"></i>Correct</span>
                     <span><i class="ul-dot-close"></i>Almost</span>
@@ -664,45 +1036,101 @@ function questionSidebarHTML(section, qs, currentIdx) {
         </div></aside>`;
 }
 
-function wireQuestion(q) {
+// Which box should have the caret after the next render: 'first' on arriving at
+// a page, or a question id after one of its lines was marked.
+let ulFocus = null;
+
+function wirePage(section, questions) {
+    const content = document.getElementById('ul-content');
+    questions.forEach(q => {
+        const card = content.querySelector(`.ul-q-panel[data-qid="${CSS.escape(q.id)}"]`);
+        if (card) wireQuestionCard(card, q);
+    });
+
+    // Hand the whole page in at once. Problems already marked are left alone,
+    // and one with nothing typed into it is skipped, not marked wrong.
+    const checkPage = content.querySelector('.js-check-page');
+    if (checkPage) {
+        checkPage.addEventListener('click', () => {
+            const graded = questions.filter(q => !ulState.progress[q.id] && submitChain(q));
+            if (!graded.length) {
+                const warn = content.querySelector('.js-warn');
+                if (warn) {
+                    warn.textContent = 'Fill in some boxes first, then check the page.';
+                    warn.hidden = false;
+                }
+                return;
+            }
+            ulFocus = null;
+            renderTopic();
+        });
+    }
+    restoreFocus(content, questions);
+}
+
+// Phones get no autofocus: an on-screen keyboard covering the question is worse
+// than one extra tap.
+function restoreFocus(content, questions) {
+    const target = ulFocus;
+    ulFocus = null;
+    if (!target || !window.matchMedia('(pointer: fine)').matches) return;
+    const scope = target === 'first'
+        ? content
+        : content.querySelector(`.ul-q-panel[data-qid="${CSS.escape(target)}"]`);
+    if (!scope) return;
+    const boxes = Array.from(scope.querySelectorAll('.ul-chain-input, .js-answer'))
+        .filter(box => !box.disabled);
+    const box = boxes.find(b => b.classList.contains('is-wrong')) || boxes.find(b => !b.value) || boxes[0];
+    if (box) {
+        box.focus({ preventScroll: true });
+        box.setSelectionRange(box.value.length, box.value.length);
+    }
+}
+
+function wireQuestionCard(card, q) {
     if (ulState.progress[q.id]) {
-        const retry = document.querySelector('.js-retry');
+        const retry = card.querySelector('.js-retry');
         if (retry) {
             retry.addEventListener('click', () => {
                 delete ulState.progress[q.id];
+                delete ulState.stepState[q.id];
+                delete ulState.draft[q.id];
                 ulWriteLocal();
                 ulClearProgress([q.id]);
-                ulState.lastResult = null;
+                delete ulState.lastResults[q.id];
+                ulFocus = q.id;
                 renderTopic();
             });
         }
         // just checked: bring the feedback into view and let Enter go to the next question
-        const last = ulState.lastResult;
-        if (last && last.qid === q.id && last.fresh) {
+        const last = ulState.lastResults[q.id];
+        if (last && last.fresh) {
             last.fresh = false;
-            const fb = document.querySelector('.ul-fb');
+            const fb = card.querySelector('.ul-fb');
             if (fb) fb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-            const next = document.getElementById('ul-fb-next');
+            const next = card.querySelector('.js-fb-next');
             if (next) next.focus({ preventScroll: true });
         }
         return;
     }
 
-    const hintBtn = document.getElementById('ul-hint-toggle');
-    const hint = document.getElementById('ul-hint');
+    const hintBtn = card.querySelector('.js-hint-toggle');
+    const hint = card.querySelector('.js-hint');
     hintBtn.addEventListener('click', () => {
         hint.hidden = !hint.hidden;
         hintBtn.setAttribute('aria-expanded', String(!hint.hidden));
         hintBtn.textContent = hint.hidden ? '💡 Need a hint?' : '🙈 Hide hint';
     });
 
-    const check = document.getElementById('ul-check');
-    const warn = document.getElementById('ul-warn');
+    if (q.qtype === 'steps') { wireChain(card, q); return; }
+
+    const check = card.querySelector('.js-check');
+    const warn = card.querySelector('.js-warn');
     let picked = null;
     let grade;
 
     if (q.qtype === 'order') {
-        const tiles = Array.from(document.querySelectorAll('.ul-tile-order'));
+        const tiles = Array.from(card.querySelectorAll('.ul-tile-order'));
         const sequence = [];
         const relabel = () => {
             tiles.forEach(tile => {
@@ -725,9 +1153,9 @@ function wireQuestion(q) {
             return gradeOrderAnswer(sequence, q.answer);
         };
     } else if (q.qtype === 'compare' || q.qtype === 'choice') {
-        document.querySelectorAll('.ul-tile').forEach(tile => {
+        card.querySelectorAll('.ul-tile').forEach(tile => {
             tile.addEventListener('click', () => {
-                document.querySelectorAll('.ul-tile').forEach(t => t.classList.remove('selected'));
+                card.querySelectorAll('.ul-tile').forEach(t => t.classList.remove('selected'));
                 tile.classList.add('selected');
                 picked = tile.dataset.choice;
                 check.disabled = false;
@@ -735,16 +1163,18 @@ function wireQuestion(q) {
         });
         grade = () => (q.qtype === 'choice' ? gradeChoiceAnswer(picked, q.answer) : gradeCompareAnswer(picked, q.answer));
     } else {
-        const input = document.getElementById('ul-answer');
+        const input = card.querySelector('.js-answer');
         const graders = { decimal: gradeDecimalAnswer, integer: gradeIntegerAnswer };
         grade = () => {
             picked = input.value;
             return (graders[q.qtype] || gradeFractionAnswer)(picked, q.answer);
         };
         input.addEventListener('keydown', e => { if (e.key === 'Enter') runCheck(); });
-        input.addEventListener('input', () => { warn.hidden = true; });
-        // don't pop up the on-screen keyboard on phones
-        if (window.matchMedia('(pointer: fine)').matches) input.focus({ preventScroll: true });
+        input.addEventListener('input', () => {
+            // held in state so a sibling question's check doesn't wipe it
+            ulState.draft[q.id] = input.value;
+            warn.hidden = true;
+        });
     }
 
     function runCheck() {
@@ -758,10 +1188,10 @@ function wireQuestion(q) {
         ulState.progress[q.id] = result.verdict;
         ulSaveProgress({ [q.id]: result.verdict });
         ulState.streak = result.verdict === 'correct' ? ulState.streak + 1 : 0;
-        ulState.lastResult = { qid: q.id, verdict: result.verdict, message: result.message, picked, fresh: true };
+        ulState.lastResults[q.id] = { qid: q.id, verdict: result.verdict, message: result.message, picked, fresh: true };
         renderTopic();
     }
-    check.addEventListener('click', runCheck);
+    if (check) check.addEventListener('click', runCheck);
 }
 
 function resultsPageHTML(section, qs) {
@@ -775,10 +1205,10 @@ function resultsPageHTML(section, qs) {
     const rows = qs.map((q, i) => {
         const v = ulState.progress[q.id] || 'skipped';
         return `
-            <button class="ul-review-row" data-go="${i}">
+            <button class="ul-review-row" data-go="${pageIndexOf(section.id, q.id)}">
                 <span class="ul-dot ${v === 'skipped' ? '' : `ul-dot-${v}`}">${i + 1}</span>
                 <span class="ul-review-prompt">${renderMath(q.prompt)}</span>
-                <span class="ul-review-answer">${v === 'skipped' ? '' : `Answer: <strong>${escHTML(q.answer.display)}</strong>`}</span>
+                <span class="ul-review-answer">${v === 'skipped' ? '' : `Answer: <strong>${answerText(q.answer.display)}</strong>`}</span>
                 <span class="ul-review-status ul-status-${v}">${STATUS_LABELS[v]}</span>
             </button>`;
     }).join('');

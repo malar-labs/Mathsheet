@@ -7,7 +7,9 @@ No LLM calls made — all AI interactions mocked.
 import os
 import json
 import importlib.util
+import re
 import pytest
+from fractions import Fraction
 from math import gcd
 from pathlib import Path
 from unittest.mock import patch, MagicMock
@@ -344,6 +346,43 @@ class TestUnitPages:
 #   Unit question data — the contract the front-end engine relies on
 # =============================================
 
+def lcm(a, b):
+    return a * b // gcd(a, b)
+
+
+# {3/8}, {-1_1/4} and 5 are how a prompt writes its operands; brackets are
+# decoration the worksheets put round a negative.
+PROMPT_RE = re.compile(
+    r"^\(?\{?(?P<a>-?\d+(?:_\d+)?(?:/\d+)?)\}?\)? (?P<op>[-+×÷]) "
+    r"\(?\{?(?P<b>-?\d+(?:_\d+)?(?:/\d+)?)\}?\)? =$")
+
+
+def read_prompt(prompt):
+    """The two operands and the operator a chain question actually asks about."""
+    m = PROMPT_RE.fullmatch(prompt)
+    assert m, prompt
+    return (parse_answer_text(m.group("a").replace("_", " ")),
+            parse_answer_text(m.group("b").replace("_", " ")),
+            m.group("op"))
+
+
+def parse_answer_text(text):
+    """The front-end's own fraction parser, in Python: "-2 7/12" and "-4/3" and
+    "5" all come back as an exact Fraction, anything else as None."""
+    s = str(text).strip()
+    mixed = re.fullmatch(r"(-?\d+) (\d+)/(\d+)", s)
+    if mixed:
+        whole, num, den = (int(g) for g in mixed.groups())
+        if den == 0:
+            return None
+        return Fraction(whole * den - num if whole < 0 else whole * den + num, den)
+    simple = re.fullmatch(r"(-?\d+)/(\d+)", s)
+    if simple:
+        num, den = int(simple.group(1)), int(simple.group(2))
+        return None if den == 0 else Fraction(num, den)
+    return Fraction(int(s)) if re.fullmatch(r"-?\d+", s) else None
+
+
 ALL_UNIT_QUESTIONS = [
     pytest.param(item, q, id=f"{item['unit']}-{q['id']}")
     for item in AVAILABLE_UNITS
@@ -395,128 +434,368 @@ class TestUnitQuestions:
         elif qtype == "order":
             assert sorted(answer["order"]) == sorted(q["options"])
             assert len(set(q["options"])) == len(q["options"])
+        elif qtype == "steps":
+            assert answer["steps"], q["id"]
+            for row in answer["steps"]:
+                assert row["label"] and row["note"], q["id"]
+                assert 1 <= len(row["fields"]) <= 2, q["id"]
+                assert ("join" in row) == (len(row["fields"]) > 1), q["id"]
+                for field in row["fields"]:
+                    assert parse_answer_text(field) is not None, (q["id"], field)
+            # The last box of the last line IS the answer, or the chain and the
+            # answer key could drift apart.
+            assert answer["steps"][-1]["fields"] == [answer["display"]], q["id"]
         else:
             pytest.fail(f"unknown qtype {qtype!r}")
 
 
-class TestMathMarathonDrill:
-    """The drill is a different shape from the lesson units: no lesson to read,
-    a page of questions at a time, and recognition before recall."""
+# Every worked-chain question in the app, whichever grade it belongs to. The
+# contracts below hold for all of them; the grade-specific design rules get
+# their own classes underneath.
+CHAIN_UNITS = {
+    "grade8/fractions": load_unit_bundle("grade8/fractions"),
+    "grade9/rational-numbers": load_unit_bundle("grade9/rational-numbers"),
+}
+ALL_CHAINS = [
+    pytest.param(unit, q, id=f"{unit.split('/')[0]}-{q['id']}")
+    for unit, bundle in CHAIN_UNITS.items()
+    for q in bundle["questions"] if q["qtype"] == "steps"
+]
 
-    def bundle(self):
-        return load_unit_bundle("math-marathon/multiplication-facts")
 
-    def test_it_uses_the_drill_engine_not_the_lesson_one(self):
-        page = client.get("/math-marathon/multiplication-facts").text
+def chain_sections(unit):
+    """The sections of `unit` that ask for a worked chain, in order."""
+    bundle = CHAIN_UNITS[unit]
+    with_chains = {q["section"] for q in bundle["questions"] if q["qtype"] == "steps"}
+    return [s for s in bundle["lessons"]["sections"] if s["id"] in with_chains]
+
+
+def chain_questions(unit, section_id):
+    return [q for q in CHAIN_UNITS[unit]["questions"]
+            if q["section"] == section_id and q["qtype"] == "steps"]
+
+
+class TestWorkedChains:
+    """A worked-chain question asks for every line of the solution, the way the
+    teacher's worksheets do, and marks each line on its own. That only works if
+    each line really does follow from the last."""
+
+    @pytest.mark.parametrize("unit,q", ALL_CHAINS)
+    def test_the_last_line_is_the_answer_to_the_prompt(self, unit, q):
+        """The chain has to land on the value the prompt actually asks for."""
+        a, b, op = read_prompt(q["prompt"])
+        expected = {"+": a + b, "-": a - b, "×": a * b, "÷": a / b}[op]
+        assert parse_answer_text(q["answer"]["display"]) == expected, q["id"]
+
+    @pytest.mark.parametrize("unit,q", ALL_CHAINS)
+    def test_no_line_changes_the_value(self, unit, q):
+        """Convert, common denominator, solve, simplify — every line is a
+        rewrite of the same number, so they must all be equal."""
+        a, b, op = read_prompt(q["prompt"])
+        expected = {"+": a + b, "-": a - b, "×": a * b, "÷": a / b}[op]
+        for row in q["answer"]["steps"]:
+            values = [parse_answer_text(f) for f in row["fields"]]
+            assert all(v is not None for v in values), (q["id"], row["fields"])
+            if len(values) == 1:
+                assert values[0] == expected, (q["id"], row["label"])
+            else:
+                # A Convert line keeps the original operator, so ÷ turns up
+                # here as well as on the Invert line's ×.
+                joined = {"+": values[0] + values[1], "-": values[0] - values[1],
+                          "×": values[0] * values[1],
+                          "÷": values[0] / values[1]}[row["join"]]
+                assert joined == expected, (q["id"], row["label"])
+
+    @pytest.mark.parametrize("unit,q", ALL_CHAINS)
+    def test_every_line_is_a_different_form_from_the_one_before(self, unit, q):
+        """A line the student can pass by copying the line above teaches
+        nothing, and the front-end would mark the copy right."""
+        seen = [row["fields"] for row in q["answer"]["steps"]]
+        assert len(seen) == len({tuple(f) for f in seen}), q["id"]
+
+    @pytest.mark.parametrize("unit,q", ALL_CHAINS)
+    def test_the_last_box_is_the_answer_key(self, unit, q):
+        """The front-end marks the last box against answer.display. If those two
+        drift apart it marks a correct final line wrong."""
+        assert q["answer"]["steps"][-1]["fields"] == [q["answer"]["display"]], q["id"]
+
+    @pytest.mark.parametrize("unit,q", ALL_CHAINS)
+    def test_the_chain_finishes_reduced_and_as_a_mixed_number(self, unit, q):
+        final = q["answer"]["display"]
+        value = parse_answer_text(final)
+        assert gcd(abs(value.numerator), value.denominator) == 1, q["id"]
+        if abs(value) > 1 and value.denominator != 1:
+            assert " " in final, (q["id"], final)
+
+    @pytest.mark.parametrize("unit", list(CHAIN_UNITS))
+    def test_the_scaffold_comes_away_before_the_topic_does(self, unit):
+        """Every chain topic opens with worked samples and ends with a few
+        questions that have none — copying the shape off the top of the page is
+        a stage, not the skill."""
+        for section in chain_sections(unit):
+            questions = chain_questions(unit, section["id"])
+            sets = [q.get("set") for q in questions]
+            assert sets[0] is not None, section["id"]
+            assert sets[-1] is None, section["id"]
+            unscaffolded = [x for x in sets if x is None]
+            assert 3 <= len(unscaffolded) < len(sets), (section["id"], sets)
+            # ...and once the samples stop they don't start again.
+            assert sets == sorted(sets, key=lambda x: (x is None, x or 0)), section["id"]
+
+    @pytest.mark.parametrize("unit", list(CHAIN_UNITS))
+    def test_every_set_has_the_sample_it_promises(self, unit):
+        """A question tagged with a set whose sample doesn't exist would render
+        a page with nothing at the top and no way to tell that was a mistake."""
+        for section in chain_sections(unit):
+            samples = section.get("samples", [])
+            assert samples, section["id"]
+            asked = {q["set"] for q in chain_questions(unit, section["id"])
+                     if q.get("set") is not None}
+            assert {x["set"] for x in samples} == asked, section["id"]
+            # Sets run 1..n in the order the questions are listed, so the sample
+            # at the top of a page never jumps backwards through the topic.
+            assert asked == set(range(1, max(asked) + 1)), section["id"]
+
+    @pytest.mark.parametrize("unit", list(CHAIN_UNITS))
+    def test_a_sample_models_the_move_the_page_asks_for(self, unit):
+        """Optional lines vary problem to problem — Simplify only shows up when
+        the answer reduces — so what must match is the operator and the line the
+        method opens with."""
+        for section in chain_sections(unit):
+            for sample in section.get("samples", []):
+                a, b, op = read_prompt(sample["prompt"])
+                expected = {"+": a + b, "-": a - b, "×": a * b, "÷": a / b}[op]
+                for row in sample["steps"]:
+                    values = [parse_answer_text(f) for f in row["fields"]]
+                    assert all(v is not None for v in values), sample["prompt"]
+                    if len(values) == 1:
+                        assert values[0] == expected, (sample["prompt"], row["label"])
+                    else:
+                        joined = {"+": values[0] + values[1],
+                                  "-": values[0] - values[1],
+                                  "×": values[0] * values[1],
+                                  "÷": values[0] / values[1]}[row["join"]]
+                        assert joined == expected, (sample["prompt"], row["label"])
+
+                in_set = [q for q in chain_questions(unit, section["id"])
+                          if q.get("set") == sample["set"]]
+                assert in_set, (section["id"], sample["set"])
+                opening = {q["answer"]["steps"][0]["label"] for q in in_set}
+                assert sample["steps"][0]["label"] in opening, sample["prompt"]
+                assert op in {read_prompt(q["prompt"])[2] for q in in_set}, sample["prompt"]
+
+
+class TestGrade9FractionOperations:
+    """Grade 9's chain topic is built straight off the teacher's five Math-Drills
+    worksheets, so it carries design rules the Grade 8 one doesn't."""
+
+    QS = [q for q in load_unit_bundle("grade9/rational-numbers")["questions"]
+          if q["section"] == "frac-ops"]
+
+    def test_the_topic_exists_and_every_question_in_it_is_a_chain(self):
+        bundle = load_unit_bundle("grade9/rational-numbers")
+        section = next(s for s in bundle["lessons"]["sections"] if s["id"] == "frac-ops")
+        assert section["title"] == "Basic Operations with Fractions"
+        assert self.QS and all(q["qtype"] == "steps" for q in self.QS)
+
+    def test_one_problem_to_a_page(self):
+        """A chain is a long enough row on its own; nothing shares its page."""
+        assert all("page" not in q for q in self.QS)
+
+    @pytest.mark.parametrize("q", QS, ids=lambda q: q["id"])
+    def test_the_numbers_stay_small_enough_to_do_in_your_head(self, q):
+        """This topic is meant to be calculator-free throughout."""
+        for row in q["answer"]["steps"]:
+            for field in row["fields"]:
+                value = parse_answer_text(field)
+                assert abs(value.numerator) <= 40, (q["id"], field)
+                assert value.denominator <= 30, (q["id"], field)
+
+    def test_the_first_sets_keep_the_denominators_easy(self):
+        """Sets 1-2 share a denominator outright and set 3 holds the LCM at 12
+        throughout, so the layout is the only new thing to learn at the start."""
+        for q in self.QS:
+            a, b, op = read_prompt(q["prompt"])
+            if q.get("set") in (1, 2):
+                assert a.denominator == b.denominator, q["id"]
+            elif q.get("set") == 3:
+                assert lcm(a.denominator, b.denominator) == 12, q["id"]
+
+    def test_the_topic_has_its_own_page(self):
+        page = client.get("/units/grade9/rational-numbers/frac-ops")
+        assert page.status_code == 200
+        assert "Basic Operations with Fractions" in page.text
+
+
+class TestGrade8FractionArithmetic:
+    """Grade 8's four arithmetic topics ask for the same chain, with Grade 8's
+    own conventions: positive fractions, and mixed numbers as the final form."""
+
+    ARITHMETIC = ["add", "subtract", "multiply", "divide"]
+
+    def test_every_arithmetic_topic_asks_for_the_working(self):
+        for section_id in self.ARITHMETIC:
+            chains = chain_questions("grade8/fractions", section_id)
+            assert len(chains) >= 8, section_id
+
+    def test_the_word_problem_keeps_a_single_answer_box(self):
+        """Working out WHICH sum to do is the question in a word problem. A
+        chain would hand that over on the first line."""
+        for section_id in self.ARITHMETIC:
+            questions = [q for q in CHAIN_UNITS["grade8/fractions"]["questions"]
+                         if q["section"] == section_id]
+            assert questions[-1]["qtype"] == "fraction", section_id
+            assert "?" in questions[-1]["prompt"], section_id
+            assert all(q["qtype"] == "steps" for q in questions[:-1]), section_id
+
+    @pytest.mark.parametrize("section_id", ARITHMETIC)
+    def test_the_topic_page_still_loads(self, section_id):
+        page = client.get(f"/units/grade8/fractions/{section_id}")
+        assert page.status_code == 200
+        assert f'const UNIT_FOCUS_SECTION = "{section_id}"' in page.text
+
+
+class TestFractionAdditionDrill:
+    """Skip counting is the gym exercise behind multiplication; equivalence is
+    the one behind adding fractions. This unit drills that first, then the three
+    moves it makes possible — match the bottoms, add the tops, tidy up."""
+
+    BUNDLE = load_unit_bundle("math-marathon/fraction-addition")
+    QS = BUNDLE["questions"]
+    SECTIONS = BUNDLE["lessons"]["sections"]
+
+    def test_it_uses_the_drill_engine(self):
+        assert self.BUNDLE["lessons"]["meta"]["engine"] == "drill"
+        page = client.get("/math-marathon/fraction-addition").text
         assert "js/times_tables.js" in page
         assert "js/unit_learning.js" not in page
 
-    def test_pages_hold_five_or_six_questions(self):
-        """Short enough to finish in a sitting and see a score for."""
-        from collections import Counter
-        sizes = Counter()
-        for q in self.bundle()["questions"]:
-            sizes[(q["section"], q["set"])] += 1
-        assert set(sizes.values()) <= {5, 6}, sorted(set(sizes.values()))
+    def test_it_walks_the_four_stages_in_order(self):
+        """Equivalence has to come before matching bottoms, and matching before
+        adding, or the drill is asking for a move that hasn't been built yet.
+        Nothing on the page says so, so the order of the levels has to."""
+        assert [s["id"] for s in self.SECTIONS] == [
+            "eq-half", "eq-third", "eq-quarter",     # 1 · equivalence
+            "match-fit", "match-lcm",                # 2 · make them match
+            "same-bottom",                           # 3 · add the tops
+            "simplify",                              # 4 · tidy up
+            "make-them-match", "mixed",              # 5 · all four at once
+        ]
 
-    def test_each_level_runs_easiest_pass_first(self):
-        """The ladder, then recognising an answer, then producing one from
-        nothing. A level must never ask for the harder thing first."""
-        order = {"skip": 0, "back": 0, "pick": 1, "type": 2}
-        bundle = self.bundle()
-        for section in bundle["lessons"]["sections"]:
-            modes = [q["mode"] for q in bundle["questions"]
-                     if q["section"] == section["id"]]
-            assert set(modes) <= {"skip", "back", "pick", "type"}, section["id"]
+    def test_it_reads_as_one_flat_list_like_the_other_marathon_units(self):
+        """A unit that groups its levels when its neighbours don't looks like a
+        different kind of thing."""
+        for section in self.SECTIONS:
+            assert "group" not in section, section["id"]
+
+    def test_pages_hold_four_to_six_questions(self):
+        """Short enough to finish in a sitting and see a score for. The
+        equivalence ladders are the short ones: a chain only has so many rungs
+        worth blanking."""
+        from collections import Counter
+        sizes = Counter((q["section"], q["set"]) for q in self.QS)
+        assert set(sizes.values()) <= {3, 4, 5, 6}, sorted(set(sizes.values()))
+
+    def test_every_level_runs_easiest_pass_first(self):
+        order = {"equiv": 0, "pick": 1, "type": 2}
+        for section in self.SECTIONS:
+            modes = [q["mode"] for q in self.QS if q["section"] == section["id"]]
+            assert set(modes) <= set(order), section["id"]
             assert {"pick", "type"} <= set(modes), section["id"]
             assert modes == sorted(modes, key=lambda m: order[m]), section["id"]
 
-    def test_every_table_level_starts_with_its_ladder(self):
-        bundle = self.bundle()
-        for section in bundle["lessons"]["sections"]:
-            questions = [q for q in bundle["questions"] if q["section"] == section["id"]]
-            rungs = [q for q in questions if q["mode"] in ("skip", "back")]
+    def test_every_equivalence_ladder_is_one_amount_cut_finer(self):
+        """A rung that isn't equal to the base would teach the opposite of what
+        the ladder exists for."""
+        laddered = [s for s in self.SECTIONS if "ladder" in s]
+        assert laddered, "the unit's whole premise is the equivalence ladder"
+        for section in laddered:
+            ladder = section["ladder"]
+            assert ladder["mode"] == "equiv", section["id"]
+            base = Fraction(*ladder["base"])
+            for k, (num, den) in enumerate(ladder["chain"], start=1):
+                assert Fraction(num, den) == base, (section["id"], num, den)
+                # each rung is the base cut k times finer, in order
+                assert (num, den) == (base.numerator * k, base.denominator * k)
+
+    def test_the_ladder_shows_the_pattern_before_it_asks_for_it(self):
+        for section in self.SECTIONS:
             if "ladder" not in section:
-                # Mixed and missing-number levels span every table, so there is
-                # no single chain to walk.
-                assert not rungs, section["id"]
                 continue
-            assert rungs, section["id"]
-            assert all(q["set"] == 1 for q in rungs), section["id"]
-            assert all(q["mode"] == section["ladder"]["mode"] for q in rungs), section["id"]
-
-    def test_the_ladder_is_a_real_chain_with_gaps(self):
-        bundle = self.bundle()
-        for section in bundle["lessons"]["sections"]:
-            ladder = section.get("ladder")
-            if not ladder:
-                continue
-            step, chain = ladder["step"], ladder["chain"]
-
-            # Every rung is one step from the last, in the ladder's direction.
-            deltas = {b - a for a, b in zip(chain, chain[1:])}
-            assert deltas == {step if ladder["mode"] == "skip" else -step}, section["id"]
-            if ladder["mode"] == "back":
-                # Dividing is taking away until nothing is left, so it has to
-                # finish on 0 or the count of jumps means nothing.
-                assert chain[-1] == 0, section["id"]
-
-            blanks = [q for q in bundle["questions"]
-                      if q["section"] == section["id"] and q["mode"] == ladder["mode"]]
+            chain = section["ladder"]["chain"]
+            blanks = [q for q in self.QS
+                      if q["section"] == section["id"] and q["mode"] == "equiv"]
             steps = [q["step"] for q in blanks]
-            assert steps == sorted(steps), section["id"]
-            assert len(set(steps)) == len(steps), section["id"]
-            # Some rungs stay filled in, or there is no chain left to read.
-            assert 0 < len(steps) < len(chain), section["id"]
-            # The first two are given, so the pattern is visible before anything
-            # is asked of the child.
+            assert steps == sorted(steps) == sorted(set(steps)), section["id"]
+            # The first two rungs stay filled in, and some rung always does.
             assert min(steps) > 2, section["id"]
+            assert 0 < len(steps) < len(chain), section["id"]
+            assert all(q["set"] == 1 for q in blanks), section["id"]
             for q in blanks:
-                assert q["answer"]["value"] == chain[q["step"] - 1], q["id"]
+                assert q["answer"]["value"] == chain[q["step"] - 1][0], q["id"]
 
-    def test_multiplication_counts_up_and_division_counts_back(self):
-        """Counting up is the multiplication tool. Dividing is taking away
-        until nothing is left, so its ladder has to run the other way."""
-        modes = {}
-        for slug in ("multiplication-facts", "division-facts"):
-            sections = load_unit_bundle(f"math-marathon/{slug}")["lessons"]["sections"]
-            modes[slug] = {s["ladder"]["mode"] for s in sections if "ladder" in s}
-        assert modes["multiplication-facts"] == {"skip"}
-        assert modes["division-facts"] == {"back"}
-
-    def test_every_fact_is_drilled_both_ways(self):
-        bundle = self.bundle()
-        for section in bundle["lessons"]["sections"]:
-            picked = {q["prompt"] for q in bundle["questions"]
-                      if q["section"] == section["id"] and q["mode"] == "pick"}
-            typed = {q["prompt"] for q in bundle["questions"]
-                     if q["section"] == section["id"] and q["mode"] == "type"}
-            assert picked == typed, section["id"]
-
-    def test_multiple_choice_options_are_four_distinct_plausible_numbers(self):
-        for q in self.bundle()["questions"]:
-            if q["qtype"] != "choice":
+    def test_a_ladder_blank_only_ever_asks_for_the_top(self):
+        """The bottom is printed. "How many of THESE make it?" is the question
+        worth asking; "write a fraction" is a different skill."""
+        for q in self.QS:
+            if q["mode"] != "equiv":
                 continue
-            options = [int(o) for o in q["options"]]
-            assert len(set(options)) == 4, q["id"]
-            assert all(o > 0 for o in options), q["id"]
-            answer = int(q["answer"]["choice"])
-            assert answer in options, q["id"]
-            # A distractor miles from the answer is no test of anything.
-            assert max(abs(o - answer) for o in options) <= 30, q["id"]
+            assert q["qtype"] == "integer", q["id"]
+            assert re.fullmatch(r"\{\d+/\d+\} = \?/\d+", q["prompt"]), q["prompt"]
 
-    def test_the_answer_is_not_always_in_the_same_place(self):
-        """Otherwise a child learns the position instead of the fact."""
-        from collections import Counter
-        spread = Counter(q["options"].index(q["answer"]["choice"])
-                         for q in self.bundle()["questions"] if q["qtype"] == "choice")
-        assert set(spread) == {0, 1, 2, 3}, dict(spread)
-        assert min(spread.values()) >= len(spread) * 0.05
+    def test_fraction_answers_are_always_tidied(self):
+        """The drill marks an untidy answer wrong, so the key had better not
+        contain one."""
+        for q in self.QS:
+            if q["qtype"] != "fraction":
+                continue
+            num, den = q["answer"]["num"], q["answer"]["den"]
+            assert gcd(num, den) == 1, q["id"]
+            assert q["answer"]["display"] == f"{num}/{den}", q["id"]
 
-    def test_a_level_page_renders_without_a_lesson(self):
-        page = client.get("/math-marathon/multiplication-facts/t7").text
-        assert 'const UNIT_FOCUS_SECTION = "t7"' in page
-        assert "Learn" not in page or "ul-choice" not in page
+    def test_the_sums_are_ones_a_child_can_hold_in_their_head(self):
+        """Fraction fluency, not arithmetic with big numbers."""
+        for q in self.QS:
+            for num, den in re.findall(r"\{(\d+)/(\d+)\}", q["prompt"]):
+                assert int(den) <= 24, (q["id"], q["prompt"])
+                assert int(num) <= int(den), (q["id"], q["prompt"])
+
+    def test_every_sum_asked_is_the_answer_given(self):
+        """The whole-sum levels are the only place both sides are written out,
+        so they can be checked against each other."""
+        checked = 0
+        for q in self.QS:
+            m = re.fullmatch(r"\{(\d+)/(\d+)\} \+ \{(\d+)/(\d+)\} = \?", q["prompt"])
+            if not m:
+                continue
+            a, b, c, d = (int(g) for g in m.groups())
+            total = Fraction(a, b) + Fraction(c, d)
+            if q["qtype"] == "choice":
+                assert q["answer"]["choice"] == "{%d/%d}" % (total.numerator,
+                                                             total.denominator), q["id"]
+            else:
+                assert Fraction(q["answer"]["num"], q["answer"]["den"]) == total, q["id"]
+            checked += 1
+        assert checked >= 20, checked
+
+    def test_the_wrong_options_are_the_mistakes_children_make(self):
+        """A distractor nobody would pick tests nothing. The one that matters
+        here is adding the bottoms as well as the tops."""
+        tempting = 0
+        for q in self.QS:
+            m = re.fullmatch(r"\{(\d+)/(\d+)\} \+ \{(\d+)/(\d+)\} = \?", q["prompt"])
+            if not m or q["qtype"] != "choice":
+                continue
+            a, b, c, d = (int(g) for g in m.groups())
+            if "{%d/%d}" % (a + c, b + d) in q["options"]:
+                tempting += 1
+        assert tempting >= 5, tempting
+
+    def test_every_level_has_its_own_page(self):
+        for section in self.SECTIONS:
+            page = client.get(f"/math-marathon/fraction-addition/{section['id']}")
+            assert page.status_code == 200
+            assert f'const UNIT_FOCUS_SECTION = "{section["id"]}"' in page.text
 
 
 class TestGeneratedContentIsUpToDate:
@@ -533,7 +812,8 @@ class TestGeneratedContentIsUpToDate:
         assert bundle["questions"] == module.QUESTIONS
         assert bundle["lessons"]["sections"] == module.SECTIONS
 
-    @pytest.mark.parametrize("slug", ["multiplication-facts", "division-facts"])
+    @pytest.mark.parametrize(
+        "slug", ["multiplication-facts", "division-facts", "fraction-addition"])
     def test_math_marathon_json_matches_its_generator(self, slug):
         path = UNITS_DIR / "math-marathon" / "_generate.py"
         spec = importlib.util.spec_from_file_location("math_marathon_generate", path)

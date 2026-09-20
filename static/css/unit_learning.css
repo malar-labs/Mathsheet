@@ -767,6 +767,87 @@ a.ul-catalog-title::after { content: ''; position: absolute; inset: 0; z-index: 
 .ul-rule-result.is-neg { background: #FCE4EC; color: #C62828; }
 .ul-rule-note { grid-column: 1 / -1; font-size: 0.78rem; color: var(--gray); }
 
+/* ===== Pages that hold more than one problem ===== */
+.ul-page-label {
+    font-family: var(--font-main); font-weight: 800; font-size: 0.85rem; color: var(--gray);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.6rem;
+}
+.ul-q-shared { min-height: 0; margin-bottom: 1rem; }
+.ul-page-foot { display: flex; justify-content: flex-end; margin-bottom: 0.4rem; }
+
+/* ===== Worked chains =====
+   One row per problem, laid out the way the worksheet lays it out: the problem,
+   then a blank for each line of working with its label printed underneath. */
+.ul-chain {
+    display: flex; align-items: flex-start; flex-wrap: wrap; gap: 0.3rem 0.45rem;
+    font-family: Georgia, serif; font-size: 1.3rem; color: var(--dark);
+    margin-bottom: 0.9rem;
+}
+.ul-chain-prompt { padding-top: 0.45rem; white-space: nowrap; }
+.ul-chain-prompt .ul-frac { font-size: 1.05em; }
+.ul-chain-eq { padding-top: 0.45rem; color: var(--gray); }
+
+.ul-chain-step { display: inline-flex; flex-direction: column; align-items: center; gap: 0.15rem; }
+.ul-chain-boxes { display: inline-flex; align-items: center; gap: 0.25rem; }
+.ul-chain-join { font-family: var(--font-main); font-weight: 800; font-size: 1.05rem; color: var(--gray); }
+
+.ul-chain-label {
+    font-family: var(--font-main); font-weight: 700; font-size: 0.7rem; color: var(--gray);
+    text-transform: uppercase; letter-spacing: 0.3px; text-align: center; line-height: 1.3;
+}
+.ul-chain-mark { font-size: 0.95rem; margin-right: 0.15rem; vertical-align: -1px; }
+.ul-chain-step.is-correct .ul-chain-label { color: #1b6b3a; }
+.ul-chain-step.is-form    .ul-chain-label { color: #8a6500; }
+.ul-chain-step.is-wrong   .ul-chain-label { color: #b3261e; }
+
+.ul-chain-input {
+    width: 88px; text-align: center;
+    border: 2.5px solid var(--border); border-radius: 10px; padding: 0.4rem 0.35rem;
+    font-family: var(--font-main); font-weight: 700; font-size: 1.05rem; color: var(--dark);
+    background: white; outline: none; transition: var(--transition);
+}
+.ul-chain-input:focus { border-color: var(--purple); box-shadow: 0 0 0 4px rgba(108,99,255,0.15); }
+
+/* A marked box keeps what the student wrote, with the mark around it. */
+.ul-chain-value {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 88px; padding: 0.35rem 0.4rem; border-radius: 10px;
+    border: 2.5px solid transparent;
+}
+.ul-chain-value.is-correct { border-color: #9be3c8; background: #effcf6; }
+.ul-chain-value.is-form    { border-color: #F0C94A; background: #FFFBEA; }
+.ul-chain-value.is-wrong,
+.ul-chain-value.is-blank   { border-color: #ffb3b3; background: #fff6f6; }
+
+/* What each wrong line actually wanted. */
+.ul-chain-faults { list-style: none; margin: 0 0 0.9rem; padding: 0; display: grid; gap: 0.4rem; }
+.ul-chain-fault {
+    display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 0.2rem 0.8rem;
+    background: #fff6f6; border: 1.5px solid #ffd4d4; border-radius: 10px; padding: 0.55rem 0.8rem;
+}
+.ul-chain-fault-step {
+    font-family: var(--font-main); font-weight: 800; font-size: 0.78rem; color: #b3261e;
+    text-transform: uppercase; letter-spacing: 0.3px;
+}
+.ul-chain-fault-why { font-size: 0.9rem; line-height: 1.55; color: var(--dark); }
+.ul-chain-fault-why em { display: block; color: var(--gray); font-size: 0.85rem; margin-top: 0.15rem; }
+
+/* The worked example at the top of the page. */
+.ul-sample {
+    background: #F3F1FF; border: 2px dashed #C9C2FF; border-radius: var(--radius-sm);
+    padding: 0.9rem 1.1rem 0.6rem; margin-bottom: 1.1rem;
+}
+.ul-sample-label {
+    font-family: var(--font-main); font-weight: 800; font-size: 0.78rem; color: var(--purple-dark);
+    text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 0.6rem;
+}
+.ul-chain-sample { margin-bottom: 0.4rem; }
+.ul-chain-sample .ul-chain-value { border-color: #D9D4FF; background: white; }
+
+/* A problem sharing a page is a numbered row, not a page of its own. */
+.ul-q-top-slim { margin-bottom: 0.7rem; gap: 0.5rem; }
+.ul-q-num { font-family: var(--font-main); font-weight: 800; font-size: 1.05rem; color: var(--gray); }
+
 /* ===== Responsive ===== */
 @media (max-width: 1024px) {
     .ul-layout { grid-template-columns: minmax(0, 1fr); }
@@ -804,6 +885,11 @@ a.ul-catalog-title::after { content: ''; position: absolute; inset: 0; z-index: 
     .ul-sl-label { font-size: 0.78rem; padding: 0.05rem 0.25rem; }
     .ul-sl-tick span { font-size: 0.66rem; }
     .ul-tile-order { flex: 0 1 auto; min-width: 74px; padding: 1.1rem 0.6rem 0.5rem; }
+    .ul-chain { font-size: 1.1rem; gap: 0.25rem 0.3rem; }
+    .ul-chain-prompt { white-space: normal; }
+    .ul-chain-input, .ul-chain-value { width: 70px; min-width: 70px; font-size: 0.95rem; }
+    .ul-chain-label { font-size: 0.62rem; }
+    .ul-chain-fault { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Quiet "sign in to save" nudge in the practice sidebar */

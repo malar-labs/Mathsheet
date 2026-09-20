@@ -45,6 +45,32 @@ NOTE: Teacher instructions modify topic/type selection only. Curriculum difficul
 - New lesson visuals: `signline` (a number line that spans negatives) and `rules` (the sign-rule grid).
 **Key principle:** Each unit stays pure data. Adding a unit means adding `units/gradeN/<unit>/` plus one `UNITS_CATALOG` entry — no new JS unless the unit needs a genuinely new kind of question.
 
+### Fraction Addition Is a Fact-Fluency Drill, Not a Lesson
+**Problem:** Adding fractions gets taught as a four-step procedure and practised as whole sums, so a child who isn't fluent at "1/2 = 3/6" spends their working memory on the conversion and has none left for the sum. Skip counting is the gym exercise that makes multiplication automatic; nothing in the app was the equivalent for fractions.
+**Fix:** A third Math Marathon unit built on the claim that the equivalent exercise is **equivalence**. It drills the sequence in the order the muscle builds: equivalence ladders → make the bottoms match → add the tops → tidy up → all four at once.
+- The ladder mechanism generalised rather than being rebuilt: a new `equiv` mode runs along one fraction's equivalents (`1/2 = 2/4 = __/6 = 4/8`) exactly as `skip` runs up a table. Same blanking rule, same page, same marking.
+- Stages 1-3 print the denominator and ask only for the top (`1/3 + 1/6 — write 1/3 as ?/6`), so the answer stays a single integer and the drill stays on the one move being practised. Only tidying up and whole sums ask for a fraction, because by then writing one *is* the skill.
+- Distractors are the two mistakes that actually happen — adding the bottoms as well as the tops (`1/3 + 1/6 = 2/9`), and stopping before tidying (`1/2 + 1/4 = 2/4`) — and a test asserts the first of those is on offer in at least five questions. A distractor nobody would pick tests nothing.
+- A typed fraction is only right in lowest terms. Tidying is half the skill, so accepting `3/6` would quietly drop stage 4; the help line on a wrong answer shows the reduction.
+**Also:** the drill engine learned to render `{a/b}` stacked. A fraction drill that prints `1/2` makes a child parse the sum before they can start it. Levels can now carry a `group`, which the overview already knew how to render — nine levels in one flat grid would be a wall, five named stages are a route.
+
+### Worked Chains — Marking Every Line, Not Just the Answer
+**Problem:** The teacher's Math-Drills worksheets don't ask for an answer, they ask for a row of blanks — convert, common denominator, solve, simplify — with the labels printed underneath, and every blank gets marked. The engine only ever had one box per question, so a student who reached the right answer by a wrong route looked identical to one who didn't.
+**Fix:** A `steps` qtype whose answer carries the chain: `steps: [{label, note, join?, fields: ["-6/30", "20/30"]}]`. The whole row renders as the worksheet renders it — problem, then a box per line with its label under it — one `Check answer` submits the lot, and each box comes back ticked or crossed with a sentence saying what that line wanted.
+- A box is graded on **form**, not value: `20/30` and `2/3` are the same number, but only one of them is the common-denominator line. The three outcomes map onto the engine's existing ones — every box exactly right is `correct`, every box at least the right *number* is `close`, anything else is `wrong` — so the score and the question map keep meaning what they meant.
+- Wrong-form is diagnosed rather than just flagged: not reduced yet, needs to be over 12, still has to be a mixed number. Each is a different mistake and gets its own sentence.
+- A question nobody has typed into is not marked wrong for being untouched — submitting an entirely blank row returns a nudge instead.
+
+### The Scaffold Has to Come Away
+**Problem:** A worked example at the top of every page is a crutch a student can ride to the end of a topic without ever choosing a method — they copy the shape off the sample and fill in different numbers. The topic then reports fluency it hasn't tested.
+**Fix:** Questions carry a `set`, which picks the sample shown above them; the last few in every chain topic carry none, so the page comes up bare. Grade 9 ends with five mixed problems and a tip that says as much; each Grade 8 topic ends with three, then the word problem. A test asserts every chain topic starts scaffolded, ends unscaffolded, and never goes back — the samples stop once and stay stopped.
+**Also:** Grade 8's four arithmetic topics moved onto the same chain machinery, with Grade 8's own conventions (positive fractions, mixed numbers as the final form) rather than Grade 9's. The word problem at the end of each keeps its single answer box: working out *which* sum to do is the question there, and a chain hands that over on its first line.
+
+### Pages That Hold More Than One Problem
+**Problem:** A worksheet page has ten problems on it and one worked example at the top; the engine had exactly one question per page.
+**Fix:** Questions carrying the same `q.page` render together — five to a page in the chain topic — under a filled-in sample from `section.samples` built by the same generator code as the questions, so it can never model a different method from the one being marked. Everything untagged still gets a page to itself, so no existing topic changed. Routing, the question map and "continue where I left off" count pages now; the score still counts questions.
+**Gotcha:** Checking one question re-renders the whole topic, which would have wiped whatever was half-typed into the other four. Every box therefore writes through to `ulState` (`stepState[qid].typed`, `draft[qid]`) on each keystroke and is re-read on render. Element ids had to go too — five questions on one page can't all own `#ul-answer` — so the card is addressed by `data-qid` and everything inside it by class.
+
 ### Unit Answers Are Computed, Not Typed
 **Problem:** ~160 questions of hand-written answers across two units is a guaranteed source of wrong answers in front of students, and the worked "steps" can silently drift away from the answer they explain.
 **Fix:** Each unit ships a `_generate.py` that the app never calls. It computes every answer with Python's exact `fractions.Fraction` / `decimal.Decimal`, and builds the worked steps from those same numbers, then writes `lessons.json` and `questions.json`. A test imports the generator and asserts the checked-in JSON still matches it, so hand-editing the JSON fails the build rather than quietly de-syncing.
