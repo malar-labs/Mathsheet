@@ -549,6 +549,22 @@ a.ul-catalog-title::after { content: ''; position: absolute; inset: 0; z-index: 
 .ul-frac-stack .ul-frac-den { padding-top: 2px; }
 .ul-frac-whole { font-weight: 800; margin-right: 0.15rem; }
 
+/* A fraction raised to a power. The brackets are drawn as their own elements
+   so they can be sized to the fraction, and the exponent is a flex item pinned
+   to the top — `vertical-align: super` would measure from the line's baseline,
+   which a two-storey fraction has already dragged down. */
+.ul-pow-group { display: inline-flex; align-items: stretch; vertical-align: middle; }
+.ul-pow-paren {
+    display: flex; align-items: center;
+    font-family: Georgia, serif; font-size: 1.75em; font-weight: 400;
+    color: var(--gray); line-height: 0.85;
+}
+.ul-pow {
+    align-self: flex-start; margin-left: 0.04em;
+    font-family: var(--font-main); font-weight: 800; font-size: 0.62em;
+    line-height: 1.1;
+}
+
 /* ===== Key-concept visuals ===== */
 .ul-visual { margin-top: 0.8rem; background: var(--bg); border-radius: 10px; padding: 1rem; }
 .ul-visual-caption {
