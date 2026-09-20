@@ -13,6 +13,7 @@ Every answer is computed with Python's exact `fractions`/`math.gcd`, so the
 math is guaranteed correct instead of hand-typed.
 """
 import json
+from fractions import Fraction as Fr
 from math import gcd
 
 
@@ -944,6 +945,401 @@ add_section(
     div_q,
 )
 
+
+
+# ===== 9. ORDER OF OPERATIONS =============================================
+# Built from the teacher's Math 8 Fractions package — Assignment 4 and
+# Checkpoint 4 ("Order of Operations with Fractions") plus the multi-step
+# Challenge Questions at the back of the unit.
+#
+# Every other topic in this unit gives one operation and asks you to do it.
+# This one gives three and asks which comes first, so the chain of boxes asks
+# for something different: not another way of writing the same number, but the
+# expression after each operation has been taken out of it. Box 1 of
+# "1/4 x 5/6 - 1/6" is 5/24, because multiplying comes first.
+#
+# Expressions are built as data and evaluated with exact Fractions, so the
+# prompt, every box and the answer all come from the same arithmetic and cannot
+# disagree. A leaf remembers how it was WRITTEN as well as what it is worth:
+# 3/6 is worth a half but the worksheet prints it as 3/6.
+
+oop_q = []
+
+
+def V(n, d=1):
+    """A leaf written exactly as n/d — 3/6 stays 3/6 on the page."""
+    return ("v", n, d)
+
+
+def M(w, n, d):
+    """A leaf written as a mixed number."""
+    return ("m", w, n, d)
+
+
+def B(*items):
+    """A bracketed sub-expression."""
+    return ("()", list(items))
+
+
+def P(term, power):
+    """A term raised to a power."""
+    return ("^", term, power)
+
+
+def leaf_value(leaf):
+    if leaf[0] == "v":
+        return Fr(leaf[1], leaf[2])
+    _, w, n, d = leaf
+    return Fr(w * d + n, d) if w >= 0 else Fr(w * d - n, d)
+
+
+def oop_tok(item):
+    """How a term is printed in the prompt."""
+    if isinstance(item, str):
+        return item
+    if item[0] == "v":
+        return str(item[1]) if item[2] == 1 else "{%d/%d}" % (item[1], item[2])
+    if item[0] == "m":
+        return "{%d_%d/%d}" % (item[1], item[2], item[3])
+    if item[0] == "()":
+        return "(" + " ".join(oop_tok(x) for x in item[1]) + ")"
+    return oop_tok(item[1]) + "²"
+
+
+def oop_plain(value):
+    """A Fraction mid-sentence: '7/36', '-71/90', '3'."""
+    return str(value.numerator) if value.denominator == 1 else \
+        f"{value.numerator}/{value.denominator}"
+
+
+def oop_mixed(value):
+    """The final form: a mixed number once the answer is improper."""
+    if value.denominator == 1:
+        return str(value.numerator)
+    whole, num = divmod(abs(value).numerator, value.denominator)
+    if whole == 0:
+        return oop_plain(value)
+    return f"{'-' if value < 0 else ''}{whole} {num}/{value.denominator}"
+
+
+OOP_APPLY = {
+    "+": lambda a, b: a + b,
+    "-": lambda a, b: a - b,
+    "×": lambda a, b: a * b,
+    "÷": lambda a, b: a / b,
+}
+OOP_LABEL = {"+": "Add", "-": "Subtract", "×": "Multiply", "÷": "Divide"}
+OOP_WHY = {
+    "×": "× and ÷ are done before + and −, left to right",
+    "÷": "× and ÷ are done before + and −, left to right",
+    "+": "+ and − come last, left to right",
+    "-": "+ and − come last, left to right",
+}
+
+
+def oop_stage(stages, label, why, a, op, b, value):
+    stages.append({"label": label, "note": why,
+                   "work": f"{oop_plain(a)} {op} {oop_plain(b)} = {oop_plain(value)}",
+                   "value": value})
+    return value
+
+
+def oop_term(item, stages):
+    """Resolve one term down to a Fraction, recording what it took."""
+    if item[0] == "()":
+        return oop_eval(item[1], stages, inside=True)
+    if item[0] == "^":
+        base = oop_term(item[1], stages)
+        value = base ** item[2]
+        stages.append({
+            "label": "Exponent", "note": "exponents come after brackets, before × and ÷",
+            "work": f"({oop_plain(base)})² = {oop_plain(value)}", "value": value})
+        return value
+    return leaf_value(item)
+
+
+def oop_eval(expr, stages, inside=False):
+    """Work an expression out in BEDMAS order, one stage per operation."""
+    items = [x if isinstance(x, str) else oop_term(x, stages) for x in expr]
+
+    for wanted in (("×", "÷"), ("+", "-")):
+        i = 1
+        while i < len(items):
+            op = items[i]
+            if op in wanted:
+                value = OOP_APPLY[op](items[i - 1], items[i + 1])
+                why = "brackets are always worked out first" if inside else OOP_WHY[op]
+                oop_stage(stages, "Brackets" if inside else OOP_LABEL[op],
+                          why, items[i - 1], op, items[i + 1], value)
+                items[i - 1:i + 2] = [value]
+            else:
+                i += 2
+    assert len(items) == 1, expr
+    return items[0]
+
+
+def oop_chain(expr):
+    """The prompt, the boxes and the answer, all from the same arithmetic."""
+    stages = []
+    value = oop_eval(list(expr), stages)
+    rows = [{"label": s["label"], "note": s["note"],
+             "fields": [oop_plain(s["value"])]} for s in stages]
+    if value.denominator != 1 and abs(value) > 1:
+        rows.append({"label": "Mixed number",
+                     "note": "the answer came out improper, so write it as a mixed number",
+                     "fields": [oop_mixed(value)]})
+    prompt = " ".join(oop_tok(x) for x in expr) + " ="
+    prose = " ".join(f"{s['label']}: {s['work']}." for s in stages)
+    if rows[-1]["label"] == "Mixed number":
+        prose += f" {oop_plain(value)} is improper, so the answer is {oop_mixed(value)}."
+    assert rows[-1]["fields"] == [oop_mixed(value)], (prompt, rows[-1])
+    return prompt, rows, value, prose
+
+
+OOP_TIP = ("Brackets first, then exponents, then × and ÷ left to right, and only "
+           "then + and − left to right. Write the whole expression again after "
+           "each step — that is what stops you losing a term.")
+
+def oop_sample(qset, *expr):
+    prompt, rows, _, _ = oop_chain(expr)
+    G8_SAMPLES.setdefault("order-ops", []).append(
+        {"set": qset, "prompt": prompt, "steps": rows})
+
+
+def oop_add(n, stars, *expr, qset=None):
+    prompt, rows, value, prose = oop_chain(expr)
+    question = {
+        "id": qid("order-ops", n), "section": "order-ops", "qtype": "steps",
+        "difficulty": stars, "prompt": prompt,
+        "answer": {"steps": rows, "display": oop_mixed(value)},
+        "steps": prose, "tip": OOP_TIP,
+    }
+    if qset is not None:
+        question["set"] = qset
+    oop_q.append(question)
+
+
+# --- Easy: two operations, nothing in brackets -----------------------------
+oop_sample(1, V(2, 3), "×", V(3, 4), "+", V(1, 6))
+oop_add(1, 1, V(1, 4), "×", V(5, 6), "-", V(1, 6), qset=1)
+oop_add(2, 1, V(1, 5), "+", V(3, 6), "÷", V(5, 6), qset=1)
+oop_add(3, 1, V(1, 2), "-", V(3, 4), "×", V(1, 5), qset=1)
+
+# --- Brackets change which operation comes first ----------------------------
+oop_sample(2, B(V(1, 2), "+", V(1, 4)), "÷", V(3, 8))
+oop_add(4, 2, B(V(2, 5), "+", V(8, 9)), "×", V(1, 2), qset=2)
+oop_add(5, 2, B(V(3, 5), "-", V(2, 5), "+", V(1, 4)), "÷", V(1, 6), qset=2)
+oop_add(6, 2, B(V(1, 4), "+", V(1, 8), "-", V(1, 5)), "×", V(4, 9), qset=2)
+oop_add(7, 2, B(V(2, 9), "+", V(1, 9)), "×", B(V(1, 3), "-", V(1, 4)), qset=2)
+
+# --- Longer chains, and mixed numbers in the middle of them -----------------
+oop_sample(3, M(1, 1, 2), "×", B(V(2, 3), "-", V(1, 6)), "÷", V(3, 4))
+oop_add(8, 3, V(3, 5), "×", B(V(1, 4), "+", V(3, 4), "×", V(5)), qset=3)
+oop_add(9, 3, V(1, 2), "+", V(3, 5), "÷", V(3, 4), "÷", V(2, 5), qset=3)
+oop_add(10, 3, M(1, 2, 5), "×", M(2, 1, 2), "÷", B(V(9, 8), "-", V(2, 3)), qset=3)
+
+# --- On your own: no worked example above these ------------------------------
+oop_add(11, 3, V(3, 4), "÷", B(V(3, 10), "-", V(1, 4), "×", V(1, 5)))
+oop_add(12, 3, B(V(3, 4), "+", V(2, 9), "-", V(8, 9), "×", V(7, 8)), "÷", V(1, 6))
+oop_add(13, 3, P(B(V(2, 3)), 2), "×", V(-7, 8), "+", V(-2, 5))
+
+
+# --- Where do the brackets go? ----------------------------------------------
+# The reverse question: given the answer, find the one pair of brackets that
+# makes the sentence true. It is the sharpest test of whether the order is
+# understood rather than memorised.
+def oop_brackets(n, stars, prompt, options, answer, steps):
+    assert answer in options, (n, answer)
+    oop_q.append({
+        "id": qid("order-ops", n), "section": "order-ops", "qtype": "choice",
+        "difficulty": stars, "prompt": prompt, "options": options,
+        "answer": {"choice": answer, "display": answer},
+        "steps": steps,
+        "tip": "Try each one. Brackets force whatever is inside them to happen "
+               "first, so ask which grouping would change the answer to the one "
+               "you want.",
+    })
+
+
+oop_brackets(
+    14, 3,
+    "Where does one pair of brackets go to make this true?  "
+    "{5/2} × {3/5} - {2/5} + {1/2} = 1",
+    ["(5/2 × 3/5)", "(3/5 - 2/5)", "(2/5 + 1/2)", "(3/5 - 2/5 + 1/2)"],
+    "(3/5 - 2/5)",
+    "Without brackets the multiplication goes first and you get 3/2 - 2/5 + 1/2, "
+    "which is not 1. Group the subtraction instead: 3/5 - 2/5 = 1/5, then "
+    "5/2 × 1/5 = 1/2, and 1/2 + 1/2 = 1.",
+)
+oop_brackets(
+    15, 3,
+    "Where does one pair of brackets go to make this true?  "
+    "{1_1/2} + {2_1/2} ÷ {3/4} - {1/8} = {5_1/2}",
+    ["(1 1/2 + 2 1/2)", "(3/4 - 1/8)", "(2 1/2 ÷ 3/4)", "(2 1/2 ÷ 3/4 - 1/8)"],
+    "(3/4 - 1/8)",
+    "Group the subtraction so the division happens last: 3/4 - 1/8 = 5/8, then "
+    "5/2 ÷ 5/8 = 4, and 3/2 + 4 = 11/2, which is 5 1/2.",
+)
+
+
+# --- Word problems: decide the operations, then order them -------------------
+def oop_word(n, stars, prompt, raw_n, raw_d, steps, context="answer"):
+    a = analyze(raw_n, raw_d, context=context)
+    oop_q.append({
+        "id": qid("order-ops", n), "section": "order-ops", "qtype": "fraction",
+        "difficulty": stars, "prompt": prompt,
+        "answer": {"num": a["num"], "den": a["den"], "whole": a["whole"],
+                   "display": a["display"]},
+        "steps": steps + " " + a["tip"],
+        "tip": "Work out what each sentence is asking you to do, write the whole "
+               "calculation down before you start, then follow the order of "
+               "operations through it.",
+    })
+
+
+def oop_word_int(n, stars, prompt, value, steps):
+    oop_q.append({
+        "id": qid("order-ops", n), "section": "order-ops", "qtype": "integer",
+        "difficulty": stars, "prompt": prompt,
+        "answer": {"value": value, "display": str(value)},
+        "steps": steps,
+        "tip": "Write the whole calculation down before you start, then follow "
+               "the order of operations through it.",
+    })
+
+
+oop_word(
+    16, 2,
+    "A school fair sells {5_1/3} trays of veggie pizza, {6_3/4} trays of pepperoni "
+    "and {4_5/6} trays of cheese. How many trays were sold altogether?",
+    203, 12,
+    "Add all three: 16/3 + 27/4 + 29/6. The LCM of 3, 4 and 6 is 12, so that is "
+    "64/12 + 81/12 + 58/12 = 203/12.",
+    context="total trays",
+)
+oop_word_int(
+    17, 2,
+    "The fair sold {203/12} trays of pizza in total and makes $12 on every tray. "
+    "What is the total profit, in dollars?",
+    203,
+    "Multiply the total by the profit per tray: 203/12 × 12. The 12s cancel, so "
+    "the profit is $203. Notice the multiplying is done last, after the trays "
+    "have been added up.",
+)
+oop_word(
+    18, 2,
+    "A box is {2_1/2} ft wide, {7/8} ft long and {3/4} ft high. What is its "
+    "volume, in cubic feet?",
+    105, 64,
+    "Volume is width × length × height, so 5/2 × 7/8 × 3/4. Multiply straight "
+    "across: (5 × 7 × 3)/(2 × 8 × 4) = 105/64.",
+    context="volume",
+)
+oop_word_int(
+    19, 3,
+    "Golf balls come 12 to a box. A family takes {2_2/3} boxes on a trip. Cara "
+    "uses {1/2} a box, her mum uses a whole box, and her brother uses 4 balls. "
+    "How many golf balls did the family use altogether?",
+    22,
+    "Half a box is 12 × 1/2 = 6 balls and a whole box is 12. Add the three "
+    "amounts: 6 + 12 + 4 = 22 balls.",
+)
+oop_word(
+    20, 3,
+    "The family took {2_2/3} boxes of 12 golf balls and used 22 of them. What "
+    "fraction of the golf balls they brought was left?",
+    10, 32,
+    "They brought 8/3 × 12 = 32 balls and used 22, so 32 - 22 = 10 are left. "
+    "That is 10 out of 32.",
+    context="fraction left",
+)
+oop_word_int(
+    21, 3,
+    "A laptop costs {3_1/2} times what Priya earns in a week. She saves {1/4} of "
+    "her earnings and spends the rest. How many weeks of saving will the laptop "
+    "take?",
+    14,
+    "Each week she puts away 1/4 of a week's pay, and she needs 7/2 weeks' worth. "
+    "So 7/2 ÷ 1/4 = 7/2 × 4 = 14 weeks.",
+)
+oop_word(
+    22, 3,
+    "Leah ate {1/4} of a pie and Mira ate {3/10} of the same pie. The next day "
+    "Nina ate {2/3} of what was still left. What fraction of the pie was never "
+    "eaten?",
+    3, 20,
+    "Day one: 1/4 + 3/10 = 5/20 + 6/20 = 11/20 eaten, leaving 9/20. Nina ate "
+    "2/3 × 9/20 = 6/20 of the whole pie. What is left is 9/20 - 6/20 = 3/20.",
+    context="fraction never eaten",
+)
+oop_word(
+    23, 3,
+    "Put 3, 4, 6 and 7 into the four boxes of  ?/? + ?/?  — each number used "
+    "once. What is the largest sum you can make?",
+    23, 6,
+    "A fraction is biggest when its top is big and its bottom is small, so put "
+    "the two large numbers on top: 7/3 + 6/4 = 14/6 + 9/6 = 23/6.",
+    context="largest sum",
+)
+oop_word(
+    24, 3,
+    "A ball bounces back to {3/4} of the height it fell from, every time. It is "
+    "dropped from 64 cm. How high is the 4th bounce, in cm?",
+    81, 4,
+    "Each bounce multiplies the height by 3/4, so after four bounces it is "
+    "64 × (3/4)⁴ = 64 × 81/256. The exponent is worked out before the "
+    "multiplying: 64 × 81/256 = 81/4.",
+    context="height of the 4th bounce",
+)
+
+add_section(
+    "order-ops", "Order of Operations", "🧮", "#B39DDB",
+    "Three operations in one line, and the order you do them in changes the "
+    "answer. Brackets first, then exponents, then × and ÷ left to right, then "
+    "+ and − left to right. The fraction work is the same as ever — the new "
+    "skill is choosing what to do next.",
+    [
+        "Work down this ladder every time: Brackets, Exponents, Divide and "
+        "Multiply (left to right), Add and Subtract (left to right). Division "
+        "and multiplication share a rung, so whichever is written first goes "
+        "first — and the same is true of adding and subtracting.",
+        "{1/4} × {5/6} - {1/6} is not {1/4} × ({5/6} - {1/6}). Multiplying "
+        "comes first, so it is {5/24} - {1/6} = {1/24}. Doing the subtraction "
+        "first would give {1/6}, which is four times too big.",
+        "Brackets are the one thing that beats the ladder. ({2/5} + {8/9}) × "
+        "{1/2} adds first because the brackets say so, giving {58/45} × {1/2} = "
+        "{29/45}.",
+        "Rewrite the WHOLE line after each step, not just the part you changed. "
+        "Most lost marks in this topic are a term that got left behind.",
+        "Turn mixed numbers into improper fractions before you start, and turn "
+        "the final answer back if it comes out improper.",
+    ],
+    [
+        {
+            "prompt": "{1/2} - {3/4} × {1/5} =",
+            "steps": "Multiplying comes before subtracting: 3/4 × 1/5 = 3/20. "
+                     "Now 1/2 - 3/20. The LCM of 2 and 20 is 20, so "
+                     "10/20 - 3/20 = 7/20.",
+            "answer_display": "7/20",
+        },
+        {
+            "prompt": "({2/9} + {1/9}) × ({1/3} - {1/4}) =",
+            "steps": "Both brackets first. Left: 2/9 + 1/9 = 3/9 = 1/3. Right: "
+                     "the LCM of 3 and 4 is 12, so 4/12 - 3/12 = 1/12. Then "
+                     "multiply: 1/3 × 1/12 = 1/36.",
+            "answer_display": "1/36",
+        },
+        {
+            "prompt": "{3/5} × ({1/4} + {3/4} × 5) =",
+            "steps": "Inside the brackets, multiplying goes first: 3/4 × 5 = "
+                     "15/4. Then 1/4 + 15/4 = 16/4 = 4. Finally 3/5 × 4 = 12/5, "
+                     "which is 2 2/5.",
+            "answer_display": "2 2/5",
+        },
+    ],
+    oop_q,
+)
+
 # ---------------------------------------------------------------------------
 # Write output
 # ---------------------------------------------------------------------------
@@ -958,7 +1354,7 @@ meta = {
     "unit": "fractions",
     "title": "Fractions",
     "emoji": "🍕",
-    "description": "Learn fractions step by step: what they are, comparing, common multiples, simplifying, and the four operations.",
+    "description": "Learn fractions step by step: what they are, comparing, common multiples, simplifying, the four operations, and putting them in the right order.",
     "sections": [{"id": s["id"], "title": s["title"], "emoji": s["emoji"], "question_count": len(s["questions"])} for s in sections],
 }
 

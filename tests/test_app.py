@@ -357,6 +357,51 @@ PROMPT_RE = re.compile(
     r"\(?\{?(?P<b>-?\d+(?:_\d+)?(?:/\d+)?)\}?\)? =$")
 
 
+PROMPT_PIECE = re.compile(
+    r"\{(?P<mw>-?\d+)_(?P<mn>\d+)/(?P<md>\d+)\}"     # {1_2/5}
+    r"|\{(?P<fn>-?\d+)/(?P<fd>\d+)\}"                  # {3/5}
+    r"|(?P<whole>\d+)"                                   # a bare whole number
+    r"|(?P<sq>\u00b2)"
+    r"|(?P<mul>\u00d7)|(?P<div>\u00f7)"
+    r"|(?P<op>[-+()])"
+    r"|(?P<space>\s+)")
+
+
+def eval_prompt(prompt):
+    """What a question's prompt is actually worth, worked out from the prompt.
+
+    Translates the tokens the question prints into a Python expression over
+    exact Fractions and evaluates it. Python's own precedence is BEDMAS, so this
+    checks the answer key against the question AS PRINTED rather than against
+    the generator that produced both of them.
+    """
+    text = prompt.strip()
+    assert text.endswith("="), prompt
+    text, pieces, i = text[:-1].strip(), [], 0
+    while i < len(text):
+        m = PROMPT_PIECE.match(text, i)
+        assert m, (prompt, text[i:])
+        i = m.end()
+        if m.group("space"):
+            continue
+        if m.group("mw") is not None:
+            w, n, d = (int(m.group(g)) for g in ("mw", "mn", "md"))
+            pieces.append("Fraction(%d, %d)" % (w * d + n if w >= 0 else w * d - n, d))
+        elif m.group("fn") is not None:
+            pieces.append("Fraction(%s, %s)" % (m.group("fn"), m.group("fd")))
+        elif m.group("whole") is not None:
+            pieces.append("Fraction(%s)" % m.group("whole"))
+        elif m.group("sq"):
+            pieces.append("**2")
+        elif m.group("mul"):
+            pieces.append("*")
+        elif m.group("div"):
+            pieces.append("/")
+        else:
+            pieces.append(m.group("op"))
+    return eval(" ".join(pieces), {"Fraction": Fraction, "__builtins__": {}})
+
+
 def read_prompt(prompt):
     """The two operands and the operator a chain question actually asks about."""
     m = PROMPT_RE.fullmatch(prompt)
@@ -468,6 +513,22 @@ ALL_CHAINS = [
 ]
 
 
+def is_rewrite_chain(q):
+    """Two kinds of chain live under the `steps` type.
+
+    A REWRITE chain takes one calculation — a + b — and writes it a different
+    way on every line, so every line is worth the same. A STAGE chain takes an
+    order-of-operations expression and takes one operation out of it per line,
+    so the lines are deliberately different numbers and only the last is the
+    answer. The prompt says which: two operands means a rewrite.
+    """
+    return PROMPT_RE.fullmatch(q["prompt"]) is not None
+
+
+REWRITE_CHAINS = [c for c in ALL_CHAINS if is_rewrite_chain(c.values[1])]
+STAGE_CHAINS = [c for c in ALL_CHAINS if not is_rewrite_chain(c.values[1])]
+
+
 def chain_sections(unit):
     """The sections of `unit` that ask for a worked chain, in order."""
     bundle = CHAIN_UNITS[unit]
@@ -488,11 +549,25 @@ class TestWorkedChains:
     @pytest.mark.parametrize("unit,q", ALL_CHAINS)
     def test_the_last_line_is_the_answer_to_the_prompt(self, unit, q):
         """The chain has to land on the value the prompt actually asks for."""
-        a, b, op = read_prompt(q["prompt"])
-        expected = {"+": a + b, "-": a - b, "×": a * b, "÷": a / b}[op]
-        assert parse_answer_text(q["answer"]["display"]) == expected, q["id"]
+        assert parse_answer_text(q["answer"]["display"]) == eval_prompt(q["prompt"]), q["id"]
 
-    @pytest.mark.parametrize("unit,q", ALL_CHAINS)
+    @pytest.mark.parametrize("unit,q", STAGE_CHAINS)
+    def test_a_stage_chain_takes_one_operation_out_per_line(self, unit, q):
+        """Order of operations is the one topic where the lines are SUPPOSED to
+        be different numbers: each is the expression with one more operation
+        done. A line that repeats the one above it means an operation was
+        skipped — except the last, which may restate the answer as a mixed
+        number."""
+        rows = q["answer"]["steps"]
+        assert len(rows) >= 2, q["id"]
+        assert all(len(r["fields"]) == 1 for r in rows), q["id"]
+        values = [parse_answer_text(r["fields"][0]) for r in rows]
+        assert None not in values, q["id"]
+        body = values[:-1] if rows[-1]["label"] == "Mixed number" else values
+        assert len(set(body)) == len(body), (q["id"], body)
+        assert values[-1] == eval_prompt(q["prompt"]), q["id"]
+
+    @pytest.mark.parametrize("unit,q", REWRITE_CHAINS)
     def test_no_line_changes_the_value(self, unit, q):
         """Convert, common denominator, solve, simplify — every line is a
         rewrite of the same number, so they must all be equal."""
@@ -568,11 +643,13 @@ class TestWorkedChains:
         method opens with."""
         for section in chain_sections(unit):
             for sample in section.get("samples", []):
-                a, b, op = read_prompt(sample["prompt"])
-                expected = {"+": a + b, "-": a - b, "×": a * b, "÷": a / b}[op]
+                expected = eval_prompt(sample["prompt"])
+                rewrite = PROMPT_RE.fullmatch(sample["prompt"]) is not None
                 for row in sample["steps"]:
                     values = [parse_answer_text(f) for f in row["fields"]]
                     assert all(v is not None for v in values), sample["prompt"]
+                    if not rewrite:
+                        continue     # a stage sample's lines are meant to differ
                     if len(values) == 1:
                         assert values[0] == expected, (sample["prompt"], row["label"])
                     else:
@@ -581,13 +658,14 @@ class TestWorkedChains:
                                   "×": values[0] * values[1],
                                   "÷": values[0] / values[1]}[row["join"]]
                         assert joined == expected, (sample["prompt"], row["label"])
+                assert parse_answer_text(sample["steps"][-1]["fields"][-1]) == expected, \
+                    sample["prompt"]
 
                 in_set = [q for q in chain_questions(unit, section["id"])
                           if q.get("set") == sample["set"]]
                 assert in_set, (section["id"], sample["set"])
                 opening = {q["answer"]["steps"][0]["label"] for q in in_set}
                 assert sample["steps"][0]["label"] in opening, sample["prompt"]
-                assert op in {read_prompt(q["prompt"])[2] for q in in_set}, sample["prompt"]
 
 
 class TestGrade9FractionOperations:
@@ -653,7 +731,38 @@ class TestGrade8FractionArithmetic:
             assert "?" in questions[-1]["prompt"], section_id
             assert all(q["qtype"] == "steps" for q in questions[:-1]), section_id
 
-    @pytest.mark.parametrize("section_id", ARITHMETIC)
+    def test_order_of_operations_runs_easy_to_tough(self):
+        """The topic goes two operations, then brackets, then long chains, then
+        applying it to a story. Difficulty has to climb within each of those
+        strands or the ordering is decorative."""
+        questions = [q for q in CHAIN_UNITS["grade8/fractions"]["questions"]
+                     if q["section"] == "order-ops"]
+        assert questions, "the topic should exist"
+
+        strands = {}
+        for q in questions:
+            strands.setdefault("chain" if q["qtype"] == "steps" else q["qtype"],
+                               []).append(q["difficulty"])
+        assert set(strands) == {"chain", "choice", "fraction", "integer"}
+
+        chain = strands["chain"]
+        assert chain == sorted(chain), chain
+        assert chain[0] == 1 and chain[-1] == 3, chain
+
+        # The word problems are one strand however they are answered, so they
+        # are checked in the order they appear rather than by answer type.
+        words = [q["difficulty"] for q in questions
+                 if q["qtype"] in ("fraction", "integer")]
+        assert words == sorted(words), words
+
+    def test_order_of_operations_is_the_last_topic(self):
+        """It needs all four operations, so it cannot come before them."""
+        ids = [s["id"] for s in CHAIN_UNITS["grade8/fractions"]["lessons"]["sections"]]
+        assert ids[-1] == "order-ops", ids
+        for section_id in self.ARITHMETIC:
+            assert ids.index(section_id) < ids.index("order-ops")
+
+    @pytest.mark.parametrize("section_id", ARITHMETIC + ["order-ops"])
     def test_the_topic_page_still_loads(self, section_id):
         page = client.get(f"/units/grade8/fractions/{section_id}")
         assert page.status_code == 200
