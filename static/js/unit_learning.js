@@ -724,6 +724,15 @@ function ulStepState(q) {
 
 function stepValue(st, i, f) { return st.typed[`${i}:${f}`] || ''; }
 
+// What a line is called. A question with hide_labels set keeps its boxes but
+// loses the captions: by the end of a topic, naming the next operation IS most
+// of the answer, so printing "Multiply" under the box hands it over. The review
+// underneath still has to say WHICH line went wrong, so it falls back to the
+// line's position.
+function stepLabel(q, row, i) {
+    return q.hide_labels ? `Step ${i + 1}` : row.label;
+}
+
 // ===== grading =====
 // A blank is graded on FORM, not just value: the common-denominator line wants
 // 20/30 and the simplify line wants 13/15, even though those are one number. A
@@ -817,9 +826,9 @@ function chainStepHTML(q, row, i, st, marks, solved) {
     return `
         <span class="ul-chain-step ${worst ? `is-${worst}` : ''}" data-step="${i}">
             <span class="ul-chain-boxes">${boxes}</span>
-            <span class="ul-chain-label">
-                ${worst ? `<span class="ul-chain-mark">${worst === 'correct' ? '✓' : '✗'}</span>` : ''}${escHTML(row.label)}
-            </span>
+            ${q.hide_labels && !worst ? '' : `<span class="ul-chain-label">
+                ${worst ? `<span class="ul-chain-mark">${worst === 'correct' ? '✓' : '✗'}</span>` : ''}${q.hide_labels ? '' : escHTML(row.label)}
+            </span>`}
         </span>`;
 }
 
@@ -830,7 +839,7 @@ function chainReviewHTML(q, st, marks) {
         const faults = flatMarks([marks[i]]).every(m => m === 'correct') ? [] : stepFaults(q, st, i);
         if (!faults.length) return '';
         return `<li class="ul-chain-fault">
-            <span class="ul-chain-fault-step">${escHTML(row.label)}</span>
+            <span class="ul-chain-fault-step">${escHTML(stepLabel(q, row, i))}</span>
             <span class="ul-chain-fault-why">${faults.map(escHTML).join(' ')}
                 ${row.note ? `<em>Remember: ${escHTML(row.note)}.</em>` : ''}</span>
         </li>`;

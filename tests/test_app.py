@@ -755,6 +755,55 @@ class TestGrade8FractionArithmetic:
                  if q["qtype"] in ("fraction", "integer")]
         assert words == sorted(words), words
 
+    def test_the_labels_come_off_for_the_last_few(self):
+        """Naming the next operation is most of the answer in this topic, so a
+        caption under the box hands it over. The help fades in two stages: the
+        worked example at the top of the page goes first, then the captions."""
+        chains = chain_questions("grade8/fractions", "order-ops")
+        blind = [q for q in chains if q.get("hide_labels")]
+        assert len(blind) >= 3, "the topic should end without captions"
+        # Captions come off no earlier than the worked examples do...
+        assert all(q.get("set") is None for q in blind)
+        # ...and once off, they stay off to the end.
+        assert chains[-len(blind):] == blind
+
+    def test_the_last_few_are_the_longest_chains(self):
+        """"Harder" has to mean something measurable, or the ordering is a
+        label. The unlabelled ones ask for more lines than the average of the
+        ones that still have captions."""
+        chains = chain_questions("grade8/fractions", "order-ops")
+        lines = lambda qs: sum(len(q["answer"]["steps"]) for q in qs) / len(qs)
+        blind = [q for q in chains if q.get("hide_labels")]
+        labelled = [q for q in chains if not q.get("hide_labels")]
+        assert lines(blind) > lines(labelled), (lines(blind), lines(labelled))
+
+    def test_it_is_not_a_copy_of_the_paper_worksheet(self):
+        """A student who has already done the sheet should meet new problems
+        between the familiar ones, not a transcription of it."""
+        from_the_sheet = {
+            "{1/4} × {5/6} - {1/6} =",
+            "{1/5} + {3/6} ÷ {5/6} =",
+            "{1/2} - {3/4} × {1/5} =",
+            "({2/5} + {8/9}) × {1/2} =",
+            "({3/5} - {2/5} + {1/4}) ÷ {1/6} =",
+            "({1/4} + {1/8} - {1/5}) × {4/9} =",
+            "({2/9} + {1/9}) × ({1/3} - {1/4}) =",
+            "{3/5} × ({1/4} + {3/4} × 5) =",
+            "{1/2} + {3/5} ÷ {3/4} ÷ {2/5} =",
+            "{1_2/5} × {2_1/2} ÷ ({9/8} - {2/3}) =",
+            "{3/4} ÷ ({3/10} - {1/4} × {1/5}) =",
+            "({3/4} + {2/9} - {8/9} × {7/8}) ÷ {1/6} =",
+            "{2/3}^2 × {-7/8} + {-2/5} =",
+        }
+        chains = chain_questions("grade8/fractions", "order-ops")
+        prompts = [q["prompt"] for q in chains]
+        assert from_the_sheet <= set(prompts), from_the_sheet - set(prompts)
+        # Roughly half the topic is new material, and no two of the teacher's
+        # own problems sit next to each other.
+        assert len(prompts) >= len(from_the_sheet) * 1.8, len(prompts)
+        runs = [p in from_the_sheet for p in prompts]
+        assert not any(a and b for a, b in zip(runs, runs[1:])), prompts
+
     def test_order_of_operations_is_the_last_topic(self):
         """It needs all four operations, so it cannot come before them."""
         ids = [s["id"] for s in CHAIN_UNITS["grade8/fractions"]["lessons"]["sections"]]
