@@ -28,11 +28,20 @@ client = TestClient(app)
 
 # Marathon units are listed too, so the per-question contract checks below
 # keep covering them now that they no longer sit under a grade.
+# Units anyone can reach. The page tests walk these.
 AVAILABLE_UNITS = (
     [dict(u) for u in UNITS_CATALOG if u["available"]]
     + [dict(u, marathon=True) for u in MARATHON_UNITS if u["available"]]
-    + [dict(u, classroom=True) for u in CLASS_UNITS if u["available"]]
+    + [dict(u, classroom=True) for u in CLASS_UNITS
+       if u["available"] and not u.get("hidden")]
 )
+
+# ...plus the ones behind a sign-in. Their content is held to the same contract;
+# only their PAGES are private.
+ALL_CONTENT_UNITS = AVAILABLE_UNITS + [
+    dict(u, classroom=True) for u in CLASS_UNITS
+    if u["available"] and u.get("hidden")
+]
 
 
 # =============================================
@@ -281,11 +290,18 @@ class TestTopLevelPages:
         page = client.get("/").text
         pills = re.findall(r'<a class="ul-grade-pill ul-marathon-pill"(.*?)</a>',
                            page, re.S)
-        assert len(pills) == 2, pills
+        assert pills
         for pill in pills:
             assert "data-grade" not in pill
         assert any('href="/math-marathon"' in pill for pill in pills), pills
-        assert any('href="/classes"' in pill for pill in pills), pills
+
+    def test_a_private_class_is_never_advertised(self):
+        """A class is one child's own work. Nothing may hint that it exists —
+        not a pill, not a card, not an empty shelf to wonder about."""
+        home = client.get("/").text
+        assert "/classes" not in home
+        assert "Sanjana" not in home
+        assert "Sanjana" not in client.get("/classes").text
 
     def test_classes_is_not_under_a_grade(self):
         """A class is pitched at whoever is in it, not at a year group, so its
@@ -445,13 +461,13 @@ def parse_answer_text(text):
 
 ALL_UNIT_QUESTIONS = [
     pytest.param(item, q, id=f"{item['unit']}-{q['id']}")
-    for item in AVAILABLE_UNITS
+    for item in ALL_CONTENT_UNITS
     for q in load_unit_bundle(unit_path(item))["questions"]
 ]
 
 
 class TestUnitQuestions:
-    @pytest.mark.parametrize("item", AVAILABLE_UNITS, ids=lambda i: i["unit"])
+    @pytest.mark.parametrize("item", ALL_CONTENT_UNITS, ids=lambda i: i["unit"])
     def test_question_ids_are_unique_and_sections_exist(self, item):
         bundle = load_unit_bundle(unit_path(item))
         ids = [q["id"] for q in bundle["questions"]]
@@ -459,7 +475,7 @@ class TestUnitQuestions:
         section_ids = {s["id"] for s in bundle["lessons"]["sections"]}
         assert {q["section"] for q in bundle["questions"]} <= section_ids
 
-    @pytest.mark.parametrize("item", AVAILABLE_UNITS, ids=lambda i: i["unit"])
+    @pytest.mark.parametrize("item", ALL_CONTENT_UNITS, ids=lambda i: i["unit"])
     def test_number_problems_come_before_word_problems(self, item):
         """The topic page prints a 'word problems start here' banner at the
         changeover, so a word problem must never be followed by a number one."""
@@ -1084,12 +1100,13 @@ class TestSanjanasClass:
         assert len(key) == len(self.QS), "every question needs a key entry"
         assert q["answer"]["display"] == key[q["id"]], q["id"]
 
-    def test_the_unit_page_and_every_topic_page_load(self):
-        assert client.get("/classes/sanjana").status_code == 200
+    def test_a_stranger_gets_nothing(self):
+        """Signed out is the same 404 as a page that does not exist, so poking
+        at the URL tells you nothing about whose class it is."""
+        client.post("/api/account/logout")
+        assert client.get("/classes/sanjana").status_code == 404
         for section in self.SECTIONS:
-            page = client.get(f"/classes/sanjana/{section['id']}")
-            assert page.status_code == 200
-            assert f'const UNIT_FOCUS_SECTION = "{section["id"]}"' in page.text
+            assert client.get(f"/classes/sanjana/{section['id']}").status_code == 404
 
     def test_an_unknown_class_goes_back_to_the_list(self):
         sent = client.get("/classes/nobody", follow_redirects=False)

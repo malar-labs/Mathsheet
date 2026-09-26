@@ -139,8 +139,8 @@ async def home(request: Request):
     return templates.TemplateResponse(
         request,
         "units_home.html",
-        {"grades": catalog_by_grade(), "marathon": MARATHON, "classes": CLASSES,
-         "learner": current_learner(request)}
+        {"grades": catalog_by_grade(), "marathon": MARATHON,
+         "classes": visible_classes(), "learner": current_learner(request)}
     )
 
 
@@ -210,6 +210,10 @@ CLASS_UNITS = [
         "unit": "sanjana", "title": "Sanjana", "emoji": "🌸",
         "description": "Class notes and practice, one session at a time.",
         "available": True,
+        # A class is one child's own work, so it is not listed anywhere: no
+        # pill, no card, no link. The URL still works, for the learner it
+        # belongs to and for an admin, and 404s for everybody else.
+        "hidden": True, "owner": "sanjana",
     },
 ]
 
@@ -318,7 +322,17 @@ def marathon_catalog():
 
 
 def classes_catalog():
-    return [catalog_entry(dict(item, classroom=True)) for item in CLASS_UNITS]
+    return [catalog_entry(dict(item, classroom=True))
+            for item in CLASS_UNITS if not item.get("hidden")]
+
+
+def visible_classes():
+    """CLASSES only while there is something on the shelf to see.
+
+    With every class hidden the pill would lead to an empty page, which tells
+    anyone looking that classes exist and they are not allowed in.
+    """
+    return CLASSES if any(not u.get("hidden") for u in CLASS_UNITS) else None
 
 
 def catalog_by_grade():
@@ -360,7 +374,7 @@ async def render_unit_page(request: Request, item, section_id: str | None = None
             request,
             "units_home.html",
             {"grades": catalog_by_grade(), "marathon": MARATHON,
-             "classes": CLASSES, "not_found": True,
+             "classes": visible_classes(), "not_found": True,
              "learner": current_learner(request)},
             status_code=404,
         )
@@ -412,6 +426,19 @@ def class_unit(slug: str):
     return dict(item, classroom=True) if item else None
 
 
+async def may_open_class(request: Request, item) -> bool:
+    """A class is for the learner whose class it is, and for a teacher.
+
+    An "owner" is a username, checked against the signed-in session; admin is
+    re-read from the database the same way every other admin page does it.
+    """
+    owner = item.get("owner")
+    learner = current_learner(request)
+    if owner and learner and learner.get("username") == owner:
+        return True
+    return await require_admin(request) is not None
+
+
 @app.get("/classes")
 async def classes_home(request: Request):
     return templates.TemplateResponse(
@@ -427,6 +454,8 @@ async def class_unit_page(request: Request, slug: str):
     item = class_unit(slug)
     if not item:
         return RedirectResponse("/classes", status_code=307)
+    if not await may_open_class(request, item):
+        return admin_not_found(request)
     return await render_unit_page(request, item)
 
 
@@ -435,6 +464,8 @@ async def class_topic_page(request: Request, slug: str, section: str):
     item = class_unit(slug)
     if not item:
         return RedirectResponse("/classes", status_code=307)
+    if not await may_open_class(request, item):
+        return admin_not_found(request)
     return await render_unit_page(request, item, section)
 
 
@@ -783,7 +814,7 @@ def admin_not_found(request: Request):
     return templates.TemplateResponse(
         request, "units_home.html",
         {"grades": catalog_by_grade(), "marathon": MARATHON,
-         "classes": CLASSES, "not_found": True,
+         "classes": visible_classes(), "not_found": True,
          "learner": current_learner(request)},
         status_code=404,
     )
