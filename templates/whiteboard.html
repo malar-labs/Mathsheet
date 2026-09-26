@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Whiteboard">
+    <title>Whiteboard{% if student %} · {{ student }}{% endif %} — MathSheet Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏️</text></svg>">
+    <link rel="stylesheet" href="{{ asset_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/whiteboard.css') }}">
+</head>
+<body class="wb-body">
+
+<header class="app-header no-print">
+    <div class="header-inner wb-header-inner">
+        <a class="logo" href="/" style="text-decoration:none">
+            <div class="logo-icon-wrap">✏️</div>
+            <div>
+                <div class="logo-title">Whiteboard{% if student %} <span>· {{ student }}</span>{% endif %}</div>
+                <div class="logo-sub">MathSheet Pro · live class board</div>
+            </div>
+        </a>
+        <div class="header-right">
+            <span class="wb-status" id="wb-status" role="status">Connecting…</span>
+            {% if role == 'teacher' %}
+            <a href="/admin" class="btn-header-login btn-header-back">← Admin</a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+{% if role == 'teacher' and not room %}
+<main class="main wb-setup">
+    <h1>✏️ Start a whiteboard</h1>
+    <p>Type the student's name. They get their own board and a link that stays the same every class.</p>
+    <form method="get" action="/whiteboard" class="wb-setup-form">
+        <label for="wb-student">Student's name</label>
+        <input id="wb-student" name="student" type="text" maxlength="40" placeholder="e.g. Sanjana" required autofocus>
+        <button type="submit" class="wb-btn wb-btn-primary">Open board</button>
+    </form>
+</main>
+{% else %}
+
+{% if role == 'teacher' %}
+<section class="wb-teacher-bar no-print">
+    {% if realtime %}
+    <div class="wb-share">
+        <span class="wb-share-label">Send {{ student }} this link:</span>
+        <input class="wb-share-url" id="wb-share-url" type="text" value="{{ share_url }}" readonly>
+        <button type="button" class="wb-btn" id="wb-copy">Copy</button>
+    </div>
+    {% else %}
+    <div class="wb-share wb-share-off">
+        Live sharing isn't switched on yet, so this board stays on your screen.
+        Share your screen in Zoom or Meet for now.
+    </div>
+    {% endif %}
+    <form class="wb-problem-form" id="wb-problem-form">
+        <label for="wb-problem-input">Problem</label>
+        <input id="wb-problem-input" type="text" maxlength="300" value="{{ problem }}"
+               placeholder="Type a problem to show at the top, e.g. 2 1/2 ÷ 5/6" autocomplete="off">
+        <button type="submit" class="wb-btn wb-btn-primary">Show</button>
+    </form>
+</section>
+{% endif %}
+
+<div class="wb-toolbar no-print" id="wb-toolbar" role="toolbar" aria-label="Drawing tools">
+    <div class="wb-group" role="group" aria-label="Tool">
+        <button type="button" class="wb-tool is-active" data-tool="pen" title="Pen" aria-pressed="true">✏️<span>Pen</span></button>
+        <button type="button" class="wb-tool" data-tool="hl" title="Highlighter" aria-pressed="false">🖍️<span>Highlight</span></button>
+        <button type="button" class="wb-tool" data-tool="eraser" title="Eraser — touch a line to remove it" aria-pressed="false">🧽<span>Eraser</span></button>
+    </div>
+    <div class="wb-group" role="group" aria-label="Colour">
+        <button type="button" class="wb-color is-active" data-color="#1f2a44" style="--c:#1f2a44" title="Black" aria-pressed="true"></button>
+        <button type="button" class="wb-color" data-color="#2f6fed" style="--c:#2f6fed" title="Blue" aria-pressed="false"></button>
+        <button type="button" class="wb-color" data-color="#e0413a" style="--c:#e0413a" title="Red" aria-pressed="false"></button>
+        <button type="button" class="wb-color" data-color="#10a36b" style="--c:#10a36b" title="Green" aria-pressed="false"></button>
+        <button type="button" class="wb-color" data-color="#f29d0b" style="--c:#f29d0b" title="Orange" aria-pressed="false"></button>
+    </div>
+    <div class="wb-group" role="group" aria-label="Size">
+        <button type="button" class="wb-size" data-size="2" title="Thin" aria-pressed="false"><i style="--s:4px"></i></button>
+        <button type="button" class="wb-size is-active" data-size="3.5" title="Medium" aria-pressed="true"><i style="--s:7px"></i></button>
+        <button type="button" class="wb-size" data-size="6" title="Thick" aria-pressed="false"><i style="--s:11px"></i></button>
+    </div>
+    <div class="wb-group" role="group" aria-label="Actions">
+        <button type="button" class="wb-tool" id="wb-undo" title="Undo your last line">↩️<span>Undo</span></button>
+        <button type="button" class="wb-tool" id="wb-more" title="Add more space below">⬇️<span>More space</span></button>
+        <button type="button" class="wb-tool" id="wb-finger" title="What your finger does on a touch screen" aria-pressed="false">👆<span id="wb-finger-label">Finger draws</span></button>
+        <button type="button" class="wb-tool" id="wb-save" title="Save the board as a picture">💾<span>Save</span></button>
+        <button type="button" class="wb-tool wb-danger" id="wb-clear" title="Wipe the whole board for everyone">🗑️<span>Clear</span></button>
+    </div>
+</div>
+
+<div class="wb-problem" id="wb-problem" hidden></div>
+
+<div class="wb-stage" id="wb-stage">
+    <canvas id="wb-canvas" aria-label="Whiteboard — draw with a pen, mouse or finger"></canvas>
+</div>
+
+<div class="wb-confirm" id="wb-confirm" hidden>
+    <div class="wb-confirm-card" role="dialog" aria-modal="true" aria-labelledby="wb-confirm-title">
+        <p id="wb-confirm-title">Wipe the whole board? This clears it for everyone in the class.</p>
+        <div class="wb-confirm-actions">
+            <button type="button" class="wb-btn" id="wb-confirm-no">Keep it</button>
+            <button type="button" class="wb-btn wb-btn-danger" id="wb-confirm-yes">Clear board</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WB_ROLE = {{ role | tojson }};
+    const WB_ROOM = {{ room | tojson }};
+    const WB_NAME = {{ ((learner.display_name if learner else student) or 'Someone') | tojson }};
+    const WB_STUDENT = {{ student | tojson }};
+    const WB_REALTIME = {{ realtime | tojson }};
+    const WB_START_PROBLEM = {{ problem | tojson }};
+</script>
+{% if realtime %}
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+{% endif %}
+<script src="{{ asset_url('js/whiteboard.js') }}"></script>
+{% endif %}
+
+{% include "partials/analytics.html" %}
+</body>
+</html>

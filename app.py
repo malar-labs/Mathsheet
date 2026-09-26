@@ -789,6 +789,11 @@ def admin_not_found(request: Request):
     )
 
 
+# The live whiteboard lives in its own module; see whiteboard.py.
+import whiteboard  # noqa: E402
+app.include_router(whiteboard.build_router(templates, require_admin, admin_not_found))
+
+
 @app.get("/admin")
 async def admin_home(request: Request):
     admin = await require_admin(request)
