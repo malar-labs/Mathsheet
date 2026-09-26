@@ -1,0 +1,304 @@
+{
+  "questions": [
+    {
+      "id": "what-is-01",
+      "section": "what-is",
+      "qtype": "choice",
+      "difficulty": 1,
+      "prompt": "Is {9/8} proper, improper or mixed?",
+      "options": [
+        "Proper",
+        "Improper",
+        "Mixed"
+      ],
+      "answer": {
+        "choice": "Improper",
+        "display": "Improper"
+      },
+      "steps": "9 is bigger than 8, so there is more than one whole here. That makes 9/8 improper.",
+      "tip": "Compare the top with the bottom. Top smaller than bottom is proper; top the same or bigger is improper; a whole number sitting beside a fraction is mixed."
+    },
+    {
+      "id": "what-is-02",
+      "section": "what-is",
+      "qtype": "choice",
+      "difficulty": 1,
+      "prompt": "Is {4/9} proper, improper or mixed?",
+      "options": [
+        "Proper",
+        "Improper",
+        "Mixed"
+      ],
+      "answer": {
+        "choice": "Proper",
+        "display": "Proper"
+      },
+      "steps": "4 is smaller than 9, so this is less than one whole. That makes 4/9 proper.",
+      "tip": "Compare the top with the bottom. Top smaller than bottom is proper; top the same or bigger is improper; a whole number sitting beside a fraction is mixed."
+    },
+    {
+      "id": "what-is-03",
+      "section": "what-is",
+      "qtype": "choice",
+      "difficulty": 1,
+      "prompt": "Is {1_5/6} proper, improper or mixed?",
+      "options": [
+        "Proper",
+        "Improper",
+        "Mixed"
+      ],
+      "answer": {
+        "choice": "Mixed",
+        "display": "Mixed"
+      },
+      "steps": "There is a whole number, 1, written beside a proper fraction, 5/6. A whole plus a fraction is a mixed number.",
+      "tip": "Compare the top with the bottom. Top smaller than bottom is proper; top the same or bigger is improper; a whole number sitting beside a fraction is mixed."
+    },
+    {
+      "id": "what-is-04",
+      "section": "what-is",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "Write {17/5} as a mixed number.",
+      "answer": {
+        "num": 2,
+        "den": 5,
+        "whole": 3,
+        "display": "3 2/5"
+      },
+      "steps": "Divide the top by the bottom: 17 ÷ 5 = 3 remainder 2. The 3 is the whole number and the remainder 2 becomes the new top, over the same bottom: 3 2/5.",
+      "tip": "Divide top by bottom. The answer is the whole number and the remainder is the new top, over the same bottom."
+    },
+    {
+      "id": "what-is-05",
+      "section": "what-is",
+      "qtype": "choice",
+      "difficulty": 2,
+      "prompt": "Write {3_2/7} as an improper fraction.",
+      "options": [
+        "{23/7}",
+        "{5/7}",
+        "{17/7}",
+        "{32/7}"
+      ],
+      "answer": {
+        "choice": "{23/7}",
+        "display": "{23/7}"
+      },
+      "steps": "Whole × bottom + top, over the same bottom: 3 × 7 + 2 = 23, so 3 2/7 = 23/7.",
+      "tip": "Multiply the whole number by the bottom, add the top, and keep the same bottom."
+    },
+    {
+      "id": "compare-01",
+      "section": "compare",
+      "qtype": "compare",
+      "difficulty": 2,
+      "prompt": "Which sign goes between {13/5} and {2_1/2}?  (< , > , or =)",
+      "answer": {
+        "symbol": ">",
+        "display": ">"
+      },
+      "steps": "13 ÷ 5 = 2 remainder 3, so 13/5 = 2 3/5. Both have 2 wholes, so compare 3/5 and 1/2. Over a common bottom of 10 that is 6/10 against 5/10, and 6/10 is bigger. So 13/5 > 2 1/2.",
+      "tip": "Turn any improper fraction into a mixed number first. Compare the whole numbers; only if they match do you compare the fraction parts, and for that they need the same bottom."
+    },
+    {
+      "id": "compare-02",
+      "section": "compare",
+      "qtype": "choice",
+      "difficulty": 1,
+      "prompt": "{13/5} sits between which two whole numbers?",
+      "options": [
+        "1 and 2",
+        "2 and 3",
+        "3 and 4",
+        "4 and 5"
+      ],
+      "answer": {
+        "choice": "2 and 3",
+        "display": "2 and 3"
+      },
+      "steps": "13 ÷ 5 = 2 remainder 3, so 13/5 = 2 3/5. That is more than 2 and less than 3.",
+      "tip": "Divide the top by the bottom. The whole-number part is the lower one, and the next number up is the higher one."
+    },
+    {
+      "id": "compare-03",
+      "section": "compare",
+      "qtype": "compare",
+      "difficulty": 2,
+      "prompt": "Which sign goes between 4 and {17/4}?  (< , > , or =)",
+      "answer": {
+        "symbol": "<",
+        "display": "<"
+      },
+      "steps": "17 ÷ 4 = 4 remainder 1, so 17/4 = 4 1/4. Both have 4 wholes, but 17/4 has a quarter more. So 4 < 17/4.",
+      "tip": "Turn any improper fraction into a mixed number first. Compare the whole numbers; only if they match do you compare the fraction parts, and for that they need the same bottom."
+    },
+    {
+      "id": "compare-04",
+      "section": "compare",
+      "qtype": "choice",
+      "difficulty": 1,
+      "prompt": "{17/4} sits between which two whole numbers?",
+      "options": [
+        "2 and 3",
+        "3 and 4",
+        "4 and 5",
+        "5 and 6"
+      ],
+      "answer": {
+        "choice": "4 and 5",
+        "display": "4 and 5"
+      },
+      "steps": "17 ÷ 4 = 4 remainder 1, so 17/4 = 4 1/4. That is more than 4 and less than 5.",
+      "tip": "Divide the top by the bottom. The whole-number part is the lower one, and the next number up is the higher one."
+    },
+    {
+      "id": "multiply-01",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{4/5} × {3/8} =",
+      "answer": {
+        "num": 3,
+        "den": 10,
+        "whole": 0,
+        "display": "3/10"
+      },
+      "steps": "Multiply straight across: (4 × 3)/(5 × 8) = 12/40. Both 12 and 40 divide by 4, so 12/40 = 3/10.",
+      "tip": "Top times top, bottom times bottom — no common denominator needed. Turn mixed numbers into improper fractions before you start, and simplify at the end."
+    },
+    {
+      "id": "multiply-02",
+      "section": "multiply",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{1_1/3} × {3/8} =",
+      "answer": {
+        "num": 1,
+        "den": 2,
+        "whole": 0,
+        "display": "1/2"
+      },
+      "steps": "First turn the mixed number into an improper fraction: 1 1/3 = 4/3. Then (4 × 3)/(3 × 8) = 12/24, which simplifies to 1/2.",
+      "tip": "Top times top, bottom times bottom — no common denominator needed. Turn mixed numbers into improper fractions before you start, and simplify at the end."
+    },
+    {
+      "id": "divide-01",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{2/3} ÷ {4/9} =",
+      "answer": {
+        "num": 1,
+        "den": 2,
+        "whole": 1,
+        "display": "1 1/2"
+      },
+      "steps": "Keep 2/3, change ÷ to ×, flip 4/9 to 9/4: 2/3 × 9/4 = 18/12 = 3/2, which is 1 1/2.",
+      "tip": "Keep, Change, Flip: keep the first fraction, change ÷ to ×, flip the second one upside down. Mixed numbers become improper fractions before anything gets flipped."
+    },
+    {
+      "id": "divide-02",
+      "section": "divide",
+      "qtype": "fraction",
+      "difficulty": 2,
+      "prompt": "{1_3/4} ÷ {2/3} =",
+      "answer": {
+        "num": 5,
+        "den": 8,
+        "whole": 2,
+        "display": "2 5/8"
+      },
+      "steps": "1 3/4 = 7/4 first. Then keep 7/4, change to ×, flip 2/3 to 3/2: 7/4 × 3/2 = 21/8, which is 2 5/8.",
+      "tip": "Keep, Change, Flip: keep the first fraction, change ÷ to ×, flip the second one upside down. Mixed numbers become improper fractions before anything gets flipped."
+    },
+    {
+      "id": "add-sub-01",
+      "section": "add-sub",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{3/5} + {1/10} =",
+      "answer": {
+        "num": 7,
+        "den": 10,
+        "whole": 0,
+        "display": "7/10"
+      },
+      "steps": "The LCM of 5 and 10 is 10, so 3/5 = 6/10. Then 6/10 + 1/10 = 7/10.",
+      "tip": "The bottoms have to match before you add or subtract, and they are never added themselves. With mixed numbers, turning them into improper fractions first avoids all the borrowing."
+    },
+    {
+      "id": "add-sub-02",
+      "section": "add-sub",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{2_1/4} + {1_2/3} =",
+      "answer": {
+        "num": 11,
+        "den": 12,
+        "whole": 3,
+        "display": "3 11/12"
+      },
+      "steps": "Turn both into improper fractions: 2 1/4 = 9/4 and 1 2/3 = 5/3. The LCM of 4 and 3 is 12, so 27/12 + 20/12 = 47/12, which is 3 11/12.",
+      "tip": "The bottoms have to match before you add or subtract, and they are never added themselves. With mixed numbers, turning them into improper fractions first avoids all the borrowing."
+    },
+    {
+      "id": "add-sub-03",
+      "section": "add-sub",
+      "qtype": "fraction",
+      "difficulty": 1,
+      "prompt": "{7/8} - {1/4} =",
+      "answer": {
+        "num": 5,
+        "den": 8,
+        "whole": 0,
+        "display": "5/8"
+      },
+      "steps": "The LCM of 8 and 4 is 8, so 1/4 = 2/8. Then 7/8 - 2/8 = 5/8.",
+      "tip": "The bottoms have to match before you add or subtract, and they are never added themselves. With mixed numbers, turning them into improper fractions first avoids all the borrowing."
+    },
+    {
+      "id": "add-sub-04",
+      "section": "add-sub",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "{4_1/3} - {2_3/4} =",
+      "answer": {
+        "num": 7,
+        "den": 12,
+        "whole": 1,
+        "display": "1 7/12"
+      },
+      "steps": "Turn both into improper fractions: 4 1/3 = 13/3 and 2 3/4 = 11/4. The LCM of 3 and 4 is 12, so 52/12 - 33/12 = 19/12, which is 1 7/12.",
+      "tip": "The bottoms have to match before you add or subtract, and they are never added themselves. With mixed numbers, turning them into improper fractions first avoids all the borrowing."
+    },
+    {
+      "id": "bedmas-01",
+      "section": "bedmas",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "(5 + 3) × 2 - 10 ÷ 5 =",
+      "answer": {
+        "value": 14,
+        "display": "14"
+      },
+      "steps": "Brackets first: 5 + 3 = 8. Then × and ÷ before + and -: 8 × 2 = 16 and 10 ÷ 5 = 2. Finally 16 - 2 = 14.",
+      "tip": "BEDMAS: Brackets, Exponents, then Divide and Multiply left to right, then Add and Subtract left to right. Division and multiplication share a step, and so do adding and subtracting."
+    },
+    {
+      "id": "bedmas-02",
+      "section": "bedmas",
+      "qtype": "fraction",
+      "difficulty": 3,
+      "prompt": "({1/2} + {1/3}) ÷ {5/6} =",
+      "answer": {
+        "num": 0,
+        "den": 1,
+        "whole": 1,
+        "display": "1"
+      },
+      "steps": "Brackets first: the LCM of 2 and 3 is 6, so 3/6 + 2/6 = 5/6. Then 5/6 ÷ 5/6, and anything divided by itself is 1.",
+      "tip": "BEDMAS: Brackets, Exponents, then Divide and Multiply left to right, then Add and Subtract left to right. Division and multiplication share a step, and so do adding and subtracting."
+    }
+  ]
+}

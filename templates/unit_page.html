@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if focus %}{{ focus.title }} — {% endif %}{{ meta.title }} — Grade {{ meta.grade }} Unit Learning — MathSheet Pro</title>
+{# "Grade 8 Fractions" names the unit on its own; a parented unit is just its
+   own name, because the parent already has its own crumb above it. #}
+{% set unit_label = ("Grade " ~ meta.grade ~ " " ~ meta.title) if meta.grade else meta.title %}
+    <title>{% if focus %}{{ focus.title }} — {% endif %}{{ unit_label }}{% if parent %} — {{ parent.title }}{% endif %} — MathSheet Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -28,7 +31,7 @@
             {% else %}
             <a href="/account?next={{ request.url.path | urlencode }}" class="btn-header-login">🔐 Sign in</a>
             {% endif %}
-            <a href="/" class="btn-header-login btn-header-back">← All Grades</a>
+            <a href="{{ ('/' ~ parent.slug) if parent else '/' }}" class="btn-header-login btn-header-back">← {{ parent.title if parent else 'All Grades' }}</a>
         </div>
     </div>
 </header>
@@ -36,22 +39,26 @@
 <main class="main ul-main">
     <nav class="ul-crumbs" aria-label="Breadcrumb">
         <a href="/">Grades</a>
+        {% if parent %}
+        <span aria-hidden="true">›</span>
+        <a href="/{{ parent.slug }}">{{ parent.title }}</a>
+        {% endif %}
         <span aria-hidden="true">›</span>
         {% if focus %}
-        <a href="/units/grade{{ meta.grade }}/{{ meta.unit }}">Grade {{ meta.grade }} {{ meta.title }}</a>
+        <a href="{{ base_url }}">{{ unit_label }}</a>
         <span aria-hidden="true">›</span>
         <span aria-current="page">{{ focus.title }}</span>
         {% else %}
-        <span aria-current="page">Grade {{ meta.grade }} {{ meta.title }}</span>
+        <span aria-current="page">{{ unit_label }}</span>
         {% endif %}
     </nav>
 
     <div class="ul-page-head">
         {% if focus %}
         <h1>{{ focus.emoji }} {{ focus.title }}</h1>
-        <p>{% for s in sections %}{% if s.id == focus.id %}Topic {{ loop.index }} of {{ sections | length }}{% endif %}{% endfor %} · Grade {{ meta.grade }} {{ meta.title }}</p>
+        <p>{% for s in sections %}{% if s.id == focus.id %}Topic {{ loop.index }} of {{ sections | length }}{% endif %}{% endfor %} · {{ unit_label }}</p>
         {% else %}
-        <h1>{{ meta.emoji }} Grade {{ meta.grade }} · {{ meta.title }}</h1>
+        <h1>{{ meta.emoji }} {% if meta.grade %}Grade {{ meta.grade }} · {% elif parent %}{{ parent.title }} · {% endif %}{{ meta.title }}</h1>
         <p>{{ meta.description }} Pick a topic: read the lesson, then practise one question at a time.</p>
         {% endif %}
     </div>
