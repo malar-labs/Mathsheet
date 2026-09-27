@@ -42,15 +42,18 @@
     <div class="ul-notice">That unit isn't available yet — pick one below.</div>
     {% endif %}
 
-    {% if grades | length > 1 or marathon %}
+    {% if grades | length > 1 or marathon or classes %}
     <nav class="ul-grade-nav" aria-label="Choose a grade">
         {% for group in grades %}
         <a class="ul-grade-pill{% if loop.first %} is-active{% endif %}" href="#grade-{{ group.grade }}"
            data-grade="{{ group.grade }}"{% if loop.first %} aria-current="true"{% endif %}>Grade {{ group.grade }}</a>
         {% endfor %}
-        {% if marathon %}
-        {# Not a grade and not a filter: this one leaves the page, so it is
+        {# Not grades and not filters: these leave the page, so they are
            coloured differently rather than sitting in the row in disguise. #}
+        {% if classes %}
+        <a class="ul-grade-pill ul-marathon-pill" href="/{{ classes.slug }}">{{ classes.emoji }} {{ classes.title }}</a>
+        {% endif %}
+        {% if marathon %}
         <a class="ul-grade-pill ul-marathon-pill" href="/{{ marathon.slug }}">{{ marathon.emoji }} {{ marathon.title }}</a>
         {% endif %}
     </nav>

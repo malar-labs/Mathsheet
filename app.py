@@ -140,7 +140,7 @@ async def home(request: Request):
         request,
         "units_home.html",
         {"grades": catalog_by_grade(), "marathon": MARATHON,
-         "learner": current_learner(request)}
+         "classes": visible_classes(), "learner": current_learner(request)}
     )
 
 
@@ -195,6 +195,28 @@ MARATHON = {
     "emoji": "🏃",
 }
 
+# A class is one learner's own shelf: the notes and practice from a tutoring
+# session, in the order they were taught. It belongs to no grade either — the
+# session is pitched at whoever is in it, not at a year group — so it sits
+# beside Math Marathon rather than inside the grade list.
+CLASSES = {
+    "slug": "classes",
+    "title": "Classes",
+    "emoji": "📒",
+}
+
+CLASS_UNITS = [
+    {
+        "unit": "sanjana", "title": "Sanjana", "emoji": "🌸",
+        "description": "Class notes and practice, one session at a time.",
+        "available": True,
+        # A class is one child's own work, so it is not listed anywhere: no
+        # pill, no card, no link. The URL still works, for the learner it
+        # belongs to and for an admin, and 404s for everybody else.
+        "hidden": True, "owner": "sanjana",
+    },
+]
+
 MARATHON_UNITS = [
     {
         "unit": "multiplication-facts", "title": "Multiplication Facts", "emoji": "✖️",
@@ -214,19 +236,34 @@ MARATHON_UNITS = [
 ]
 
 
+def unit_parent(item):
+    """The shelf a unit sits on, or None when it sits under a grade.
+
+    Marathon and Classes units belong to no grade, so a URL saying grade3 would
+    claim they are Grade 3 content. They hang off their own slug instead, and
+    this is what the breadcrumb and the back link read.
+    """
+    if item.get("marathon"):
+        return MARATHON
+    if item.get("classroom"):
+        return CLASSES
+    return None
+
+
 def unit_path(item) -> str:
     """Where a unit's JSON lives, relative to units/."""
-    if item.get("marathon"):
-        return f"{MARATHON['slug']}/{item['unit']}"
+    parent = unit_parent(item)
+    if parent:
+        return f"{parent['slug']}/{item['unit']}"
     return f"grade{item['grade']}/{item['unit']}"
 
 
 def unit_url(item) -> str:
-    """A Marathon unit hangs off /math-marathon rather than a grade, because a
-    URL saying grade3 would claim it is Grade 3 content. Grade units keep their
-    /units prefix, which is where every existing link points."""
-    if item.get("marathon"):
-        return f"/{MARATHON['slug']}/{item['unit']}"
+    """Grade units keep their /units prefix, which is where every existing link
+    points; a parented unit hangs off its parent's slug."""
+    parent = unit_parent(item)
+    if parent:
+        return f"/{parent['slug']}/{item['unit']}"
     return f"/units/grade{item['grade']}/{item['unit']}"
 
 
@@ -284,6 +321,20 @@ def marathon_catalog():
     return [catalog_entry(dict(item, marathon=True)) for item in MARATHON_UNITS]
 
 
+def classes_catalog():
+    return [catalog_entry(dict(item, classroom=True))
+            for item in CLASS_UNITS if not item.get("hidden")]
+
+
+def visible_classes():
+    """CLASSES only while there is something on the shelf to see.
+
+    With every class hidden the pill would lead to an empty page, which tells
+    anyone looking that classes exist and they are not allowed in.
+    """
+    return CLASSES if any(not u.get("hidden") for u in CLASS_UNITS) else None
+
+
 def catalog_by_grade():
     """The catalog grouped under its grades, so the landing page shows the
     Grade → Unit → Topics hierarchy. Counts come from each unit's own JSON,
@@ -322,7 +373,8 @@ async def render_unit_page(request: Request, item, section_id: str | None = None
         return templates.TemplateResponse(
             request,
             "units_home.html",
-            {"grades": catalog_by_grade(), "not_found": True,
+            {"grades": catalog_by_grade(), "marathon": MARATHON,
+             "classes": visible_classes(), "not_found": True,
              "learner": current_learner(request)},
             status_code=404,
         )
@@ -359,7 +411,7 @@ async def render_unit_page(request: Request, item, section_id: str | None = None
             "saved_progress": saved,
             "unit_key": key,
             "base_url": unit_url(item),
-            "parent": MARATHON if item.get("marathon") else None,
+            "parent": unit_parent(item),
         },
     )
 
@@ -369,12 +421,60 @@ def marathon_unit(slug: str):
     return dict(item, marathon=True) if item else None
 
 
+def class_unit(slug: str):
+    item = next((u for u in CLASS_UNITS if u["unit"] == slug and u["available"]), None)
+    return dict(item, classroom=True) if item else None
+
+
+async def may_open_class(request: Request, item) -> bool:
+    """A class is for the learner whose class it is, and for a teacher.
+
+    An "owner" is a username, checked against the signed-in session; admin is
+    re-read from the database the same way every other admin page does it.
+    """
+    owner = item.get("owner")
+    learner = current_learner(request)
+    if owner and learner and learner.get("username") == owner:
+        return True
+    return await require_admin(request) is not None
+
+
+@app.get("/classes")
+async def classes_home(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "parent_home.html",
+        {"parent": CLASSES, "units": classes_catalog(),
+         "learner": current_learner(request)},
+    )
+
+
+@app.get("/classes/{slug}")
+async def class_unit_page(request: Request, slug: str):
+    item = class_unit(slug)
+    if not item:
+        return RedirectResponse("/classes", status_code=307)
+    if not await may_open_class(request, item):
+        return admin_not_found(request)
+    return await render_unit_page(request, item)
+
+
+@app.get("/classes/{slug}/{section}")
+async def class_topic_page(request: Request, slug: str, section: str):
+    item = class_unit(slug)
+    if not item:
+        return RedirectResponse("/classes", status_code=307)
+    if not await may_open_class(request, item):
+        return admin_not_found(request)
+    return await render_unit_page(request, item, section)
+
+
 @app.get("/math-marathon")
 async def marathon_home(request: Request):
     return templates.TemplateResponse(
         request,
-        "marathon_home.html",
-        {"marathon": MARATHON, "units": marathon_catalog(),
+        "parent_home.html",
+        {"parent": MARATHON, "units": marathon_catalog(),
          "learner": current_learner(request)},
     )
 
@@ -595,7 +695,8 @@ def progress_catalog() -> dict:
     """
     catalog: dict = {}
     items = ([dict(u) for u in UNITS_CATALOG if u["available"]]
-             + [dict(u, marathon=True) for u in MARATHON_UNITS if u["available"]])
+             + [dict(u, marathon=True) for u in MARATHON_UNITS if u["available"]]
+             + [dict(u, classroom=True) for u in CLASS_UNITS if u["available"]])
     for item in items:
         bundle = load_unit_bundle(unit_path(item))
         if not bundle:
@@ -608,7 +709,7 @@ def progress_catalog() -> dict:
             "title": item["title"],
             "emoji": item.get("emoji", "📘"),
             "url": unit_url(item),
-            "grade": None if item.get("marathon") else item.get("grade"),
+            "grade": None if unit_parent(item) else item.get("grade"),
             "total": len(questions),
             "section_of": {q["id"]: q["section"] for q in questions},
             "sections": [
@@ -712,10 +813,16 @@ async def require_admin(request: Request):
 def admin_not_found(request: Request):
     return templates.TemplateResponse(
         request, "units_home.html",
-        {"grades": catalog_by_grade(), "not_found": True,
+        {"grades": catalog_by_grade(), "marathon": MARATHON,
+         "classes": visible_classes(), "not_found": True,
          "learner": current_learner(request)},
         status_code=404,
     )
+
+
+# The live whiteboard lives in its own module; see whiteboard.py.
+import whiteboard  # noqa: E402
+app.include_router(whiteboard.build_router(templates, require_admin, admin_not_found))
 
 
 @app.get("/admin")

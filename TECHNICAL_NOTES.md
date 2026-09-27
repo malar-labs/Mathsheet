@@ -90,6 +90,14 @@ NOTE: Teacher instructions modify topic/type selection only. Curriculum difficul
 **Fix:** Each unit ships a `_generate.py` that the app never calls. It computes every answer with Python's exact `fractions.Fraction` / `decimal.Decimal`, and builds the worked steps from those same numbers, then writes `lessons.json` and `questions.json`. A test imports the generator and asserts the checked-in JSON still matches it, so hand-editing the JSON fails the build rather than quietly de-syncing.
 **Note:** Grade 9 answer keys want fully reduced *improper* fractions (`-81/20`), while Grade 8 wants mixed numbers. Storing the Grade 9 answers with `whole: 0` gets both: the improper form is canonical, and a student who types `-4 1/20` is still marked correct.
 
+### The Live Whiteboard
+**Problem:** Classes are taught online. Screen-sharing an iPad shows the working but gives the learner no way to write back, and a whiteboard app outside MathSheet is one more account and one more link.
+**Fix:** `/whiteboard?student=<name>` (admin only, same 404 rule as `/admin`) and `/board/<code>` for the learner, both in `whiteboard.py` so `app.py` only mounts a router. Strokes are points in a board 1000 units wide, so a line lands in the same place on an iPad and a laptop; they travel over a **Supabase Realtime broadcast** channel, browser to browser, and nothing is stored server-side. Each browser keeps its own copy in localStorage, and a newcomer says `hello` and gets the board sent over, so a reload or a late join shows everything.
+- **The room code is an HMAC of the student's name** (`WHITEBOARD_SECRET`, falling back to `SECRET_KEY`): stable, so the learner's bookmarked link works every class, and unguessable, so knowing a name isn't enough.
+- **Apple Pencil:** pressure sets line width. Once a pen has been used, a finger scrolls instead of drawing, so a resting palm leaves no marks; the canvas is `touch-action: none` and scrolls by hand, because letting the browser pan would steal the pencil's strokes too.
+- **Only the teacher can wipe the board or rub out someone else's lines.** The learner's eraser only reaches their own.
+**Needs:** `SUPABASE_PUBLISHABLE_KEY` (the public key; RLS already stops it reading any table). Without it the board works on one screen and says to share the screen instead.
+
 ### Curriculum Split
 **Problem:** `app.py` was ~1000 lines mixing app logic with curriculum data.
 **Fix:** Moved all curriculum data + `build_system_prompt()` to `curriculum.py`.

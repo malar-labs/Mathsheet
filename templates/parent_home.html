@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ marathon.title }} — MathSheet Pro</title>
+    <title>{{ parent.title }} — MathSheet Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
             {% if learner %}
             <a href="/account" class="btn-header-login">👤 {{ learner.display_name }}</a>
             {% else %}
-            <a href="/account?next=/math-marathon" class="btn-header-login">🔐 Sign in</a>
+            <a href="/account?next=/{{ parent.slug }}" class="btn-header-login">🔐 Sign in</a>
             {% endif %}
             <a href="/" class="btn-header-login btn-header-back">← All Grades</a>
         </div>
@@ -37,11 +37,11 @@
     <nav class="ul-crumbs" aria-label="Breadcrumb">
         <a href="/">Grades</a>
         <span aria-hidden="true">›</span>
-        <span aria-current="page">{{ marathon.title }}</span>
+        <span aria-current="page">{{ parent.title }}</span>
     </nav>
 
     <div class="section-header">
-        <h2>{{ marathon.emoji }} {{ marathon.title }}</h2>
+        <h2>{{ parent.emoji }} {{ parent.title }}</h2>
     </div>
 
     <div class="ul-catalog-grid">

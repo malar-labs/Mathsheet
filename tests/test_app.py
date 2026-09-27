@@ -20,18 +20,28 @@ os.environ["GEMINI_API_KEY"] = ""
 os.environ["GROQ_API_KEY"] = ""
 os.environ["OPENROUTER_API_KEY"] = ""
 
-from app import (app, UNITS_CATALOG, MARATHON_UNITS, UNITS_DIR, extract_json,
-                 load_unit_bundle, unit_path, unit_url)
+from app import (app, UNITS_CATALOG, MARATHON_UNITS, CLASS_UNITS, UNITS_DIR,
+                 extract_json, load_unit_bundle, unit_path, unit_url)
 from curriculum import CURRICULUM, build_system_prompt
 
 client = TestClient(app)
 
 # Marathon units are listed too, so the per-question contract checks below
 # keep covering them now that they no longer sit under a grade.
+# Units anyone can reach. The page tests walk these.
 AVAILABLE_UNITS = (
     [dict(u) for u in UNITS_CATALOG if u["available"]]
     + [dict(u, marathon=True) for u in MARATHON_UNITS if u["available"]]
+    + [dict(u, classroom=True) for u in CLASS_UNITS
+       if u["available"] and not u.get("hidden")]
 )
+
+# ...plus the ones behind a sign-in. Their content is held to the same contract;
+# only their PAGES are private.
+ALL_CONTENT_UNITS = AVAILABLE_UNITS + [
+    dict(u, classroom=True) for u in CLASS_UNITS
+    if u["available"] and u.get("hidden")
+]
 
 
 # =============================================
@@ -272,15 +282,36 @@ class TestTopLevelPages:
         assert "ul-marathon-pill" in page
         assert "btn-header-tab" not in page
 
-    def test_the_marathon_pill_is_not_mistaken_for_a_grade(self):
-        """The grade-tab script drives every pill carrying data-grade. This one
-        navigates away instead, so it must not carry one or its click would be
+    def test_the_pills_that_leave_the_page_are_not_mistaken_for_grades(self):
+        """The grade-tab script drives every pill carrying data-grade. These
+        navigate away instead, so none may carry one or the click would be
         intercepted and swallowed."""
+        import re
         page = client.get("/").text
-        pill = page[page.index("ul-marathon-pill"):]
-        pill = pill[:pill.index("</a>")]
-        assert "data-grade" not in pill
-        assert 'href="/math-marathon"' in pill
+        pills = re.findall(r'<a class="ul-grade-pill ul-marathon-pill"(.*?)</a>',
+                           page, re.S)
+        assert pills
+        for pill in pills:
+            assert "data-grade" not in pill
+        assert any('href="/math-marathon"' in pill for pill in pills), pills
+
+    def test_a_private_class_is_never_advertised(self):
+        """A class is one child's own work. Nothing may hint that it exists —
+        not a pill, not a card, not an empty shelf to wonder about."""
+        home = client.get("/").text
+        assert "/classes" not in home
+        assert "Sanjana" not in home
+        assert "Sanjana" not in client.get("/classes").text
+
+    def test_classes_is_not_under_a_grade(self):
+        """A class is pitched at whoever is in it, not at a year group, so its
+        URL must not claim one."""
+        assert client.get("/classes").status_code == 200
+        page = client.get("/classes").text
+        # "Grades" is just the breadcrumb back to the home page; what must not
+        # appear is a grade claimed over the class itself.
+        assert not re.search(r"Grade \d", page)
+        assert "/units/grade" not in page
 
     def test_math_marathon_is_not_under_a_grade(self):
         """It belongs to no grade, so its URL must not claim one."""
@@ -430,13 +461,13 @@ def parse_answer_text(text):
 
 ALL_UNIT_QUESTIONS = [
     pytest.param(item, q, id=f"{item['unit']}-{q['id']}")
-    for item in AVAILABLE_UNITS
+    for item in ALL_CONTENT_UNITS
     for q in load_unit_bundle(unit_path(item))["questions"]
 ]
 
 
 class TestUnitQuestions:
-    @pytest.mark.parametrize("item", AVAILABLE_UNITS, ids=lambda i: i["unit"])
+    @pytest.mark.parametrize("item", ALL_CONTENT_UNITS, ids=lambda i: i["unit"])
     def test_question_ids_are_unique_and_sections_exist(self, item):
         bundle = load_unit_bundle(unit_path(item))
         ids = [q["id"] for q in bundle["questions"]]
@@ -444,7 +475,7 @@ class TestUnitQuestions:
         section_ids = {s["id"] for s in bundle["lessons"]["sections"]}
         assert {q["section"] for q in bundle["questions"]} <= section_ids
 
-    @pytest.mark.parametrize("item", AVAILABLE_UNITS, ids=lambda i: i["unit"])
+    @pytest.mark.parametrize("item", ALL_CONTENT_UNITS, ids=lambda i: i["unit"])
     def test_number_problems_come_before_word_problems(self, item):
         """The topic page prints a 'word problems start here' banner at the
         changeover, so a word problem must never be followed by a number one."""
@@ -1005,6 +1036,117 @@ class TestFractionAdditionDrill:
             page = client.get(f"/math-marathon/fraction-addition/{section['id']}")
             assert page.status_code == 200
             assert f'const UNIT_FOCUS_SECTION = "{section["id"]}"' in page.text
+
+
+class TestSanjanasClass:
+    """One tutoring session, turned into a unit.
+
+    The class plan is built in two halves — problems worked together ("We do")
+    and problems the student tries alone ("You do") — and the app has the same
+    two halves. What must hold is that the halves did not get crossed: the
+    worked ones belong on the lesson page, the tried ones are the questions.
+    """
+
+    BUNDLE = load_unit_bundle("classes/sanjana")
+    SECTIONS = BUNDLE["lessons"]["sections"]
+    QS = BUNDLE["questions"]
+
+    def test_the_unit_exists_and_hangs_off_classes_not_a_grade(self):
+        assert self.BUNDLE, "units/classes/sanjana should be generated"
+        assert self.BUNDLE["lessons"]["meta"]["grade"] is None
+        item = dict(CLASS_UNITS[0], classroom=True)
+        assert unit_path(item) == "classes/sanjana"
+        assert unit_url(item) == "/classes/sanjana"
+
+    FRACTION_TOPICS = ["what-is", "compare", "multiply", "divide", "add-sub",
+                       "bedmas"]
+    INTEGER_TOPICS = ["which-symbol", "int-add", "int-sub", "int-mul", "int-div"]
+
+    def test_each_class_is_its_own_list(self):
+        """The group is what keeps one session's topics from running into the
+        next one's on the page."""
+        by_group = {}
+        for section in self.SECTIONS:
+            by_group.setdefault(section["group"], []).append(section["id"])
+        assert by_group == {"Fractions": self.FRACTION_TOPICS,
+                            "Integers": self.INTEGER_TOPICS}
+
+    def test_each_list_runs_in_the_order_it_was_taught(self):
+        """A list's topics have to sit together and in order, because the unit
+        card reads straight down them."""
+        assert [s["id"] for s in self.SECTIONS] == (
+            self.FRACTION_TOPICS + self.INTEGER_TOPICS)
+
+    def test_integers_reads_an_operation_before_working_one_out(self):
+        """The first integer topic asks only WHICH operation was done. It is the
+        same thinking as getting the answer, minus the arithmetic, and it is
+        what stops the four sign rules blurring together."""
+        symbols = [q for q in self.QS if q["section"] == "which-symbol"]
+        assert len(symbols) == 10, len(symbols)
+        for q in symbols:
+            assert q["qtype"] == "choice", q["id"]
+            assert q["options"] == ["+", "-", "×", "÷"], q["id"]
+            assert "?" in q["prompt"], q["prompt"]
+        # All four operations are asked about, or it drills only one of them.
+        assert {q["answer"]["choice"] for q in symbols} == {"+", "-", "×", "÷"}
+
+    def test_every_operation_gets_a_topic_of_its_own(self):
+        for topic in ("int-add", "int-sub", "int-mul", "int-div"):
+            asked = [q for q in self.QS if q["section"] == topic]
+            assert len(asked) >= 8, (topic, len(asked))
+            assert all(q["qtype"] == "integer" for q in asked), topic
+        # Negatives are the point of the whole list, so they had better be in it.
+        integers = [q for q in self.QS if q["qtype"] == "integer"]
+        assert any(q["answer"]["value"] < 0 for q in integers)
+
+    def test_every_topic_has_both_halves(self):
+        """A topic with no worked example is a topic the student meets cold;
+        one with no questions is a topic they never practise."""
+        for section in self.SECTIONS:
+            assert section["examples"], section["id"]
+            assert [q for q in self.QS if q["section"] == section["id"]], section["id"]
+
+    @pytest.mark.parametrize("q", QS, ids=lambda q: q["id"])
+    def test_no_question_is_one_of_the_worked_examples(self, q):
+        """The whole point of the two halves is that they are different
+        problems. A "You do" that is secretly a "We do" has its answer printed
+        on the lesson page."""
+        worked = {ex["prompt"] for s in self.SECTIONS for ex in s["examples"]}
+        assert q["prompt"] not in worked, q["id"]
+
+    @pytest.mark.parametrize("q", QS, ids=lambda q: q["id"])
+    def test_the_answers_are_the_ones_the_class_plan_gives(self, q):
+        """Checked against the Class 1 plan's own answer key, not against the
+        generator that produced them."""
+        key = {
+            "what-is-01": "Improper", "what-is-02": "Proper", "what-is-03": "Mixed",
+            "what-is-04": "3 2/5", "what-is-05": "{23/7}",
+            "compare-01": ">", "compare-02": "2 and 3",
+            "compare-03": "<", "compare-04": "4 and 5",
+            "multiply-01": "3/10", "multiply-02": "1/2",
+            "divide-01": "1 1/2", "divide-02": "2 5/8",
+            "add-sub-01": "7/10", "add-sub-02": "3 11/12",
+            "add-sub-03": "5/8", "add-sub-04": "1 7/12",
+            "bedmas-01": "14", "bedmas-02": "1",
+        }
+        if q["section"] not in self.FRACTION_TOPICS:
+            return          # Class 2 has no plan doc to check against
+        assert len(key) == sum(1 for x in self.QS
+                               if x["section"] in self.FRACTION_TOPICS)
+        assert q["answer"]["display"] == key[q["id"]], q["id"]
+
+    def test_a_stranger_gets_nothing(self):
+        """Signed out is the same 404 as a page that does not exist, so poking
+        at the URL tells you nothing about whose class it is."""
+        client.post("/api/account/logout")
+        assert client.get("/classes/sanjana").status_code == 404
+        for section in self.SECTIONS:
+            assert client.get(f"/classes/sanjana/{section['id']}").status_code == 404
+
+    def test_an_unknown_class_goes_back_to_the_list(self):
+        sent = client.get("/classes/nobody", follow_redirects=False)
+        assert sent.status_code in (307, 308)
+        assert sent.headers["location"] == "/classes"
 
 
 class TestGeneratedContentIsUpToDate:
