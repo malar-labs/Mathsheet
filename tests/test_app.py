@@ -1058,14 +1058,46 @@ class TestSanjanasClass:
         assert unit_path(item) == "classes/sanjana"
         assert unit_url(item) == "/classes/sanjana"
 
-    def test_every_topic_is_filed_under_fractions(self):
-        """Class 1 was one subject. The group is what lets Class 2 be another
-        without the two running together on the page."""
-        assert {s["group"] for s in self.SECTIONS} == {"Fractions"}
+    FRACTION_TOPICS = ["what-is", "compare", "multiply", "divide", "add-sub",
+                       "bedmas"]
+    INTEGER_TOPICS = ["which-symbol", "int-add", "int-sub", "int-mul", "int-div"]
 
-    def test_it_covers_the_session_in_the_order_it_was_taught(self):
-        assert [s["id"] for s in self.SECTIONS] == [
-            "what-is", "compare", "multiply", "divide", "add-sub", "bedmas"]
+    def test_each_class_is_its_own_list(self):
+        """The group is what keeps one session's topics from running into the
+        next one's on the page."""
+        by_group = {}
+        for section in self.SECTIONS:
+            by_group.setdefault(section["group"], []).append(section["id"])
+        assert by_group == {"Fractions": self.FRACTION_TOPICS,
+                            "Integers": self.INTEGER_TOPICS}
+
+    def test_each_list_runs_in_the_order_it_was_taught(self):
+        """A list's topics have to sit together and in order, because the unit
+        card reads straight down them."""
+        assert [s["id"] for s in self.SECTIONS] == (
+            self.FRACTION_TOPICS + self.INTEGER_TOPICS)
+
+    def test_integers_reads_an_operation_before_working_one_out(self):
+        """The first integer topic asks only WHICH operation was done. It is the
+        same thinking as getting the answer, minus the arithmetic, and it is
+        what stops the four sign rules blurring together."""
+        symbols = [q for q in self.QS if q["section"] == "which-symbol"]
+        assert len(symbols) == 10, len(symbols)
+        for q in symbols:
+            assert q["qtype"] == "choice", q["id"]
+            assert q["options"] == ["+", "-", "×", "÷"], q["id"]
+            assert "?" in q["prompt"], q["prompt"]
+        # All four operations are asked about, or it drills only one of them.
+        assert {q["answer"]["choice"] for q in symbols} == {"+", "-", "×", "÷"}
+
+    def test_every_operation_gets_a_topic_of_its_own(self):
+        for topic in ("int-add", "int-sub", "int-mul", "int-div"):
+            asked = [q for q in self.QS if q["section"] == topic]
+            assert len(asked) >= 8, (topic, len(asked))
+            assert all(q["qtype"] == "integer" for q in asked), topic
+        # Negatives are the point of the whole list, so they had better be in it.
+        integers = [q for q in self.QS if q["qtype"] == "integer"]
+        assert any(q["answer"]["value"] < 0 for q in integers)
 
     def test_every_topic_has_both_halves(self):
         """A topic with no worked example is a topic the student meets cold;
@@ -1084,8 +1116,8 @@ class TestSanjanasClass:
 
     @pytest.mark.parametrize("q", QS, ids=lambda q: q["id"])
     def test_the_answers_are_the_ones_the_class_plan_gives(self, q):
-        """Checked against the plan's own answer key, not against the generator
-        that produced them."""
+        """Checked against the Class 1 plan's own answer key, not against the
+        generator that produced them."""
         key = {
             "what-is-01": "Improper", "what-is-02": "Proper", "what-is-03": "Mixed",
             "what-is-04": "3 2/5", "what-is-05": "{23/7}",
@@ -1097,7 +1129,10 @@ class TestSanjanasClass:
             "add-sub-03": "5/8", "add-sub-04": "1 7/12",
             "bedmas-01": "14", "bedmas-02": "1",
         }
-        assert len(key) == len(self.QS), "every question needs a key entry"
+        if q["section"] not in self.FRACTION_TOPICS:
+            return          # Class 2 has no plan doc to check against
+        assert len(key) == sum(1 for x in self.QS
+                               if x["section"] in self.FRACTION_TOPICS)
         assert q["answer"]["display"] == key[q["id"]], q["id"]
 
     def test_a_stranger_gets_nothing(self):

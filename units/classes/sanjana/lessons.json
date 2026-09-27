@@ -4,7 +4,7 @@
     "unit": "sanjana",
     "title": "Sanjana",
     "emoji": "🌸",
-    "description": "Class notes and practice, one session at a time. Class 1 covers fractions end to end: what they are, comparing them, the four operations, and order of operations.",
+    "description": "Class notes and practice, one session at a time. Class 1 covers fractions end to end; Class 2 starts integers, beginning with reading which operation was done before doing any.",
     "sections": [
       {
         "id": "what-is",
@@ -47,6 +47,41 @@
         "emoji": "🧮",
         "group": "Fractions",
         "question_count": 2
+      },
+      {
+        "id": "which-symbol",
+        "title": "Which Symbol?",
+        "emoji": "❓",
+        "group": "Integers",
+        "question_count": 10
+      },
+      {
+        "id": "int-add",
+        "title": "Adding Integers",
+        "emoji": "➕",
+        "group": "Integers",
+        "question_count": 8
+      },
+      {
+        "id": "int-sub",
+        "title": "Subtracting Integers",
+        "emoji": "➖",
+        "group": "Integers",
+        "question_count": 8
+      },
+      {
+        "id": "int-mul",
+        "title": "Multiplying Integers",
+        "emoji": "✖️",
+        "group": "Integers",
+        "question_count": 8
+      },
+      {
+        "id": "int-div",
+        "title": "Dividing Integers",
+        "emoji": "➗",
+        "group": "Integers",
+        "question_count": 8
       }
     ]
   },
@@ -253,6 +288,142 @@
           "prompt": "{3/4} - {1/2} × {1/3} =",
           "steps": "Multiply first: 1/2 × 1/3 = 1/6. Then 3/4 - 1/6. The LCM of 4 and 6 is 12, so 9/12 - 2/12 = 7/12.",
           "answer_display": "7/12"
+        }
+      ]
+    },
+    {
+      "id": "which-symbol",
+      "title": "Which Symbol?",
+      "emoji": "❓",
+      "color": "#FF6B6B",
+      "group": "Integers",
+      "group_emoji": "➖",
+      "blurb": "Before working an answer out, read one. Each question shows two numbers and what they turned into, and asks only which operation did it. Getting this right means the four sign rules are separate in your head rather than blurred together.",
+      "key_concepts": [
+        "Adding two negatives goes further below zero: -8 + -2 = -10.",
+        "Taking away a negative adds it back: -8 - (-2) = -6.",
+        "Multiplying or dividing two numbers with the SAME sign gives a positive: -8 × -2 = 16 and -8 ÷ -2 = 4.",
+        "Multiplying or dividing two numbers with DIFFERENT signs gives a negative: -3 × 6 = -18 and -20 ÷ 4 = -5.",
+        "Size is the clue to which one. Multiplying makes numbers bigger, dividing makes them smaller, adding and subtracting move them a little."
+      ],
+      "examples": [
+        {
+          "prompt": "10 ? 2 = 20",
+          "steps": "20 is far bigger than either number, which is what multiplying does.",
+          "answer_display": "×"
+        },
+        {
+          "prompt": "-9 ? 3 = -3",
+          "steps": "The answer is smaller than both numbers, so they were divided, and the different signs make it negative.",
+          "answer_display": "÷"
+        }
+      ]
+    },
+    {
+      "id": "int-add",
+      "title": "Adding Integers",
+      "emoji": "➕",
+      "color": "#4ECDC4",
+      "group": "Integers",
+      "group_emoji": "➖",
+      "blurb": "Adding a negative moves you further down the number line; adding a positive moves you up. When the two signs match you are going the same way twice, and when they differ you are going back on yourself.",
+      "key_concepts": [
+        "Same signs: add the sizes and keep the sign. -7 + -4 = -11.",
+        "Different signs: take the smaller size from the bigger, and keep the sign of the bigger one. 9 + -12 = -3, because 12 is bigger and it was the negative one.",
+        "Adding a negative is the same as subtracting: 5 + -3 is 5 - 3.",
+        "Two numbers the same size with opposite signs cancel to 0."
+      ],
+      "examples": [
+        {
+          "prompt": "-2 + (-8) =",
+          "steps": "Both negative: add the sizes, 2 + 8 = 10, and keep the minus.",
+          "answer_display": "-10"
+        },
+        {
+          "prompt": "11 + (-4) =",
+          "steps": "Different signs, so 11 - 4 = 7. The 11 was bigger and positive, so the answer stays positive.",
+          "answer_display": "7"
+        }
+      ]
+    },
+    {
+      "id": "int-sub",
+      "title": "Subtracting Integers",
+      "emoji": "➖",
+      "color": "#6C63FF",
+      "group": "Integers",
+      "group_emoji": "➖",
+      "blurb": "There is only one rule here, and it turns every subtraction into an addition you already know how to do: subtracting is adding the opposite. Once it is an addition, the adding rules take over.",
+      "key_concepts": [
+        "Subtracting is adding the opposite. -4 - 7 becomes -4 + -7.",
+        "Taking away a negative adds it back, so the answer gets BIGGER: 6 - (-3) = 6 + 3 = 9.",
+        "Two minus signs together always become a plus. That is the one to watch for.",
+        "Rewrite it as an addition before you work anything out. It is one extra line and it removes most of the mistakes."
+      ],
+      "examples": [
+        {
+          "prompt": "-6 - (-2) =",
+          "steps": "Taking away a negative adds it back: -6 + 2 = -4.",
+          "answer_display": "-4"
+        },
+        {
+          "prompt": "3 - 8 =",
+          "steps": "Adding the opposite: 3 + -8. The 8 is bigger and negative, so the answer is -5.",
+          "answer_display": "-5"
+        }
+      ]
+    },
+    {
+      "id": "int-mul",
+      "title": "Multiplying Integers",
+      "emoji": "✖️",
+      "color": "#FF9F43",
+      "group": "Integers",
+      "group_emoji": "➖",
+      "blurb": "Do the multiplying as if there were no signs at all, then put the sign on at the end. Same signs give a positive, different signs give a negative — and that one rule covers every case.",
+      "key_concepts": [
+        "Same signs give a positive: -5 × -7 = 35, and 5 × 7 = 35.",
+        "Different signs give a negative: -6 × 4 = -24.",
+        "Count the negatives in the whole line. An even number of them gives a positive; an odd number gives a negative.",
+        "Anything times 0 is 0, whatever the signs are doing."
+      ],
+      "examples": [
+        {
+          "prompt": "-2 × (-9) =",
+          "steps": "2 × 9 = 18, and the signs match, so the answer is positive.",
+          "answer_display": "18"
+        },
+        {
+          "prompt": "-7 × 3 =",
+          "steps": "7 × 3 = 21, and the signs differ, so the answer is negative.",
+          "answer_display": "-21"
+        }
+      ]
+    },
+    {
+      "id": "int-div",
+      "title": "Dividing Integers",
+      "emoji": "➗",
+      "color": "#10AC84",
+      "group": "Integers",
+      "group_emoji": "➖",
+      "blurb": "Dividing uses the very same sign rule as multiplying, so there is nothing new to learn here — divide the sizes, then same signs give a positive and different signs give a negative.",
+      "key_concepts": [
+        "Same signs give a positive: -36 ÷ -9 = 4.",
+        "Different signs give a negative: -24 ÷ 6 = -4.",
+        "It is the same rule as multiplying, because dividing undoes multiplying: if -4 × 6 = -24, then -24 ÷ 6 = -4.",
+        "0 divided by anything is 0. Anything divided by 0 is not a number at all."
+      ],
+      "examples": [
+        {
+          "prompt": "-18 ÷ (-3) =",
+          "steps": "18 ÷ 3 = 6, and the signs match, so the answer is positive.",
+          "answer_display": "6"
+        },
+        {
+          "prompt": "30 ÷ (-6) =",
+          "steps": "30 ÷ 6 = 5, and the signs differ, so the answer is negative.",
+          "answer_display": "-5"
         }
       ]
     }

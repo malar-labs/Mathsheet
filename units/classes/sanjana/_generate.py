@@ -97,10 +97,11 @@ def ask_integer(section, n, difficulty, prompt, value, steps, tip):
         {"value": value, "display": str(value)}, steps, tip)
 
 
-def add_section(sid, title, emoji, color, blurb, key_concepts, examples):
+def add_section(sid, title, emoji, color, blurb, key_concepts, examples,
+                group=GROUP, group_emoji=GROUP_EMOJI):
     sections.append({
         "id": sid, "title": title, "emoji": emoji, "color": color,
-        "group": GROUP, "group_emoji": GROUP_EMOJI,
+        "group": group, "group_emoji": group_emoji,
         "blurb": blurb, "key_concepts": key_concepts, "examples": examples,
     })
 
@@ -423,6 +424,257 @@ add_section(
 )
 
 
+
+# ===========================================================================
+#   INTEGERS — Class 2
+# ===========================================================================
+# The sign rules are one idea used four ways, so the list opens by asking only
+# which operation was done. Reading "-8 and -2 became -10" and answering "that
+# was adding" is the same thinking as working out the answer, minus the
+# arithmetic — and it is the thing that goes wrong first when the four rules
+# start blurring into each other.
+
+IGROUP = "Integers"
+IGROUP_EMOJI = "➖"
+
+TIP_SYMBOL = ("Look at what happened to the size and the sign. Bigger and same "
+              "sign usually means adding or multiplying; a result smaller than "
+              "both numbers usually means dividing.")
+
+
+def ask_symbol(n, difficulty, prompt, symbol, steps):
+    ask_choice("which-symbol", n, difficulty, prompt,
+               ["+", "-", "×", "÷"], symbol, steps, TIP_SYMBOL)
+
+
+ask_symbol(1, 1, "7 ? 5 = 12", "+",
+           "7 and 5 came together to make something bigger than both, so this "
+           "is adding: 7 + 5 = 12.")
+ask_symbol(2, 1, "4 ? 9 = -5", "-",
+           "The answer went below zero from two positive numbers, which only "
+           "happens when you take the bigger one away: 4 - 9 = -5.")
+ask_symbol(3, 2, "-3 ? 6 = -18", "×",
+           "18 is far bigger than either number, so they were multiplied. "
+           "Different signs give a negative: -3 × 6 = -18.")
+ask_symbol(4, 2, "-20 ? 4 = -5", "÷",
+           "The answer is smaller than both numbers, which points to dividing. "
+           "Different signs give a negative: -20 ÷ 4 = -5.")
+ask_symbol(5, 2, "-8 ? -2 = 16", "×",
+           "Two negatives make a positive, and 16 is bigger than both, so this "
+           "is multiplying: -8 × -2 = 16.")
+ask_symbol(6, 3, "-8 ? -2 = -6", "-",
+           "Taking away a negative adds it back: -8 - (-2) = -8 + 2 = -6.")
+ask_symbol(7, 2, "-8 ? -2 = -10", "+",
+           "Both are negative, so adding them goes further below zero: "
+           "-8 + -2 = -10.")
+ask_symbol(8, 3, "-8 ? -2 = 4", "÷",
+           "Two negatives make a positive, and the answer is small, so this is "
+           "dividing: -8 ÷ -2 = 4.")
+ask_symbol(9, 2, "5 ? -3 = 2", "+",
+           "Adding a negative is the same as taking it away: 5 + -3 = 2.")
+ask_symbol(10, 3, "6 ? -2 = -3", "÷",
+           "The answer is smaller than both, so it is dividing, and the "
+           "different signs make it negative: 6 ÷ -2 = -3.")
+
+add_section(
+    "which-symbol", "Which Symbol?", "❓", "#FF6B6B",
+    "Before working an answer out, read one. Each question shows two numbers "
+    "and what they turned into, and asks only which operation did it. Getting "
+    "this right means the four sign rules are separate in your head rather "
+    "than blurred together.",
+    [
+        "Adding two negatives goes further below zero: -8 + -2 = -10.",
+        "Taking away a negative adds it back: -8 - (-2) = -6.",
+        "Multiplying or dividing two numbers with the SAME sign gives a "
+        "positive: -8 × -2 = 16 and -8 ÷ -2 = 4.",
+        "Multiplying or dividing two numbers with DIFFERENT signs gives a "
+        "negative: -3 × 6 = -18 and -20 ÷ 4 = -5.",
+        "Size is the clue to which one. Multiplying makes numbers bigger, "
+        "dividing makes them smaller, adding and subtracting move them a "
+        "little.",
+    ],
+    [
+        {"prompt": "10 ? 2 = 20", "steps": "20 is far bigger than either "
+         "number, which is what multiplying does.",
+         "answer_display": "×"},
+        {"prompt": "-9 ? 3 = -3", "steps": "The answer is smaller than both "
+         "numbers, so they were divided, and the different signs make it "
+         "negative.", "answer_display": "÷"},
+    ],
+    group=IGROUP, group_emoji=IGROUP_EMOJI,
+)
+
+
+# ===== Adding integers ======================================================
+
+TIP_IADD = ("Same signs: add the sizes and keep the sign. Different signs: take "
+            "the smaller size from the bigger one and keep the sign of the "
+            "bigger one.")
+
+for n, (prompt, value, steps) in enumerate([
+    ("-5 + 3 =", -2, "Different signs, so 5 - 3 = 2. The 5 was bigger and it was "
+     "negative, so the answer is -2."),
+    ("-7 + (-4) =", -11, "Both negative, so add the sizes and keep the minus: "
+     "7 + 4 = 11, giving -11."),
+    ("9 + (-12) =", -3, "Different signs, so 12 - 9 = 3. The 12 was bigger and "
+     "negative, so the answer is -3."),
+    ("-15 + 15 =", 0, "Same size, opposite signs. They cancel exactly: 0."),
+    ("-6 + (-6) =", -12, "Both negative: 6 + 6 = 12, so -12."),
+    ("14 + (-5) =", 9, "Different signs, so 14 - 5 = 9. The 14 was bigger and "
+     "positive, so the answer stays positive."),
+    ("-20 + 8 =", -12, "Different signs, so 20 - 8 = 12, and the 20 was the "
+     "bigger one, so -12."),
+    ("-3 + (-9) + 5 =", -7, "Left to right: -3 + -9 = -12, then -12 + 5 = -7."),
+], start=1):
+    ask_integer("int-add", n, 1 if n <= 4 else 2, prompt, value, steps, TIP_IADD)
+
+add_section(
+    "int-add", "Adding Integers", "➕", "#4ECDC4",
+    "Adding a negative moves you further down the number line; adding a "
+    "positive moves you up. When the two signs match you are going the same "
+    "way twice, and when they differ you are going back on yourself.",
+    [
+        "Same signs: add the sizes and keep the sign. -7 + -4 = -11.",
+        "Different signs: take the smaller size from the bigger, and keep the "
+        "sign of the bigger one. 9 + -12 = -3, because 12 is bigger and it was "
+        "the negative one.",
+        "Adding a negative is the same as subtracting: 5 + -3 is 5 - 3.",
+        "Two numbers the same size with opposite signs cancel to 0.",
+    ],
+    [
+        {"prompt": "-2 + (-8) =", "steps": "Both negative: add the sizes, "
+         "2 + 8 = 10, and keep the minus.", "answer_display": "-10"},
+        {"prompt": "11 + (-4) =", "steps": "Different signs, so 11 - 4 = 7. The "
+         "11 was bigger and positive, so the answer stays positive.",
+         "answer_display": "7"},
+    ],
+    group=IGROUP, group_emoji=IGROUP_EMOJI,
+)
+
+
+# ===== Subtracting integers =================================================
+
+TIP_ISUB = ("Change it into an addition first: subtracting is adding the "
+            "opposite. 6 - (-3) becomes 6 + 3, and -4 - 7 becomes -4 + -7.")
+
+for n, (prompt, value, steps) in enumerate([
+    ("-4 - 7 =", -11, "Adding the opposite: -4 + -7. Both negative, so -11."),
+    ("6 - (-3) =", 9, "Taking away a negative adds it back: 6 + 3 = 9."),
+    ("-5 - (-8) =", 3, "-5 + 8. Different signs, 8 - 5 = 3, and the 8 was "
+     "bigger and positive, so 3."),
+    ("-10 - (-10) =", 0, "-10 + 10, which cancels to 0."),
+    ("12 - 20 =", -8, "12 + -20. The 20 is bigger and negative, so -8."),
+    ("-3 - 9 =", -12, "-3 + -9. Both negative, so -12."),
+    ("7 - (-7) =", 14, "7 + 7 = 14. Taking away a negative always makes it "
+     "bigger."),
+    ("-15 - (-6) =", -9, "-15 + 6. The 15 is bigger and negative, so -9."),
+], start=1):
+    ask_integer("int-sub", n, 1 if n <= 4 else 2, prompt, value, steps, TIP_ISUB)
+
+add_section(
+    "int-sub", "Subtracting Integers", "➖", "#6C63FF",
+    "There is only one rule here, and it turns every subtraction into an "
+    "addition you already know how to do: subtracting is adding the opposite. "
+    "Once it is an addition, the adding rules take over.",
+    [
+        "Subtracting is adding the opposite. -4 - 7 becomes -4 + -7.",
+        "Taking away a negative adds it back, so the answer gets BIGGER: "
+        "6 - (-3) = 6 + 3 = 9.",
+        "Two minus signs together always become a plus. That is the one to "
+        "watch for.",
+        "Rewrite it as an addition before you work anything out. It is one "
+        "extra line and it removes most of the mistakes.",
+    ],
+    [
+        {"prompt": "-6 - (-2) =", "steps": "Taking away a negative adds it "
+         "back: -6 + 2 = -4.", "answer_display": "-4"},
+        {"prompt": "3 - 8 =", "steps": "Adding the opposite: 3 + -8. The 8 is "
+         "bigger and negative, so the answer is -5.", "answer_display": "-5"},
+    ],
+    group=IGROUP, group_emoji=IGROUP_EMOJI,
+)
+
+
+# ===== Multiplying integers =================================================
+
+TIP_IMUL = ("Multiply the sizes, then decide the sign: same signs give a "
+            "positive, different signs give a negative.")
+
+for n, (prompt, value, steps) in enumerate([
+    ("-6 × 4 =", -24, "6 × 4 = 24. Different signs, so -24."),
+    ("-5 × (-7) =", 35, "5 × 7 = 35. Same signs, so the answer is positive."),
+    ("8 × (-3) =", -24, "8 × 3 = 24. Different signs, so -24."),
+    ("-9 × 0 =", 0, "Anything times 0 is 0, sign or no sign."),
+    ("-12 × (-2) =", 24, "12 × 2 = 24. Two negatives make a positive."),
+    ("7 × (-6) =", -42, "7 × 6 = 42. Different signs, so -42."),
+    ("-4 × (-4) =", 16, "4 × 4 = 16, and two negatives give a positive."),
+    ("-3 × 5 × (-2) =", 30, "Left to right: -3 × 5 = -15, then -15 × -2 = 30. "
+     "Two negatives in the whole line, so the answer is positive."),
+], start=1):
+    ask_integer("int-mul", n, 1 if n <= 4 else 2, prompt, value, steps, TIP_IMUL)
+
+add_section(
+    "int-mul", "Multiplying Integers", "✖️", "#FF9F43",
+    "Do the multiplying as if there were no signs at all, then put the sign on "
+    "at the end. Same signs give a positive, different signs give a negative — "
+    "and that one rule covers every case.",
+    [
+        "Same signs give a positive: -5 × -7 = 35, and 5 × 7 = 35.",
+        "Different signs give a negative: -6 × 4 = -24.",
+        "Count the negatives in the whole line. An even number of them gives a "
+        "positive; an odd number gives a negative.",
+        "Anything times 0 is 0, whatever the signs are doing.",
+    ],
+    [
+        {"prompt": "-2 × (-9) =", "steps": "2 × 9 = 18, and the signs match, "
+         "so the answer is positive.", "answer_display": "18"},
+        {"prompt": "-7 × 3 =", "steps": "7 × 3 = 21, and the signs differ, so "
+         "the answer is negative.", "answer_display": "-21"},
+    ],
+    group=IGROUP, group_emoji=IGROUP_EMOJI,
+)
+
+
+# ===== Dividing integers ====================================================
+
+TIP_IDIV = ("The sign rule is exactly the same as multiplying: same signs give "
+            "a positive, different signs give a negative.")
+
+for n, (prompt, value, steps) in enumerate([
+    ("-24 ÷ 6 =", -4, "24 ÷ 6 = 4. Different signs, so -4."),
+    ("-36 ÷ (-9) =", 4, "36 ÷ 9 = 4. Same signs, so the answer is positive."),
+    ("45 ÷ (-5) =", -9, "45 ÷ 5 = 9. Different signs, so -9."),
+    ("-100 ÷ 10 =", -10, "100 ÷ 10 = 10. Different signs, so -10."),
+    ("-8 ÷ (-8) =", 1, "8 ÷ 8 = 1, and two negatives give a positive."),
+    ("56 ÷ (-7) =", -8, "56 ÷ 7 = 8. Different signs, so -8."),
+    ("-63 ÷ (-9) =", 7, "63 ÷ 9 = 7, and the signs match, so it is positive."),
+    ("0 ÷ (-5) =", 0, "0 shared into any number of parts is still 0."),
+], start=1):
+    ask_integer("int-div", n, 1 if n <= 4 else 2, prompt, value, steps, TIP_IDIV)
+
+add_section(
+    "int-div", "Dividing Integers", "➗", "#10AC84",
+    "Dividing uses the very same sign rule as multiplying, so there is nothing "
+    "new to learn here — divide the sizes, then same signs give a positive and "
+    "different signs give a negative.",
+    [
+        "Same signs give a positive: -36 ÷ -9 = 4.",
+        "Different signs give a negative: -24 ÷ 6 = -4.",
+        "It is the same rule as multiplying, because dividing undoes "
+        "multiplying: if -4 × 6 = -24, then -24 ÷ 6 = -4.",
+        "0 divided by anything is 0. Anything divided by 0 is not a number at "
+        "all.",
+    ],
+    [
+        {"prompt": "-18 ÷ (-3) =", "steps": "18 ÷ 3 = 6, and the signs match, "
+         "so the answer is positive.", "answer_display": "6"},
+        {"prompt": "30 ÷ (-6) =", "steps": "30 ÷ 6 = 5, and the signs differ, "
+         "so the answer is negative.", "answer_display": "-5"},
+    ],
+    group=IGROUP, group_emoji=IGROUP_EMOJI,
+)
+
+
 # ===== write =================================================================
 
 def main():
@@ -440,9 +692,9 @@ def main():
             "title": "Sanjana",
             "emoji": "🌸",
             "description": "Class notes and practice, one session at a time. "
-                           "Class 1 covers fractions end to end: what they are, "
-                           "comparing them, the four operations, and order of "
-                           "operations.",
+                           "Class 1 covers fractions end to end; Class 2 starts "
+                           "integers, beginning with reading which operation was "
+                           "done before doing any.",
             "sections": [
                 {"id": s["id"], "title": s["title"], "emoji": s["emoji"],
                  "group": s["group"], "question_count": counts[s["id"]]}

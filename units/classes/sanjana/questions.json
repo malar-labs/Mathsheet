@@ -299,6 +299,612 @@
       },
       "steps": "Brackets first: the LCM of 2 and 3 is 6, so 3/6 + 2/6 = 5/6. Then 5/6 ÷ 5/6, and anything divided by itself is 1.",
       "tip": "BEDMAS: Brackets, Exponents, then Divide and Multiply left to right, then Add and Subtract left to right. Division and multiplication share a step, and so do adding and subtracting."
+    },
+    {
+      "id": "which-symbol-01",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 1,
+      "prompt": "7 ? 5 = 12",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "+",
+        "display": "+"
+      },
+      "steps": "7 and 5 came together to make something bigger than both, so this is adding: 7 + 5 = 12.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "which-symbol-02",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 1,
+      "prompt": "4 ? 9 = -5",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "-",
+        "display": "-"
+      },
+      "steps": "The answer went below zero from two positive numbers, which only happens when you take the bigger one away: 4 - 9 = -5.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "which-symbol-03",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 2,
+      "prompt": "-3 ? 6 = -18",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "×",
+        "display": "×"
+      },
+      "steps": "18 is far bigger than either number, so they were multiplied. Different signs give a negative: -3 × 6 = -18.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "which-symbol-04",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 2,
+      "prompt": "-20 ? 4 = -5",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "÷",
+        "display": "÷"
+      },
+      "steps": "The answer is smaller than both numbers, which points to dividing. Different signs give a negative: -20 ÷ 4 = -5.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "which-symbol-05",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 2,
+      "prompt": "-8 ? -2 = 16",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "×",
+        "display": "×"
+      },
+      "steps": "Two negatives make a positive, and 16 is bigger than both, so this is multiplying: -8 × -2 = 16.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "which-symbol-06",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 3,
+      "prompt": "-8 ? -2 = -6",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "-",
+        "display": "-"
+      },
+      "steps": "Taking away a negative adds it back: -8 - (-2) = -8 + 2 = -6.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "which-symbol-07",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 2,
+      "prompt": "-8 ? -2 = -10",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "+",
+        "display": "+"
+      },
+      "steps": "Both are negative, so adding them goes further below zero: -8 + -2 = -10.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "which-symbol-08",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 3,
+      "prompt": "-8 ? -2 = 4",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "÷",
+        "display": "÷"
+      },
+      "steps": "Two negatives make a positive, and the answer is small, so this is dividing: -8 ÷ -2 = 4.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "which-symbol-09",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 2,
+      "prompt": "5 ? -3 = 2",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "+",
+        "display": "+"
+      },
+      "steps": "Adding a negative is the same as taking it away: 5 + -3 = 2.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "which-symbol-10",
+      "section": "which-symbol",
+      "qtype": "choice",
+      "difficulty": 3,
+      "prompt": "6 ? -2 = -3",
+      "options": [
+        "+",
+        "-",
+        "×",
+        "÷"
+      ],
+      "answer": {
+        "choice": "÷",
+        "display": "÷"
+      },
+      "steps": "The answer is smaller than both, so it is dividing, and the different signs make it negative: 6 ÷ -2 = -3.",
+      "tip": "Look at what happened to the size and the sign. Bigger and same sign usually means adding or multiplying; a result smaller than both numbers usually means dividing."
+    },
+    {
+      "id": "int-add-01",
+      "section": "int-add",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-5 + 3 =",
+      "answer": {
+        "value": -2,
+        "display": "-2"
+      },
+      "steps": "Different signs, so 5 - 3 = 2. The 5 was bigger and it was negative, so the answer is -2.",
+      "tip": "Same signs: add the sizes and keep the sign. Different signs: take the smaller size from the bigger one and keep the sign of the bigger one."
+    },
+    {
+      "id": "int-add-02",
+      "section": "int-add",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-7 + (-4) =",
+      "answer": {
+        "value": -11,
+        "display": "-11"
+      },
+      "steps": "Both negative, so add the sizes and keep the minus: 7 + 4 = 11, giving -11.",
+      "tip": "Same signs: add the sizes and keep the sign. Different signs: take the smaller size from the bigger one and keep the sign of the bigger one."
+    },
+    {
+      "id": "int-add-03",
+      "section": "int-add",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "9 + (-12) =",
+      "answer": {
+        "value": -3,
+        "display": "-3"
+      },
+      "steps": "Different signs, so 12 - 9 = 3. The 12 was bigger and negative, so the answer is -3.",
+      "tip": "Same signs: add the sizes and keep the sign. Different signs: take the smaller size from the bigger one and keep the sign of the bigger one."
+    },
+    {
+      "id": "int-add-04",
+      "section": "int-add",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-15 + 15 =",
+      "answer": {
+        "value": 0,
+        "display": "0"
+      },
+      "steps": "Same size, opposite signs. They cancel exactly: 0.",
+      "tip": "Same signs: add the sizes and keep the sign. Different signs: take the smaller size from the bigger one and keep the sign of the bigger one."
+    },
+    {
+      "id": "int-add-05",
+      "section": "int-add",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-6 + (-6) =",
+      "answer": {
+        "value": -12,
+        "display": "-12"
+      },
+      "steps": "Both negative: 6 + 6 = 12, so -12.",
+      "tip": "Same signs: add the sizes and keep the sign. Different signs: take the smaller size from the bigger one and keep the sign of the bigger one."
+    },
+    {
+      "id": "int-add-06",
+      "section": "int-add",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "14 + (-5) =",
+      "answer": {
+        "value": 9,
+        "display": "9"
+      },
+      "steps": "Different signs, so 14 - 5 = 9. The 14 was bigger and positive, so the answer stays positive.",
+      "tip": "Same signs: add the sizes and keep the sign. Different signs: take the smaller size from the bigger one and keep the sign of the bigger one."
+    },
+    {
+      "id": "int-add-07",
+      "section": "int-add",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-20 + 8 =",
+      "answer": {
+        "value": -12,
+        "display": "-12"
+      },
+      "steps": "Different signs, so 20 - 8 = 12, and the 20 was the bigger one, so -12.",
+      "tip": "Same signs: add the sizes and keep the sign. Different signs: take the smaller size from the bigger one and keep the sign of the bigger one."
+    },
+    {
+      "id": "int-add-08",
+      "section": "int-add",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-3 + (-9) + 5 =",
+      "answer": {
+        "value": -7,
+        "display": "-7"
+      },
+      "steps": "Left to right: -3 + -9 = -12, then -12 + 5 = -7.",
+      "tip": "Same signs: add the sizes and keep the sign. Different signs: take the smaller size from the bigger one and keep the sign of the bigger one."
+    },
+    {
+      "id": "int-sub-01",
+      "section": "int-sub",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-4 - 7 =",
+      "answer": {
+        "value": -11,
+        "display": "-11"
+      },
+      "steps": "Adding the opposite: -4 + -7. Both negative, so -11.",
+      "tip": "Change it into an addition first: subtracting is adding the opposite. 6 - (-3) becomes 6 + 3, and -4 - 7 becomes -4 + -7."
+    },
+    {
+      "id": "int-sub-02",
+      "section": "int-sub",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "6 - (-3) =",
+      "answer": {
+        "value": 9,
+        "display": "9"
+      },
+      "steps": "Taking away a negative adds it back: 6 + 3 = 9.",
+      "tip": "Change it into an addition first: subtracting is adding the opposite. 6 - (-3) becomes 6 + 3, and -4 - 7 becomes -4 + -7."
+    },
+    {
+      "id": "int-sub-03",
+      "section": "int-sub",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-5 - (-8) =",
+      "answer": {
+        "value": 3,
+        "display": "3"
+      },
+      "steps": "-5 + 8. Different signs, 8 - 5 = 3, and the 8 was bigger and positive, so 3.",
+      "tip": "Change it into an addition first: subtracting is adding the opposite. 6 - (-3) becomes 6 + 3, and -4 - 7 becomes -4 + -7."
+    },
+    {
+      "id": "int-sub-04",
+      "section": "int-sub",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-10 - (-10) =",
+      "answer": {
+        "value": 0,
+        "display": "0"
+      },
+      "steps": "-10 + 10, which cancels to 0.",
+      "tip": "Change it into an addition first: subtracting is adding the opposite. 6 - (-3) becomes 6 + 3, and -4 - 7 becomes -4 + -7."
+    },
+    {
+      "id": "int-sub-05",
+      "section": "int-sub",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "12 - 20 =",
+      "answer": {
+        "value": -8,
+        "display": "-8"
+      },
+      "steps": "12 + -20. The 20 is bigger and negative, so -8.",
+      "tip": "Change it into an addition first: subtracting is adding the opposite. 6 - (-3) becomes 6 + 3, and -4 - 7 becomes -4 + -7."
+    },
+    {
+      "id": "int-sub-06",
+      "section": "int-sub",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-3 - 9 =",
+      "answer": {
+        "value": -12,
+        "display": "-12"
+      },
+      "steps": "-3 + -9. Both negative, so -12.",
+      "tip": "Change it into an addition first: subtracting is adding the opposite. 6 - (-3) becomes 6 + 3, and -4 - 7 becomes -4 + -7."
+    },
+    {
+      "id": "int-sub-07",
+      "section": "int-sub",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "7 - (-7) =",
+      "answer": {
+        "value": 14,
+        "display": "14"
+      },
+      "steps": "7 + 7 = 14. Taking away a negative always makes it bigger.",
+      "tip": "Change it into an addition first: subtracting is adding the opposite. 6 - (-3) becomes 6 + 3, and -4 - 7 becomes -4 + -7."
+    },
+    {
+      "id": "int-sub-08",
+      "section": "int-sub",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-15 - (-6) =",
+      "answer": {
+        "value": -9,
+        "display": "-9"
+      },
+      "steps": "-15 + 6. The 15 is bigger and negative, so -9.",
+      "tip": "Change it into an addition first: subtracting is adding the opposite. 6 - (-3) becomes 6 + 3, and -4 - 7 becomes -4 + -7."
+    },
+    {
+      "id": "int-mul-01",
+      "section": "int-mul",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-6 × 4 =",
+      "answer": {
+        "value": -24,
+        "display": "-24"
+      },
+      "steps": "6 × 4 = 24. Different signs, so -24.",
+      "tip": "Multiply the sizes, then decide the sign: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-mul-02",
+      "section": "int-mul",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-5 × (-7) =",
+      "answer": {
+        "value": 35,
+        "display": "35"
+      },
+      "steps": "5 × 7 = 35. Same signs, so the answer is positive.",
+      "tip": "Multiply the sizes, then decide the sign: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-mul-03",
+      "section": "int-mul",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "8 × (-3) =",
+      "answer": {
+        "value": -24,
+        "display": "-24"
+      },
+      "steps": "8 × 3 = 24. Different signs, so -24.",
+      "tip": "Multiply the sizes, then decide the sign: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-mul-04",
+      "section": "int-mul",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-9 × 0 =",
+      "answer": {
+        "value": 0,
+        "display": "0"
+      },
+      "steps": "Anything times 0 is 0, sign or no sign.",
+      "tip": "Multiply the sizes, then decide the sign: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-mul-05",
+      "section": "int-mul",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-12 × (-2) =",
+      "answer": {
+        "value": 24,
+        "display": "24"
+      },
+      "steps": "12 × 2 = 24. Two negatives make a positive.",
+      "tip": "Multiply the sizes, then decide the sign: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-mul-06",
+      "section": "int-mul",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "7 × (-6) =",
+      "answer": {
+        "value": -42,
+        "display": "-42"
+      },
+      "steps": "7 × 6 = 42. Different signs, so -42.",
+      "tip": "Multiply the sizes, then decide the sign: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-mul-07",
+      "section": "int-mul",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-4 × (-4) =",
+      "answer": {
+        "value": 16,
+        "display": "16"
+      },
+      "steps": "4 × 4 = 16, and two negatives give a positive.",
+      "tip": "Multiply the sizes, then decide the sign: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-mul-08",
+      "section": "int-mul",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-3 × 5 × (-2) =",
+      "answer": {
+        "value": 30,
+        "display": "30"
+      },
+      "steps": "Left to right: -3 × 5 = -15, then -15 × -2 = 30. Two negatives in the whole line, so the answer is positive.",
+      "tip": "Multiply the sizes, then decide the sign: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-div-01",
+      "section": "int-div",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-24 ÷ 6 =",
+      "answer": {
+        "value": -4,
+        "display": "-4"
+      },
+      "steps": "24 ÷ 6 = 4. Different signs, so -4.",
+      "tip": "The sign rule is exactly the same as multiplying: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-div-02",
+      "section": "int-div",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-36 ÷ (-9) =",
+      "answer": {
+        "value": 4,
+        "display": "4"
+      },
+      "steps": "36 ÷ 9 = 4. Same signs, so the answer is positive.",
+      "tip": "The sign rule is exactly the same as multiplying: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-div-03",
+      "section": "int-div",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "45 ÷ (-5) =",
+      "answer": {
+        "value": -9,
+        "display": "-9"
+      },
+      "steps": "45 ÷ 5 = 9. Different signs, so -9.",
+      "tip": "The sign rule is exactly the same as multiplying: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-div-04",
+      "section": "int-div",
+      "qtype": "integer",
+      "difficulty": 1,
+      "prompt": "-100 ÷ 10 =",
+      "answer": {
+        "value": -10,
+        "display": "-10"
+      },
+      "steps": "100 ÷ 10 = 10. Different signs, so -10.",
+      "tip": "The sign rule is exactly the same as multiplying: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-div-05",
+      "section": "int-div",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-8 ÷ (-8) =",
+      "answer": {
+        "value": 1,
+        "display": "1"
+      },
+      "steps": "8 ÷ 8 = 1, and two negatives give a positive.",
+      "tip": "The sign rule is exactly the same as multiplying: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-div-06",
+      "section": "int-div",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "56 ÷ (-7) =",
+      "answer": {
+        "value": -8,
+        "display": "-8"
+      },
+      "steps": "56 ÷ 7 = 8. Different signs, so -8.",
+      "tip": "The sign rule is exactly the same as multiplying: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-div-07",
+      "section": "int-div",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "-63 ÷ (-9) =",
+      "answer": {
+        "value": 7,
+        "display": "7"
+      },
+      "steps": "63 ÷ 9 = 7, and the signs match, so it is positive.",
+      "tip": "The sign rule is exactly the same as multiplying: same signs give a positive, different signs give a negative."
+    },
+    {
+      "id": "int-div-08",
+      "section": "int-div",
+      "qtype": "integer",
+      "difficulty": 2,
+      "prompt": "0 ÷ (-5) =",
+      "answer": {
+        "value": 0,
+        "display": "0"
+      },
+      "steps": "0 shared into any number of parts is still 0.",
+      "tip": "The sign rule is exactly the same as multiplying: same signs give a positive, different signs give a negative."
     }
   ]
 }
